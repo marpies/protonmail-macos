@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Modules/EllipticCurveKeyPair">
+   </FileRef>
+   <FileRef
+      location = "group:PMKeymaker/PMKeymaker.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ProtonMailMac.xcodeproj">
+   </FileRef>
+</Workspace>

@@ -1,0 +1,28 @@
+/* 
+  Localizable.strings
+  ProtonMailMac
+
+  Created by Marcel Piešťanský on 25.08.2021.
+  Copyright © 2021 marpies. All rights reserved.
+*/
+
+"genericErrorTitle" = "Error";
+"okButtonTitle" = "OK";
+
+//
+// MARK: - Sign In
+//
+
+"signInTitle" = "Sign in with ProtonMail";
+"signInUsernameTitle" = "Email or username";
+"signInPasswordTitle" = "Password";
+"signInButton" = "Sign in";
+"signInCancelButton" = "Cancel";
+"signInEmptyUsernameErrorPlaceholder" = "Username is required";
+"signInEmptyPasswordErrorPlaceholder" = "Password is required";
+"signInUnsupportedPasswordModeErrorMessage" = "The two-password mode is currently unsupported.";
+"signInKeysFailureErrorMessage" = "There was an error obtaining keys for your account.";
+"signInUnsupported2FAOptionErrorMessage" = "The two-factor authentication option enabled for your account is currently unsupported.";
+"signInServerErrorErrorMessage" = "The server responded with an unexpected response. Could also be an issue with your internet connection.";
+"signInUserDelinquentErrorMessage" = "Access to this account is disabled due to non-payment. Please sign in through protonmail.com to pay your unpaid invoice.";
+"signInIncorrectCredentialsErrorMessage" = "Incorrect login credentials. Please try again.";

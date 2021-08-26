@@ -1,0 +1,1292 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C31D026526D6A1DE002EBBE0 /* SignInProcessingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D026426D6A1DE002EBBE0 /* SignInProcessingWorker.swift */; };
+		C31D026826D6D631002EBBE0 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = C31D026726D6D631002EBBE0 /* Swinject */; };
+		C31D026D26D76056002EBBE0 /* BootstrapAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D026C26D76056002EBBE0 /* BootstrapAssembly.swift */; };
+		C31D026F26D76112002EBBE0 /* SetupAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D026E26D76112002EBBE0 /* SetupAssembly.swift */; };
+		C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D027026D761EC002EBBE0 /* ManagersAssembly.swift */; };
+		C31D027326D76506002EBBE0 /* SignInAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D027226D76506002EBBE0 /* SignInAssembly.swift */; };
+		C31D027526D76B6F002EBBE0 /* KeyValueStoreKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D027426D76B6F002EBBE0 /* KeyValueStoreKeys.swift */; };
+		C31D027F26D78A53002EBBE0 /* PMKeymaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C31D027C26D788B9002EBBE0 /* PMKeymaker.framework */; };
+		C31D028026D78A53002EBBE0 /* PMKeymaker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C31D027C26D788B9002EBBE0 /* PMKeymaker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
+		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
+		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
+		C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */; };
+		C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */; };
+		C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3374F1E26D0F86100ED8DA0 /* SnapKit */; };
+		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
+		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
+		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
+		C36814AF26D6295400A35A16 /* MailboxModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A826D6295400A35A16 /* MailboxModels.swift */; };
+		C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A926D6295400A35A16 /* MailboxViewController.swift */; };
+		C36814B126D6295400A35A16 /* MailboxInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814AA26D6295400A35A16 /* MailboxInteractor.swift */; };
+		C36814B426D6312700A35A16 /* ToolbarUtilizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814B326D6312700A35A16 /* ToolbarUtilizing.swift */; };
+		C36814BB26D659D100A35A16 /* NSTextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814BA26D659D100A35A16 /* NSTextField+Extensions.swift */; };
+		C36814BF26D65B2F00A35A16 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C36814C126D65B2F00A35A16 /* Localizable.strings */; };
+		C36814C626D65CD600A35A16 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814C526D65CD600A35A16 /* AppViewController.swift */; };
+		C36814C826D65D0100A35A16 /* AppModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814C726D65D0100A35A16 /* AppModels.swift */; };
+		C36814D126D6601600A35A16 /* SignInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814CA26D6601600A35A16 /* SignInPresenter.swift */; };
+		C36814D226D6601600A35A16 /* SignInWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814CB26D6601600A35A16 /* SignInWorker.swift */; };
+		C36814D326D6601600A35A16 /* SignInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814CC26D6601600A35A16 /* SignInRouter.swift */; };
+		C36814D426D6601600A35A16 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814CD26D6601600A35A16 /* SignInModels.swift */; };
+		C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814CE26D6601600A35A16 /* SignInViewController.swift */; };
+		C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814CF26D6601600A35A16 /* SignInInteractor.swift */; };
+		C36814D726D6601600A35A16 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814D026D6601600A35A16 /* SignInView.swift */; };
+		C36814D926D6641500A35A16 /* Withable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814D826D6641500A35A16 /* Withable.swift */; };
+		C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814DB26D6689D00A35A16 /* PaddedTextField.swift */; };
+		C36814E026D690DD00A35A16 /* PaddedSecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814DF26D690DD00A35A16 /* PaddedSecureTextField.swift */; };
+		C39A23E926D2D81D008A482C /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E226D2D81D008A482C /* Key.swift */; };
+		C39A23EA26D2D81D008A482C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E326D2D81D008A482C /* UserInfo.swift */; };
+		C39A23EE26D2D81D008A482C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E826D2D81D008A482C /* Address.swift */; };
+		C39A241626D2D8D9008A482C /* AuthCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23F226D2D8D9008A482C /* AuthCredential.swift */; };
+		C39A241726D2D8D9008A482C /* Credential.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23F326D2D8D9008A482C /* Credential.swift */; };
+		C39A241826D2D8D9008A482C /* MessageDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23F526D2D8D9008A482C /* MessageDetailResponse.swift */; };
+		C39A241926D2D8D9008A482C /* KeySaltsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23F626D2D8D9008A482C /* KeySaltsResponse.swift */; };
+		C39A241A26D2D8D9008A482C /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23F726D2D8D9008A482C /* Response.swift */; };
+		C39A241B26D2D8D9008A482C /* UserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23F826D2D8D9008A482C /* UserInfoResponse.swift */; };
+		C39A241C26D2D8D9008A482C /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23F926D2D8D9008A482C /* ErrorResponse.swift */; };
+		C39A241D26D2D8D9008A482C /* AuthInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23FA26D2D8D9008A482C /* AuthInfoResponse.swift */; };
+		C39A241E26D2D8D9008A482C /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23FB26D2D8D9008A482C /* AuthResponse.swift */; };
+		C39A241F26D2D8D9008A482C /* AddressesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23FC26D2D8D9008A482C /* AddressesResponse.swift */; };
+		C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23FD26D2D8D9008A482C /* HttpHeader.swift */; };
+		C39A242126D2D8D9008A482C /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23FE26D2D8D9008A482C /* HttpMethod.swift */; };
+		C39A242226D2D8D9008A482C /* KeysApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240026D2D8D9008A482C /* KeysApi.swift */; };
+		C39A242326D2D8D9008A482C /* UsersApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240126D2D8D9008A482C /* UsersApi.swift */; };
+		C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240226D2D8D9008A482C /* ApiModels.swift */; };
+		C39A242526D2D8D9008A482C /* AddressesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240326D2D8D9008A482C /* AddressesApi.swift */; };
+		C39A242626D2D8D9008A482C /* MessagesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240426D2D8D9008A482C /* MessagesApi.swift */; };
+		C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240626D2D8D9008A482C /* AuthRequest.swift */; };
+		C39A242826D2D8D9008A482C /* AuthInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240726D2D8D9008A482C /* AuthInfoRequest.swift */; };
+		C39A242926D2D8D9008A482C /* MessageDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240826D2D8D9008A482C /* MessageDetailRequest.swift */; };
+		C39A242A26D2D8D9008A482C /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240926D2D8D9008A482C /* UserInfoRequest.swift */; };
+		C39A242B26D2D8D9008A482C /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240A26D2D8D9008A482C /* Request.swift */; };
+		C39A242C26D2D8D9008A482C /* KeySaltsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240B26D2D8D9008A482C /* KeySaltsRequest.swift */; };
+		C39A242D26D2D8D9008A482C /* AddressesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240C26D2D8D9008A482C /* AddressesRequest.swift */; };
+		C39A242E26D2D8D9008A482C /* PMApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240E26D2D8D9008A482C /* PMApiService.swift */; };
+		C39A242F26D2D8D9008A482C /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A240F26D2D8D9008A482C /* ApiService.swift */; };
+		C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A241026D2D8D9008A482C /* SessionManager.swift */; };
+		C39A243426D2D8D9008A482C /* ApiErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A241526D2D8D9008A482C /* ApiErrorCode.swift */; };
+		C39A243626D2D8E7008A482C /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243526D2D8E7008A482C /* NSError+Extensions.swift */; };
+		C39A244026D2D8FB008A482C /* JKBCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243726D2D8FA008A482C /* JKBCrypt.swift */; };
+		C39A244126D2D8FB008A482C /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243826D2D8FA008A482C /* Crypto.swift */; };
+		C39A244226D2D8FB008A482C /* JKBCryptRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243926D2D8FA008A482C /* JKBCryptRandom.swift */; };
+		C39A244326D2D8FB008A482C /* PMNBCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243A26D2D8FA008A482C /* PMNBCrypt.swift */; };
+		C39A244426D2D8FB008A482C /* PasswordUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243B26D2D8FA008A482C /* PasswordUtils.swift */; };
+		C39A244526D2D8FB008A482C /* SRPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243C26D2D8FA008A482C /* SRPClient.swift */; };
+		C39A244626D2D8FB008A482C /* Hash.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A243D26D2D8FA008A482C /* Hash.swift */; };
+		C39A246626D2D9BE008A482C /* AFNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = C39A246526D2D9BE008A482C /* AFNetworking */; };
+		C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A246D26D2DBFA008A482C /* String+Extensions.swift */; };
+		C39A247026D2DC68008A482C /* JSONDecoder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A246F26D2DC68008A482C /* JSONDecoder+Extensions.swift */; };
+		C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A247126D2DC8E008A482C /* NSCoder+Extensions.swift */; };
+		C39A247426D2DCAA008A482C /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A247326D2DCAA008A482C /* Array+Extensions.swift */; };
+		C39A24C126D2E109008A482C /* OpenPGP.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39A246A26D2DB54008A482C /* OpenPGP.xcframework */; };
+		C39A24C226D2E109008A482C /* OpenPGP.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C39A246A26D2DB54008A482C /* OpenPGP.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24C426D3B510008A482C /* KeyValueStore.swift */; };
+		C39A24C726D3B56A008A482C /* DefaultKeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24C626D3B56A008A482C /* DefaultKeyValueStore.swift */; };
+		C39A24D226D3B818008A482C /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24D126D3B818008A482C /* UsersManager.swift */; };
+		C39A24D426D3B849008A482C /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24D326D3B849008A482C /* AuthUser.swift */; };
+		C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24D626D3B90B008A482C /* KeymakerWrapper.swift */; };
+		C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24D826D3BA69008A482C /* KeychainWrapper.swift */; };
+		C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */; };
+		C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */; };
+		C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0426D421240051EFEB /* AuthDeleteRequest.swift */; };
+		C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0626D421510051EFEB /* AuthApi.swift */; };
+		C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0826D427500051EFEB /* UserDataService.swift */; };
+		C3F20A0B26D42A090051EFEB /* AuthRefreshRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0A26D42A090051EFEB /* AuthRefreshRequest.swift */; };
+		C3F20A0D26D42A800051EFEB /* AuthRefreshResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0C26D42A800051EFEB /* AuthRefreshResponse.swift */; };
+		C3F20A1026D5343C0051EFEB /* AppWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0F26D5343C0051EFEB /* AppWindow.swift */; };
+		C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2026D534FD0051EFEB /* SetupPresenter.swift */; };
+		C3F20A2826D534FD0051EFEB /* SetupWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2126D534FD0051EFEB /* SetupWorker.swift */; };
+		C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2226D534FD0051EFEB /* SetupRouter.swift */; };
+		C3F20A2A26D534FD0051EFEB /* SetupModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2326D534FD0051EFEB /* SetupModels.swift */; };
+		C3F20A2B26D534FD0051EFEB /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2426D534FD0051EFEB /* SetupViewController.swift */; };
+		C3F20A2C26D534FD0051EFEB /* SetupInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2526D534FD0051EFEB /* SetupInteractor.swift */; };
+		C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2626D534FD0051EFEB /* SetupView.swift */; };
+		C3F20A2F26D5363C0051EFEB /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A2E26D5363C0051EFEB /* MainWindowController.swift */; };
+		C3F20A3226D53A5B0051EFEB /* NSSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A3126D53A5B0051EFEB /* NSSize+Extensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C3374F0126D0F82200ED8DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3374EE626D0F81F00ED8DA0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3374EED26D0F81F00ED8DA0;
+			remoteInfo = ProtonMailMac;
+		};
+		C3374F0C26D0F82200ED8DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3374EE626D0F81F00ED8DA0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3374EED26D0F81F00ED8DA0;
+			remoteInfo = ProtonMailMac;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C39A24BE26D2E063008A482C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C31D028026D78A53002EBBE0 /* PMKeymaker.framework in Embed Frameworks */,
+				C39A24C226D2E109008A482C /* OpenPGP.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C31D026426D6A1DE002EBBE0 /* SignInProcessingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInProcessingWorker.swift; sourceTree = "<group>"; };
+		C31D026C26D76056002EBBE0 /* BootstrapAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapAssembly.swift; sourceTree = "<group>"; };
+		C31D026E26D76112002EBBE0 /* SetupAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAssembly.swift; sourceTree = "<group>"; };
+		C31D027026D761EC002EBBE0 /* ManagersAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagersAssembly.swift; sourceTree = "<group>"; };
+		C31D027226D76506002EBBE0 /* SignInAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAssembly.swift; sourceTree = "<group>"; };
+		C31D027426D76B6F002EBBE0 /* KeyValueStoreKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStoreKeys.swift; sourceTree = "<group>"; };
+		C31D027C26D788B9002EBBE0 /* PMKeymaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PMKeymaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C3374EF826D0F82200ED8DA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C3374EFA26D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3374EFB26D0F82200ED8DA0 /* ProtonMailMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProtonMailMac.entitlements; sourceTree = "<group>"; };
+		C3374F0026D0F82200ED8DA0 /* ProtonMailMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacTests.swift; sourceTree = "<group>"; };
+		C3374F0626D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacUITests.swift; sourceTree = "<group>"; };
+		C3374F1126D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
+		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
+		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
+		C36814A826D6295400A35A16 /* MailboxModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxModels.swift; sourceTree = "<group>"; };
+		C36814A926D6295400A35A16 /* MailboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxViewController.swift; sourceTree = "<group>"; };
+		C36814AA26D6295400A35A16 /* MailboxInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxInteractor.swift; sourceTree = "<group>"; };
+		C36814B326D6312700A35A16 /* ToolbarUtilizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarUtilizing.swift; sourceTree = "<group>"; };
+		C36814BA26D659D100A35A16 /* NSTextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextField+Extensions.swift"; sourceTree = "<group>"; };
+		C36814C026D65B2F00A35A16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C36814C226D65B4000A35A16 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Main.strings; sourceTree = "<group>"; };
+		C36814C326D65B4000A35A16 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C36814C526D65CD600A35A16 /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
+		C36814C726D65D0100A35A16 /* AppModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModels.swift; sourceTree = "<group>"; };
+		C36814CA26D6601600A35A16 /* SignInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPresenter.swift; sourceTree = "<group>"; };
+		C36814CB26D6601600A35A16 /* SignInWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWorker.swift; sourceTree = "<group>"; };
+		C36814CC26D6601600A35A16 /* SignInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRouter.swift; sourceTree = "<group>"; };
+		C36814CD26D6601600A35A16 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
+		C36814CE26D6601600A35A16 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		C36814CF26D6601600A35A16 /* SignInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInteractor.swift; sourceTree = "<group>"; };
+		C36814D026D6601600A35A16 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		C36814D826D6641500A35A16 /* Withable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Withable.swift; sourceTree = "<group>"; };
+		C36814DB26D6689D00A35A16 /* PaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedTextField.swift; sourceTree = "<group>"; };
+		C36814DF26D690DD00A35A16 /* PaddedSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedSecureTextField.swift; sourceTree = "<group>"; };
+		C39A23E226D2D81D008A482C /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		C39A23E326D2D81D008A482C /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		C39A23E826D2D81D008A482C /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		C39A23F226D2D8D9008A482C /* AuthCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCredential.swift; sourceTree = "<group>"; };
+		C39A23F326D2D8D9008A482C /* Credential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credential.swift; sourceTree = "<group>"; };
+		C39A23F526D2D8D9008A482C /* MessageDetailResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetailResponse.swift; sourceTree = "<group>"; };
+		C39A23F626D2D8D9008A482C /* KeySaltsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySaltsResponse.swift; sourceTree = "<group>"; };
+		C39A23F726D2D8D9008A482C /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		C39A23F826D2D8D9008A482C /* UserInfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoResponse.swift; sourceTree = "<group>"; };
+		C39A23F926D2D8D9008A482C /* ErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		C39A23FA26D2D8D9008A482C /* AuthInfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthInfoResponse.swift; sourceTree = "<group>"; };
+		C39A23FB26D2D8D9008A482C /* AuthResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		C39A23FC26D2D8D9008A482C /* AddressesResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressesResponse.swift; sourceTree = "<group>"; };
+		C39A23FD26D2D8D9008A482C /* HttpHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
+		C39A23FE26D2D8D9008A482C /* HttpMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		C39A240026D2D8D9008A482C /* KeysApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeysApi.swift; sourceTree = "<group>"; };
+		C39A240126D2D8D9008A482C /* UsersApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersApi.swift; sourceTree = "<group>"; };
+		C39A240226D2D8D9008A482C /* ApiModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiModels.swift; sourceTree = "<group>"; };
+		C39A240326D2D8D9008A482C /* AddressesApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressesApi.swift; sourceTree = "<group>"; };
+		C39A240426D2D8D9008A482C /* MessagesApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesApi.swift; sourceTree = "<group>"; };
+		C39A240626D2D8D9008A482C /* AuthRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthRequest.swift; sourceTree = "<group>"; };
+		C39A240726D2D8D9008A482C /* AuthInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthInfoRequest.swift; sourceTree = "<group>"; };
+		C39A240826D2D8D9008A482C /* MessageDetailRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetailRequest.swift; sourceTree = "<group>"; };
+		C39A240926D2D8D9008A482C /* UserInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
+		C39A240A26D2D8D9008A482C /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		C39A240B26D2D8D9008A482C /* KeySaltsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySaltsRequest.swift; sourceTree = "<group>"; };
+		C39A240C26D2D8D9008A482C /* AddressesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressesRequest.swift; sourceTree = "<group>"; };
+		C39A240E26D2D8D9008A482C /* PMApiService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMApiService.swift; sourceTree = "<group>"; };
+		C39A240F26D2D8D9008A482C /* ApiService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		C39A241026D2D8D9008A482C /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		C39A241526D2D8D9008A482C /* ApiErrorCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiErrorCode.swift; sourceTree = "<group>"; };
+		C39A243526D2D8E7008A482C /* NSError+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
+		C39A243726D2D8FA008A482C /* JKBCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKBCrypt.swift; sourceTree = "<group>"; };
+		C39A243826D2D8FA008A482C /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
+		C39A243926D2D8FA008A482C /* JKBCryptRandom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKBCryptRandom.swift; sourceTree = "<group>"; };
+		C39A243A26D2D8FA008A482C /* PMNBCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMNBCrypt.swift; sourceTree = "<group>"; };
+		C39A243B26D2D8FA008A482C /* PasswordUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordUtils.swift; sourceTree = "<group>"; };
+		C39A243C26D2D8FA008A482C /* SRPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRPClient.swift; sourceTree = "<group>"; };
+		C39A243D26D2D8FA008A482C /* Hash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hash.swift; sourceTree = "<group>"; };
+		C39A246A26D2DB54008A482C /* OpenPGP.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OpenPGP.xcframework; sourceTree = "<group>"; };
+		C39A246D26D2DBFA008A482C /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		C39A246F26D2DC68008A482C /* JSONDecoder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extensions.swift"; sourceTree = "<group>"; };
+		C39A247126D2DC8E008A482C /* NSCoder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCoder+Extensions.swift"; sourceTree = "<group>"; };
+		C39A247326D2DCAA008A482C /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		C39A24C426D3B510008A482C /* KeyValueStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStore.swift; sourceTree = "<group>"; };
+		C39A24C626D3B56A008A482C /* DefaultKeyValueStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultKeyValueStore.swift; sourceTree = "<group>"; };
+		C39A24D126D3B818008A482C /* UsersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
+		C39A24D326D3B849008A482C /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
+		C39A24D626D3B90B008A482C /* KeymakerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymakerWrapper.swift; sourceTree = "<group>"; };
+		C39A24D826D3BA69008A482C /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthCredential+Locked.swift"; sourceTree = "<group>"; };
+		C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+Locked.swift"; sourceTree = "<group>"; };
+		C3F20A0426D421240051EFEB /* AuthDeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDeleteRequest.swift; sourceTree = "<group>"; };
+		C3F20A0626D421510051EFEB /* AuthApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApi.swift; sourceTree = "<group>"; };
+		C3F20A0826D427500051EFEB /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
+		C3F20A0A26D42A090051EFEB /* AuthRefreshRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRefreshRequest.swift; sourceTree = "<group>"; };
+		C3F20A0C26D42A800051EFEB /* AuthRefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRefreshResponse.swift; sourceTree = "<group>"; };
+		C3F20A0F26D5343C0051EFEB /* AppWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWindow.swift; sourceTree = "<group>"; };
+		C3F20A2026D534FD0051EFEB /* SetupPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupPresenter.swift; sourceTree = "<group>"; };
+		C3F20A2126D534FD0051EFEB /* SetupWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupWorker.swift; sourceTree = "<group>"; };
+		C3F20A2226D534FD0051EFEB /* SetupRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupRouter.swift; sourceTree = "<group>"; };
+		C3F20A2326D534FD0051EFEB /* SetupModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupModels.swift; sourceTree = "<group>"; };
+		C3F20A2426D534FD0051EFEB /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
+		C3F20A2526D534FD0051EFEB /* SetupInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupInteractor.swift; sourceTree = "<group>"; };
+		C3F20A2626D534FD0051EFEB /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
+		C3F20A2E26D5363C0051EFEB /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		C3F20A3126D53A5B0051EFEB /* NSSize+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSize+Extensions.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C3374EEB26D0F81F00ED8DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A24C126D2E109008A482C /* OpenPGP.xcframework in Frameworks */,
+				C31D026826D6D631002EBBE0 /* Swinject in Frameworks */,
+				C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */,
+				C31D027F26D78A53002EBBE0 /* PMKeymaker.framework in Frameworks */,
+				C39A246626D2D9BE008A482C /* AFNetworking in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3374EFD26D0F82200ED8DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3374F0826D0F82200ED8DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C31D026326D6A1CB002EBBE0 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				C31D026426D6A1DE002EBBE0 /* SignInProcessingWorker.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
+		C31D026B26D75F61002EBBE0 /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				C31D026C26D76056002EBBE0 /* BootstrapAssembly.swift */,
+				C31D027026D761EC002EBBE0 /* ManagersAssembly.swift */,
+				C31D026E26D76112002EBBE0 /* SetupAssembly.swift */,
+				C31D027226D76506002EBBE0 /* SignInAssembly.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		C3374EE526D0F81F00ED8DA0 = {
+			isa = PBXGroup;
+			children = (
+				C3374F2726D0FE0C00ED8DA0 /* Frameworks */,
+				C3374EF026D0F81F00ED8DA0 /* ProtonMailMac */,
+				C3374F0326D0F82200ED8DA0 /* ProtonMailMacTests */,
+				C3374F0E26D0F82200ED8DA0 /* ProtonMailMacUITests */,
+				C3374EEF26D0F81F00ED8DA0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C3374EEF26D0F81F00ED8DA0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */,
+				C3374F0026D0F82200ED8DA0 /* ProtonMailMacTests.xctest */,
+				C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C3374EF026D0F81F00ED8DA0 /* ProtonMailMac */ = {
+			isa = PBXGroup;
+			children = (
+				C3374EF726D0F82200ED8DA0 /* Main.storyboard */,
+				C3374EF526D0F82200ED8DA0 /* Assets.xcassets */,
+				C3374EFA26D0F82200ED8DA0 /* Info.plist */,
+				C3374EFB26D0F82200ED8DA0 /* ProtonMailMac.entitlements */,
+				C3F20A0E26D534340051EFEB /* Bootstrap */,
+				C36814C426D65CB600A35A16 /* App */,
+				C3F20A1126D534B30051EFEB /* Setup */,
+				C36814C926D6600700A35A16 /* Sign In */,
+				C36814A226D627BE00A35A16 /* Mailbox */,
+				C39A24DE26D3C36F008A482C /* Proton Mail */,
+				C39A24CE26D3B7F2008A482C /* User */,
+				C39A24C326D3B4F9008A482C /* Storage */,
+				C39A24D526D3B8CD008A482C /* Utils */,
+				C36814DA26D6688B00A35A16 /* Views */,
+				C3F20A3026D53A520051EFEB /* Extensions */,
+				C36814BC26D65AA600A35A16 /* Resources */,
+			);
+			path = ProtonMailMac;
+			sourceTree = "<group>";
+		};
+		C3374F0326D0F82200ED8DA0 /* ProtonMailMacTests */ = {
+			isa = PBXGroup;
+			children = (
+				C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */,
+				C3374F0626D0F82200ED8DA0 /* Info.plist */,
+			);
+			path = ProtonMailMacTests;
+			sourceTree = "<group>";
+		};
+		C3374F0E26D0F82200ED8DA0 /* ProtonMailMacUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */,
+				C3374F1126D0F82200ED8DA0 /* Info.plist */,
+			);
+			path = ProtonMailMacUITests;
+			sourceTree = "<group>";
+		};
+		C3374F2726D0FE0C00ED8DA0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C31D027C26D788B9002EBBE0 /* PMKeymaker.framework */,
+				C39A246A26D2DB54008A482C /* OpenPGP.xcframework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		C36814A226D627BE00A35A16 /* Mailbox */ = {
+			isa = PBXGroup;
+			children = (
+				C36814B726D641F400A35A16 /* Message Details */,
+				C36814B626D641E300A35A16 /* Messages */,
+				C36814B526D641DD00A35A16 /* Sidebar */,
+				C36814A526D6295400A35A16 /* MailboxPresenter.swift */,
+				C36814A626D6295400A35A16 /* MailboxWorker.swift */,
+				C36814A726D6295400A35A16 /* MailboxRouter.swift */,
+				C36814A826D6295400A35A16 /* MailboxModels.swift */,
+				C36814A926D6295400A35A16 /* MailboxViewController.swift */,
+				C36814AA26D6295400A35A16 /* MailboxInteractor.swift */,
+			);
+			path = Mailbox;
+			sourceTree = "<group>";
+		};
+		C36814B526D641DD00A35A16 /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		C36814B626D641E300A35A16 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		C36814B726D641F400A35A16 /* Message Details */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Message Details";
+			sourceTree = "<group>";
+		};
+		C36814BC26D65AA600A35A16 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C36814C126D65B2F00A35A16 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C36814C426D65CB600A35A16 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C36814C526D65CD600A35A16 /* AppViewController.swift */,
+				C36814C726D65D0100A35A16 /* AppModels.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C36814C926D6600700A35A16 /* Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				C31D026326D6A1CB002EBBE0 /* Workers */,
+				C36814CA26D6601600A35A16 /* SignInPresenter.swift */,
+				C36814CB26D6601600A35A16 /* SignInWorker.swift */,
+				C36814CC26D6601600A35A16 /* SignInRouter.swift */,
+				C36814CD26D6601600A35A16 /* SignInModels.swift */,
+				C36814CE26D6601600A35A16 /* SignInViewController.swift */,
+				C36814CF26D6601600A35A16 /* SignInInteractor.swift */,
+				C36814D026D6601600A35A16 /* SignInView.swift */,
+			);
+			path = "Sign In";
+			sourceTree = "<group>";
+		};
+		C36814DA26D6688B00A35A16 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C36814DB26D6689D00A35A16 /* PaddedTextField.swift */,
+				C36814DF26D690DD00A35A16 /* PaddedSecureTextField.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C39A23E126D2D80F008A482C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C39A23E826D2D81D008A482C /* Address.swift */,
+				C39A23E226D2D81D008A482C /* Key.swift */,
+				C39A23E326D2D81D008A482C /* UserInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C39A23EF26D2D825008A482C /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				C39A241526D2D8D9008A482C /* ApiErrorCode.swift */,
+				C39A23F226D2D8D9008A482C /* AuthCredential.swift */,
+				C39A23F326D2D8D9008A482C /* Credential.swift */,
+				C39A23FD26D2D8D9008A482C /* HttpHeader.swift */,
+				C39A23FE26D2D8D9008A482C /* HttpMethod.swift */,
+				C39A23FF26D2D8D9008A482C /* Models */,
+				C39A240526D2D8D9008A482C /* Requests */,
+				C39A23F426D2D8D9008A482C /* Responses */,
+				C39A240D26D2D8D9008A482C /* Services */,
+			);
+			path = Api;
+			sourceTree = "<group>";
+		};
+		C39A23F026D2D87F008A482C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C39A243526D2D8E7008A482C /* NSError+Extensions.swift */,
+				C39A246D26D2DBFA008A482C /* String+Extensions.swift */,
+				C39A246F26D2DC68008A482C /* JSONDecoder+Extensions.swift */,
+				C39A247126D2DC8E008A482C /* NSCoder+Extensions.swift */,
+				C39A247326D2DCAA008A482C /* Array+Extensions.swift */,
+				C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */,
+				C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C39A23F126D2D8A7008A482C /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				C39A243826D2D8FA008A482C /* Crypto.swift */,
+				C39A243D26D2D8FA008A482C /* Hash.swift */,
+				C39A243726D2D8FA008A482C /* JKBCrypt.swift */,
+				C39A243926D2D8FA008A482C /* JKBCryptRandom.swift */,
+				C39A243B26D2D8FA008A482C /* PasswordUtils.swift */,
+				C39A243A26D2D8FA008A482C /* PMNBCrypt.swift */,
+				C39A243C26D2D8FA008A482C /* SRPClient.swift */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
+		C39A23F426D2D8D9008A482C /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				C39A23F526D2D8D9008A482C /* MessageDetailResponse.swift */,
+				C39A23F626D2D8D9008A482C /* KeySaltsResponse.swift */,
+				C39A23F726D2D8D9008A482C /* Response.swift */,
+				C39A23F826D2D8D9008A482C /* UserInfoResponse.swift */,
+				C39A23F926D2D8D9008A482C /* ErrorResponse.swift */,
+				C39A23FA26D2D8D9008A482C /* AuthInfoResponse.swift */,
+				C39A23FB26D2D8D9008A482C /* AuthResponse.swift */,
+				C3F20A0C26D42A800051EFEB /* AuthRefreshResponse.swift */,
+				C39A23FC26D2D8D9008A482C /* AddressesResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		C39A23FF26D2D8D9008A482C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C39A240026D2D8D9008A482C /* KeysApi.swift */,
+				C39A240126D2D8D9008A482C /* UsersApi.swift */,
+				C39A240226D2D8D9008A482C /* ApiModels.swift */,
+				C39A240326D2D8D9008A482C /* AddressesApi.swift */,
+				C39A240426D2D8D9008A482C /* MessagesApi.swift */,
+				C3F20A0626D421510051EFEB /* AuthApi.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C39A240526D2D8D9008A482C /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				C39A240626D2D8D9008A482C /* AuthRequest.swift */,
+				C3F20A0426D421240051EFEB /* AuthDeleteRequest.swift */,
+				C39A240726D2D8D9008A482C /* AuthInfoRequest.swift */,
+				C3F20A0A26D42A090051EFEB /* AuthRefreshRequest.swift */,
+				C39A240826D2D8D9008A482C /* MessageDetailRequest.swift */,
+				C39A240926D2D8D9008A482C /* UserInfoRequest.swift */,
+				C39A240A26D2D8D9008A482C /* Request.swift */,
+				C39A240B26D2D8D9008A482C /* KeySaltsRequest.swift */,
+				C39A240C26D2D8D9008A482C /* AddressesRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		C39A240D26D2D8D9008A482C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C39A240E26D2D8D9008A482C /* PMApiService.swift */,
+				C39A240F26D2D8D9008A482C /* ApiService.swift */,
+				C39A241026D2D8D9008A482C /* SessionManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C39A24C326D3B4F9008A482C /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				C39A24C426D3B510008A482C /* KeyValueStore.swift */,
+				C39A24C626D3B56A008A482C /* DefaultKeyValueStore.swift */,
+				C31D027426D76B6F002EBBE0 /* KeyValueStoreKeys.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		C39A24CE26D3B7F2008A482C /* User */ = {
+			isa = PBXGroup;
+			children = (
+				C39A24D026D3B7FB008A482C /* Models */,
+				C39A24CF26D3B7F7008A482C /* Services */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		C39A24CF26D3B7F7008A482C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C39A24D126D3B818008A482C /* UsersManager.swift */,
+				C3F20A0826D427500051EFEB /* UserDataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C39A24D026D3B7FB008A482C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C39A24D326D3B849008A482C /* AuthUser.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C39A24D526D3B8CD008A482C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C39A24D626D3B90B008A482C /* KeymakerWrapper.swift */,
+				C39A24D826D3BA69008A482C /* KeychainWrapper.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C39A24DE26D3C36F008A482C /* Proton Mail */ = {
+			isa = PBXGroup;
+			children = (
+				C39A23F126D2D8A7008A482C /* Crypto */,
+				C39A23F026D2D87F008A482C /* Extensions */,
+				C39A23EF26D2D825008A482C /* Api */,
+				C39A23E126D2D80F008A482C /* Models */,
+			);
+			path = "Proton Mail";
+			sourceTree = "<group>";
+		};
+		C3F20A0E26D534340051EFEB /* Bootstrap */ = {
+			isa = PBXGroup;
+			children = (
+				C31D026B26D75F61002EBBE0 /* Assembly */,
+				C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */,
+				C3F20A0F26D5343C0051EFEB /* AppWindow.swift */,
+				C3F20A2E26D5363C0051EFEB /* MainWindowController.swift */,
+				C36814B326D6312700A35A16 /* ToolbarUtilizing.swift */,
+			);
+			path = Bootstrap;
+			sourceTree = "<group>";
+		};
+		C3F20A1126D534B30051EFEB /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				C3F20A2026D534FD0051EFEB /* SetupPresenter.swift */,
+				C3F20A2126D534FD0051EFEB /* SetupWorker.swift */,
+				C3F20A2226D534FD0051EFEB /* SetupRouter.swift */,
+				C3F20A2326D534FD0051EFEB /* SetupModels.swift */,
+				C3F20A2426D534FD0051EFEB /* SetupViewController.swift */,
+				C3F20A2526D534FD0051EFEB /* SetupInteractor.swift */,
+				C3F20A2626D534FD0051EFEB /* SetupView.swift */,
+			);
+			path = Setup;
+			sourceTree = "<group>";
+		};
+		C3F20A3026D53A520051EFEB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C3F20A3126D53A5B0051EFEB /* NSSize+Extensions.swift */,
+				C36814BA26D659D100A35A16 /* NSTextField+Extensions.swift */,
+				C36814D826D6641500A35A16 /* Withable.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C3374EED26D0F81F00ED8DA0 /* ProtonMailMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3374F1426D0F82200ED8DA0 /* Build configuration list for PBXNativeTarget "ProtonMailMac" */;
+			buildPhases = (
+				C3374EEA26D0F81F00ED8DA0 /* Sources */,
+				C3374EEB26D0F81F00ED8DA0 /* Frameworks */,
+				C3374EEC26D0F81F00ED8DA0 /* Resources */,
+				C39A24BE26D2E063008A482C /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ProtonMailMac;
+			packageProductDependencies = (
+				C3374F1E26D0F86100ED8DA0 /* SnapKit */,
+				C39A246526D2D9BE008A482C /* AFNetworking */,
+				C31D026726D6D631002EBBE0 /* Swinject */,
+			);
+			productName = ProtonMailMac;
+			productReference = C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C3374EFF26D0F82200ED8DA0 /* ProtonMailMacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3374F1726D0F82200ED8DA0 /* Build configuration list for PBXNativeTarget "ProtonMailMacTests" */;
+			buildPhases = (
+				C3374EFC26D0F82200ED8DA0 /* Sources */,
+				C3374EFD26D0F82200ED8DA0 /* Frameworks */,
+				C3374EFE26D0F82200ED8DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3374F0226D0F82200ED8DA0 /* PBXTargetDependency */,
+			);
+			name = ProtonMailMacTests;
+			productName = ProtonMailMacTests;
+			productReference = C3374F0026D0F82200ED8DA0 /* ProtonMailMacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C3374F0A26D0F82200ED8DA0 /* ProtonMailMacUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3374F1A26D0F82200ED8DA0 /* Build configuration list for PBXNativeTarget "ProtonMailMacUITests" */;
+			buildPhases = (
+				C3374F0726D0F82200ED8DA0 /* Sources */,
+				C3374F0826D0F82200ED8DA0 /* Frameworks */,
+				C3374F0926D0F82200ED8DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3374F0D26D0F82200ED8DA0 /* PBXTargetDependency */,
+			);
+			name = ProtonMailMacUITests;
+			productName = ProtonMailMacUITests;
+			productReference = C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C3374EE626D0F81F00ED8DA0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				ORGANIZATIONNAME = marpies;
+				TargetAttributes = {
+					C3374EED26D0F81F00ED8DA0 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					C3374EFF26D0F82200ED8DA0 = {
+						CreatedOnToolsVersion = 12.5.1;
+						TestTargetID = C3374EED26D0F81F00ED8DA0;
+					};
+					C3374F0A26D0F82200ED8DA0 = {
+						CreatedOnToolsVersion = 12.5.1;
+						TestTargetID = C3374EED26D0F81F00ED8DA0;
+					};
+				};
+			};
+			buildConfigurationList = C3374EE926D0F81F00ED8DA0 /* Build configuration list for PBXProject "ProtonMailMac" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				cs,
+			);
+			mainGroup = C3374EE526D0F81F00ED8DA0;
+			packageReferences = (
+				C3374F1D26D0F86100ED8DA0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				C39A246426D2D9BE008A482C /* XCRemoteSwiftPackageReference "AFNetworking" */,
+				C31D026626D6D631002EBBE0 /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
+			productRefGroup = C3374EEF26D0F81F00ED8DA0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C3374EED26D0F81F00ED8DA0 /* ProtonMailMac */,
+				C3374EFF26D0F82200ED8DA0 /* ProtonMailMacTests */,
+				C3374F0A26D0F82200ED8DA0 /* ProtonMailMacUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C3374EEC26D0F81F00ED8DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */,
+				C36814BF26D65B2F00A35A16 /* Localizable.strings in Resources */,
+				C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3374EFE26D0F82200ED8DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3374F0926D0F82200ED8DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C3374EEA26D0F81F00ED8DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A244226D2D8FB008A482C /* JKBCryptRandom.swift in Sources */,
+				C36814B426D6312700A35A16 /* ToolbarUtilizing.swift in Sources */,
+				C36814BB26D659D100A35A16 /* NSTextField+Extensions.swift in Sources */,
+				C39A241926D2D8D9008A482C /* KeySaltsResponse.swift in Sources */,
+				C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */,
+				C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */,
+				C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */,
+				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
+				C39A247426D2DCAA008A482C /* Array+Extensions.swift in Sources */,
+				C39A242826D2D8D9008A482C /* AuthInfoRequest.swift in Sources */,
+				C39A244626D2D8FB008A482C /* Hash.swift in Sources */,
+				C39A241A26D2D8D9008A482C /* Response.swift in Sources */,
+				C39A242126D2D8D9008A482C /* HttpMethod.swift in Sources */,
+				C39A241E26D2D8D9008A482C /* AuthResponse.swift in Sources */,
+				C39A242B26D2D8D9008A482C /* Request.swift in Sources */,
+				C39A24D226D3B818008A482C /* UsersManager.swift in Sources */,
+				C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */,
+				C39A23E926D2D81D008A482C /* Key.swift in Sources */,
+				C36814E026D690DD00A35A16 /* PaddedSecureTextField.swift in Sources */,
+				C3F20A2826D534FD0051EFEB /* SetupWorker.swift in Sources */,
+				C39A241D26D2D8D9008A482C /* AuthInfoResponse.swift in Sources */,
+				C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */,
+				C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */,
+				C31D026F26D76112002EBBE0 /* SetupAssembly.swift in Sources */,
+				C39A244026D2D8FB008A482C /* JKBCrypt.swift in Sources */,
+				C39A241626D2D8D9008A482C /* AuthCredential.swift in Sources */,
+				C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */,
+				C39A242F26D2D8D9008A482C /* ApiService.swift in Sources */,
+				C39A241B26D2D8D9008A482C /* UserInfoResponse.swift in Sources */,
+				C39A23EE26D2D81D008A482C /* Address.swift in Sources */,
+				C39A241726D2D8D9008A482C /* Credential.swift in Sources */,
+				C39A242626D2D8D9008A482C /* MessagesApi.swift in Sources */,
+				C3F20A2B26D534FD0051EFEB /* SetupViewController.swift in Sources */,
+				C3F20A2F26D5363C0051EFEB /* MainWindowController.swift in Sources */,
+				C31D027526D76B6F002EBBE0 /* KeyValueStoreKeys.swift in Sources */,
+				C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */,
+				C39A243626D2D8E7008A482C /* NSError+Extensions.swift in Sources */,
+				C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */,
+				C39A242C26D2D8D9008A482C /* KeySaltsRequest.swift in Sources */,
+				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
+				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
+				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
+				C36814AF26D6295400A35A16 /* MailboxModels.swift in Sources */,
+				C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */,
+				C39A241F26D2D8D9008A482C /* AddressesResponse.swift in Sources */,
+				C3F20A1026D5343C0051EFEB /* AppWindow.swift in Sources */,
+				C31D026D26D76056002EBBE0 /* BootstrapAssembly.swift in Sources */,
+				C36814D426D6601600A35A16 /* SignInModels.swift in Sources */,
+				C3F20A2A26D534FD0051EFEB /* SetupModels.swift in Sources */,
+				C39A244426D2D8FB008A482C /* PasswordUtils.swift in Sources */,
+				C39A241826D2D8D9008A482C /* MessageDetailResponse.swift in Sources */,
+				C39A23EA26D2D81D008A482C /* UserInfo.swift in Sources */,
+				C39A24C726D3B56A008A482C /* DefaultKeyValueStore.swift in Sources */,
+				C39A242926D2D8D9008A482C /* MessageDetailRequest.swift in Sources */,
+				C39A242E26D2D8D9008A482C /* PMApiService.swift in Sources */,
+				C36814D326D6601600A35A16 /* SignInRouter.swift in Sources */,
+				C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */,
+				C36814D226D6601600A35A16 /* SignInWorker.swift in Sources */,
+				C3F20A0B26D42A090051EFEB /* AuthRefreshRequest.swift in Sources */,
+				C39A242226D2D8D9008A482C /* KeysApi.swift in Sources */,
+				C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */,
+				C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */,
+				C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */,
+				C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */,
+				C3F20A0D26D42A800051EFEB /* AuthRefreshResponse.swift in Sources */,
+				C3F20A3226D53A5B0051EFEB /* NSSize+Extensions.swift in Sources */,
+				C31D027326D76506002EBBE0 /* SignInAssembly.swift in Sources */,
+				C39A242526D2D8D9008A482C /* AddressesApi.swift in Sources */,
+				C39A242D26D2D8D9008A482C /* AddressesRequest.swift in Sources */,
+				C31D026526D6A1DE002EBBE0 /* SignInProcessingWorker.swift in Sources */,
+				C39A244126D2D8FB008A482C /* Crypto.swift in Sources */,
+				C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */,
+				C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */,
+				C39A24D426D3B849008A482C /* AuthUser.swift in Sources */,
+				C39A241C26D2D8D9008A482C /* ErrorResponse.swift in Sources */,
+				C36814D726D6601600A35A16 /* SignInView.swift in Sources */,
+				C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */,
+				C36814D126D6601600A35A16 /* SignInPresenter.swift in Sources */,
+				C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */,
+				C39A244326D2D8FB008A482C /* PMNBCrypt.swift in Sources */,
+				C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */,
+				C3F20A2C26D534FD0051EFEB /* SetupInteractor.swift in Sources */,
+				C39A242326D2D8D9008A482C /* UsersApi.swift in Sources */,
+				C39A242A26D2D8D9008A482C /* UserInfoRequest.swift in Sources */,
+				C36814B126D6295400A35A16 /* MailboxInteractor.swift in Sources */,
+				C36814C826D65D0100A35A16 /* AppModels.swift in Sources */,
+				C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */,
+				C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */,
+				C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */,
+				C39A247026D2DC68008A482C /* JSONDecoder+Extensions.swift in Sources */,
+				C39A244526D2D8FB008A482C /* SRPClient.swift in Sources */,
+				C39A243426D2D8D9008A482C /* ApiErrorCode.swift in Sources */,
+				C36814C626D65CD600A35A16 /* AppViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3374EFC26D0F82200ED8DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3374F0726D0F82200ED8DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C3374F0226D0F82200ED8DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3374EED26D0F81F00ED8DA0 /* ProtonMailMac */;
+			targetProxy = C3374F0126D0F82200ED8DA0 /* PBXContainerItemProxy */;
+		};
+		C3374F0D26D0F82200ED8DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3374EED26D0F81F00ED8DA0 /* ProtonMailMac */;
+			targetProxy = C3374F0C26D0F82200ED8DA0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C3374EF726D0F82200ED8DA0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C3374EF826D0F82200ED8DA0 /* Base */,
+				C36814C226D65B4000A35A16 /* cs */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C36814C126D65B2F00A35A16 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C36814C026D65B2F00A35A16 /* en */,
+				C36814C326D65B4000A35A16 /* cs */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C3374F1226D0F82200ED8DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C3374F1326D0F82200ED8DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		C3374F1526D0F82200ED8DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ProtonMailMac/ProtonMailMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q6T2359V7Q;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = ProtonMailMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C3374F1626D0F82200ED8DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ProtonMailMac/ProtonMailMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q6T2359V7Q;
+				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = ProtonMailMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C3374F1826D0F82200ED8DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q6T2359V7Q;
+				INFOPLIST_FILE = ProtonMailMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProtonMailMac.app/Contents/MacOS/ProtonMailMac";
+			};
+			name = Debug;
+		};
+		C3374F1926D0F82200ED8DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q6T2359V7Q;
+				INFOPLIST_FILE = ProtonMailMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProtonMailMac.app/Contents/MacOS/ProtonMailMac";
+			};
+			name = Release;
+		};
+		C3374F1B26D0F82200ED8DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q6T2359V7Q;
+				INFOPLIST_FILE = ProtonMailMacUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMacUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ProtonMailMac;
+			};
+			name = Debug;
+		};
+		C3374F1C26D0F82200ED8DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Q6T2359V7Q;
+				INFOPLIST_FILE = ProtonMailMacUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMacUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ProtonMailMac;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C3374EE926D0F81F00ED8DA0 /* Build configuration list for PBXProject "ProtonMailMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3374F1226D0F82200ED8DA0 /* Debug */,
+				C3374F1326D0F82200ED8DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3374F1426D0F82200ED8DA0 /* Build configuration list for PBXNativeTarget "ProtonMailMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3374F1526D0F82200ED8DA0 /* Debug */,
+				C3374F1626D0F82200ED8DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3374F1726D0F82200ED8DA0 /* Build configuration list for PBXNativeTarget "ProtonMailMacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3374F1826D0F82200ED8DA0 /* Debug */,
+				C3374F1926D0F82200ED8DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3374F1A26D0F82200ED8DA0 /* Build configuration list for PBXNativeTarget "ProtonMailMacUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3374F1B26D0F82200ED8DA0 /* Debug */,
+				C3374F1C26D0F82200ED8DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C31D026626D6D631002EBBE0 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.0;
+			};
+		};
+		C3374F1D26D0F86100ED8DA0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+		C39A246426D2D9BE008A482C /* XCRemoteSwiftPackageReference "AFNetworking" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AFNetworking/AFNetworking.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C31D026726D6D631002EBBE0 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C31D026626D6D631002EBBE0 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		C3374F1E26D0F86100ED8DA0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3374F1D26D0F86100ED8DA0 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		C39A246526D2D9BE008A482C /* AFNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C39A246426D2D9BE008A482C /* XCRemoteSwiftPackageReference "AFNetworking" */;
+			productName = AFNetworking;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C3374EE626D0F81F00ED8DA0 /* Project object */;
+}

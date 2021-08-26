@@ -1,0 +1,28 @@
+/* 
+  Localizable.strings
+  ProtonMailMac
+
+  Created by Marcel Piešťanský on 25.08.2021.
+  Copyright © 2021 marpies. All rights reserved.
+*/
+
+"genericErrorTitle" = "Chyba";
+"okButtonTitle" = "OK";
+
+//
+// MARK: - Sign In
+//
+
+"signInTitle" = "Přihlášení k ProtonMailu";
+"signInUsernameTitle" = "Email nebo uživatelské jméno";
+"signInPasswordTitle" = "Heslo";
+"signInButton" = "Přihlásit";
+"signInCancelButton" = "Zavřít";
+"signInEmptyUsernameErrorPlaceholder" = "Uživatelské jméno je povinné";
+"signInEmptyPasswordErrorPlaceholder" = "Heslo je povinné";
+"signInUnsupportedPasswordModeErrorMessage" = "Přihlášení pomocí dvou hesel není momentálně podporované.";
+"signInKeysFailureErrorMessage" = "Při získávání klíčů k vašemu účtu došlo k chybě.";
+"signInUnsupported2FAOptionErrorMessage" = "Zvolený způsob dvoufázového přihlášení není momentálně podporovaný.";
+"signInServerErrorErrorMessage" = "Server nevrátil požadovaná data. Zkuste zkontrolovat své připojení k internetu.";
+"signInUserDelinquentErrorMessage" = "Přístup k tomuto účtu byl zamítnut z důvodu chybějící platby. Přihlaste se přes protonmail.com a zaplatťě neuhrazenou fakturu.";
+"signInIncorrectCredentialsErrorMessage" = "Nesprávné přihlašovací údaje, zkuste to znova.";
