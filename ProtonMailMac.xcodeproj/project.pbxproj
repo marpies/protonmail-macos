@@ -16,6 +16,11 @@
 		C31D027526D76B6F002EBBE0 /* KeyValueStoreKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D027426D76B6F002EBBE0 /* KeyValueStoreKeys.swift */; };
 		C31D027F26D78A53002EBBE0 /* PMKeymaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C31D027C26D788B9002EBBE0 /* PMKeymaker.framework */; };
 		C31D028026D78A53002EBBE0 /* PMKeymaker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C31D027C26D788B9002EBBE0 /* PMKeymaker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C31D02CB26D80EB3002EBBE0 /* TwoFactorInputPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02C426D80EB3002EBBE0 /* TwoFactorInputPresenter.swift */; };
+		C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02C726D80EB3002EBBE0 /* TwoFactorInputModels.swift */; };
+		C31D02CF26D80EB3002EBBE0 /* TwoFactorInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02C826D80EB3002EBBE0 /* TwoFactorInputViewController.swift */; };
+		C31D02D026D80EB3002EBBE0 /* TwoFactorInputInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02C926D80EB3002EBBE0 /* TwoFactorInputInteractor.swift */; };
+		C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
 		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
@@ -154,6 +159,11 @@
 		C31D027226D76506002EBBE0 /* SignInAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAssembly.swift; sourceTree = "<group>"; };
 		C31D027426D76B6F002EBBE0 /* KeyValueStoreKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStoreKeys.swift; sourceTree = "<group>"; };
 		C31D027C26D788B9002EBBE0 /* PMKeymaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PMKeymaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C31D02C426D80EB3002EBBE0 /* TwoFactorInputPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInputPresenter.swift; sourceTree = "<group>"; };
+		C31D02C726D80EB3002EBBE0 /* TwoFactorInputModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInputModels.swift; sourceTree = "<group>"; };
+		C31D02C826D80EB3002EBBE0 /* TwoFactorInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInputViewController.swift; sourceTree = "<group>"; };
+		C31D02C926D80EB3002EBBE0 /* TwoFactorInputInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInputInteractor.swift; sourceTree = "<group>"; };
+		C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInputView.swift; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -307,6 +317,18 @@
 			path = Assembly;
 			sourceTree = "<group>";
 		};
+		C31D02C326D80E81002EBBE0 /* Two-factor Input */ = {
+			isa = PBXGroup;
+			children = (
+				C31D02C426D80EB3002EBBE0 /* TwoFactorInputPresenter.swift */,
+				C31D02C726D80EB3002EBBE0 /* TwoFactorInputModels.swift */,
+				C31D02C826D80EB3002EBBE0 /* TwoFactorInputViewController.swift */,
+				C31D02C926D80EB3002EBBE0 /* TwoFactorInputInteractor.swift */,
+				C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */,
+			);
+			path = "Two-factor Input";
+			sourceTree = "<group>";
+		};
 		C3374EE526D0F81F00ED8DA0 = {
 			isa = PBXGroup;
 			children = (
@@ -436,6 +458,7 @@
 			isa = PBXGroup;
 			children = (
 				C31D026326D6A1CB002EBBE0 /* Workers */,
+				C31D02C326D80E81002EBBE0 /* Two-factor Input */,
 				C36814CA26D6601600A35A16 /* SignInPresenter.swift */,
 				C36814CB26D6601600A35A16 /* SignInWorker.swift */,
 				C36814CC26D6601600A35A16 /* SignInRouter.swift */,
@@ -807,6 +830,8 @@
 				C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */,
 				C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */,
 				C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */,
+				C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */,
+				C31D02CF26D80EB3002EBBE0 /* TwoFactorInputViewController.swift in Sources */,
 				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
 				C39A247426D2DCAA008A482C /* Array+Extensions.swift in Sources */,
 				C39A242826D2D8D9008A482C /* AuthInfoRequest.swift in Sources */,
@@ -841,6 +866,7 @@
 				C39A242C26D2D8D9008A482C /* KeySaltsRequest.swift in Sources */,
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
 				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
+				C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */,
 				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
 				C36814AF26D6295400A35A16 /* MailboxModels.swift in Sources */,
 				C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */,
@@ -856,6 +882,7 @@
 				C39A242926D2D8D9008A482C /* MessageDetailRequest.swift in Sources */,
 				C39A242E26D2D8D9008A482C /* PMApiService.swift in Sources */,
 				C36814D326D6601600A35A16 /* SignInRouter.swift in Sources */,
+				C31D02D026D80EB3002EBBE0 /* TwoFactorInputInteractor.swift in Sources */,
 				C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */,
 				C36814D226D6601600A35A16 /* SignInWorker.swift in Sources */,
 				C3F20A0B26D42A090051EFEB /* AuthRefreshRequest.swift in Sources */,
@@ -881,6 +908,7 @@
 				C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */,
 				C39A244326D2D8FB008A482C /* PMNBCrypt.swift in Sources */,
 				C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */,
+				C31D02CB26D80EB3002EBBE0 /* TwoFactorInputPresenter.swift in Sources */,
 				C3F20A2C26D534FD0051EFEB /* SetupInteractor.swift in Sources */,
 				C39A242326D2D8D9008A482C /* UsersApi.swift in Sources */,
 				C39A242A26D2D8D9008A482C /* UserInfoRequest.swift in Sources */,

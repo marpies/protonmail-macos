@@ -26,3 +26,13 @@
 "signInServerErrorErrorMessage" = "Server nevrátil požadovaná data. Zkuste zkontrolovat své připojení k internetu.";
 "signInUserDelinquentErrorMessage" = "Přístup k tomuto účtu byl zamítnut z důvodu chybějící platby. Přihlaste se přes protonmail.com a zaplatťě neuhrazenou fakturu.";
 "signInIncorrectCredentialsErrorMessage" = "Nesprávné přihlašovací údaje, zkuste to znova.";
+
+//
+// MARK: - Two-factor input
+//
+
+"twoFactorInputTitle" = "Dvoufázové ověření";
+"twoFactorInputFieldTitle" = "Ověřovací kód";
+"twoFactorInputButton" = "Ověřit";
+"twoFactorCancelButton" = "Zavřít";
+"twoFactorInputEmptyFieldErrorPlaceholder" = "Ověřovací kód je povinný";
