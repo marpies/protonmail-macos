@@ -23,6 +23,9 @@
 		C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */; };
 		C31D02D326D81B46002EBBE0 /* TwoFARequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02D226D81B46002EBBE0 /* TwoFARequest.swift */; };
 		C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02D426D81BB5002EBBE0 /* TwoFAResponse.swift */; };
+		C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E026D9361A002EBBE0 /* NSFont+Extensions.swift */; };
+		C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E226D93963002EBBE0 /* NSView+Extensions.swift */; };
+		C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E426D939D5002EBBE0 /* NSControl+Extensions.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
 		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
@@ -168,6 +171,9 @@
 		C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInputView.swift; sourceTree = "<group>"; };
 		C31D02D226D81B46002EBBE0 /* TwoFARequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFARequest.swift; sourceTree = "<group>"; };
 		C31D02D426D81BB5002EBBE0 /* TwoFAResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFAResponse.swift; sourceTree = "<group>"; };
+		C31D02E026D9361A002EBBE0 /* NSFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+Extensions.swift"; sourceTree = "<group>"; };
+		C31D02E226D93963002EBBE0 /* NSView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
+		C31D02E426D939D5002EBBE0 /* NSControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSControl+Extensions.swift"; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -682,6 +688,9 @@
 				C3F20A3126D53A5B0051EFEB /* NSSize+Extensions.swift */,
 				C36814BA26D659D100A35A16 /* NSTextField+Extensions.swift */,
 				C36814D826D6641500A35A16 /* Withable.swift */,
+				C31D02E026D9361A002EBBE0 /* NSFont+Extensions.swift */,
+				C31D02E226D93963002EBBE0 /* NSView+Extensions.swift */,
+				C31D02E426D939D5002EBBE0 /* NSControl+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -898,12 +907,15 @@
 				C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */,
 				C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */,
 				C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */,
+				C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */,
 				C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */,
 				C3F20A0D26D42A800051EFEB /* AuthRefreshResponse.swift in Sources */,
 				C3F20A3226D53A5B0051EFEB /* NSSize+Extensions.swift in Sources */,
 				C31D027326D76506002EBBE0 /* SignInAssembly.swift in Sources */,
+				C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */,
 				C39A242526D2D8D9008A482C /* AddressesApi.swift in Sources */,
 				C39A242D26D2D8D9008A482C /* AddressesRequest.swift in Sources */,
+				C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */,
 				C31D026526D6A1DE002EBBE0 /* SignInProcessingWorker.swift in Sources */,
 				C39A244126D2D8FB008A482C /* Crypto.swift in Sources */,
 				C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */,
@@ -1037,7 +1049,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1093,7 +1105,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -1121,7 +1133,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1147,7 +1158,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -39,7 +39,7 @@ class TwoFactorInputView: NSView, NSTextFieldDelegate {
         }
         
         NSTextField.asLabel.with { label in
-            label.font = NSFont.preferredFont(forTextStyle: .largeTitle)
+            label.setPreferredFont(style: .largeTitle)
             label.stringValue = viewModel.title
             label.alignment = .center
             mainStack.addArrangedSubview(label)
@@ -66,7 +66,11 @@ class TwoFactorInputView: NSView, NSTextFieldDelegate {
             label.setPreferredFont(style: .body)
             label.textColor = NSColor.labelColor
             label.delegate = self
-            label.contentType = .oneTimeCode
+            
+            if #available(macOS 11.0, *) {
+                label.contentType = .oneTimeCode
+            }
+            
             mainStack.addArrangedSubview(label)
             label.snp.makeConstraints { make in
                 make.width.equalToSuperview()
@@ -88,7 +92,7 @@ class TwoFactorInputView: NSView, NSTextFieldDelegate {
             
             // Cancel button
             NSButton().with { button in
-                button.controlSize = .large
+                button.setLargeControlSize()
                 button.title = viewModel.cancelButtonTitle
                 button.bezelStyle = .rounded
                 button.contentTintColor = NSColor.controlAccentColor
@@ -100,7 +104,7 @@ class TwoFactorInputView: NSView, NSTextFieldDelegate {
             
             // Confirm button
             NSButton().with { button in
-                button.controlSize = .large
+                button.setLargeControlSize()
                 button.title = viewModel.confirmButtonTitle
                 button.bezelStyle = .rounded
                 button.contentTintColor = NSColor.controlAccentColor

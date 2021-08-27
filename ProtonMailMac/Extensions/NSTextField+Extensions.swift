@@ -30,14 +30,12 @@ extension NSTextField {
         return label
     }
     
-    func setPreferredFont(style: NSFont.TextStyle) {
-        self.font = NSFont.preferredFont(forTextStyle: style)
-    }
-    
-    func cancelFocus() {
-        let isEnabled: Bool = self.isEnabled
-        self.isEnabled = false
-        self.isEnabled = isEnabled
+    func setPreferredFont(style: NSFont.LegacyTextStyle) {
+        if #available(macOS 11.0, *) {
+            self.font = NSFont.preferredFont(forTextStyle: style.textStyle)
+        } else {
+            self.font = NSFont.systemFont(ofSize: style.fontSize, weight: style.fontWeight)
+        }
     }
     
 }

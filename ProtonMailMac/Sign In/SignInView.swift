@@ -50,7 +50,7 @@ class SignInView: NSView, NSTextFieldDelegate {
     
     func displayData(viewModel: SignIn.Init.ViewModel) {
         NSTextField.asLabel.with { label in
-            label.font = NSFont.preferredFont(forTextStyle: .largeTitle)
+            label.setPreferredFont(style: .largeTitle)
             label.stringValue = viewModel.title
             label.alignment = .center
             self.mainStack.addArrangedSubview(label)
@@ -122,7 +122,7 @@ class SignInView: NSView, NSTextFieldDelegate {
         // Cancel button
         if let title = viewModel.cancelButtonTitle {
             self.cancelButton = NSButton().with { button in
-                button.controlSize = .large
+                button.setLargeControlSize()
                 button.title = title
                 button.bezelStyle = .rounded
                 button.contentTintColor = NSColor.controlAccentColor
@@ -134,7 +134,7 @@ class SignInView: NSView, NSTextFieldDelegate {
         }
         
         self.signInButton.with { button in
-            button.controlSize = .large
+            button.setLargeControlSize()
             button.title = viewModel.signInButtonTitle
             button.bezelStyle = .rounded
             button.contentTintColor = NSColor.controlAccentColor

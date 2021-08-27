@@ -40,7 +40,10 @@ class MainWindowController: NSWindowController {
         self.toolbar.displayMode = .iconOnly
         
         self.window?.toolbar = self.toolbar
-        self.window?.toolbarStyle = .unified
+        
+        if #available(macOS 11.0, *) {
+            self.window?.toolbarStyle = .unified
+        }
     }
     
 }
