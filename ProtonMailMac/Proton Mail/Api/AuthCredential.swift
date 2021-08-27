@@ -104,7 +104,7 @@ final public class AuthCredential: NSObject, NSCoding {
     }
     
     required init(res: AuthResponse) {
-        self.sessionID = res.sessionID ?? ""
+        self.sessionID = res.sessionID ?? res.UID
         self.accessToken = res.accessToken
         self.refreshToken = res.refreshToken
         self.expiration =  Date(timeIntervalSinceNow: res.expiresIn )
