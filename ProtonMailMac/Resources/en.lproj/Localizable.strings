@@ -26,6 +26,7 @@
 "signInServerErrorErrorMessage" = "The server responded with an unexpected response. Could also be an issue with your internet connection.";
 "signInUserDelinquentErrorMessage" = "Access to this account is disabled due to non-payment. Please sign in through protonmail.com to pay your unpaid invoice.";
 "signInIncorrectCredentialsErrorMessage" = "Incorrect login credentials. Please try again.";
+"signInTwoFactorInvalidErrorMessage" = "Incorrect two-factor code.";
 
 //
 // MARK: - Two-factor input

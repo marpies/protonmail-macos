@@ -10,6 +10,7 @@ import Foundation
 
 protocol SignInRoutingLogic {
 	func routeBack()
+    func routeToTwoFactorInput()
 }
 
 protocol SignInDataPassing {
@@ -26,5 +27,11 @@ class SignInRouter: SignInRoutingLogic, SignInDataPassing {
     
     func routeBack() {
         
+    }
+    
+    func routeToTwoFactorInput() {
+        let destinationVC = TwoFactorInputViewController()
+        destinationVC.delegate = self.viewController
+        self.viewController?.presentAsSheet(destinationVC)
     }
 }

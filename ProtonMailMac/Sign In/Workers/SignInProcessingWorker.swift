@@ -13,6 +13,7 @@ protocol SignInProcessingWorkerDelegate: AnyObject {
     func authCredentialDidReceive(_ credential: AuthCredential)
     func signInDidFail(error: SignIn.SignInError.RequestError)
     func signInDidSucceed(userInfo: UserInfo, authCredential: AuthCredential)
+    func signInDidRequestTwoFactorAuth(credential: AuthCredential, passwordMode: PasswordMode)
 }
 
 protocol SignInProcessing {
@@ -21,6 +22,13 @@ protocol SignInProcessing {
     init(username: String, password: String)
     
     func signIn()
+    
+    /// Continues the sign in process with the obtained two-factor code.
+    /// - Parameters:
+    ///   - credential: Credential received before the two-factor auth was requested.
+    ///   - passwordMode: The password mode for this sign in.
+    ///   - code: The two-factor code obtained from the user.
+    func continueWithTwoFactorAuth(credential: AuthCredential, passwordMode: PasswordMode, code: String)
 }
 
 /// Worker that handles the actual sign in process.
@@ -68,20 +76,14 @@ struct SignInProcessingWorker: SignInProcessing {
                         return
                     }
                     
-                    // are we done yet or need 2FA?
+                    // Check two-factor state
                     switch response._2FA.enabled {
                     case .off:
-                        let credential = Credential(res: response)
-                        
-                        print(" Session ID: \(credential.UID)")
+                        let credential = AuthCredential(res: response)
                         
                         self.processCredential(credential, passwordMode: response.passwordMode)
                     case .on:
-//                        let credential = Credential(res: response)
-//                        self.apiService.setSessionUID(uid: credential.UID)
-//                        let context = (credential, response.passwordMode)
-//                        completion(.success(.ask2FA(context)))
-                        fatalError("Unexpected application state.")
+                        self.processRequestForTwoFactor(response: response)
                     case .u2f, .otp:
                         self.failWithError(.unsupported2FAOption)
                     }
@@ -97,9 +99,34 @@ struct SignInProcessingWorker: SignInProcessing {
         })
     }
     
+    func continueWithTwoFactorAuth(credential: AuthCredential, passwordMode: PasswordMode, code: String) {
+        let request = TwoFARequest(code: code, authCredential: credential)
+        self.apiService.request(request) { (result: Result<TwoFAResponse, Error>) in
+            switch result {
+            case .failure(let error as NSError):
+                if self.isUnprocessableEntityError(error) {
+                    self.failWithError(.twoFAInvalid)
+                } else {
+                    self.failWithError(.serverError)
+                }
+            case .success(_):
+                self.processCredential(credential, passwordMode: passwordMode)
+            }
+        }
+    }
+    
     //
     // MARK: - Private
     //
+    
+    private func processRequestForTwoFactor(response: AuthResponse) {
+        DispatchQueue.main.async {
+            let credential = AuthCredential(res: response)
+            
+            self.delegate?.authCredentialDidReceive(credential)
+            self.delegate?.signInDidRequestTwoFactorAuth(credential: credential, passwordMode: response.passwordMode)
+        }
+    }
     
     /// Returns `true` if the given error represents an "unprocessable entity" error, e.g. incorrect login credentials.
     private func isUnprocessableEntityError(_ error: NSError) -> Bool {
@@ -139,9 +166,7 @@ struct SignInProcessingWorker: SignInProcessing {
         }
     }
     
-    private func processCredential(_ credential: Credential, passwordMode: PasswordMode) {
-        let authCredential = AuthCredential(credential)
-        
+    private func processCredential(_ authCredential: AuthCredential, passwordMode: PasswordMode) {
         // Provide the auth credential to the delegate in case we want to revoke the session
         // due an error later on before we actually manage to fully authenticate the user
         self.delegate?.authCredentialDidReceive(authCredential)

@@ -26,6 +26,7 @@
 "signInServerErrorErrorMessage" = "Server nevrátil požadovaná data. Zkuste zkontrolovat své připojení k internetu.";
 "signInUserDelinquentErrorMessage" = "Přístup k tomuto účtu byl zamítnut z důvodu chybějící platby. Přihlaste se přes protonmail.com a zaplatťě neuhrazenou fakturu.";
 "signInIncorrectCredentialsErrorMessage" = "Nesprávné přihlašovací údaje, zkuste to znova.";
+"signInTwoFactorInvalidErrorMessage" = "Dvoufázové ověření se nezdařilo.";
 
 //
 // MARK: - Two-factor input

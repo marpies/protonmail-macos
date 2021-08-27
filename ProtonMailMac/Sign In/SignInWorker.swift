@@ -13,14 +13,20 @@ protocol SignInWorkerDelegate: AnyObject {
     func signInDidBegin()
     func signInDidFail(response: SignIn.SignInError.Response)
     func signInDidComplete()
+    func signInDidCancel()
+    func signInDidRequestTwoFactorAuth()
 }
 
 class SignInWorker: SignInProcessingWorkerDelegate {
+    
+    private typealias TwoFactorContext = (credential: AuthCredential, passwordMode: PasswordMode)
     
     private let resolver: Resolver
     private let usersManager: UsersManager
     
     private var tempAuthCredential: AuthCredential?
+    
+    private var twoFactorContext: TwoFactorContext?
     
     var signInWorker: SignInProcessing?
 
@@ -52,6 +58,21 @@ class SignInWorker: SignInProcessingWorkerDelegate {
         self.startSignIn(username: request.username, password: request.password)
     }
     
+    func processTwoFactorInput(request: SignIn.TwoFactorInput.Request) {
+        guard let context = self.twoFactorContext else { return }
+        
+        self.twoFactorContext = nil
+        
+        // A code was provided, continue with authentication
+        if let code = request.code {
+            self.signInWorker?.continueWithTwoFactorAuth(credential: context.credential, passwordMode: context.passwordMode, code: code)
+        }
+        // Cancelled
+        else {
+            self.processCancelledSignIn()
+        }
+    }
+    
     //
     // MARK: - Private
     //
@@ -64,6 +85,24 @@ class SignInWorker: SignInProcessingWorkerDelegate {
         self.signInWorker = resolver.resolve(SignInProcessing.self, arguments: username, password)!
         self.signInWorker?.delegate = self
         self.signInWorker?.signIn()
+    }
+    
+    private func revokeUnfinalizedSession() {
+        guard let credential = self.tempAuthCredential else { return }
+        
+        self.tempAuthCredential = nil
+        
+        UserDataService(auth: credential).signOut { _ in
+            
+        }
+    }
+    
+    private func processCancelledSignIn() {
+        self.revokeUnfinalizedSession()
+        
+        self.signInWorker = nil
+        
+        self.delegate?.signInDidCancel()
     }
     
     //
@@ -82,9 +121,7 @@ class SignInWorker: SignInProcessingWorkerDelegate {
     
     func signInDidFail(error: SignIn.SignInError.RequestError) {
         // Revoke the session that may have been created
-        if let credential = self.tempAuthCredential {
-            
-        }
+        self.revokeUnfinalizedSession()
         
         #if DEBUG
         print("  sign in did fail \(error)")
@@ -98,6 +135,13 @@ class SignInWorker: SignInProcessingWorkerDelegate {
     
     func authCredentialDidReceive(_ credential: AuthCredential) {
         self.tempAuthCredential = credential
+    }
+    
+    func signInDidRequestTwoFactorAuth(credential: AuthCredential, passwordMode: PasswordMode) {
+        // Store the credential / password mode until we receive the two-factor code
+        self.twoFactorContext = TwoFactorContext(credential: credential, passwordMode: passwordMode)
+        
+        self.delegate?.signInDidRequestTwoFactorAuth()
     }
 
 }

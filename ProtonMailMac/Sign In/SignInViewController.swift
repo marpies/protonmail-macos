@@ -15,13 +15,15 @@ protocol SignInDisplayLogic: AnyObject {
     func displaySignInError(viewModel: SignIn.SignInError.ViewModel)
     func displayInvalidField(viewModel: SignIn.InvalidField.ViewModel)
     func displaySignInComplete()
+    func displaySignInDidCancel()
+    func displayTwoFactorInput()
 }
 
 protocol SignInViewControllerDelegate: AnyObject {
     func signInDidComplete(_ scene: SignInViewController)
 }
 
-class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDelegate {
+class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDelegate, TwoFactorInputViewControllerDelegate {
     
     private let resolver: Resolver
 	
@@ -127,6 +129,22 @@ class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDele
     }
     
     //
+    // MARK: - Two factor input
+    //
+    
+    func displayTwoFactorInput() {
+        self.router?.routeToTwoFactorInput()
+    }
+    
+    //
+    // MARK: - Sign in did cancel
+    //
+    
+    func displaySignInDidCancel() {
+        self.mainView.displaySignInDidCancel()
+    }
+    
+    //
     // MARK: - View delegate
     //
     
@@ -137,6 +155,24 @@ class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDele
     
     func signInCancelButtonDidTap() {
         // self.presentingViewController?.dismiss(self)
+    }
+    
+    //
+    // MARK: - Two factor input delegate
+    //
+    
+    func twoFactorInputDidConfirm(_ scene: TwoFactorInputViewController, withCode code: String) {
+        self.dismiss(scene)
+        
+        let request = SignIn.TwoFactorInput.Request(code: code)
+        self.interactor?.processTwoFactorInput(request: request)
+    }
+    
+    func twoFactorInputDidCancel(_ scene: TwoFactorInputViewController) {
+        self.dismiss(scene)
+        
+        let request = SignIn.TwoFactorInput.Request(code: nil)
+        self.interactor?.processTwoFactorInput(request: request)
     }
     
 }

@@ -168,15 +168,7 @@ class SignInView: NSView, NSTextFieldDelegate {
         alert.alertStyle = .informational
         alert.beginSheetModal(for: window, completionHandler: nil)
         
-        // Remove progress view and show button(s) again
-        self.progressView?.removeFromSuperview()
-        self.progressView = nil
-        
-        self.mainStack.addArrangedSubview(self.buttonStack)
-        
-        // Re-enable text inputs
-        self.usernameInput.isEnabled = true
-        self.passwordInput.isEnabled = true
+        self.cancelLoading()
     }
     
     func displayInvalidField(viewModel: SignIn.InvalidField.ViewModel) {
@@ -191,6 +183,13 @@ class SignInView: NSView, NSTextFieldDelegate {
         
         input.placeholderString = viewModel.placeholder
         input.layer?.borderColor = NSColor.systemRed.cgColor
+    }
+    
+    func displaySignInDidCancel() {
+        self.cancelLoading()
+        
+        // Remove password
+        self.passwordInput.stringValue = ""
     }
     
     //
@@ -223,6 +222,20 @@ class SignInView: NSView, NSTextFieldDelegate {
             stack.orientation = .horizontal
             stack.spacing = 16
         }
+    }
+    
+    private func cancelLoading() {
+        guard let progressView = self.progressView else { return }
+        
+        // Remove progress view and show button(s) again
+        progressView.removeFromSuperview()
+        self.progressView = nil
+        
+        self.mainStack.addArrangedSubview(self.buttonStack)
+        
+        // Re-enable text inputs
+        self.usernameInput.isEnabled = true
+        self.passwordInput.isEnabled = true
     }
     
     @objc private func signInButtonDidTap() {

@@ -11,6 +11,7 @@ import Foundation
 protocol SignInBusinessLogic {
 	func initScene(request: SignIn.Init.Request)
     func signIn(request: SignIn.ProcessSignIn.Request)
+    func processTwoFactorInput(request: SignIn.TwoFactorInput.Request)
 }
 
 protocol SignInDataStore {
@@ -46,6 +47,14 @@ class SignInInteractor: SignInBusinessLogic, SignInDataStore, SignInWorkerDelega
     }
     
     //
+    // MARK: - Two-factor input
+    //
+    
+    func processTwoFactorInput(request: SignIn.TwoFactorInput.Request) {
+        self.worker?.processTwoFactorInput(request: request)
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
@@ -59,6 +68,14 @@ class SignInInteractor: SignInBusinessLogic, SignInDataStore, SignInWorkerDelega
     
     func signInDidComplete() {
         self.presenter?.presentSignInDidComplete()
+    }
+    
+    func signInDidRequestTwoFactorAuth() {
+        self.presenter?.presentTwoFactorInput()
+    }
+    
+    func signInDidCancel() {
+        self.presenter?.presentSignInDidCancel()
     }
     
 }

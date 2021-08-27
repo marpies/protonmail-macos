@@ -73,6 +73,7 @@ enum SignIn {
             case incorrectCredentials
             case serverError
             case userDelinquent
+            case twoFAInvalid
         }
         
         struct Response {
@@ -111,6 +112,16 @@ enum SignIn {
         struct ViewModel {
             let type: SignIn.FieldType
             let placeholder: String
+        }
+    }
+    
+    //
+    // MARK: - Process two-factor input
+    //
+    
+    enum TwoFactorInput {
+        struct Request {
+            let code: String?
         }
     }
     

@@ -13,6 +13,8 @@ protocol SignInPresentationLogic {
     func presentSignInDidBegin()
     func presentSignInError(response: SignIn.SignInError.Response)
     func presentSignInDidComplete()
+    func presentSignInDidCancel()
+    func presentTwoFactorInput()
 }
 
 class SignInPresenter: SignInPresentationLogic {
@@ -81,6 +83,8 @@ class SignInPresenter: SignInPresentationLogic {
                 message = NSLocalizedString("signInUserDelinquentErrorMessage", comment: "")
             case .incorrectCredentials:
                 message = NSLocalizedString("signInIncorrectCredentialsErrorMessage", comment: "")
+            case .twoFAInvalid:
+                message = NSLocalizedString("signInTwoFactorInvalidErrorMessage", comment: "")
             }
             
             let viewModel = SignIn.SignInError.ViewModel(title: title, message: message, button: button)
@@ -94,6 +98,22 @@ class SignInPresenter: SignInPresentationLogic {
     
     func presentSignInDidComplete() {
         self.viewController?.displaySignInComplete()
+    }
+    
+    //
+    // MARK: - Present sign in did cancel
+    //
+    
+    func presentSignInDidCancel() {
+        self.viewController?.displaySignInDidCancel()
+    }
+    
+    //
+    // MARK: - Present two factor input
+    //
+    
+    func presentTwoFactorInput() {
+        self.viewController?.displayTwoFactorInput()
     }
 
 }
