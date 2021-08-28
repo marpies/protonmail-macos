@@ -26,6 +26,9 @@
 		C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E026D9361A002EBBE0 /* NSFont+Extensions.swift */; };
 		C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E226D93963002EBBE0 /* NSView+Extensions.swift */; };
 		C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E426D939D5002EBBE0 /* NSControl+Extensions.swift */; };
+		C31D02FB26D9705E002EBBE0 /* LabelsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */; };
+		C31D02FD26D97089002EBBE0 /* LabelsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */; };
+		C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
 		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
@@ -174,6 +177,9 @@
 		C31D02E026D9361A002EBBE0 /* NSFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+Extensions.swift"; sourceTree = "<group>"; };
 		C31D02E226D93963002EBBE0 /* NSView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
 		C31D02E426D939D5002EBBE0 /* NSControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSControl+Extensions.swift"; sourceTree = "<group>"; };
+		C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsRequest.swift; sourceTree = "<group>"; };
+		C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsResponse.swift; sourceTree = "<group>"; };
+		C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsApi.swift; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -556,6 +562,7 @@
 				C3F20A0C26D42A800051EFEB /* AuthRefreshResponse.swift */,
 				C39A23FC26D2D8D9008A482C /* AddressesResponse.swift */,
 				C31D02D426D81BB5002EBBE0 /* TwoFAResponse.swift */,
+				C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -569,6 +576,7 @@
 				C39A240326D2D8D9008A482C /* AddressesApi.swift */,
 				C39A240426D2D8D9008A482C /* MessagesApi.swift */,
 				C3F20A0626D421510051EFEB /* AuthApi.swift */,
+				C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -586,6 +594,7 @@
 				C39A240B26D2D8D9008A482C /* KeySaltsRequest.swift */,
 				C39A240C26D2D8D9008A482C /* AddressesRequest.swift */,
 				C31D02D226D81B46002EBBE0 /* TwoFARequest.swift */,
+				C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -852,6 +861,7 @@
 				C39A242826D2D8D9008A482C /* AuthInfoRequest.swift in Sources */,
 				C39A244626D2D8FB008A482C /* Hash.swift in Sources */,
 				C39A241A26D2D8D9008A482C /* Response.swift in Sources */,
+				C31D02FB26D9705E002EBBE0 /* LabelsRequest.swift in Sources */,
 				C39A242126D2D8D9008A482C /* HttpMethod.swift in Sources */,
 				C39A241E26D2D8D9008A482C /* AuthResponse.swift in Sources */,
 				C39A242B26D2D8D9008A482C /* Request.swift in Sources */,
@@ -875,6 +885,7 @@
 				C3F20A2B26D534FD0051EFEB /* SetupViewController.swift in Sources */,
 				C3F20A2F26D5363C0051EFEB /* MainWindowController.swift in Sources */,
 				C31D027526D76B6F002EBBE0 /* KeyValueStoreKeys.swift in Sources */,
+				C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */,
 				C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */,
 				C39A243626D2D8E7008A482C /* NSError+Extensions.swift in Sources */,
 				C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */,
@@ -906,6 +917,7 @@
 				C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */,
 				C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */,
 				C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */,
+				C31D02FD26D97089002EBBE0 /* LabelsResponse.swift in Sources */,
 				C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */,
 				C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */,
 				C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */,
