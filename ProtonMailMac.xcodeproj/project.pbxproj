@@ -29,6 +29,7 @@
 		C31D02FB26D9705E002EBBE0 /* LabelsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */; };
 		C31D02FD26D97089002EBBE0 /* LabelsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */; };
 		C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */; };
+		C31D033E26DB8924002EBBE0 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D033D26DB8924002EBBE0 /* Logger.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
 		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
@@ -180,6 +181,7 @@
 		C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsRequest.swift; sourceTree = "<group>"; };
 		C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsResponse.swift; sourceTree = "<group>"; };
 		C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsApi.swift; sourceTree = "<group>"; };
+		C31D033D26DB8924002EBBE0 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -343,6 +345,14 @@
 				C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */,
 			);
 			path = "Two-factor Input";
+			sourceTree = "<group>";
+		};
+		C31D033C26DB8918002EBBE0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C31D033D26DB8924002EBBE0 /* Logger.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		C3374EE526D0F81F00ED8DA0 = {
@@ -661,6 +671,7 @@
 				C39A23F026D2D87F008A482C /* Extensions */,
 				C39A23EF26D2D825008A482C /* Api */,
 				C39A23E126D2D80F008A482C /* Models */,
+				C31D033C26DB8918002EBBE0 /* Utils */,
 			);
 			path = "Proton Mail";
 			sourceTree = "<group>";
@@ -913,6 +924,7 @@
 				C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */,
 				C36814D226D6601600A35A16 /* SignInWorker.swift in Sources */,
 				C3F20A0B26D42A090051EFEB /* AuthRefreshRequest.swift in Sources */,
+				C31D033E26DB8924002EBBE0 /* Logger.swift in Sources */,
 				C39A242226D2D8D9008A482C /* KeysApi.swift in Sources */,
 				C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */,
 				C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */,
