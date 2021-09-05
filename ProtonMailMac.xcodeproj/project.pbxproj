@@ -43,6 +43,7 @@
 		C31D034426DB8AD5002EBBE0 /* NSManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034326DB8AD5002EBBE0 /* NSManagedObjectExtension.swift */; };
 		C31D034626DB8B34002EBBE0 /* Attachment+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034526DB8B34002EBBE0 /* Attachment+Info.swift */; };
 		C31D034E26DB9825002EBBE0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */; };
+		C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035026DBF760002EBBE0 /* LabelsDatabaseManaging.swift */; };
 		C31D035526DC11B5002EBBE0 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
@@ -230,6 +231,7 @@
 		C31D034326DB8AD5002EBBE0 /* NSManagedObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtension.swift; sourceTree = "<group>"; };
 		C31D034526DB8B34002EBBE0 /* Attachment+Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Info.swift"; sourceTree = "<group>"; };
 		C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
+		C31D035026DBF760002EBBE0 /* LabelsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -447,6 +449,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		C31D034F26DBF736002EBBE0 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				C31D035026DBF760002EBBE0 /* LabelsDatabaseManaging.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		C3374EE526D0F81F00ED8DA0 = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +496,7 @@
 				C39A24D526D3B8CD008A482C /* Utils */,
 				C36814DA26D6688B00A35A16 /* Views */,
 				C3F20A3026D53A520051EFEB /* Extensions */,
+				C31D034F26DBF736002EBBE0 /* Database */,
 				C31D030026DA8846002EBBE0 /* Core Data */,
 				C36814BC26D65AA600A35A16 /* Resources */,
 			);
@@ -1005,6 +1016,7 @@
 				C39A241D26D2D8D9008A482C /* AuthInfoResponse.swift in Sources */,
 				C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */,
 				C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */,
+				C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */,
 				C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */,
 				C3AA69E026E5441B00124A0B /* MessagesRouter.swift in Sources */,
 				C31D026F26D76112002EBBE0 /* SetupAssembly.swift in Sources */,
