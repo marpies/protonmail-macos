@@ -42,8 +42,11 @@
 		C31D034226DB8AA0002EBBE0 /* PGPType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034126DB8AA0002EBBE0 /* PGPType.swift */; };
 		C31D034426DB8AD5002EBBE0 /* NSManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034326DB8AD5002EBBE0 /* NSManagedObjectExtension.swift */; };
 		C31D034626DB8B34002EBBE0 /* Attachment+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034526DB8B34002EBBE0 /* Attachment+Info.swift */; };
+		C31D034A26DB9534002EBBE0 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034926DB9534002EBBE0 /* CoreDataService.swift */; };
+		C31D034C26DB95DF002EBBE0 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034B26DB95DF002EBBE0 /* CoreDataStore.swift */; };
 		C31D034E26DB9825002EBBE0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */; };
 		C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035026DBF760002EBBE0 /* LabelsDatabaseManaging.swift */; };
+		C31D035326DBFBBE002EBBE0 /* CoreDataService+Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035226DBFBBE002EBBE0 /* CoreDataService+Labels.swift */; };
 		C31D035526DC11B5002EBBE0 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
@@ -230,8 +233,11 @@
 		C31D034126DB8AA0002EBBE0 /* PGPType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPType.swift; sourceTree = "<group>"; };
 		C31D034326DB8AD5002EBBE0 /* NSManagedObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtension.swift; sourceTree = "<group>"; };
 		C31D034526DB8B34002EBBE0 /* Attachment+Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Info.swift"; sourceTree = "<group>"; };
+		C31D034926DB9534002EBBE0 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		C31D034B26DB95DF002EBBE0 /* CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
 		C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		C31D035026DBF760002EBBE0 /* LabelsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsDatabaseManaging.swift; sourceTree = "<group>"; };
+		C31D035226DBFBBE002EBBE0 /* CoreDataService+Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Labels.swift"; sourceTree = "<group>"; };
 		C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -421,6 +427,7 @@
 		C31D030026DA8846002EBBE0 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				C31D034826DB9526002EBBE0 /* Services */,
 				C31D034726DB9481002EBBE0 /* Models */,
 			);
 			path = "Core Data";
@@ -447,6 +454,16 @@
 				C31D031726DA9A84002EBBE0 /* UserEvent.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		C31D034826DB9526002EBBE0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C31D034926DB9534002EBBE0 /* CoreDataService.swift */,
+				C31D035226DBFBBE002EBBE0 /* CoreDataService+Labels.swift */,
+				C31D034B26DB95DF002EBBE0 /* CoreDataStore.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		C31D034F26DBF736002EBBE0 /* Database */ = {
@@ -1045,6 +1062,7 @@
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
 				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
 				C31D032C26DA9A85002EBBE0 /* LabelUpdate.swift in Sources */,
+				C31D034A26DB9534002EBBE0 /* CoreDataService.swift in Sources */,
 				C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */,
 				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
 				C36814AF26D6295400A35A16 /* MailboxModels.swift in Sources */,
@@ -1094,6 +1112,7 @@
 				C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */,
 				C31D026526D6A1DE002EBBE0 /* SignInProcessingWorker.swift in Sources */,
 				C39A244126D2D8FB008A482C /* Crypto.swift in Sources */,
+				C31D034C26DB95DF002EBBE0 /* CoreDataStore.swift in Sources */,
 				C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */,
 				C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */,
 				C31D034026DB898D002EBBE0 /* NSManagedObjectContext+Extensions.swift in Sources */,
@@ -1118,6 +1137,7 @@
 				C36814B126D6295400A35A16 /* MailboxInteractor.swift in Sources */,
 				C36814C826D65D0100A35A16 /* AppModels.swift in Sources */,
 				C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */,
+				C31D035326DBFBBE002EBBE0 /* CoreDataService+Labels.swift in Sources */,
 				C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */,
 				C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */,
 				C39A247026D2DC68008A482C /* JSONDecoder+Extensions.swift in Sources */,

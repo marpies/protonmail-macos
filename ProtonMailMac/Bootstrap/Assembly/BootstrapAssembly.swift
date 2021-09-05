@@ -15,6 +15,12 @@ struct BootstrapAssembly: Assembly {
         container.register(AppViewController.self) { r in
             return AppViewController(resolver: r)
         }
+        container.register(CoreDataService.self) { _ in
+            return CoreDataService(container: CoreDataStore().defaultContainer)
+        }.inObjectScope(.container)
+        container.register(LabelsDatabaseManaging.self) { r in
+            return r.resolve(CoreDataService.self)!
+        }
     }
     
 }
