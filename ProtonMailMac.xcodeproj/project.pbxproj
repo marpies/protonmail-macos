@@ -123,6 +123,14 @@
 		C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24D826D3BA69008A482C /* KeychainWrapper.swift */; };
 		C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */; };
 		C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */; };
+		C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */; };
+		C3AA69DF26E5441B00124A0B /* MessagesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D826E5441B00124A0B /* MessagesWorker.swift */; };
+		C3AA69E026E5441B00124A0B /* MessagesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D926E5441B00124A0B /* MessagesRouter.swift */; };
+		C3AA69E126E5441B00124A0B /* MessagesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DA26E5441B00124A0B /* MessagesModels.swift */; };
+		C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DB26E5441B00124A0B /* MessagesViewController.swift */; };
+		C3AA69E326E5441B00124A0B /* MessagesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */; };
+		C3AA69E426E5441B00124A0B /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DD26E5441B00124A0B /* MessagesView.swift */; };
+		C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */; };
 		C3AA69EE26E5459200124A0B /* MessageDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E726E5459200124A0B /* MessageDetailsPresenter.swift */; };
 		C3AA69EF26E5459200124A0B /* MessageDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E826E5459200124A0B /* MessageDetailsWorker.swift */; };
 		C3AA69F026E5459200124A0B /* MessageDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E926E5459200124A0B /* MessageDetailsRouter.swift */; };
@@ -304,6 +312,14 @@
 		C39A24D826D3BA69008A482C /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthCredential+Locked.swift"; sourceTree = "<group>"; };
 		C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+Locked.swift"; sourceTree = "<group>"; };
+		C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesPresenter.swift; sourceTree = "<group>"; };
+		C3AA69D826E5441B00124A0B /* MessagesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesWorker.swift; sourceTree = "<group>"; };
+		C3AA69D926E5441B00124A0B /* MessagesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesRouter.swift; sourceTree = "<group>"; };
+		C3AA69DA26E5441B00124A0B /* MessagesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesModels.swift; sourceTree = "<group>"; };
+		C3AA69DB26E5441B00124A0B /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesInteractor.swift; sourceTree = "<group>"; };
+		C3AA69DD26E5441B00124A0B /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesAssembly.swift; sourceTree = "<group>"; };
 		C3AA69E726E5459200124A0B /* MessageDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsPresenter.swift; sourceTree = "<group>"; };
 		C3AA69E826E5459200124A0B /* MessageDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsWorker.swift; sourceTree = "<group>"; };
 		C3AA69E926E5459200124A0B /* MessageDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsRouter.swift; sourceTree = "<group>"; };
@@ -374,6 +390,7 @@
 				C31D027026D761EC002EBBE0 /* ManagersAssembly.swift */,
 				C31D026E26D76112002EBBE0 /* SetupAssembly.swift */,
 				C31D027226D76506002EBBE0 /* SignInAssembly.swift */,
+				C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */,
 				C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */,
 			);
 			path = Assembly;
@@ -520,6 +537,13 @@
 		C36814B626D641E300A35A16 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */,
+				C3AA69D826E5441B00124A0B /* MessagesWorker.swift */,
+				C3AA69D926E5441B00124A0B /* MessagesRouter.swift */,
+				C3AA69DA26E5441B00124A0B /* MessagesModels.swift */,
+				C3AA69DB26E5441B00124A0B /* MessagesViewController.swift */,
+				C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */,
+				C3AA69DD26E5441B00124A0B /* MessagesView.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -945,6 +969,7 @@
 				C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */,
 				C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */,
 				C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */,
+				C3AA69DF26E5441B00124A0B /* MessagesWorker.swift in Sources */,
 				C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */,
 				C31D02CF26D80EB3002EBBE0 /* TwoFactorInputViewController.swift in Sources */,
 				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
@@ -967,9 +992,12 @@
 				C3F20A2826D534FD0051EFEB /* SetupWorker.swift in Sources */,
 				C39A241D26D2D8D9008A482C /* AuthInfoResponse.swift in Sources */,
 				C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */,
+				C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */,
 				C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */,
+				C3AA69E026E5441B00124A0B /* MessagesRouter.swift in Sources */,
 				C31D026F26D76112002EBBE0 /* SetupAssembly.swift in Sources */,
 				C31D032626DA9A85002EBBE0 /* Label.swift in Sources */,
+				C3AA69E326E5441B00124A0B /* MessagesInteractor.swift in Sources */,
 				C39A244026D2D8FB008A482C /* JKBCrypt.swift in Sources */,
 				C39A241626D2D8D9008A482C /* AuthCredential.swift in Sources */,
 				C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */,
@@ -988,6 +1016,7 @@
 				C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */,
 				C39A242C26D2D8D9008A482C /* KeySaltsRequest.swift in Sources */,
 				C3AA69F326E5459200124A0B /* MessageDetailsInteractor.swift in Sources */,
+				C3AA69E126E5441B00124A0B /* MessagesModels.swift in Sources */,
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
 				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
 				C31D032C26DA9A85002EBBE0 /* LabelUpdate.swift in Sources */,
@@ -1005,6 +1034,8 @@
 				C31D030926DA9652002EBBE0 /* ProtonMail.xcdatamodeld in Sources */,
 				C3F20A2A26D534FD0051EFEB /* SetupModels.swift in Sources */,
 				C39A244426D2D8FB008A482C /* PasswordUtils.swift in Sources */,
+				C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */,
+				C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */,
 				C39A241826D2D8D9008A482C /* MessageDetailResponse.swift in Sources */,
 				C39A23EA26D2D81D008A482C /* UserInfo.swift in Sources */,
 				C39A24C726D3B56A008A482C /* DefaultKeyValueStore.swift in Sources */,
@@ -1042,6 +1073,7 @@
 				C31D034026DB898D002EBBE0 /* NSManagedObjectContext+Extensions.swift in Sources */,
 				C39A24D426D3B849008A482C /* AuthUser.swift in Sources */,
 				C39A241C26D2D8D9008A482C /* ErrorResponse.swift in Sources */,
+				C3AA69E426E5441B00124A0B /* MessagesView.swift in Sources */,
 				C36814D726D6601600A35A16 /* SignInView.swift in Sources */,
 				C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */,
 				C36814D126D6601600A35A16 /* SignInPresenter.swift in Sources */,
