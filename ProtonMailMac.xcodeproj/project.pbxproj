@@ -123,6 +123,7 @@
 		C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24D826D3BA69008A482C /* KeychainWrapper.swift */; };
 		C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */; };
 		C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */; };
+		C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */; };
 		C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */; };
 		C3AA69DF26E5441B00124A0B /* MessagesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D826E5441B00124A0B /* MessagesWorker.swift */; };
 		C3AA69E026E5441B00124A0B /* MessagesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D926E5441B00124A0B /* MessagesRouter.swift */; };
@@ -312,6 +313,7 @@
 		C39A24D826D3BA69008A482C /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthCredential+Locked.swift"; sourceTree = "<group>"; };
 		C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+Locked.swift"; sourceTree = "<group>"; };
+		C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Hex.swift"; sourceTree = "<group>"; };
 		C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesPresenter.swift; sourceTree = "<group>"; };
 		C3AA69D826E5441B00124A0B /* MessagesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesWorker.swift; sourceTree = "<group>"; };
 		C3AA69D926E5441B00124A0B /* MessagesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesRouter.swift; sourceTree = "<group>"; };
@@ -644,6 +646,7 @@
 				C39A247326D2DCAA008A482C /* Array+Extensions.swift */,
 				C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */,
 				C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */,
+				C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1080,6 +1083,7 @@
 				C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */,
 				C39A244326D2D8FB008A482C /* PMNBCrypt.swift in Sources */,
 				C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */,
+				C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */,
 				C31D033026DA9A85002EBBE0 /* UserEvent.swift in Sources */,
 				C3AA69EE26E5459200124A0B /* MessageDetailsPresenter.swift in Sources */,
 				C31D02CB26D80EB3002EBBE0 /* TwoFactorInputPresenter.swift in Sources */,
