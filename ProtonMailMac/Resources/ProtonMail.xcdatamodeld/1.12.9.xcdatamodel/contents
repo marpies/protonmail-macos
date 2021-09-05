@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="1.11.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="1.11.0">
     <entity name="Attachment" representedClassName=".Attachment" syncable="YES">
         <attribute name="attachmentID" attributeType="String" valueTransformerName="StringCryptoTransformer">
             <userInfo>
@@ -44,9 +44,11 @@
             </userInfo>
         </attribute>
         <relationship name="message" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Message" inverseName="attachments" inverseEntity="Message"/>
-        <userInfo>
-            <entry key="identityAttribute" value="attachmentID"/>
-        </userInfo>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="attachmentID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Contact" representedClassName=".Contact" syncable="YES">
         <attribute name="cardData" optional="YES" attributeType="String" valueTransformerName="StringCryptoTransformer" customClassName="String">
@@ -96,9 +98,11 @@
         <fetchIndex name="byNameIndex">
             <fetchIndexElement property="name" type="Binary" order="ascending"/>
         </fetchIndex>
-        <userInfo>
-            <entry key="identityAttribute" value="contactID"/>
-        </userInfo>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="contactID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Conversation" representedClassName="." syncable="YES"/>
     <entity name="Email" representedClassName=".Email" syncable="YES">
@@ -151,9 +155,11 @@
                 <entry key="JSONKeyPath" value="LabelIDs"/>
             </userInfo>
         </relationship>
-        <userInfo>
-            <entry key="identityAttribute" value="emailID"/>
-        </userInfo>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="emailID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="Label" representedClassName=".Label" syncable="YES">
         <attribute name="color" optional="YES" attributeType="String">
@@ -189,6 +195,7 @@
                 <entry key="NumberTransformer" value="NumberTransformer"/>
             </userInfo>
         </attribute>
+        <attribute name="parentID" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO">
             <userInfo>
                 <entry key="JSONKeyPath" value="Type"/>
@@ -205,9 +212,11 @@
         <fetchIndex name="byLabelIDIndex">
             <fetchIndexElement property="labelID" type="Binary" order="ascending"/>
         </fetchIndex>
-        <userInfo>
-            <entry key="identityAttribute" value="labelID"/>
-        </userInfo>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="labelID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="LabelUpdate" representedClassName=".LabelUpdate" syncable="YES">
         <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -380,9 +389,11 @@
         <fetchIndex name="byTitleIndex">
             <fetchIndexElement property="title" type="Binary" order="ascending"/>
         </fetchIndex>
-        <userInfo>
-            <entry key="identityAttribute" value="messageID"/>
-        </userInfo>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="messageID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="UserEvent" representedClassName=".UserEvent" syncable="YES">
         <attribute name="eventID" optional="YES" attributeType="String"/>
@@ -390,11 +401,11 @@
     </entity>
     <fetchRequest name="FetchRequest" entity="Message" predicateString="messageType == 1"/>
     <elements>
-        <element name="Attachment" positionX="1989" positionY="-3666" width="128" height="238"/>
-        <element name="Contact" positionX="1240" positionY="-3582" width="128" height="223"/>
+        <element name="Attachment" positionX="1989" positionY="-3666" width="128" height="224"/>
+        <element name="Contact" positionX="1240" positionY="-3582" width="128" height="209"/>
         <element name="Conversation" positionX="1719" positionY="-3726" width="128" height="45"/>
-        <element name="Email" positionX="1539" positionY="-3582" width="128" height="193"/>
-        <element name="Label" positionX="2095" positionY="-3357" width="128" height="193"/>
+        <element name="Email" positionX="1539" positionY="-3582" width="128" height="179"/>
+        <element name="Label" positionX="2095" positionY="-3357" width="128" height="194"/>
         <element name="LabelUpdate" positionX="1440" positionY="-3717" width="128" height="148"/>
         <element name="Message" positionX="1717" positionY="-3867" width="128" height="599"/>
         <element name="UserEvent" positionX="1440" positionY="-3717" width="128" height="73"/>
