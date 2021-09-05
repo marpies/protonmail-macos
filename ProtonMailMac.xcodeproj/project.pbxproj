@@ -42,6 +42,7 @@
 		C31D034226DB8AA0002EBBE0 /* PGPType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034126DB8AA0002EBBE0 /* PGPType.swift */; };
 		C31D034426DB8AD5002EBBE0 /* NSManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034326DB8AD5002EBBE0 /* NSManagedObjectExtension.swift */; };
 		C31D034626DB8B34002EBBE0 /* Attachment+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034526DB8B34002EBBE0 /* Attachment+Info.swift */; };
+		C31D034E26DB9825002EBBE0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
 		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
@@ -226,6 +227,7 @@
 		C31D034126DB8AA0002EBBE0 /* PGPType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPType.swift; sourceTree = "<group>"; };
 		C31D034326DB8AD5002EBBE0 /* NSManagedObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtension.swift; sourceTree = "<group>"; };
 		C31D034526DB8B34002EBBE0 /* Attachment+Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Info.swift"; sourceTree = "<group>"; };
+		C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -646,6 +648,7 @@
 				C39A247326D2DCAA008A482C /* Array+Extensions.swift */,
 				C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */,
 				C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */,
+				C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */,
 				C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */,
 			);
 			path = Extensions;
@@ -1091,6 +1094,7 @@
 				C3AA69F426E5459200124A0B /* MessageDetailsView.swift in Sources */,
 				C39A242326D2D8D9008A482C /* UsersApi.swift in Sources */,
 				C39A242A26D2D8D9008A482C /* UserInfoRequest.swift in Sources */,
+				C31D034E26DB9825002EBBE0 /* URL+Extensions.swift in Sources */,
 				C36814B126D6295400A35A16 /* MailboxInteractor.swift in Sources */,
 				C36814C826D65D0100A35A16 /* AppModels.swift in Sources */,
 				C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */,
