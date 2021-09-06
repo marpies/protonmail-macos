@@ -24,8 +24,6 @@ protocol SignInViewControllerDelegate: AnyObject {
 }
 
 class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDelegate, TwoFactorInputViewControllerDelegate {
-    
-    private let resolver: Resolver
 	
 	var interactor: SignInBusinessLogic?
 	var router: (SignInRoutingLogic & SignInDataPassing)?
@@ -39,8 +37,6 @@ class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDele
 	//
 	
     init(resolver: Resolver) {
-        self.resolver = resolver
-        
         super.init(nibName: nil, bundle: nil)
         
         self.setup(resolver: resolver)
