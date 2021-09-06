@@ -29,6 +29,10 @@ class UsersManager: AuthUserDelegate {
         return self.keyValueStore.bool(forKey: .isLoggedIn) ?? false
     }
     
+    var activeUser: AuthUser? {
+        return self.users.first
+    }
+    
     init(keymaker: KeymakerWrapper, keyValueStore: KeyValueStore) {
         self.keymaker = keymaker
         self.keyValueStore = keyValueStore
