@@ -141,6 +141,7 @@
 		C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24D826D3BA69008A482C /* KeychainWrapper.swift */; };
 		C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */; };
 		C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */; };
+		C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */; };
 		C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D326E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift */; };
 		C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */; };
 		C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */; };
@@ -350,6 +351,7 @@
 		C39A24D826D3BA69008A482C /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		C39A24DA26D3C212008A482C /* AuthCredential+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthCredential+Locked.swift"; sourceTree = "<group>"; };
 		C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+Locked.swift"; sourceTree = "<group>"; };
+		C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAssembly.swift; sourceTree = "<group>"; };
 		C3AA69D326E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+PerformWith.swift"; sourceTree = "<group>"; };
 		C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Hex.swift"; sourceTree = "<group>"; };
 		C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesPresenter.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				C31D02F826D96210002EBBE0 /* MailboxSidebarAssembly.swift */,
 				C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */,
 				C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */,
+				C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -1203,6 +1206,7 @@
 				C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */,
 				C31D035326DBFBBE002EBBE0 /* CoreDataService+Labels.swift in Sources */,
 				C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */,
+				C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */,
 				C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */,
 				C39A247026D2DC68008A482C /* JSONDecoder+Extensions.swift in Sources */,
 				C39A244526D2D8FB008A482C /* SRPClient.swift in Sources */,

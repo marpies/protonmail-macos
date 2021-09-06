@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.assembler.apply(assemblies: [
             BootstrapAssembly(),
+            DatabaseAssembly(),
             ManagersAssembly(),
             SetupAssembly(),
             SignInAssembly(),

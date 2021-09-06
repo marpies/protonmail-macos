@@ -18,12 +18,6 @@ struct BootstrapAssembly: Assembly {
         container.register(ApiService.self) { r in
             return PMApiService()
         }.inObjectScope(.transient)
-        container.register(CoreDataService.self) { _ in
-            return CoreDataService(container: CoreDataStore().defaultContainer)
-        }.inObjectScope(.container)
-        container.register(LabelsDatabaseManaging.self) { r in
-            return r.resolve(CoreDataService.self)!
-        }
     }
     
 }
