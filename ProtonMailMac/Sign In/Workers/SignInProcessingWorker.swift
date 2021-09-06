@@ -19,7 +19,7 @@ protocol SignInProcessingWorkerDelegate: AnyObject {
 protocol SignInProcessing {
     var delegate: SignInProcessingWorkerDelegate? { get set }
     
-    init(username: String, password: String)
+    init(username: String, password: String, apiService: ApiService)
     
     func signIn()
     
@@ -41,10 +41,10 @@ struct SignInProcessingWorker: SignInProcessing {
     
     weak var delegate: SignInProcessingWorkerDelegate?
 
-    init(username: String, password: String) {
+    init(username: String, password: String, apiService: ApiService) {
         self.username = username
         self.password = password
-        self.apiService = PMApiService()
+        self.apiService = apiService
     }
     
     func signIn() {

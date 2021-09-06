@@ -12,8 +12,9 @@ import Swinject
 struct SignInAssembly: Assembly {
     
     func assemble(container: Container) {
-        container.register(SignInProcessing.self) { r, username, password in
-            return SignInProcessingWorker(username: username, password: password)
+        container.register(SignInProcessing.self) { (r: Resolver, username: String, password: String) in
+            let service: ApiService = r.resolve(ApiService.self)!
+            return SignInProcessingWorker(username: username, password: password, apiService: service)
         }
         container.register(SignInWorker.self) { r in
             return SignInWorker(resolver: r)
