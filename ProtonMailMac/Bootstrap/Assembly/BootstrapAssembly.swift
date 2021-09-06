@@ -15,6 +15,9 @@ struct BootstrapAssembly: Assembly {
         container.register(AppViewController.self) { r in
             return AppViewController(resolver: r)
         }
+        container.register(ApiService.self) { r in
+            return PMApiService()
+        }.inObjectScope(.transient)
         container.register(CoreDataService.self) { _ in
             return CoreDataService(container: CoreDataStore().defaultContainer)
         }.inObjectScope(.container)
