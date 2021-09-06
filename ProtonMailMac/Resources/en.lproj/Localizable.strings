@@ -37,3 +37,20 @@
 "twoFactorInputButton" = "Authenticate";
 "twoFactorCancelButton" = "Cancel";
 "twoFactorInputEmptyFieldErrorPlaceholder" = "Two-factor code is required";
+
+//
+// MARK: - Mailbox sidebar
+//
+
+"mailboxInboxesGroupTitle" = "ProtonMail";
+"mailboxFoldersGroupTitle" = "Folders";
+"mailboxLabelsGroupTitle" = "Labels";
+
+"mailboxLabelInbox" = "Inbox";
+"mailboxLabelDrafts" = "Drafts";
+"mailboxLabelSent" = "Sent";
+"mailboxLabelStarred" = "Starred";
+"mailboxLabelArchive" = "Archive";
+"mailboxLabelSpam" = "Spam";
+"mailboxLabelTrash" = "Trash";
+"mailboxLabelAllMail" = "All mail";

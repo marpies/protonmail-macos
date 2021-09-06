@@ -37,3 +37,20 @@
 "twoFactorInputButton" = "Ověřit";
 "twoFactorCancelButton" = "Zavřít";
 "twoFactorInputEmptyFieldErrorPlaceholder" = "Ověřovací kód je povinný";
+
+//
+// MARK: - Mailbox sidebar
+//
+
+"mailboxInboxesGroupTitle" = "ProtonMail";
+"mailboxFoldersGroupTitle" = "Složky";
+"mailboxLabelsGroupTitle" = "Štítky";
+
+"mailboxLabelInbox" = "Doručené";
+"mailboxLabelDrafts" = "Koncepty";
+"mailboxLabelSent" = "Odeslané";
+"mailboxLabelStarred" = "S hvězdičkou";
+"mailboxLabelArchive" = "Archív";
+"mailboxLabelSpam" = "Spam";
+"mailboxLabelTrash" = "Koš";
+"mailboxLabelAllMail" = "Všechna pošta";

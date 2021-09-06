@@ -23,9 +23,21 @@
 		C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */; };
 		C31D02D326D81B46002EBBE0 /* TwoFARequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02D226D81B46002EBBE0 /* TwoFARequest.swift */; };
 		C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02D426D81BB5002EBBE0 /* TwoFAResponse.swift */; };
+		C31D02D826D8CC59002EBBE0 /* MailboxOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02D726D8CC59002EBBE0 /* MailboxOverlayView.swift */; };
+		C31D02DF26D92961002EBBE0 /* MailboxSidebarRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02DE26D92961002EBBE0 /* MailboxSidebarRowView.swift */; };
 		C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E026D9361A002EBBE0 /* NSFont+Extensions.swift */; };
 		C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E226D93963002EBBE0 /* NSView+Extensions.swift */; };
 		C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E426D939D5002EBBE0 /* NSControl+Extensions.swift */; };
+		C31D02ED26D942A4002EBBE0 /* MailboxSidebarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E626D942A4002EBBE0 /* MailboxSidebarPresenter.swift */; };
+		C31D02EE26D942A4002EBBE0 /* MailboxSidebarWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E726D942A4002EBBE0 /* MailboxSidebarWorker.swift */; };
+		C31D02EF26D942A4002EBBE0 /* MailboxSidebarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E826D942A4002EBBE0 /* MailboxSidebarRouter.swift */; };
+		C31D02F026D942A4002EBBE0 /* MailboxSidebarModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02E926D942A4002EBBE0 /* MailboxSidebarModels.swift */; };
+		C31D02F126D942A4002EBBE0 /* MailboxSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02EA26D942A4002EBBE0 /* MailboxSidebarViewController.swift */; };
+		C31D02F226D942A4002EBBE0 /* MailboxSidebarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02EB26D942A4002EBBE0 /* MailboxSidebarInteractor.swift */; };
+		C31D02F326D942A4002EBBE0 /* MailboxSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02EC26D942A4002EBBE0 /* MailboxSidebarView.swift */; };
+		C31D02F526D942EA002EBBE0 /* MailboxSidebarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02F426D942EA002EBBE0 /* MailboxSidebarDataSource.swift */; };
+		C31D02F726D945D7002EBBE0 /* MailboxAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02F626D945D7002EBBE0 /* MailboxAssembly.swift */; };
+		C31D02F926D96210002EBBE0 /* MailboxSidebarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02F826D96210002EBBE0 /* MailboxSidebarAssembly.swift */; };
 		C31D02FB26D9705E002EBBE0 /* LabelsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */; };
 		C31D02FD26D97089002EBBE0 /* LabelsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */; };
 		C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */; };
@@ -211,9 +223,21 @@
 		C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFactorInputView.swift; sourceTree = "<group>"; };
 		C31D02D226D81B46002EBBE0 /* TwoFARequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFARequest.swift; sourceTree = "<group>"; };
 		C31D02D426D81BB5002EBBE0 /* TwoFAResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoFAResponse.swift; sourceTree = "<group>"; };
+		C31D02D726D8CC59002EBBE0 /* MailboxOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxOverlayView.swift; sourceTree = "<group>"; };
+		C31D02DE26D92961002EBBE0 /* MailboxSidebarRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarRowView.swift; sourceTree = "<group>"; };
 		C31D02E026D9361A002EBBE0 /* NSFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+Extensions.swift"; sourceTree = "<group>"; };
 		C31D02E226D93963002EBBE0 /* NSView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
 		C31D02E426D939D5002EBBE0 /* NSControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSControl+Extensions.swift"; sourceTree = "<group>"; };
+		C31D02E626D942A4002EBBE0 /* MailboxSidebarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarPresenter.swift; sourceTree = "<group>"; };
+		C31D02E726D942A4002EBBE0 /* MailboxSidebarWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarWorker.swift; sourceTree = "<group>"; };
+		C31D02E826D942A4002EBBE0 /* MailboxSidebarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarRouter.swift; sourceTree = "<group>"; };
+		C31D02E926D942A4002EBBE0 /* MailboxSidebarModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarModels.swift; sourceTree = "<group>"; };
+		C31D02EA26D942A4002EBBE0 /* MailboxSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarViewController.swift; sourceTree = "<group>"; };
+		C31D02EB26D942A4002EBBE0 /* MailboxSidebarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarInteractor.swift; sourceTree = "<group>"; };
+		C31D02EC26D942A4002EBBE0 /* MailboxSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarView.swift; sourceTree = "<group>"; };
+		C31D02F426D942EA002EBBE0 /* MailboxSidebarDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarDataSource.swift; sourceTree = "<group>"; };
+		C31D02F626D945D7002EBBE0 /* MailboxAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxAssembly.swift; sourceTree = "<group>"; };
+		C31D02F826D96210002EBBE0 /* MailboxSidebarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarAssembly.swift; sourceTree = "<group>"; };
 		C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsRequest.swift; sourceTree = "<group>"; };
 		C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsResponse.swift; sourceTree = "<group>"; };
 		C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsApi.swift; sourceTree = "<group>"; };
@@ -406,6 +430,8 @@
 				C31D027026D761EC002EBBE0 /* ManagersAssembly.swift */,
 				C31D026E26D76112002EBBE0 /* SetupAssembly.swift */,
 				C31D027226D76506002EBBE0 /* SignInAssembly.swift */,
+				C31D02F626D945D7002EBBE0 /* MailboxAssembly.swift */,
+				C31D02F826D96210002EBBE0 /* MailboxSidebarAssembly.swift */,
 				C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */,
 				C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */,
 			);
@@ -422,6 +448,23 @@
 				C31D02CA26D80EB3002EBBE0 /* TwoFactorInputView.swift */,
 			);
 			path = "Two-factor Input";
+			sourceTree = "<group>";
+		};
+		C31D02D626D8CC37002EBBE0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C31D02D726D8CC59002EBBE0 /* MailboxOverlayView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C31D02DD26D92948002EBBE0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C31D02DE26D92961002EBBE0 /* MailboxSidebarRowView.swift */,
+				C31D02F426D942EA002EBBE0 /* MailboxSidebarDataSource.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		C31D030026DA8846002EBBE0 /* Core Data */ = {
@@ -550,6 +593,7 @@
 		C36814A226D627BE00A35A16 /* Mailbox */ = {
 			isa = PBXGroup;
 			children = (
+				C31D02D626D8CC37002EBBE0 /* Views */,
 				C36814B726D641F400A35A16 /* Message Details */,
 				C36814B626D641E300A35A16 /* Messages */,
 				C36814B526D641DD00A35A16 /* Sidebar */,
@@ -566,6 +610,14 @@
 		C36814B526D641DD00A35A16 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
+				C31D02DD26D92948002EBBE0 /* Views */,
+				C31D02E626D942A4002EBBE0 /* MailboxSidebarPresenter.swift */,
+				C31D02E726D942A4002EBBE0 /* MailboxSidebarWorker.swift */,
+				C31D02E826D942A4002EBBE0 /* MailboxSidebarRouter.swift */,
+				C31D02E926D942A4002EBBE0 /* MailboxSidebarModels.swift */,
+				C31D02EA26D942A4002EBBE0 /* MailboxSidebarViewController.swift */,
+				C31D02EB26D942A4002EBBE0 /* MailboxSidebarInteractor.swift */,
+				C31D02EC26D942A4002EBBE0 /* MailboxSidebarView.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -1028,7 +1080,9 @@
 				C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */,
 				C39A23E926D2D81D008A482C /* Key.swift in Sources */,
 				C3AA69F626E5459E00124A0B /* MessageDetailsAssembly.swift in Sources */,
+				C31D02F326D942A4002EBBE0 /* MailboxSidebarView.swift in Sources */,
 				C36814E026D690DD00A35A16 /* PaddedSecureTextField.swift in Sources */,
+				C31D02F026D942A4002EBBE0 /* MailboxSidebarModels.swift in Sources */,
 				C3F20A2826D534FD0051EFEB /* SetupWorker.swift in Sources */,
 				C39A241D26D2D8D9008A482C /* AuthInfoResponse.swift in Sources */,
 				C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */,
@@ -1051,6 +1105,7 @@
 				C39A242626D2D8D9008A482C /* MessagesApi.swift in Sources */,
 				C3F20A2B26D534FD0051EFEB /* SetupViewController.swift in Sources */,
 				C3F20A2F26D5363C0051EFEB /* MainWindowController.swift in Sources */,
+				C31D02F526D942EA002EBBE0 /* MailboxSidebarDataSource.swift in Sources */,
 				C31D027526D76B6F002EBBE0 /* KeyValueStoreKeys.swift in Sources */,
 				C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */,
 				C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */,
@@ -1065,10 +1120,12 @@
 				C31D034A26DB9534002EBBE0 /* CoreDataService.swift in Sources */,
 				C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */,
 				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
+				C31D02F126D942A4002EBBE0 /* MailboxSidebarViewController.swift in Sources */,
 				C36814AF26D6295400A35A16 /* MailboxModels.swift in Sources */,
 				C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */,
 				C39A241F26D2D8D9008A482C /* AddressesResponse.swift in Sources */,
 				C3AA69F026E5459200124A0B /* MessageDetailsRouter.swift in Sources */,
+				C31D02ED26D942A4002EBBE0 /* MailboxSidebarPresenter.swift in Sources */,
 				C3F20A1026D5343C0051EFEB /* AppWindow.swift in Sources */,
 				C31D034426DB8AD5002EBBE0 /* NSManagedObjectExtension.swift in Sources */,
 				C31D026D26D76056002EBBE0 /* BootstrapAssembly.swift in Sources */,
@@ -1080,6 +1137,7 @@
 				C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */,
 				C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */,
 				C39A241826D2D8D9008A482C /* MessageDetailResponse.swift in Sources */,
+				C31D02F726D945D7002EBBE0 /* MailboxAssembly.swift in Sources */,
 				C39A23EA26D2D81D008A482C /* UserInfo.swift in Sources */,
 				C39A24C726D3B56A008A482C /* DefaultKeyValueStore.swift in Sources */,
 				C39A242926D2D8D9008A482C /* MessageDetailRequest.swift in Sources */,
@@ -1093,11 +1151,13 @@
 				C39A242226D2D8D9008A482C /* KeysApi.swift in Sources */,
 				C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */,
 				C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */,
+				C31D02F926D96210002EBBE0 /* MailboxSidebarAssembly.swift in Sources */,
 				C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */,
 				C31D02FD26D97089002EBBE0 /* LabelsResponse.swift in Sources */,
 				C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */,
 				C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */,
 				C31D035526DC11B5002EBBE0 /* Dictionary+Extensions.swift in Sources */,
+				C31D02DF26D92961002EBBE0 /* MailboxSidebarRowView.swift in Sources */,
 				C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */,
 				C31D034226DB8AA0002EBBE0 /* PGPType.swift in Sources */,
 				C3F20A0D26D42A800051EFEB /* AuthRefreshResponse.swift in Sources */,
@@ -1106,10 +1166,12 @@
 				C31D027326D76506002EBBE0 /* SignInAssembly.swift in Sources */,
 				C31D032326DA9A85002EBBE0 /* Email.swift in Sources */,
 				C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */,
+				C31D02F226D942A4002EBBE0 /* MailboxSidebarInteractor.swift in Sources */,
 				C39A242526D2D8D9008A482C /* AddressesApi.swift in Sources */,
 				C39A242D26D2D8D9008A482C /* AddressesRequest.swift in Sources */,
 				C31D032526DA9A85002EBBE0 /* Contact.swift in Sources */,
 				C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */,
+				C31D02EE26D942A4002EBBE0 /* MailboxSidebarWorker.swift in Sources */,
 				C31D026526D6A1DE002EBBE0 /* SignInProcessingWorker.swift in Sources */,
 				C39A244126D2D8FB008A482C /* Crypto.swift in Sources */,
 				C31D034C26DB95DF002EBBE0 /* CoreDataStore.swift in Sources */,
@@ -1123,6 +1185,7 @@
 				C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */,
 				C36814D126D6601600A35A16 /* SignInPresenter.swift in Sources */,
 				C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */,
+				C31D02D826D8CC59002EBBE0 /* MailboxOverlayView.swift in Sources */,
 				C39A244326D2D8FB008A482C /* PMNBCrypt.swift in Sources */,
 				C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */,
 				C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */,
@@ -1136,6 +1199,7 @@
 				C31D034E26DB9825002EBBE0 /* URL+Extensions.swift in Sources */,
 				C36814B126D6295400A35A16 /* MailboxInteractor.swift in Sources */,
 				C36814C826D65D0100A35A16 /* AppModels.swift in Sources */,
+				C31D02EF26D942A4002EBBE0 /* MailboxSidebarRouter.swift in Sources */,
 				C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */,
 				C31D035326DBFBBE002EBBE0 /* CoreDataService+Labels.swift in Sources */,
 				C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */,
