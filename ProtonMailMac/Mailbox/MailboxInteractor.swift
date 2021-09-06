@@ -18,7 +18,7 @@ protocol MailboxDataStore {
 
 class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDelegate {
 
-	private let worker = MailboxWorker()
+    var worker: MailboxWorker?
 
 	var presenter: MailboxPresentationLogic?
 	
@@ -27,8 +27,8 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
 	//
 	
 	func loadData(request: Mailbox.Init.Request) {
-		self.worker.delegate = self
-		self.worker.loadData(request: request)
+		self.worker?.delegate = self
+		self.worker?.loadData(request: request)
 	}
     
     //

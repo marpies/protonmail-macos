@@ -22,6 +22,7 @@ enum Mailbox {
 		}
 
 		struct ViewModel {
+            let loadingMessage: String
 		}
 	}
     

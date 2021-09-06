@@ -16,45 +16,35 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
 	
 	var interactor: MailboxBusinessLogic?
 	var router: (MailboxRoutingLogic & MailboxDataPassing)?
+    var sidebarViewController: MailboxSidebarViewController?
+    var messagesViewController: MessagesViewController?
+    var messageDetailsViewController: MessageDetailsViewController?
     
     weak var toolbarDelegate: ToolbarUtilizingDelegate?
-
-	//
-	// MARK: - Object lifecycle
-	//
-	
-	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-		
-		self.setup()
-	}
-	
-	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-		
-		self.setup()
-	}
-	
-	//	
-	// MARK: - Setup
-	//
-	
-	private func setup() {
-		let viewController = self
-		let interactor = MailboxInteractor()
-		let presenter = MailboxPresenter()
-		let router = MailboxRouter()
-		viewController.interactor = interactor
-		viewController.router = router
-		interactor.presenter = presenter
-		presenter.viewController = viewController
-		router.viewController = viewController
-		router.dataStore = interactor
-	}
+    
+    private var overlayView: MailboxOverlayView?
 	
 	//	
 	// MARK: - View lifecycle
 	//
+    
+    override func loadView() {
+        self.sidebarViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
+        self.messagesViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 300).isActive = true
+        self.messageDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
+        
+        let sidebarItem = NSSplitViewItem(sidebarWithViewController: self.sidebarViewController!)
+        sidebarItem.canCollapse = false
+        addSplitViewItem(sidebarItem)
+        
+        let contentItem = NSSplitViewItem(contentListWithViewController: self.messagesViewController!)
+        addSplitViewItem(contentItem)
+        
+        let detailsItem = NSSplitViewItem(viewController: self.messageDetailsViewController!)
+        addSplitViewItem(detailsItem)
+        
+        super.loadView()
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -72,7 +62,32 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
 	}
 	
 	func displayData(viewModel: Mailbox.Init.ViewModel) {
+        self.overlayView = MailboxOverlayView().with { view in
+            view.update(message: viewModel.loadingMessage)
+            self.view.addSubview(view)
+            view.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        }
         
+        // todo wait for sections to initialize
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.removeOverlay()
+        }
 	}
+    
+    private func removeOverlay() {
+        guard let view = self.overlayView else { return }
+        
+        self.overlayView = nil
+        
+        NSAnimationContext.runAnimationGroup { ctx in
+            ctx.duration = 0.3
+            ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            view.animator().alphaValue = 0
+        } completionHandler: {
+            view.removeFromSuperview()
+        }
+    }
     
 }

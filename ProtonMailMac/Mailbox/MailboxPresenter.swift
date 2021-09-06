@@ -20,7 +20,8 @@ class MailboxPresenter: MailboxPresentationLogic {
 	//
 
 	func presentData(response: Mailbox.Init.Response) {
-		let viewModel = Mailbox.Init.ViewModel()
+        let message: String = NSLocalizedString("mailboxLoadingMessage", comment: "")
+		let viewModel = Mailbox.Init.ViewModel(loadingMessage: message)
 		self.viewController?.displayData(viewModel: viewModel)
 	}
 

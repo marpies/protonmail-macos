@@ -39,6 +39,12 @@
 "twoFactorInputEmptyFieldErrorPlaceholder" = "Ověřovací kód je povinný";
 
 //
+// MARK: - Mailbox
+//
+
+"mailboxLoadingMessage" = "Načítám poštu…";
+
+//
 // MARK: - Mailbox sidebar
 //
 

@@ -39,6 +39,12 @@
 "twoFactorInputEmptyFieldErrorPlaceholder" = "Two-factor code is required";
 
 //
+// MARK: - Mailbox
+//
+
+"mailboxLoadingMessage" = "Loading mailbox…";
+
+//
 // MARK: - Mailbox sidebar
 //
 

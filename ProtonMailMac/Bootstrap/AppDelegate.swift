@@ -19,7 +19,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             BootstrapAssembly(),
             ManagersAssembly(),
             SetupAssembly(),
-            SignInAssembly()
+            SignInAssembly(),
+            MailboxSidebarAssembly(),
+            MessageDetailsAssembly(),
+            MessagesAssembly(),
+            MailboxAssembly()
         ])
         
         self.mainController.showWindow(nil)
