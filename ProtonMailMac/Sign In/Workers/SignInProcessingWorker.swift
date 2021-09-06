@@ -220,10 +220,6 @@ struct SignInProcessingWorker: SignInProcessing {
             return .success(mpwd)
         }
         
-        // todo this eventually calls requestMailboxPassword closure provided to SignInManager
-        // and routing to kDecryptMailboxSegue in SignInVC
-        // todo make this unsupported case for now (mailbox pwd was second password for decrypt keys for old accounts)
-        // now only one password necessary
         return .failure(.unsupportedPasswordMode)
     }
     
