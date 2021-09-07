@@ -49,6 +49,9 @@
                 <constraint value="attachmentID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+        <userInfo>
+            <entry key="identityAttribute" value="attachmentID"/>
+        </userInfo>
     </entity>
     <entity name="Contact" representedClassName=".Contact" syncable="YES">
         <attribute name="cardData" optional="YES" attributeType="String" valueTransformerName="StringCryptoTransformer" customClassName="String">
@@ -103,6 +106,9 @@
                 <constraint value="contactID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+        <userInfo>
+            <entry key="identityAttribute" value="contactID"/>
+        </userInfo>
     </entity>
     <entity name="Conversation" representedClassName="." syncable="YES"/>
     <entity name="Email" representedClassName=".Email" syncable="YES">
@@ -160,6 +166,9 @@
                 <constraint value="emailID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+        <userInfo>
+            <entry key="identityAttribute" value="emailID"/>
+        </userInfo>
     </entity>
     <entity name="Label" representedClassName=".Label" syncable="YES">
         <attribute name="color" optional="YES" attributeType="String">
@@ -217,6 +226,9 @@
                 <constraint value="labelID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+        <userInfo>
+            <entry key="identityAttribute" value="labelID"/>
+        </userInfo>
     </entity>
     <entity name="LabelUpdate" representedClassName=".LabelUpdate" syncable="YES">
         <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -394,6 +406,9 @@
                 <constraint value="messageID"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+        <userInfo>
+            <entry key="identityAttribute" value="messageID"/>
+        </userInfo>
     </entity>
     <entity name="UserEvent" representedClassName=".UserEvent" syncable="YES">
         <attribute name="eventID" optional="YES" attributeType="String"/>
