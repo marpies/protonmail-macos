@@ -18,8 +18,32 @@ extension Dictionary where Key == String, Value == Any {
         return self[key] as? Int
     }
     
+    func getDouble(_ key: String) -> Double? {
+        return self[key] as? Double
+    }
+    
     func getBool(_ key: String) -> Bool? {
         return self[key] as? Bool
+    }
+    
+    func getJson(_ key: String) -> [String: Any]? {
+        return self[key] as? [String: Any]
+    }
+    
+    func getJsonArray(_ key: String) -> [[String: Any]]? {
+        return self[key] as? [[String: Any]]
+    }
+    
+    func getArray<T>(_ key: String) -> [T]? {
+        return self[key] as? [T]
+    }
+    
+    func toJsonString() -> String? {
+        if let data = try? JSONSerialization.data(withJSONObject: self, options: []),
+           let value = String(data: data, encoding: .utf8) {
+            return value
+        }
+        return nil
     }
     
 }
