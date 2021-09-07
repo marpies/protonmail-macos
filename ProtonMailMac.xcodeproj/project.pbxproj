@@ -143,6 +143,7 @@
 		C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */; };
 		C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */; };
 		C3A6590026E686D300CFE2F9 /* AuthCredentialRefreshing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FF26E686D300CFE2F9 /* AuthCredentialRefreshing.swift */; };
+		C3A6590326E693D200CFE2F9 /* Message+Flags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A6590226E693D200CFE2F9 /* Message+Flags.swift */; };
 		C3A6590926E7762500CFE2F9 /* Groot in Frameworks */ = {isa = PBXBuildFile; productRef = C3A6590826E7762500CFE2F9 /* Groot */; };
 		C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D326E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift */; };
 		C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */; };
@@ -162,6 +163,8 @@
 		C3AA69F326E5459200124A0B /* MessageDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69EC26E5459200124A0B /* MessageDetailsInteractor.swift */; };
 		C3AA69F426E5459200124A0B /* MessageDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */; };
 		C3AA69F626E5459E00124A0B /* MessageDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */; };
+		C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2E26E79A7100927933 /* Message+Defaults.swift */; };
+		C3DACB3126E79A9300927933 /* Label+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3026E79A9300927933 /* Label+Defaults.swift */; };
 		C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0426D421240051EFEB /* AuthDeleteRequest.swift */; };
 		C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0626D421510051EFEB /* AuthApi.swift */; };
 		C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0826D427500051EFEB /* UserDataService.swift */; };
@@ -355,6 +358,7 @@
 		C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+Locked.swift"; sourceTree = "<group>"; };
 		C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAssembly.swift; sourceTree = "<group>"; };
 		C3A658FF26E686D300CFE2F9 /* AuthCredentialRefreshing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialRefreshing.swift; sourceTree = "<group>"; };
+		C3A6590226E693D200CFE2F9 /* Message+Flags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Flags.swift"; sourceTree = "<group>"; };
 		C3AA69D326E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+PerformWith.swift"; sourceTree = "<group>"; };
 		C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Hex.swift"; sourceTree = "<group>"; };
 		C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesPresenter.swift; sourceTree = "<group>"; };
@@ -373,6 +377,8 @@
 		C3AA69EC26E5459200124A0B /* MessageDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsInteractor.swift; sourceTree = "<group>"; };
 		C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsView.swift; sourceTree = "<group>"; };
 		C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsAssembly.swift; sourceTree = "<group>"; };
+		C3DACB2E26E79A7100927933 /* Message+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Defaults.swift"; sourceTree = "<group>"; };
+		C3DACB3026E79A9300927933 /* Label+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label+Defaults.swift"; sourceTree = "<group>"; };
 		C3F20A0426D421240051EFEB /* AuthDeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDeleteRequest.swift; sourceTree = "<group>"; };
 		C3F20A0626D421510051EFEB /* AuthApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApi.swift; sourceTree = "<group>"; };
 		C3F20A0826D427500051EFEB /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
@@ -499,8 +505,11 @@
 				C31D030C26DA9A84002EBBE0 /* Contact.swift */,
 				C31D030A26DA9A84002EBBE0 /* Email.swift */,
 				C31D030D26DA9A84002EBBE0 /* Label.swift */,
+				C3DACB3026E79A9300927933 /* Label+Defaults.swift */,
 				C31D031326DA9A84002EBBE0 /* LabelUpdate.swift */,
 				C31D031E26DA9A84002EBBE0 /* Message.swift */,
+				C3A6590226E693D200CFE2F9 /* Message+Flags.swift */,
+				C3DACB2E26E79A7100927933 /* Message+Defaults.swift */,
 				C31D031726DA9A84002EBBE0 /* UserEvent.swift */,
 			);
 			path = Models;
@@ -1065,6 +1074,7 @@
 				C39A244226D2D8FB008A482C /* JKBCryptRandom.swift in Sources */,
 				C36814B426D6312700A35A16 /* ToolbarUtilizing.swift in Sources */,
 				C36814BB26D659D100A35A16 /* NSTextField+Extensions.swift in Sources */,
+				C3DACB3126E79A9300927933 /* Label+Defaults.swift in Sources */,
 				C39A241926D2D8D9008A482C /* KeySaltsResponse.swift in Sources */,
 				C31D032F26DA9A85002EBBE0 /* Attachment.swift in Sources */,
 				C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */,
@@ -1188,6 +1198,7 @@
 				C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */,
 				C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */,
 				C31D034026DB898D002EBBE0 /* NSManagedObjectContext+Extensions.swift in Sources */,
+				C3A6590326E693D200CFE2F9 /* Message+Flags.swift in Sources */,
 				C39A24D426D3B849008A482C /* AuthUser.swift in Sources */,
 				C39A241C26D2D8D9008A482C /* ErrorResponse.swift in Sources */,
 				C3AA69E426E5441B00124A0B /* MessagesView.swift in Sources */,
@@ -1213,6 +1224,7 @@
 				C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */,
 				C31D035326DBFBBE002EBBE0 /* CoreDataService+Labels.swift in Sources */,
 				C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */,
+				C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */,
 				C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */,
 				C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */,
 				C39A247026D2DC68008A482C /* JSONDecoder+Extensions.swift in Sources */,
