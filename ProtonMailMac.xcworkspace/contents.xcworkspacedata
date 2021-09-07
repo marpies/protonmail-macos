@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Modules/Groot">
+   </FileRef>
+   <FileRef
       location = "group:Modules/EllipticCurveKeyPair">
    </FileRef>
    <FileRef

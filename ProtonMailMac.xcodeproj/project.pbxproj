@@ -143,6 +143,7 @@
 		C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A24DC26D3C241008A482C /* UserInfo+Locked.swift */; };
 		C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */; };
 		C3A6590026E686D300CFE2F9 /* AuthCredentialRefreshing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FF26E686D300CFE2F9 /* AuthCredentialRefreshing.swift */; };
+		C3A6590926E7762500CFE2F9 /* Groot in Frameworks */ = {isa = PBXBuildFile; productRef = C3A6590826E7762500CFE2F9 /* Groot */; };
 		C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D326E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift */; };
 		C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */; };
 		C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */; };
@@ -394,6 +395,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3A6590926E7762500CFE2F9 /* Groot in Frameworks */,
 				C39A24C126D2E109008A482C /* OpenPGP.xcframework in Frameworks */,
 				C31D026826D6D631002EBBE0 /* Swinject in Frameworks */,
 				C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */,
@@ -937,6 +939,7 @@
 				C3374F1E26D0F86100ED8DA0 /* SnapKit */,
 				C39A246526D2D9BE008A482C /* AFNetworking */,
 				C31D026726D6D631002EBBE0 /* Swinject */,
+				C3A6590826E7762500CFE2F9 /* Groot */,
 			);
 			productName = ProtonMailMac;
 			productReference = C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */;
@@ -1606,6 +1609,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C39A246426D2D9BE008A482C /* XCRemoteSwiftPackageReference "AFNetworking" */;
 			productName = AFNetworking;
+		};
+		C3A6590826E7762500CFE2F9 /* Groot */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Groot;
 		};
 /* End XCSwiftPackageProductDependency section */
 

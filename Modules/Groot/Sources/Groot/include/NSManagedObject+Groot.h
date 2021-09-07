@@ -1,0 +1,1 @@
+../NSManagedObject+Groot.h
