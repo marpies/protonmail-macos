@@ -32,6 +32,8 @@ class CoreDataService {
     
     init(container: NSPersistentContainer) {
         self.container = container
+        
+        CoreDataValueTransformer().setup()
     }
     
 }
