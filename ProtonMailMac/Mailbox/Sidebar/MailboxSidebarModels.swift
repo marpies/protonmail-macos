@@ -132,11 +132,29 @@ enum MailboxSidebar {
 
 		struct Response {
             let groups: [MailboxSidebar.Group.Response]
+            let selectedRow: Int
 		}
 
 		struct ViewModel {
             let groups: [MailboxSidebar.Group.ViewModel]
+            let selectedRow: Int
 		}
 	}
+    
+    //
+    // MARK: - Refresh groups
+    //
+    
+    enum RefreshGroups {
+        struct Response {
+            let groups: [MailboxSidebar.Group.Response]
+            let selectedRow: Int
+        }
+        
+        struct ViewModel {
+            let groups: [MailboxSidebar.Group.ViewModel]
+            let selectedRow: Int
+        }
+    }
     
 }

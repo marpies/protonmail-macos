@@ -10,6 +10,7 @@ import AppKit
 
 protocol MailboxSidebarDisplayLogic: AnyObject {
 	func displayData(viewModel: MailboxSidebar.Init.ViewModel)
+    func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel)
 }
 
 class MailboxSidebarViewController: NSViewController, MailboxSidebarDisplayLogic, MailboxSidebarViewDelegate {
@@ -46,5 +47,13 @@ class MailboxSidebarViewController: NSViewController, MailboxSidebarDisplayLogic
 	func displayData(viewModel: MailboxSidebar.Init.ViewModel) {
         self.mainView.displayData(viewModel: viewModel)
 	}
+    
+    //
+    // MARK: - Groups refresh
+    //
+    
+    func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel) {
+        self.mainView.displayGroupsRefresh(viewModel: viewModel)
+    }
     
 }

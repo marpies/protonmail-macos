@@ -72,6 +72,17 @@ class MailboxSidebarView: NSView {
         
         self.dataSource.expandAllItems()
         self.tableView.reloadData()
+        
+        self.tableView.selectRowIndexes(IndexSet(integer: viewModel.selectedRow), byExtendingSelection: false)
+    }
+    
+    func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel) {
+        self.dataSource.setData(viewModel: viewModel.groups)
+        
+        self.tableView.reloadData()
+        self.dataSource.expandAllItems()
+        
+        self.tableView.selectRowIndexes(IndexSet(integer: viewModel.selectedRow), byExtendingSelection: false)
     }
     
     //

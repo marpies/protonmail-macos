@@ -12,18 +12,25 @@ import AppKit
 
 protocol MailboxSidebarWorkerDelegate: AnyObject {
     func mailboxSidebarDidLoad(response: MailboxSidebar.Init.Response)
+    func mailboxSidebarDidRefresh(response: MailboxSidebar.RefreshGroups.Response)
 }
 
 class MailboxSidebarWorker {
 
     private let resolver: Resolver
     private let usersManager: UsersManager
+    private let keyValueStore: KeyValueStore
+    private let db: LabelsDatabaseManaging
+    
+    private var labelId: String?
     
 	weak var delegate: MailboxSidebarWorkerDelegate?
 
     init(resolver: Resolver) {
         self.resolver = resolver
         self.usersManager = resolver.resolve(UsersManager.self)!
+        self.keyValueStore = resolver.resolve(KeyValueStore.self)!
+        self.db = self.resolver.resolve(LabelsDatabaseManaging.self)!
     }
 
 	func loadData(request: MailboxSidebar.Init.Request) {
@@ -32,12 +39,47 @@ class MailboxSidebarWorker {
         }
         
         let userId: String = user.userId
+        
+        // Set default selected label
+        let defaultLabelId: String = self.keyValueStore.string(forKey: .lastLabelId) ?? MailboxSidebar.Item.inbox.id
+        self.labelId = defaultLabelId
+        
+        // Load local cache
+        self.db.fetchLabels(ofType: .all, forUser: userId) { labels in
+            let groups = self.parseLabels(labels)
+            
+            // We have some cached labels, display those for now
+            if !groups.isEmpty {
+                let selectedRow = self.getSelectedLabelRow(groups: groups, labelId: defaultLabelId)
+                let response = MailboxSidebar.Init.Response(groups: groups, selectedRow: selectedRow)
+                self.delegate?.mailboxSidebarDidLoad(response: response)
+            }
+            
+            // Fetch labels from the server
+            self.refreshLabels(user: user, cachedGroups: groups, defaultLabelId: defaultLabelId)
+        }
+	}
+    
+    //
+    // MARK: - Private
+    //
+    
+    private func refreshLabels(user: AuthUser, cachedGroups: [MailboxSidebar.Group.Response], defaultLabelId: String) {
+        let userId: String = user.userId
         let request = LabelsRequest(type: .labels, authCredential: user.auth)
         let apiService: ApiService = self.resolver.resolve(ApiService.self)!
-        let db: LabelsDatabaseManaging = self.resolver.resolve(LabelsDatabaseManaging.self)!
         
         apiService.request(request) { (response: LabelsResponse) in
             var labelsJSON: [[String: Any]] = response.labels ?? []
+            
+            // Error loading labels
+            if labelsJSON.isEmpty || response.error != nil {
+                // We have no cache, nothing to display
+                if cachedGroups.isEmpty {
+                    // todo handle error
+                }
+                return
+            }
             
             // Add user ID to user labels
             for (index, _) in labelsJSON.enumerated() {
@@ -56,21 +98,66 @@ class MailboxSidebarWorker {
             labelsJSON.append(["ID": "3"]) // trash   = "3"
             labelsJSON.append(["ID": "5"]) // allmail = "5"
             
-            db.saveLabels(labelsJSON, forUser: userId) {
-                db.fetchLabels(ofType: .all, forUser: userId) { labels in
-                    let groups = self.parseLabels(labels)
-                    
-                    self.delegate?.mailboxSidebarDidLoad(response: MailboxSidebar.Init.Response(groups: groups))
+            self.db.saveLabels(labelsJSON, forUser: userId) { savedLabels in
+                let groups = self.parseLabels(savedLabels)
+                
+                self.updateCachedLabels(cachedGroups: cachedGroups, newGroups: groups)
+                
+                let selectedRow = self.getSelectedLabelRow(groups: groups, labelId: defaultLabelId)
+                
+                // No cached labels, init now
+                if cachedGroups.isEmpty {
+                    let response = MailboxSidebar.Init.Response(groups: groups, selectedRow: selectedRow)
+                    self.delegate?.mailboxSidebarDidLoad(response: response)
+                }
+                // We had cached labels, refresh with the new ones
+                else {
+                    let response = MailboxSidebar.RefreshGroups.Response(groups: groups, selectedRow: selectedRow)
+                    self.delegate?.mailboxSidebarDidRefresh(response: response)
                 }
             }
         }
-	}
+    }
     
-    //
-    // MARK: - Private
-    //
+    private func updateCachedLabels(cachedGroups: [MailboxSidebar.Group.Response], newGroups: [MailboxSidebar.Group.Response]) {
+        // Remove deleted labels from the database
+        let deletedLabelIds: Set<String> = self.getDeletedLabels(cachedGroups: cachedGroups, newGroups: newGroups)
+        if !deletedLabelIds.isEmpty {
+            self.db.deleteLabelsById(deletedLabelIds, completion: nil)
+        }
+    }
+    
+    private func getDeletedLabels(cachedGroups: [MailboxSidebar.Group.Response], newGroups: [MailboxSidebar.Group.Response]) -> Set<String> {
+        let cachedLabelIds: Set<String> = self.getLabelIds(fromGroups: cachedGroups)
+        let newLabelIds: Set<String> = self.getLabelIds(fromGroups: newGroups)
+        
+        // Get all ids that are not part of the new label set
+        return cachedLabelIds.filter { !newLabelIds.contains($0) }
+    }
+    
+    private func getLabelIds(fromGroups groups: [MailboxSidebar.Group.Response]) -> Set<String> {
+        var ids: Set<String> = []
+        for group in groups {
+            for label in group.labels {
+                self.getLabelIds(fromItem: label, out: &ids)
+            }
+        }
+        return ids
+    }
+    
+    private func getLabelIds(fromItem item: MailboxSidebar.Item.Response, out: inout Set<String>) {
+        out.insert(item.kind.id)
+        
+        if let children = item.children {
+            for child in children {
+                self.getLabelIds(fromItem: child, out: &out)
+            }
+        }
+    }
     
     private func parseLabels(_ response: [Label]) -> [MailboxSidebar.Group.Response] {
+        guard !response.isEmpty else { return [] }
+        
         // Default ProtonMail inboxes
         var inboxes: [MailboxSidebar.Item.Response] = []
         
@@ -78,8 +165,15 @@ class MailboxSidebarWorker {
         var folders: [MailboxSidebar.Item.Response] = []
         var labels: [MailboxSidebar.Item.Response] = []
         
+        var processedIds: Set<String> = []
+        
         for label in response {
             let item: MailboxSidebar.Item.Response = self.getItem(response: label)
+            
+            // Skip duplicate default items (e.g. drafts, sent)
+            if processedIds.contains(item.kind.id) { continue }
+            
+            processedIds.insert(item.kind.id)
             
             // No name -> default folder
             if label.name.isEmpty {
@@ -105,6 +199,25 @@ class MailboxSidebarWorker {
             MailboxSidebar.Group.Response(kind: .folders, labels: folders),
             MailboxSidebar.Group.Response(kind: .labels, labels: labels)
         ]
+    }
+    
+    private func getSelectedLabelRow(groups: [MailboxSidebar.Group.Response], labelId: String) -> Int {
+        var row: Int = 0
+        
+        for group in groups {
+            // Skip group title
+            row += 1
+            
+            for label in group.labels {
+                if label.kind.id == labelId {
+                    return row
+                }
+                
+                row += 1
+            }
+        }
+        
+        return 0
     }
     
     @discardableResult

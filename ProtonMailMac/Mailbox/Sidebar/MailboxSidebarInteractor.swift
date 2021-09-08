@@ -39,4 +39,8 @@ class MailboxSidebarInteractor: MailboxSidebarBusinessLogic, MailboxSidebarDataS
         self.presenter?.presentData(response: response)
     }
     
+    func mailboxSidebarDidRefresh(response: MailboxSidebar.RefreshGroups.Response) {
+        self.presenter?.presentSidebarRefresh(response: response)
+    }
+    
 }

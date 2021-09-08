@@ -10,6 +10,7 @@ import AppKit
 
 protocol MailboxSidebarPresentationLogic {
 	func presentData(response: MailboxSidebar.Init.Response)
+    func presentSidebarRefresh(response: MailboxSidebar.RefreshGroups.Response)
 }
 
 class MailboxSidebarPresenter: MailboxSidebarPresentationLogic {
@@ -21,9 +22,19 @@ class MailboxSidebarPresenter: MailboxSidebarPresentationLogic {
 
 	func presentData(response: MailboxSidebar.Init.Response) {
         let groups: [MailboxSidebar.Group.ViewModel] = response.groups.map { self.getGroup(response: $0) }
-		let viewModel = MailboxSidebar.Init.ViewModel(groups: groups)
+        let viewModel = MailboxSidebar.Init.ViewModel(groups: groups, selectedRow: response.selectedRow)
 		self.viewController?.displayData(viewModel: viewModel)
 	}
+    
+    //
+    // MARK: - Present sidebar refresh
+    //
+    
+    func presentSidebarRefresh(response: MailboxSidebar.RefreshGroups.Response) {
+        let groups: [MailboxSidebar.Group.ViewModel] = response.groups.map { self.getGroup(response: $0) }
+        let viewModel = MailboxSidebar.RefreshGroups.ViewModel(groups: groups, selectedRow: response.selectedRow)
+        self.viewController?.displayGroupsRefresh(viewModel: viewModel)
+    }
     
     //
     // MARK: - Private
