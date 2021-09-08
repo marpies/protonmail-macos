@@ -90,9 +90,6 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         if item is Group {
             return false
         }
-        if let item = item as? Item, let children = item.children, !children.isEmpty {
-            return false
-        }
         return true
     }
     
