@@ -63,6 +63,27 @@ extension CoreDataService: LabelsDatabaseManaging {
         return []
     }
     
+    func deleteLabelsById(_ ids: Set<String>, completion: (() -> Void)?) {
+        self.backgroundContext.performWith { ctx in
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Label")
+            request.predicate = NSPredicate(format: "labelID IN %@", ids as NSSet)
+            
+            do {
+                if let labels = try ctx.fetch(request) as? [Label], !labels.isEmpty {
+                    labels.forEach { ctx.delete($0) }
+                    
+                    try ctx.save()
+                }
+            } catch {
+                PMLog.D("Error deleting labels \(error)")
+            }
+            
+            DispatchQueue.main.async {
+                completion?()
+            }
+        }
+    }
+    
     //
     // MARK: - Private
     //
