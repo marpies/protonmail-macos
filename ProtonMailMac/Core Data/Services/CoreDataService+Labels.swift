@@ -8,34 +8,31 @@
 
 import Foundation
 import CoreData
+import Groot
 
 extension CoreDataService: LabelsDatabaseManaging {
     
-    func saveLabels(_ json: [[String : Any]], forUser userId: String, completion: @escaping () -> Void) {
+    func saveLabels(_ json: [[String : Any]], forUser userId: String, completion: @escaping ([Label]) -> Void) {
         self.backgroundContext.performWith { ctx in
-            for labelJson in json {
-                guard let id = labelJson.getString("ID") else { continue }
-                
-                let label = Label(context: ctx)
-                label.labelID = id
-                label.userID = userId
-                label.name = labelJson.getString("Name") ?? ""
-                label.color = labelJson.getString("Color") ?? ""
-                label.exclusive = labelJson.getBool("Exclusive") ?? true
-                label.parentID = labelJson.getString("ParentID") ?? ""
-                label.isDisplay = true
-                label.order = NSNumber(integerLiteral: labelJson.getInt("Order") ?? label.defaultOrder)
-                label.type = NSNumber(integerLiteral: labelJson.getInt("Type") ?? 0)
-            }
-            
-            if let error = ctx.saveUpstreamIfNeeded() {
-                PMLog.D("Error saving Labels \(error)")
-            } else {
-                PMLog.D("Success saving labels")
+            do {
+                if let labels = try GRTJSONSerialization.objects(withEntityName: "Label", fromJSONArray: json, in: ctx) as? [Label] {
+                    if let error = ctx.saveUpstreamIfNeeded() {
+                        PMLog.D("Error saving Labels \(error)")
+                    } else {
+                        PMLog.D("Success saving labels")
+                        
+                        DispatchQueue.main.async {
+                            completion(labels)
+                        }
+                        return
+                    }
+                }
+            } catch {
+                PMLog.D("Error parsing Labels \(error)")
             }
             
             DispatchQueue.main.async {
-                completion()
+                completion([])
             }
         }
     }

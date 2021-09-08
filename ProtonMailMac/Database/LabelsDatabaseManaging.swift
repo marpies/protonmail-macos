@@ -18,6 +18,6 @@ enum LabelFetchType : Int {
 }
 
 protocol LabelsDatabaseManaging {
-    func saveLabels(_ json: [[String: Any]], forUser userId: String, completion: @escaping () -> Void)
+    func saveLabels(_ json: [[String: Any]], forUser userId: String, completion: @escaping ([Label]) -> Void)
     func fetchLabels(ofType type: LabelFetchType, forUser userId: String, completion: @escaping ([Label]) -> Void)
 }
