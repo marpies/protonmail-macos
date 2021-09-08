@@ -35,7 +35,6 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         for group in self.viewModel {
             self.tableView.expandItem(group)
         }
-        self.tableView.reloadData()
     }
     
     //

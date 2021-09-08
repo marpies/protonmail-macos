@@ -71,6 +71,7 @@ class MailboxSidebarView: NSView {
         }
         
         self.dataSource.expandAllItems()
+        self.tableView.reloadData()
     }
     
     //
