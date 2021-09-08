@@ -8,7 +8,7 @@
 
 import AppKit
 
-protocol MailboxSidebarViewDelegate: AnyObject {
+protocol MailboxSidebarViewDelegate: MailboxSidebarDataSourceDelegate {
     //
 }
 
@@ -41,6 +41,7 @@ class MailboxSidebarView: NSView {
     //
     
     func displayData(viewModel: MailboxSidebar.Init.ViewModel) {
+        self.dataSource.delegate = self.delegate
         self.dataSource.setData(viewModel: viewModel.groups)
         
         NSScrollView().with { scrollView in
@@ -73,7 +74,7 @@ class MailboxSidebarView: NSView {
         self.dataSource.expandAllItems()
         self.tableView.reloadData()
         
-        self.tableView.selectRowIndexes(IndexSet(integer: viewModel.selectedRow), byExtendingSelection: false)
+        self.selectRow(viewModel.selectedRow)
     }
     
     func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel) {
@@ -82,7 +83,7 @@ class MailboxSidebarView: NSView {
         self.tableView.reloadData()
         self.dataSource.expandAllItems()
         
-        self.tableView.selectRowIndexes(IndexSet(integer: viewModel.selectedRow), byExtendingSelection: false)
+        self.selectRow(viewModel.selectedRow)
     }
     
     //
@@ -91,6 +92,10 @@ class MailboxSidebarView: NSView {
     
     private func setupView() {
         
+    }
+    
+    private func selectRow(_ row: Int) {
+        self.tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
     }
 
 }

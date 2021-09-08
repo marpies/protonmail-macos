@@ -9,6 +9,10 @@
 import Foundation
 import AppKit
 
+protocol MailboxSidebarDataSourceDelegate: AnyObject {
+    func mailboxSidebarDidSelectItem(_ item: MailboxSidebar.Item.ViewModel)
+}
+
 class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource {
     
     private typealias Group = MailboxSidebar.Group.ViewModel
@@ -17,6 +21,8 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
     private let tableView: NSOutlineView
     
     private var viewModel: [Group] = []
+    
+    weak var delegate: MailboxSidebarDataSourceDelegate?
     
     init(tableView: NSOutlineView) {
         self.tableView = tableView
@@ -169,6 +175,14 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
             return NSTintConfiguration.monochrome
         }
         return nil
+    }
+    
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+        guard let view = notification.object as? NSOutlineView else { return }
+        
+        if let item = view.item(atRow: view.selectedRow) as? Item {
+            self.delegate?.mailboxSidebarDidSelectItem(item)
+        }
     }
     
 }

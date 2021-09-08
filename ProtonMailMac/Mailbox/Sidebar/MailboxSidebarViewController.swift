@@ -13,12 +13,18 @@ protocol MailboxSidebarDisplayLogic: AnyObject {
     func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel)
 }
 
+protocol MailboxSidebarViewControllerDelegate: AnyObject {
+    func mailboxSidebarDidSelectLabel(id: String)
+}
+
 class MailboxSidebarViewController: NSViewController, MailboxSidebarDisplayLogic, MailboxSidebarViewDelegate {
 	
 	var interactor: MailboxSidebarBusinessLogic?
 	var router: (MailboxSidebarRoutingLogic & MailboxSidebarDataPassing)?
 
     private let mainView: MailboxSidebarView = MailboxSidebarView()
+    
+    weak var delegate: MailboxSidebarViewControllerDelegate?
 	
 	//	
 	// MARK: - View lifecycle
@@ -54,6 +60,17 @@ class MailboxSidebarViewController: NSViewController, MailboxSidebarDisplayLogic
     
     func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel) {
         self.mainView.displayGroupsRefresh(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - View delegate
+    //
+    
+    func mailboxSidebarDidSelectItem(_ item: MailboxSidebar.Item.ViewModel) {
+        let request = MailboxSidebar.ItemSelected.Request(id: item.id)
+        self.interactor?.processSelectedItem(request: request)
+        
+        self.delegate?.mailboxSidebarDidSelectLabel(id: item.id)
     }
     
 }

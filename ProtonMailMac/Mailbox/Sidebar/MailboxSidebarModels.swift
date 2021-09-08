@@ -157,4 +157,14 @@ enum MailboxSidebar {
         }
     }
     
+    //
+    // MARK: - Item selected
+    //
+    
+    enum ItemSelected {
+        struct Request {
+            let id: String
+        }
+    }
+    
 }

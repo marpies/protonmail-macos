@@ -10,6 +10,7 @@ import Foundation
 
 protocol MailboxSidebarBusinessLogic {
 	func loadData(request: MailboxSidebar.Init.Request)
+    func processSelectedItem(request: MailboxSidebar.ItemSelected.Request)
 }
 
 protocol MailboxSidebarDataStore {
@@ -30,6 +31,14 @@ class MailboxSidebarInteractor: MailboxSidebarBusinessLogic, MailboxSidebarDataS
 		self.worker?.delegate = self
 		self.worker?.loadData(request: request)
 	}
+    
+    //
+    // MARK: - Process selected item
+    //
+    
+    func processSelectedItem(request: MailboxSidebar.ItemSelected.Request) {
+        self.worker?.processSelectedItem(request: request)
+    }
     
     //
     // MARK: - Worker delegate

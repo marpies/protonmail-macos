@@ -60,6 +60,10 @@ class MailboxSidebarWorker {
         }
 	}
     
+    func processSelectedItem(request: MailboxSidebar.ItemSelected.Request) {
+        self.keyValueStore.setString(forKey: .lastLabelId, value: request.id)
+    }
+    
     //
     // MARK: - Private
     //
