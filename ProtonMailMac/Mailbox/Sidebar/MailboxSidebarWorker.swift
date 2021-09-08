@@ -221,7 +221,8 @@ class MailboxSidebarWorker {
             }
         }
         
-        return 0
+        // Skip the first group title
+        return 1
     }
     
     @discardableResult
