@@ -408,6 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3A6590926E7762500CFE2F9 /* Groot in Frameworks */,
+				C3DACB5426E9F91800927933 /* PMKFoundation in Frameworks */,
 				C39A24C126D2E109008A482C /* OpenPGP.xcframework in Frameworks */,
 				C31D026826D6D631002EBBE0 /* Swinject in Frameworks */,
 				C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */,
@@ -958,6 +959,7 @@
 				C39A246526D2D9BE008A482C /* AFNetworking */,
 				C31D026726D6D631002EBBE0 /* Swinject */,
 				C3A6590826E7762500CFE2F9 /* Groot */,
+				C3DACB5326E9F91800927933 /* PMKFoundation */,
 			);
 			productName = ProtonMailMac;
 			productReference = C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */;
@@ -1036,6 +1038,7 @@
 				C3374F1D26D0F86100ED8DA0 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				C39A246426D2D9BE008A482C /* XCRemoteSwiftPackageReference "AFNetworking" */,
 				C31D026626D6D631002EBBE0 /* XCRemoteSwiftPackageReference "Swinject" */,
+				C3DACB5226E9F91800927933 /* XCRemoteSwiftPackageReference "Foundation" */,
 			);
 			productRefGroup = C3374EEF26D0F81F00ED8DA0 /* Products */;
 			projectDirPath = "";
@@ -1616,6 +1619,14 @@
 				minimumVersion = 4.0.1;
 			};
 		};
+		C3DACB5226E9F91800927933 /* XCRemoteSwiftPackageReference "Foundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PromiseKit/Foundation.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1637,6 +1648,11 @@
 		C3A6590826E7762500CFE2F9 /* Groot */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Groot;
+		};
+		C3DACB5326E9F91800927933 /* PMKFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3DACB5226E9F91800927933 /* XCRemoteSwiftPackageReference "Foundation" */;
+			productName = PMKFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 
