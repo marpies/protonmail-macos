@@ -86,11 +86,11 @@ public extension ApiService {
     private func makeRequest(_ request: Request, refreshTokenIfNeeded: Bool = true, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void) throws {
         let accessToken: String = request.authCredential?.accessToken ?? ""
         
-        #if DEBUG
-        print(" Loading endpoint /\(request.path)")
-        #endif
-        
         if request.isAuth && accessToken.isEmpty {
+            #if DEBUG
+            print("   Endpoint /\(request.path) requires authentication, requesting credential from the delegate = \(self.authDelegate != nil)")
+            #endif
+            
             if refreshTokenIfNeeded, let delegate = self.authDelegate {
                 delegate.refreshSession { newCredential, err in
                     self.processRefreshedCredential(request: request, newCredential: newCredential, error: err, completion: completion)
@@ -104,6 +104,10 @@ public extension ApiService {
             }
             return
         }
+        
+        #if DEBUG
+        print(" Loading endpoint /\(request.path)")
+        #endif
         
         let url: String = self.getApiUrl(path: request.path)
         let urlRequest: NSMutableURLRequest = try self.sessionManager.requestSerializer.request(withMethod: request.method.toString(),
