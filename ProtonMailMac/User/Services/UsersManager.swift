@@ -60,6 +60,12 @@ class UsersManager: AuthUserDelegate {
         self.users.append(newUser)
     }
     
+    func getUser(forId userId: String) -> AuthUser? {
+        return self.users.first { user in
+            return user.userInfo.userId == userId
+        }
+    }
+    
     /// Attempts to restore info for previously authenticated users.
     func restore() {
         assert(self.keymaker.mainKeyExists())
