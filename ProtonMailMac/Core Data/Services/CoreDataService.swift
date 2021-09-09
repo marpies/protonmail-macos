@@ -36,4 +36,13 @@ class CoreDataService {
         CoreDataValueTransformer().setup()
     }
     
+    func enqueue(context: NSManagedObjectContext? = nil, block: @escaping (_ context: NSManagedObjectContext) -> Void) {
+        self.serialQueue.addOperation {
+            let context = context ?? self.container.newBackgroundContext()
+            context.performAndWait {
+                block(context)
+            }
+        }
+    }
+    
 }
