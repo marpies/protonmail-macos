@@ -204,7 +204,11 @@
                 <entry key="NumberTransformer" value="NumberTransformer"/>
             </userInfo>
         </attribute>
-        <attribute name="parentID" optional="YES" attributeType="String"/>
+        <attribute name="parentID" optional="YES" attributeType="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="ParentID"/>
+            </userInfo>
+        </attribute>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO">
             <userInfo>
                 <entry key="JSONKeyPath" value="Type"/>
