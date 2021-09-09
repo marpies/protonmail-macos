@@ -44,11 +44,11 @@ enum MailboxSidebar {
         var id: String {
             switch self {
             case .draft:
-                return "1"
+                return "8"
             case .inbox:
                 return "0"
             case .outbox:
-                return "2"
+                return "7"
             case .spam:
                 return "4"
             case .archive:
@@ -61,6 +61,17 @@ enum MailboxSidebar {
                 return "10"
             case .custom(let id, _, _):
                 return id
+            }
+        }
+        
+        var hiddenId: String {
+            switch self {
+            case .draft:
+                return "1"
+            case .outbox:
+                return "2"
+            default:
+                return self.id
             }
         }
         
