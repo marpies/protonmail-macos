@@ -22,4 +22,7 @@ public enum KeyValueStoreKey: String {
     
     /// Session id for the primary user.
     case primaryUserSessionId
+    
+    /// Last selected label id in the sidebar.
+    case lastLabelId
 }
