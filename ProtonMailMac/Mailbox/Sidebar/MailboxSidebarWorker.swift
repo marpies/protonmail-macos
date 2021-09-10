@@ -91,16 +91,16 @@ class MailboxSidebarWorker {
             }
             
             // Add built-in labels without user id
-            labelsJSON.append(["ID": "0"]) // inbox   = "0"
-            labelsJSON.append(["ID": "8"]) // draft   = "8"
-            labelsJSON.append(["ID": "1"]) // draft   = "1"
-            labelsJSON.append(["ID": "7"]) // sent    = "7"
-            labelsJSON.append(["ID": "2"]) // sent    = "2"
-            labelsJSON.append(["ID": "10"]) // starred = "10"
-            labelsJSON.append(["ID": "6"]) // archive = "6"
-            labelsJSON.append(["ID": "4"]) // spam    = "4"
-            labelsJSON.append(["ID": "3"]) // trash   = "3"
-            labelsJSON.append(["ID": "5"]) // allmail = "5"
+            labelsJSON.append(["ID": "0", "Order": 0]) // inbox   = "0"
+            labelsJSON.append(["ID": "8", "Order": 1]) // draft   = "8"
+            labelsJSON.append(["ID": "1", "Order": 2]) // draft   = "1"
+            labelsJSON.append(["ID": "7", "Order": 3]) // sent    = "7"
+            labelsJSON.append(["ID": "2", "Order": 4]) // sent    = "2"
+            labelsJSON.append(["ID": "10", "Order": 5]) // starred = "10"
+            labelsJSON.append(["ID": "6", "Order": 6]) // archive = "6"
+            labelsJSON.append(["ID": "4", "Order": 7]) // spam    = "4"
+            labelsJSON.append(["ID": "3", "Order": 8]) // trash   = "3"
+            labelsJSON.append(["ID": "5", "Order": 9]) // allmail = "5"
             
             self.db.saveLabels(labelsJSON, forUser: userId) { savedLabels in
                 let groups = self.parseLabels(savedLabels)
