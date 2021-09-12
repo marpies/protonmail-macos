@@ -9,7 +9,8 @@
 import Foundation
 
 protocol MessagesBusinessLogic {
-	func loadData(request: Messages.Init.Request)
+	func loadMessages(request: Messages.LoadMessages.Request)
+    func processErrorViewButtonTap()
 }
 
 protocol MessagesDataStore {
@@ -23,20 +24,40 @@ class MessagesInteractor: MessagesBusinessLogic, MessagesDataStore, MessagesWork
 	var presenter: MessagesPresentationLogic?
 	
 	//
-	// MARK: - Load data
+	// MARK: - Load messages
 	//
 	
-	func loadData(request: Messages.Init.Request) {
+	func loadMessages(request: Messages.LoadMessages.Request) {
 		self.worker?.delegate = self
-		self.worker?.loadData(request: request)
+		self.worker?.loadMessages(request: request)
 	}
+    
+    //
+    // MARK: - Process error view button tap
+    //
+    
+    func processErrorViewButtonTap() {
+        self.worker?.reloadMessages()
+    }
     
     //
     // MARK: - Worker delegate
     //
     
-    func MessagesDidLoad(response: Messages.Init.Response) {
-        self.presenter?.presentData(response: response)
+    func messagesDidLoad(response: Messages.LoadMessages.Response) {
+        self.presenter?.presentMessages(response: response)
+    }
+    
+    func messagesDidUpdate(response: Messages.UpdateMessages.Response) {
+        self.presenter?.presentMessagesUpdate(response: response)
+    }
+    
+    func messagesLoadDidFail(response: Messages.LoadError.Response) {
+        self.presenter?.presentMessagesError(response: response)
+    }
+    
+    func messagesDidUpdateWithoutChange() {
+        self.presenter?.presentMessagesUpToDate()
     }
     
 }

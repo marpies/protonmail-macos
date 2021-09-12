@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>num_attachments</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@num_attachments@</string>
+        <key>num_attachments</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>u</string>
+            <key>zero</key>
+            <string>%u příloh</string>
+            <key>one</key>
+            <string>%u příloha</string>
+            <key>other</key>
+            <string>%u příloh</string>
+            <key>few</key>
+            <string>%u přílohy</string>
+        </dict>
+    </dict>
+</dict>
+</plist>

@@ -60,3 +60,12 @@
 "mailboxLabelSpam" = "Spam";
 "mailboxLabelTrash" = "Koš";
 "mailboxLabelAllMail" = "Všechna pošta";
+
+//
+// MARK: - Mailbox messages
+//
+
+"messagesRetryLoadButton" = "Obnovit";
+"messagesLoadInternetErrorMessage" = "Nejste připojeni k internetu.";
+"messagesLoadGenericErrorMessage" = "Při načítání zpráv došlo k chybě.";
+"messageDateYesterdayText" = "Včera";

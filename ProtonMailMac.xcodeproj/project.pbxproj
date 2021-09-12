@@ -167,13 +167,24 @@
 		C3AA69F426E5459200124A0B /* MessageDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */; };
 		C3AA69F626E5459E00124A0B /* MessageDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */; };
 		C3AA69F826E651C700124A0B /* MessagesByLabelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */; };
+		C3C6FD1726EB1F450066C504 /* MessagesLoadingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */; };
+		C3C6FD1926EB21AA0066C504 /* MessageToModelConverting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */; };
+		C3C6FD1B26EB33090066C504 /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1A26EB33090066C504 /* MessagesErrorView.swift */; };
+		C3C6FD1D26EB42430066C504 /* MessageTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1C26EB42430066C504 /* MessageTableCellView.swift */; };
+		C3C6FD1F26EB43EA0066C504 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1E26EB43EA0066C504 /* CircleView.swift */; };
+		C3C6FD2126EB44CE0066C504 /* MessageFoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2026EB44CE0066C504 /* MessageFoldersView.swift */; };
+		C3C6FD2326EB45360066C504 /* MessageLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2226EB45360066C504 /* MessageLabelsView.swift */; };
+		C3C6FD2526EBCDD10066C504 /* MessageLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2426EBCDD10066C504 /* MessageLabelView.swift */; };
 		C3C6FD2726EBD57E0066C504 /* NSColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */; };
+		C3C6FD2C26EE22B60066C504 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C3C6FD2E26EE22B60066C504 /* Localizable.stringsdict */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
 		C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2E26E79A7100927933 /* Message+Defaults.swift */; };
 		C3DACB3126E79A9300927933 /* Label+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3026E79A9300927933 /* Label+Defaults.swift */; };
+		C3DACB3626E8E2E200927933 /* MessagesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3526E8E2E200927933 /* MessagesDataSource.swift */; };
 		C3DACB3826E924AD00927933 /* UserEventsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3726E924AD00927933 /* UserEventsDatabaseManaging.swift */; };
 		C3DACB3A26E9258300927933 /* CoreDataService+UserEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3926E9258300927933 /* CoreDataService+UserEvents.swift */; };
+		C3DACB3D26E941A500927933 /* UserEventsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3C26E941A500927933 /* UserEventsService.swift */; };
 		C3DACB3F26E9423900927933 /* EventApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3E26E9423900927933 /* EventApi.swift */; };
 		C3DACB4126E9428B00927933 /* EventCheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4026E9428B00927933 /* EventCheckRequest.swift */; };
 		C3DACB4326E942EB00927933 /* EventCheckResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4226E942EB00927933 /* EventCheckResponse.swift */; };
@@ -191,6 +202,7 @@
 		C3DACB5E26EA277A00927933 /* LabelUpdate+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB5D26EA277A00927933 /* LabelUpdate+Helpers.swift */; };
 		C3DACB6026EA832D00927933 /* AppBadgeManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB5F26EA832D00927933 /* AppBadgeManaging.swift */; };
 		C3DACB6226EA859400927933 /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB6126EA859400927933 /* CardData.swift */; };
+		C3DACB6726EA8CA800927933 /* MessageDiffing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB6626EA8CA800927933 /* MessageDiffing.swift */; };
 		C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0426D421240051EFEB /* AuthDeleteRequest.swift */; };
 		C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0626D421510051EFEB /* AuthApi.swift */; };
 		C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F20A0826D427500051EFEB /* UserDataService.swift */; };
@@ -407,13 +419,25 @@
 		C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsView.swift; sourceTree = "<group>"; };
 		C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsAssembly.swift; sourceTree = "<group>"; };
 		C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesByLabelRequest.swift; sourceTree = "<group>"; };
+		C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesLoadingWorker.swift; sourceTree = "<group>"; };
+		C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageToModelConverting.swift; sourceTree = "<group>"; };
+		C3C6FD1A26EB33090066C504 /* MessagesErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesErrorView.swift; sourceTree = "<group>"; };
+		C3C6FD1C26EB42430066C504 /* MessageTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableCellView.swift; sourceTree = "<group>"; };
+		C3C6FD1E26EB43EA0066C504 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		C3C6FD2026EB44CE0066C504 /* MessageFoldersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFoldersView.swift; sourceTree = "<group>"; };
+		C3C6FD2226EB45360066C504 /* MessageLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageLabelsView.swift; sourceTree = "<group>"; };
+		C3C6FD2426EBCDD10066C504 /* MessageLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageLabelView.swift; sourceTree = "<group>"; };
 		C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Contrast.swift"; sourceTree = "<group>"; };
+		C3C6FD2D26EE22B60066C504 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		C3C6FD2F26EE22B90066C504 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = cs; path = cs.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
 		C3DACB2E26E79A7100927933 /* Message+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Defaults.swift"; sourceTree = "<group>"; };
 		C3DACB3026E79A9300927933 /* Label+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label+Defaults.swift"; sourceTree = "<group>"; };
+		C3DACB3526E8E2E200927933 /* MessagesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesDataSource.swift; sourceTree = "<group>"; };
 		C3DACB3726E924AD00927933 /* UserEventsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3DACB3926E9258300927933 /* CoreDataService+UserEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+UserEvents.swift"; sourceTree = "<group>"; };
+		C3DACB3C26E941A500927933 /* UserEventsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsService.swift; sourceTree = "<group>"; };
 		C3DACB3E26E9423900927933 /* EventApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventApi.swift; sourceTree = "<group>"; };
 		C3DACB4026E9428B00927933 /* EventCheckRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCheckRequest.swift; sourceTree = "<group>"; };
 		C3DACB4226E942EB00927933 /* EventCheckResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCheckResponse.swift; sourceTree = "<group>"; };
@@ -430,6 +454,7 @@
 		C3DACB5D26EA277A00927933 /* LabelUpdate+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LabelUpdate+Helpers.swift"; sourceTree = "<group>"; };
 		C3DACB5F26EA832D00927933 /* AppBadgeManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBadgeManaging.swift; sourceTree = "<group>"; };
 		C3DACB6126EA859400927933 /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
+		C3DACB6626EA8CA800927933 /* MessageDiffing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDiffing.swift; sourceTree = "<group>"; };
 		C3F20A0426D421240051EFEB /* AuthDeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDeleteRequest.swift; sourceTree = "<group>"; };
 		C3F20A0626D421510051EFEB /* AuthApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApi.swift; sourceTree = "<group>"; };
 		C3F20A0826D427500051EFEB /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
@@ -706,6 +731,9 @@
 		C36814B626D641E300A35A16 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				C3DACB3426E8E2DC00927933 /* Views */,
+				C3DACB3B26E9418800927933 /* Services */,
+				C3DACB6326EA8C6100927933 /* Workers */,
 				C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */,
 				C3AA69D826E5441B00124A0B /* MessagesWorker.swift */,
 				C3AA69D926E5441B00124A0B /* MessagesRouter.swift */,
@@ -736,6 +764,7 @@
 			children = (
 				C31D030426DA9652002EBBE0 /* ProtonMail.xcdatamodeld */,
 				C36814C126D65B2F00A35A16 /* Localizable.strings */,
+				C3C6FD2E26EE22B60066C504 /* Localizable.stringsdict */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -961,6 +990,38 @@
 			path = "Proton Mail";
 			sourceTree = "<group>";
 		};
+		C3DACB3426E8E2DC00927933 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C3DACB3526E8E2E200927933 /* MessagesDataSource.swift */,
+				C3C6FD1A26EB33090066C504 /* MessagesErrorView.swift */,
+				C3C6FD1C26EB42430066C504 /* MessageTableCellView.swift */,
+				C3C6FD1E26EB43EA0066C504 /* CircleView.swift */,
+				C3C6FD2026EB44CE0066C504 /* MessageFoldersView.swift */,
+				C3C6FD2226EB45360066C504 /* MessageLabelsView.swift */,
+				C3C6FD2426EBCDD10066C504 /* MessageLabelView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C3DACB3B26E9418800927933 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C3DACB3C26E941A500927933 /* UserEventsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C3DACB6326EA8C6100927933 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				C3DACB6626EA8CA800927933 /* MessageDiffing.swift */,
+				C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */,
+				C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
 		C3F20A0E26D534340051EFEB /* Bootstrap */ = {
 			isa = PBXGroup;
 			children = (
@@ -1124,6 +1185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */,
+				C3C6FD2C26EE22B60066C504 /* Localizable.stringsdict in Resources */,
 				C36814BF26D65B2F00A35A16 /* Localizable.strings in Resources */,
 				C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */,
 			);
@@ -1208,6 +1270,7 @@
 				C39A241726D2D8D9008A482C /* Credential.swift in Sources */,
 				C39A242626D2D8D9008A482C /* MessagesApi.swift in Sources */,
 				C3C6FD2726EBD57E0066C504 /* NSColor+Contrast.swift in Sources */,
+				C3C6FD2326EB45360066C504 /* MessageLabelsView.swift in Sources */,
 				C3F20A2B26D534FD0051EFEB /* SetupViewController.swift in Sources */,
 				C3F20A2F26D5363C0051EFEB /* MainWindowController.swift in Sources */,
 				C31D02F526D942EA002EBBE0 /* MailboxSidebarDataSource.swift in Sources */,
@@ -1218,14 +1281,17 @@
 				C3DACB4F26E9C5C500927933 /* Label+Helpers.swift in Sources */,
 				C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */,
 				C39A243626D2D8E7008A482C /* NSError+Extensions.swift in Sources */,
+				C3DACB3D26E941A500927933 /* UserEventsService.swift in Sources */,
 				C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */,
 				C39A242C26D2D8D9008A482C /* KeySaltsRequest.swift in Sources */,
+				C3DACB3626E8E2E200927933 /* MessagesDataSource.swift in Sources */,
 				C3AA69F326E5459200124A0B /* MessageDetailsInteractor.swift in Sources */,
 				C3AA69E126E5441B00124A0B /* MessagesModels.swift in Sources */,
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
 				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
 				C31D032C26DA9A85002EBBE0 /* LabelUpdate.swift in Sources */,
 				C31D034A26DB9534002EBBE0 /* CoreDataService.swift in Sources */,
+				C3C6FD2126EB44CE0066C504 /* MessageFoldersView.swift in Sources */,
 				C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */,
 				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
 				C31D02F126D942A4002EBBE0 /* MailboxSidebarViewController.swift in Sources */,
@@ -1256,6 +1322,7 @@
 				C31D02D026D80EB3002EBBE0 /* TwoFactorInputInteractor.swift in Sources */,
 				C3DACB3A26E9258300927933 /* CoreDataService+UserEvents.swift in Sources */,
 				C3DACB5126E9CDEB00927933 /* MessagesByIdRequest.swift in Sources */,
+				C3C6FD1726EB1F450066C504 /* MessagesLoadingWorker.swift in Sources */,
 				C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */,
 				C36814D226D6601600A35A16 /* SignInWorker.swift in Sources */,
 				C3F20A0B26D42A090051EFEB /* AuthRefreshRequest.swift in Sources */,
@@ -1263,6 +1330,7 @@
 				C39A242226D2D8D9008A482C /* KeysApi.swift in Sources */,
 				C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */,
 				C3A658FA26E65C5700CFE2F9 /* MessagesDatabaseManaging.swift in Sources */,
+				C3DACB6726EA8CA800927933 /* MessageDiffing.swift in Sources */,
 				C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */,
 				C3DACB5826E9FF4D00927933 /* Email+Helpers.swift in Sources */,
 				C31D02F926D96210002EBBE0 /* MailboxSidebarAssembly.swift in Sources */,
@@ -1271,7 +1339,9 @@
 				C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */,
 				C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */,
 				C3DACB4326E942EB00927933 /* EventCheckResponse.swift in Sources */,
+				C3C6FD1D26EB42430066C504 /* MessageTableCellView.swift in Sources */,
 				C31D035526DC11B5002EBBE0 /* Dictionary+Extensions.swift in Sources */,
+				C3C6FD2526EBCDD10066C504 /* MessageLabelView.swift in Sources */,
 				C31D02DF26D92961002EBBE0 /* MailboxSidebarRowView.swift in Sources */,
 				C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */,
 				C31D034226DB8AA0002EBBE0 /* PGPType.swift in Sources */,
@@ -1285,6 +1355,7 @@
 				C3DACB4D26E9C36D00927933 /* Message+Helpers.swift in Sources */,
 				C31D02F226D942A4002EBBE0 /* MailboxSidebarInteractor.swift in Sources */,
 				C39A242526D2D8D9008A482C /* AddressesApi.swift in Sources */,
+				C3C6FD1F26EB43EA0066C504 /* CircleView.swift in Sources */,
 				C39A242D26D2D8D9008A482C /* AddressesRequest.swift in Sources */,
 				C31D032526DA9A85002EBBE0 /* Contact.swift in Sources */,
 				C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */,
@@ -1299,6 +1370,7 @@
 				C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */,
 				C3A6590326E693D200CFE2F9 /* Message+Flags.swift in Sources */,
 				C39A24D426D3B849008A482C /* AuthUser.swift in Sources */,
+				C3C6FD1926EB21AA0066C504 /* MessageToModelConverting.swift in Sources */,
 				C39A241C26D2D8D9008A482C /* ErrorResponse.swift in Sources */,
 				C3AA69E426E5441B00124A0B /* MessagesView.swift in Sources */,
 				C36814D726D6601600A35A16 /* SignInView.swift in Sources */,
@@ -1331,6 +1403,7 @@
 				C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */,
 				C39A247026D2DC68008A482C /* JSONDecoder+Extensions.swift in Sources */,
 				C3DACB6026EA832D00927933 /* AppBadgeManaging.swift in Sources */,
+				C3C6FD1B26EB33090066C504 /* MessagesErrorView.swift in Sources */,
 				C39A244526D2D8FB008A482C /* SRPClient.swift in Sources */,
 				C39A243426D2D8D9008A482C /* ApiErrorCode.swift in Sources */,
 				C36814C626D65CD600A35A16 /* AppViewController.swift in Sources */,
@@ -1386,6 +1459,15 @@
 				C36814C326D65B4000A35A16 /* cs */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		C3C6FD2E26EE22B60066C504 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C3C6FD2D26EE22B60066C504 /* en */,
+				C3C6FD2F26EE22B90066C504 /* cs */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

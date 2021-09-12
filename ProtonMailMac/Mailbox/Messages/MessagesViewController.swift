@@ -9,7 +9,10 @@
 import AppKit
 
 protocol MessagesDisplayLogic: AnyObject {
-	func displayData(viewModel: Messages.Init.ViewModel)
+	func displayMessages(viewModel: Messages.LoadMessages.ViewModel)
+    func displayMessagesUpdate(viewModel: Messages.UpdateMessages.ViewModel)
+    func displayMessagesError(viewModel: Messages.LoadError.ViewModel)
+    func displayMessagesUpToDate()
 }
 
 class MessagesViewController: NSViewController, MessagesDisplayLogic, MessagesViewDelegate {
@@ -30,21 +33,53 @@ class MessagesViewController: NSViewController, MessagesDisplayLogic, MessagesVi
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		self.loadData()
 	}
 	
 	//	
-	// MARK: - Load data
+	// MARK: - Load messages
 	//
 	
-	private func loadData() {
-		let request = Messages.Init.Request()
-		self.interactor?.loadData(request: request)
+    func loadMessages(labelId: String) {
+		let request = Messages.LoadMessages.Request(labelId: labelId)
+		self.interactor?.loadMessages(request: request)
 	}
 	
-	func displayData(viewModel: Messages.Init.ViewModel) {
-        self.mainView.displayData(viewModel: viewModel)
+	func displayMessages(viewModel: Messages.LoadMessages.ViewModel) {
+        self.mainView.displayMessages(viewModel: viewModel)
 	}
+    
+    //
+    // MARK: - Messages update
+    //
+    
+    func displayMessagesUpdate(viewModel: Messages.UpdateMessages.ViewModel) {
+        self.mainView.displayMessagesUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Messages error
+    //
+    
+    func displayMessagesError(viewModel: Messages.LoadError.ViewModel) {
+        self.mainView.displayMessagesError(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Messages up to date
+    //
+    
+    func displayMessagesUpToDate() {
+        self.mainView.removeErrorView()
+    }
+    
+    //
+    // MARK: - View delegate
+    //
+    
+    func errorViewButtonDidTap() {
+        self.mainView.removeErrorView()
+        
+        self.interactor?.processErrorViewButtonTap()
+    }
     
 }

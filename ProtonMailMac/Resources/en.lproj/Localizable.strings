@@ -60,3 +60,12 @@
 "mailboxLabelSpam" = "Spam";
 "mailboxLabelTrash" = "Trash";
 "mailboxLabelAllMail" = "All mail";
+
+//
+// MARK: - Mailbox messages
+//
+
+"messagesRetryLoadButton" = "Retry";
+"messagesLoadInternetErrorMessage" = "Cannot load messages, you are not connected to the internet.";
+"messagesLoadGenericErrorMessage" = "There was an error loading the messages.";
+"messageDateYesterdayText" = "Yesterday";
