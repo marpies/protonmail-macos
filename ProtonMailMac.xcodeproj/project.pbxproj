@@ -164,6 +164,7 @@
 		C3AA69F326E5459200124A0B /* MessageDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69EC26E5459200124A0B /* MessageDetailsInteractor.swift */; };
 		C3AA69F426E5459200124A0B /* MessageDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */; };
 		C3AA69F626E5459E00124A0B /* MessageDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */; };
+		C3AA69F826E651C700124A0B /* MessagesByLabelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */; };
 		C3C6FD2726EBD57E0066C504 /* NSColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
@@ -171,6 +172,7 @@
 		C3DACB3126E79A9300927933 /* Label+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB3026E79A9300927933 /* Label+Defaults.swift */; };
 		C3DACB4D26E9C36D00927933 /* Message+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4C26E9C36D00927933 /* Message+Helpers.swift */; };
 		C3DACB4F26E9C5C500927933 /* Label+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4E26E9C5C500927933 /* Label+Helpers.swift */; };
+		C3DACB5126E9CDEB00927933 /* MessagesByIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB5026E9CDEB00927933 /* MessagesByIdRequest.swift */; };
 		C3DACB5626E9FF2600927933 /* Contact+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB5526E9FF2600927933 /* Contact+Helpers.swift */; };
 		C3DACB5826E9FF4D00927933 /* Email+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB5726E9FF4D00927933 /* Email+Helpers.swift */; };
 		C3DACB5E26EA277A00927933 /* LabelUpdate+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB5D26EA277A00927933 /* LabelUpdate+Helpers.swift */; };
@@ -389,6 +391,7 @@
 		C3AA69EC26E5459200124A0B /* MessageDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsInteractor.swift; sourceTree = "<group>"; };
 		C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsView.swift; sourceTree = "<group>"; };
 		C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsAssembly.swift; sourceTree = "<group>"; };
+		C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesByLabelRequest.swift; sourceTree = "<group>"; };
 		C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Contrast.swift"; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
@@ -396,6 +399,7 @@
 		C3DACB3026E79A9300927933 /* Label+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label+Defaults.swift"; sourceTree = "<group>"; };
 		C3DACB4C26E9C36D00927933 /* Message+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Helpers.swift"; sourceTree = "<group>"; };
 		C3DACB4E26E9C5C500927933 /* Label+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label+Helpers.swift"; sourceTree = "<group>"; };
+		C3DACB5026E9CDEB00927933 /* MessagesByIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesByIdRequest.swift; sourceTree = "<group>"; };
 		C3DACB5526E9FF2600927933 /* Contact+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+Helpers.swift"; sourceTree = "<group>"; };
 		C3DACB5726E9FF4D00927933 /* Email+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Email+Helpers.swift"; sourceTree = "<group>"; };
 		C3DACB5D26EA277A00927933 /* LabelUpdate+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LabelUpdate+Helpers.swift"; sourceTree = "<group>"; };
@@ -845,6 +849,8 @@
 				C39A240C26D2D8D9008A482C /* AddressesRequest.swift */,
 				C31D02D226D81B46002EBBE0 /* TwoFARequest.swift */,
 				C31D02FA26D9705E002EBBE0 /* LabelsRequest.swift */,
+				C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */,
+				C3DACB5026E9CDEB00927933 /* MessagesByIdRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1116,6 +1122,7 @@
 				C31D032F26DA9A85002EBBE0 /* Attachment.swift in Sources */,
 				C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */,
 				C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */,
+				C3AA69F826E651C700124A0B /* MessagesByLabelRequest.swift in Sources */,
 				C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */,
 				C3AA69DF26E5441B00124A0B /* MessagesWorker.swift in Sources */,
 				C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */,
@@ -1203,6 +1210,7 @@
 				C39A242E26D2D8D9008A482C /* PMApiService.swift in Sources */,
 				C36814D326D6601600A35A16 /* SignInRouter.swift in Sources */,
 				C31D02D026D80EB3002EBBE0 /* TwoFactorInputInteractor.swift in Sources */,
+				C3DACB5126E9CDEB00927933 /* MessagesByIdRequest.swift in Sources */,
 				C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */,
 				C36814D226D6601600A35A16 /* SignInWorker.swift in Sources */,
 				C3F20A0B26D42A090051EFEB /* AuthRefreshRequest.swift in Sources */,
