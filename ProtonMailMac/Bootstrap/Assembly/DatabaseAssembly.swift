@@ -18,6 +18,18 @@ struct DatabaseAssembly: Assembly {
         container.register(LabelsDatabaseManaging.self) { r in
             return r.resolve(CoreDataService.self)!
         }
+        container.register(MessagesDatabaseManaging.self) { r in
+            return r.resolve(CoreDataService.self)!
+        }
+        container.register(UserEventsDatabaseManaging.self) { r in
+            return r.resolve(CoreDataService.self)!
+        }
+        container.register(UserEventsDatabaseProcessing.self) { r in
+            return r.resolve(CoreDataService.self)!
+        }
+        container.register(LabelUpdateDatabaseManaging.self) { r in
+            return r.resolve(CoreDataService.self)!
+        }
     }
     
 }

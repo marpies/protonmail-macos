@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class CoreDataService {
+class CoreDataService: AppBadgeManaging {
     
     private let serialQueue: OperationQueue = {
         let persistentContainerQueue = OperationQueue()
