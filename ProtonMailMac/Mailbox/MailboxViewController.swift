@@ -12,7 +12,7 @@ protocol MailboxDisplayLogic: AnyObject {
 	func displayData(viewModel: Mailbox.Init.ViewModel)
 }
 
-class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, ToolbarUtilizing {
+class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate {
 	
 	var interactor: MailboxBusinessLogic?
 	var router: (MailboxRoutingLogic & MailboxDataPassing)?
@@ -29,6 +29,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
 	//
     
     override func loadView() {
+        self.sidebarViewController?.delegate = self
         self.sidebarViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
         self.messagesViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 300).isActive = true
         self.messageDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
@@ -75,6 +76,18 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
             self.removeOverlay()
         }
 	}
+    
+    //
+    // MARK: - Sidebar delegate
+    //
+    
+    func mailboxSidebarDidSelectLabel(id: String) {
+        self.messagesViewController?.loadMessages(labelId: id)
+    }
+    
+    //
+    // MARK: - Private
+    //
     
     private func removeOverlay() {
         guard let view = self.overlayView else { return }
