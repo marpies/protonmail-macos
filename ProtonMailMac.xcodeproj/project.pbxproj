@@ -190,6 +190,7 @@
 		C3DACB4326E942EB00927933 /* EventCheckResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4226E942EB00927933 /* EventCheckResponse.swift */; };
 		C3DACB4526E9436C00927933 /* EventLatestIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4426E9436C00927933 /* EventLatestIDRequest.swift */; };
 		C3DACB4726E943B000927933 /* EventLatestIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4626E943B000927933 /* EventLatestIDResponse.swift */; };
+		C3DACB4926E9448900927933 /* ServicesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4826E9448800927933 /* ServicesAssembly.swift */; };
 		C3DACB4B26E9C05C00927933 /* UserEventsDatabaseProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4A26E9C05C00927933 /* UserEventsDatabaseProcessing.swift */; };
 		C3DACB4D26E9C36D00927933 /* Message+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4C26E9C36D00927933 /* Message+Helpers.swift */; };
 		C3DACB4F26E9C5C500927933 /* Label+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB4E26E9C5C500927933 /* Label+Helpers.swift */; };
@@ -443,6 +444,7 @@
 		C3DACB4226E942EB00927933 /* EventCheckResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCheckResponse.swift; sourceTree = "<group>"; };
 		C3DACB4426E9436C00927933 /* EventLatestIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLatestIDRequest.swift; sourceTree = "<group>"; };
 		C3DACB4626E943B000927933 /* EventLatestIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLatestIDResponse.swift; sourceTree = "<group>"; };
+		C3DACB4826E9448800927933 /* ServicesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesAssembly.swift; sourceTree = "<group>"; };
 		C3DACB4A26E9C05C00927933 /* UserEventsDatabaseProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsDatabaseProcessing.swift; sourceTree = "<group>"; };
 		C3DACB4C26E9C36D00927933 /* Message+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Helpers.swift"; sourceTree = "<group>"; };
 		C3DACB4E26E9C5C500927933 /* Label+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label+Helpers.swift"; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 				C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */,
 				C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */,
 				C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */,
+				C3DACB4826E9448800927933 /* ServicesAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -1287,6 +1290,7 @@
 				C3DACB3626E8E2E200927933 /* MessagesDataSource.swift in Sources */,
 				C3AA69F326E5459200124A0B /* MessageDetailsInteractor.swift in Sources */,
 				C3AA69E126E5441B00124A0B /* MessagesModels.swift in Sources */,
+				C3DACB4926E9448900927933 /* ServicesAssembly.swift in Sources */,
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
 				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
 				C31D032C26DA9A85002EBBE0 /* LabelUpdate.swift in Sources */,

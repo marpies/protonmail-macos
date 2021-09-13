@@ -24,7 +24,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             MailboxSidebarAssembly(),
             MessageDetailsAssembly(),
             MessagesAssembly(),
-            MailboxAssembly()
+            MailboxAssembly(),
+            ServicesAssembly()
         ])
         
         self.mainController.showWindow(nil)
