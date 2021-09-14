@@ -8,6 +8,8 @@
 import Foundation
 
 public struct AuthRequest: Request {
+    public var authCredential: AuthCredential?
+    
     public let username: String
     public let ephemeral: Data
     public let proof: Data

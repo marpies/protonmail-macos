@@ -30,12 +30,5 @@ struct EventLatestIDRequest : Request {
     var path: String {
         return EventAPI.path + "/latest"
     }
-    
-    func copyWithCredential(_ credential: AuthCredential) -> EventLatestIDRequest {
-        var copy: EventLatestIDRequest = self
-        let newCredential: AuthCredential = copy.authCredential ?? credential
-        newCredential.update(sessionID: credential.sessionID, accessToken: credential.accessToken, refreshToken: credential.refreshToken, expiration: credential.expiration)
-        copy.authCredential = newCredential
-        return copy
-    }
+
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 public struct KeySaltsRequest: Request {
-    public let authCredential : AuthCredential?
+    public var authCredential : AuthCredential?
     
     public init(authCredential: AuthCredential) {
         self.authCredential = authCredential

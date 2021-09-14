@@ -12,7 +12,7 @@ public struct AddressesRequest: Request {
         return AddressesAPI.path
     }
     
-    public let authCredential : AuthCredential?
+    public var authCredential : AuthCredential?
 
     public init(authCredential : AuthCredential?) {
         self.authCredential  = authCredential

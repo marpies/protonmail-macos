@@ -27,4 +27,6 @@ public struct AuthInfoRequest: Request {
     }
     
     public let isAuth: Bool = false
+    
+    public var authCredential: AuthCredential?
 }

@@ -10,7 +10,7 @@ import Foundation
 
 struct LabelsRequest: Request {
     let type: Int
-    let authCredential: AuthCredential?
+    var authCredential: AuthCredential?
     
     let path: String = LabelsAPI.path
     let isAuth: Bool = true

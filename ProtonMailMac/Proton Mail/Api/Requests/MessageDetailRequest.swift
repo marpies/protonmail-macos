@@ -8,7 +8,7 @@
 import Foundation
 
 public struct MessageDetailRequest: Request {
-    public let authCredential : AuthCredential?
+    public var authCredential : AuthCredential?
     public let messageId: String
     
     public init(messageId: String, authCredential: AuthCredential) {

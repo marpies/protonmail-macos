@@ -19,7 +19,7 @@ public protocol Request: Package {
     
     var isAuth: Bool { get }
     
-    var authCredential: AuthCredential? {get }
+    var authCredential: AuthCredential? { get set }
     var autoRetry: Bool { get }
     
     func copyWithCredential(_ credential: AuthCredential) -> Self
@@ -38,10 +38,6 @@ public extension Request {
         return [:]
     }
     
-    var authCredential: AuthCredential? {
-        return nil
-    }
-    
     var method: HTTPMethod {
         return .get
     }
@@ -51,7 +47,11 @@ public extension Request {
     }
     
     func copyWithCredential(_ credential: AuthCredential) -> Self {
-        fatalError("Must be overriden")
+        var copy: Self = self
+        let newCredential: AuthCredential = copy.authCredential ?? credential
+        newCredential.update(sessionID: credential.sessionID, accessToken: credential.accessToken, refreshToken: credential.refreshToken, expiration: credential.expiration)
+        copy.authCredential = newCredential
+        return copy
     }
 }
 

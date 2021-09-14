@@ -34,12 +34,4 @@ struct EventCheckRequest: Request {
     }
     
     var authCredential: AuthCredential?
-    
-    func copyWithCredential(_ credential: AuthCredential) -> EventCheckRequest {
-        var copy: EventCheckRequest = self
-        let newCredential: AuthCredential = copy.authCredential ?? credential
-        newCredential.update(sessionID: credential.sessionID, accessToken: credential.accessToken, refreshToken: credential.refreshToken, expiration: credential.expiration)
-        copy.authCredential = newCredential
-        return copy
-    }
 }

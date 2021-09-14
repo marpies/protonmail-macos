@@ -9,7 +9,7 @@ import Foundation
 
 public struct AuthRefreshRequest: Request {
     
-    public let authCredential: AuthCredential?
+    public var authCredential: AuthCredential?
     public let refreshToken: String
     
     public let path: String = AuthAPI.path + "/refresh"

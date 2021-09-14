@@ -17,7 +17,7 @@ public struct AuthDeleteRequest: Request {
     
     public let autoRetry: Bool = false
     
-    public private(set) var authCredential: AuthCredential?
+    public var authCredential: AuthCredential?
     
     public func copyWithCredential(_ credential: AuthCredential) -> AuthDeleteRequest {
         var copy: AuthDeleteRequest = self
