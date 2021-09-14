@@ -36,7 +36,7 @@ extension MessageDiffing {
             if let ids = updatedMessageIds {
                 updateSet = self.getIndexSet(ids: ids, messages: newMessages)
                 
-                // Just in care, remove indices from "updateSet" if they are in "removeSet" and "insertSet"
+                // Just in case, remove indices from "updateSet" if they are in "removeSet" and "insertSet"
                 self.removeIndices(from: &updateSet!, in: removeSet)
                 self.removeIndices(from: &updateSet!, in: insertSet)
             }
