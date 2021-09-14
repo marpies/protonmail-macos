@@ -87,4 +87,10 @@ public extension NSError {
             localizedRecoverySuggestion: localizedRecoverySuggestion)
     }
     
+    class func userLoggedOut() -> NSError {
+        return apiServiceError(code: 9999,
+                               localizedDescription: NSLocalizedString("Sender account has been logged out!", comment: ""),
+                               localizedFailureReason: NSLocalizedString("Sender account has been logged out!", comment: ""))
+    }
+    
 }
