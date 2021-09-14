@@ -180,6 +180,8 @@
 		C3C6FD3226EFB2CF0066C504 /* PersistentQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3126EFB2CF0066C504 /* PersistentQueue.swift */; };
 		C3C6FD3426EFB3470066C504 /* QueueConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3326EFB3470066C504 /* QueueConstant.swift */; };
 		C3C6FD3626EFB6C60066C504 /* MessageQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3526EFB6C60066C504 /* MessageQueue.swift */; };
+		C3C6FD3826EFB7B80066C504 /* MessageOpsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3726EFB7B80066C504 /* MessageOpsService.swift */; };
+		C3C6FD3B26EFB8440066C504 /* MessageAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3A26EFB8440066C504 /* MessageAction.swift */; };
 		C3C6FD3D26EFBAFC0066C504 /* Message+Vars.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3C26EFBAFC0066C504 /* Message+Vars.swift */; };
 		C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */; };
 		C3C6FD4126F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */; };
@@ -441,6 +443,8 @@
 		C3C6FD3126EFB2CF0066C504 /* PersistentQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentQueue.swift; sourceTree = "<group>"; };
 		C3C6FD3326EFB3470066C504 /* QueueConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueConstant.swift; sourceTree = "<group>"; };
 		C3C6FD3526EFB6C60066C504 /* MessageQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageQueue.swift; sourceTree = "<group>"; };
+		C3C6FD3726EFB7B80066C504 /* MessageOpsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageOpsService.swift; sourceTree = "<group>"; };
+		C3C6FD3A26EFB8440066C504 /* MessageAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAction.swift; sourceTree = "<group>"; };
 		C3C6FD3C26EFBAFC0066C504 /* Message+Vars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Vars.swift"; sourceTree = "<group>"; };
 		C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyLabelToMessagesRequest.swift; sourceTree = "<group>"; };
 		C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveLabelFromMessagesRequest.swift; sourceTree = "<group>"; };
@@ -750,6 +754,7 @@
 		C36814B626D641E300A35A16 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				C3C6FD3926EFB8350066C504 /* Models */,
 				C3DACB3426E8E2DC00927933 /* Views */,
 				C3DACB3B26E9418800927933 /* Services */,
 				C3DACB6326EA8C6100927933 /* Workers */,
@@ -1022,6 +1027,14 @@
 			path = Queue;
 			sourceTree = "<group>";
 		};
+		C3C6FD3926EFB8350066C504 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C3C6FD3A26EFB8440066C504 /* MessageAction.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		C3DACB3426E8E2DC00927933 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1040,6 +1053,7 @@
 			isa = PBXGroup;
 			children = (
 				C3DACB3C26E941A500927933 /* UserEventsService.swift */,
+				C3C6FD3726EFB7B80066C504 /* MessageOpsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1290,6 +1304,7 @@
 				C31D026F26D76112002EBBE0 /* SetupAssembly.swift in Sources */,
 				C31D032626DA9A85002EBBE0 /* Label.swift in Sources */,
 				C3AA69E326E5441B00124A0B /* MessagesInteractor.swift in Sources */,
+				C3C6FD3B26EFB8440066C504 /* MessageAction.swift in Sources */,
 				C39A244026D2D8FB008A482C /* JKBCrypt.swift in Sources */,
 				C39A241626D2D8D9008A482C /* AuthCredential.swift in Sources */,
 				C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */,
@@ -1337,6 +1352,7 @@
 				C31D02ED26D942A4002EBBE0 /* MailboxSidebarPresenter.swift in Sources */,
 				C3A658FC26E65C8500CFE2F9 /* CoreDataService+Messages.swift in Sources */,
 				C3F20A1026D5343C0051EFEB /* AppWindow.swift in Sources */,
+				C3C6FD3826EFB7B80066C504 /* MessageOpsService.swift in Sources */,
 				C3C6FD3426EFB3470066C504 /* QueueConstant.swift in Sources */,
 				C31D034426DB8AD5002EBBE0 /* NSManagedObjectExtension.swift in Sources */,
 				C31D026D26D76056002EBBE0 /* BootstrapAssembly.swift in Sources */,

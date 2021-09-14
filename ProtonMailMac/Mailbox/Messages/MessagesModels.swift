@@ -9,6 +9,11 @@
 import Foundation
 import AppKit
 
+extension Notification.Name {
+    static let MessagesLoadDidTimeout: Notification.Name = Notification.Name(rawValue: "Messages.loadDidTimeout")
+    static let MessagesServerUnreachable: Notification.Name = Notification.Name(rawValue: "Messages.serverUnreachable")
+}
+
 enum Messages {
     
     enum MessageTime {
