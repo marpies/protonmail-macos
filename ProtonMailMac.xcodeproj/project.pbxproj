@@ -177,6 +177,9 @@
 		C3C6FD2526EBCDD10066C504 /* MessageLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2426EBCDD10066C504 /* MessageLabelView.swift */; };
 		C3C6FD2726EBD57E0066C504 /* NSColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */; };
 		C3C6FD2C26EE22B60066C504 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C3C6FD2E26EE22B60066C504 /* Localizable.stringsdict */; };
+		C3C6FD3226EFB2CF0066C504 /* PersistentQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3126EFB2CF0066C504 /* PersistentQueue.swift */; };
+		C3C6FD3426EFB3470066C504 /* QueueConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3326EFB3470066C504 /* QueueConstant.swift */; };
+		C3C6FD3626EFB6C60066C504 /* MessageQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3526EFB6C60066C504 /* MessageQueue.swift */; };
 		C3C6FD3D26EFBAFC0066C504 /* Message+Vars.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3C26EFBAFC0066C504 /* Message+Vars.swift */; };
 		C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */; };
 		C3C6FD4126F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */; };
@@ -435,6 +438,9 @@
 		C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Contrast.swift"; sourceTree = "<group>"; };
 		C3C6FD2D26EE22B60066C504 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C3C6FD2F26EE22B90066C504 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = cs; path = cs.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		C3C6FD3126EFB2CF0066C504 /* PersistentQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentQueue.swift; sourceTree = "<group>"; };
+		C3C6FD3326EFB3470066C504 /* QueueConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueConstant.swift; sourceTree = "<group>"; };
+		C3C6FD3526EFB6C60066C504 /* MessageQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageQueue.swift; sourceTree = "<group>"; };
 		C3C6FD3C26EFBAFC0066C504 /* Message+Vars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Vars.swift"; sourceTree = "<group>"; };
 		C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyLabelToMessagesRequest.swift; sourceTree = "<group>"; };
 		C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveLabelFromMessagesRequest.swift; sourceTree = "<group>"; };
@@ -580,6 +586,7 @@
 		C31D033C26DB8918002EBBE0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C3C6FD3026EFB2C70066C504 /* Queue */,
 				C31D033D26DB8924002EBBE0 /* Logger.swift */,
 			);
 			path = Utils;
@@ -1005,6 +1012,16 @@
 			path = "Proton Mail";
 			sourceTree = "<group>";
 		};
+		C3C6FD3026EFB2C70066C504 /* Queue */ = {
+			isa = PBXGroup;
+			children = (
+				C3C6FD3126EFB2CF0066C504 /* PersistentQueue.swift */,
+				C3C6FD3326EFB3470066C504 /* QueueConstant.swift */,
+				C3C6FD3526EFB6C60066C504 /* MessageQueue.swift */,
+			);
+			path = Queue;
+			sourceTree = "<group>";
+		};
 		C3DACB3426E8E2DC00927933 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1315,10 +1332,12 @@
 				C36814AF26D6295400A35A16 /* MailboxModels.swift in Sources */,
 				C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */,
 				C39A241F26D2D8D9008A482C /* AddressesResponse.swift in Sources */,
+				C3C6FD3626EFB6C60066C504 /* MessageQueue.swift in Sources */,
 				C3AA69F026E5459200124A0B /* MessageDetailsRouter.swift in Sources */,
 				C31D02ED26D942A4002EBBE0 /* MailboxSidebarPresenter.swift in Sources */,
 				C3A658FC26E65C8500CFE2F9 /* CoreDataService+Messages.swift in Sources */,
 				C3F20A1026D5343C0051EFEB /* AppWindow.swift in Sources */,
+				C3C6FD3426EFB3470066C504 /* QueueConstant.swift in Sources */,
 				C31D034426DB8AD5002EBBE0 /* NSManagedObjectExtension.swift in Sources */,
 				C31D026D26D76056002EBBE0 /* BootstrapAssembly.swift in Sources */,
 				C36814D426D6601600A35A16 /* SignInModels.swift in Sources */,
@@ -1352,6 +1371,7 @@
 				C3DACB5826E9FF4D00927933 /* Email+Helpers.swift in Sources */,
 				C31D02F926D96210002EBBE0 /* MailboxSidebarAssembly.swift in Sources */,
 				C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */,
+				C3C6FD3226EFB2CF0066C504 /* PersistentQueue.swift in Sources */,
 				C31D02FD26D97089002EBBE0 /* LabelsResponse.swift in Sources */,
 				C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */,
 				C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */,
