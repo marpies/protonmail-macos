@@ -178,6 +178,8 @@
 		C3C6FD2726EBD57E0066C504 /* NSColor+Contrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */; };
 		C3C6FD2C26EE22B60066C504 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = C3C6FD2E26EE22B60066C504 /* Localizable.stringsdict */; };
 		C3C6FD3D26EFBAFC0066C504 /* Message+Vars.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3C26EFBAFC0066C504 /* Message+Vars.swift */; };
+		C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */; };
+		C3C6FD4126F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */; };
 		C3C6FD4326F09AD10066C504 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4226F09AD10066C504 /* ImageButton.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
@@ -434,6 +436,8 @@
 		C3C6FD2D26EE22B60066C504 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C3C6FD2F26EE22B90066C504 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = cs; path = cs.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		C3C6FD3C26EFBAFC0066C504 /* Message+Vars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Vars.swift"; sourceTree = "<group>"; };
+		C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyLabelToMessagesRequest.swift; sourceTree = "<group>"; };
+		C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveLabelFromMessagesRequest.swift; sourceTree = "<group>"; };
 		C3C6FD4226F09AD10066C504 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
@@ -926,6 +930,8 @@
 				C3DACB5026E9CDEB00927933 /* MessagesByIdRequest.swift */,
 				C3DACB4026E9428B00927933 /* EventCheckRequest.swift */,
 				C3DACB4426E9436C00927933 /* EventLatestIDRequest.swift */,
+				C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */,
+				C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1259,6 +1265,7 @@
 				C3F20A2826D534FD0051EFEB /* SetupWorker.swift in Sources */,
 				C39A241D26D2D8D9008A482C /* AuthInfoResponse.swift in Sources */,
 				C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */,
+				C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */,
 				C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */,
 				C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */,
 				C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */,
@@ -1395,6 +1402,7 @@
 				C39A244326D2D8FB008A482C /* PMNBCrypt.swift in Sources */,
 				C39A24DB26D3C212008A482C /* AuthCredential+Locked.swift in Sources */,
 				C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */,
+				C3C6FD4126F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift in Sources */,
 				C31D033026DA9A85002EBBE0 /* UserEvent.swift in Sources */,
 				C3AA69EE26E5459200124A0B /* MessageDetailsPresenter.swift in Sources */,
 				C31D02CB26D80EB3002EBBE0 /* TwoFactorInputPresenter.swift in Sources */,
