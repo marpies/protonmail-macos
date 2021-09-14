@@ -11,6 +11,8 @@ import Foundation
 protocol MessagesBusinessLogic {
 	func loadMessages(request: Messages.LoadMessages.Request)
     func processErrorViewButtonTap()
+    func starMessage(request: Messages.StarMessage.Request)
+    func unstarMessage(request: Messages.UnstarMessage.Request)
 }
 
 protocol MessagesDataStore {
@@ -41,6 +43,18 @@ class MessagesInteractor: MessagesBusinessLogic, MessagesDataStore, MessagesWork
     }
     
     //
+    // MARK: - Star / unstar message
+    //
+    
+    func starMessage(request: Messages.StarMessage.Request) {
+        self.worker?.starMessage(request: request)
+    }
+    
+    func unstarMessage(request: Messages.UnstarMessage.Request) {
+        self.worker?.unstarMessage(request: request)
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
@@ -50,6 +64,10 @@ class MessagesInteractor: MessagesBusinessLogic, MessagesDataStore, MessagesWork
     
     func messagesDidUpdate(response: Messages.UpdateMessages.Response) {
         self.presenter?.presentMessagesUpdate(response: response)
+    }
+    
+    func messageDidUpdate(response: Messages.UpdateMessage.Response) {
+        self.presenter?.presentMessageUpdate(response: response)
     }
     
     func messagesLoadDidFail(response: Messages.LoadError.Response) {

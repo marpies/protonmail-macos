@@ -14,6 +14,7 @@ protocol MessagesLoading {
     var delegate: MessagesLoadingDelegate? { get set }
     
     func loadMessages(olderThan lastMessageTime: Date?)
+    func loadMessage(id: String) -> Messages.Message.Response?
 }
 
 protocol MessagesLoadingDelegate: AnyObject {
@@ -141,9 +142,15 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
                     }
                 }
             }
-            
-            
         }
+    }
+    
+    func loadMessage(id: String) -> Messages.Message.Response? {
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
+        
+        guard let message = db.loadMessage(id: id) else { return nil }
+        
+        return self.getMessage(message)
     }
     
     //

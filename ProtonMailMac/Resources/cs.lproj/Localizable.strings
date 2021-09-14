@@ -69,3 +69,5 @@
 "messagesLoadInternetErrorMessage" = "Nejste připojeni k internetu.";
 "messagesLoadGenericErrorMessage" = "Při načítání zpráv došlo k chybě.";
 "messageDateYesterdayText" = "Včera";
+"messageStarConversation" = "Přidat hvězdičku";
+"messageUnstarConversation" = "Odebrat hvězdičku";

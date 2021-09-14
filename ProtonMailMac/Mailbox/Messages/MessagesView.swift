@@ -9,7 +9,7 @@
 import AppKit
 import SnapKit
 
-protocol MessagesViewDelegate: MessagesErrorViewDelegate {
+protocol MessagesViewDelegate: MessagesErrorViewDelegate, MessageTableCellViewDelegate {
     
 }
 
@@ -44,6 +44,7 @@ class MessagesView: NSView {
             self.removeErrorView()
         }
         
+        self.dataSource.cellDelegate = self.delegate
         self.dataSource.setData(viewModel: viewModel.messages)
         self.tableView.reloadData()
     }
@@ -71,6 +72,11 @@ class MessagesView: NSView {
         }
 
         self.tableView.endUpdates()
+    }
+    
+    func displayMessageUpdate(viewModel: Messages.UpdateMessage.ViewModel) {
+        self.dataSource.updateData(viewModel: viewModel.message, at: viewModel.index)
+        self.tableView.reloadData(forRowIndexes: IndexSet(integer: viewModel.index), columnIndexes: IndexSet(integer: 0))
     }
     
     func displayMessagesError(viewModel: Messages.LoadError.ViewModel) {

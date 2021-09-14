@@ -11,6 +11,7 @@ import AppKit
 protocol MessagesDisplayLogic: AnyObject {
 	func displayMessages(viewModel: Messages.LoadMessages.ViewModel)
     func displayMessagesUpdate(viewModel: Messages.UpdateMessages.ViewModel)
+    func displayMessageUpdate(viewModel: Messages.UpdateMessage.ViewModel)
     func displayMessagesError(viewModel: Messages.LoadError.ViewModel)
     func displayMessagesUpToDate()
 }
@@ -56,6 +57,10 @@ class MessagesViewController: NSViewController, MessagesDisplayLogic, MessagesVi
         self.mainView.displayMessagesUpdate(viewModel: viewModel)
     }
     
+    func displayMessageUpdate(viewModel: Messages.UpdateMessage.ViewModel) {
+        self.mainView.displayMessageUpdate(viewModel: viewModel)
+    }
+    
     //
     // MARK: - Messages error
     //
@@ -80,6 +85,16 @@ class MessagesViewController: NSViewController, MessagesDisplayLogic, MessagesVi
         self.mainView.removeErrorView()
         
         self.interactor?.processErrorViewButtonTap()
+    }
+    
+    func messageCellDidStarMessage(id: String) {
+        let request = Messages.StarMessage.Request(id: id)
+        self.interactor?.starMessage(request: request)
+    }
+    
+    func messageCellDidUnstarMessage(id: String) {
+        let request = Messages.UnstarMessage.Request(id: id)
+        self.interactor?.unstarMessage(request: request)
     }
     
 }

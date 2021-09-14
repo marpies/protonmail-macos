@@ -69,3 +69,5 @@
 "messagesLoadInternetErrorMessage" = "Cannot load messages, you are not connected to the internet.";
 "messagesLoadGenericErrorMessage" = "There was an error loading the messages.";
 "messageDateYesterdayText" = "Yesterday";
+"messageStarConversation" = "Star conversation";
+"messageUnstarConversation" = "Unstar conversation";

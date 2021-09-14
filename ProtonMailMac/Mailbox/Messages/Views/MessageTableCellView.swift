@@ -8,7 +8,12 @@
 
 import Cocoa
 
-class MessageTableCellView: NSTableCellView {
+protocol MessageTableCellViewDelegate: AnyObject {
+    func messageCellDidStarMessage(id: String)
+    func messageCellDidUnstarMessage(id: String)
+}
+
+class MessageTableCellView: NSTableCellView, ImageButtonDelegate {
     
     private var unreadIndicationView: CircleView?
     private var foldersView: MessageFoldersView?
@@ -20,12 +25,14 @@ class MessageTableCellView: NSTableCellView {
     private let titleLabel: NSTextField = NSTextField.asLabel
     private let subtitleLabel: NSTextField = NSTextField.asLabel
     private let dateLabel: NSTextField = NSTextField.asLabel
-    private let favoriteButton: NSButton = NSButton()
+    private let favoriteButton: ImageButton = ImageButton()
     
     private var labelsView: MessageLabelsView?
     private var attachmentIcon: NSImageView?
     
     private(set) var id: String?
+    
+    weak var delegate: MessageTableCellViewDelegate?
 
     init() {
         super.init(frame: .zero)
@@ -47,6 +54,8 @@ class MessageTableCellView: NSTableCellView {
         self.titleLabel.stringValue = viewModel.title
         self.dateLabel.stringValue = viewModel.time
         self.subtitleLabel.stringValue = viewModel.subtitle
+        
+        self.updateStarIcon(viewModel: viewModel.starIcon)
         
         if let attachment = viewModel.attachmentIcon {
             self.addAttachmentIcon(viewModel: attachment)
@@ -76,6 +85,18 @@ class MessageTableCellView: NSTableCellView {
     //
     // MARK: - Private
     //
+    
+    private func updateStarIcon(viewModel: Messages.Star.ViewModel) {
+        if #available(macOS 11.0, *) {
+            self.favoriteButton.image = NSImage(systemSymbolName: viewModel.icon, accessibilityDescription: nil)
+            self.favoriteButton.state = viewModel.isSelected ? .on : .off
+        } else {
+            // todo font icon
+        }
+        
+        self.favoriteButton.contentTintColor = viewModel.color
+        self.favoriteButton.toolTip = viewModel.tooltip
+    }
     
     private func addAttachmentIcon(viewModel: Messages.Attachment.ViewModel) {
         if self.attachmentIcon == nil {
@@ -204,6 +225,17 @@ class MessageTableCellView: NSTableCellView {
                 self.titleStackView.addArrangedSubview(label)
             }
             
+            self.favoriteButton.with { button in
+                if #available(macOS 11.0, *) {
+                    button.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
+                button.delegate = self
+                button.setContentHuggingPriority(NSLayoutConstraint.Priority(140), for: .horizontal)
+                self.titleStackView.addArrangedSubview(button)
+            }
+            
             // Subtitle
             self.subtitleLabel.with { label in
                 label.textColor = .labelColor
@@ -228,6 +260,22 @@ class MessageTableCellView: NSTableCellView {
                 }
             }
         }
+    }
+    
+    //
+    // MARK: - Image button delegate
+    //
+    
+    func imageButtonDidSelect(_ button: ImageButton) {
+        guard let id = self.id else { return }
+        
+        self.delegate?.messageCellDidStarMessage(id: id)
+    }
+    
+    func imageButtonDidDeselect(_ button: ImageButton) {
+        guard let id = self.id else { return }
+        
+        self.delegate?.messageCellDidUnstarMessage(id: id)
     }
     
 }

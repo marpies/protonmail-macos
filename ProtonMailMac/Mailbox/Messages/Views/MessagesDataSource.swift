@@ -15,6 +15,8 @@ class MessagesDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
     private let tableView: NSTableView
     
     private var viewModel: [Messages.Message.ViewModel] = []
+    
+    weak var cellDelegate: MessageTableCellViewDelegate?
 
     init(tableView: NSTableView) {
         self.tableView = tableView
@@ -27,6 +29,10 @@ class MessagesDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
     func setData(viewModel: [Messages.Message.ViewModel]) {
         self.viewModel.removeAll()
         self.viewModel.append(contentsOf: viewModel)
+    }
+    
+    func updateData(viewModel: Messages.Message.ViewModel, at index: Int) {
+        self.viewModel[index] = viewModel
     }
     
     //
@@ -49,6 +55,7 @@ class MessagesDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
         
         let message = self.viewModel[row]
         
+        cell.delegate = self.cellDelegate
         cell.update(viewModel: message)
         
         return cell

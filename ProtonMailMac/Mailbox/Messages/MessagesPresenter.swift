@@ -11,6 +11,7 @@ import AppKit
 protocol MessagesPresentationLogic {
 	func presentMessages(response: Messages.LoadMessages.Response)
     func presentMessagesUpdate(response: Messages.UpdateMessages.Response)
+    func presentMessageUpdate(response: Messages.UpdateMessage.Response)
     func presentMessagesError(response: Messages.LoadError.Response)
     func presentMessagesUpToDate()
 }
@@ -43,6 +44,16 @@ class MessagesPresenter: MessagesPresentationLogic {
         let messages: [Messages.Message.ViewModel] = response.messages.map { self.getMessage(response: $0) }
         let viewModel = Messages.UpdateMessages.ViewModel(messages: messages, removeSet: response.removeSet, insertSet: response.insertSet, updateSet: response.updateSet)
         self.viewController?.displayMessagesUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present message update
+    //
+    
+    func presentMessageUpdate(response: Messages.UpdateMessage.Response) {
+        let message: Messages.Message.ViewModel = self.getMessage(response: response.message)
+        let viewModel = Messages.UpdateMessage.ViewModel(message: message, index: response.index)
+        self.viewController?.displayMessageUpdate(viewModel: viewModel)
     }
     
     //
@@ -80,13 +91,14 @@ class MessagesPresenter: MessagesPresentationLogic {
         let time: String = self.getMessageTime(response: response.time)
         let folders: [Messages.Folder.ViewModel]? = response.folders?.map { self.getFolder(response: $0) }
         let labels: [Messages.Label.ViewModel]? = response.labels?.map { self.getLabel(response: $0) }
+        let starIcon: Messages.Star.ViewModel = self.getStarIcon(response: response)
         var attachmentIcon: Messages.Attachment.ViewModel? = nil
         if response.numAttachments > 0 {
             let format: String = NSLocalizedString("num_attachments", comment: "")
             let title: String = String.localizedStringWithFormat(format, response.numAttachments)
             attachmentIcon = Messages.Attachment.ViewModel(icon: "paperclip", title: title)
         }
-        return Messages.Message.ViewModel(id: response.id, title: response.senderName, subtitle: response.subject, time: time, isStarred: response.isStarred, isRead: response.isRead, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
+        return Messages.Message.ViewModel(id: response.id, title: response.senderName, subtitle: response.subject, time: time, isRead: response.isRead, starIcon: starIcon, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
     }
     
     private func getMessageTime(response: Messages.MessageTime) -> String {
@@ -146,6 +158,21 @@ class MessagesPresenter: MessagesPresentationLogic {
     
     private func getLabel(response: Messages.Label.Response) -> Messages.Label.ViewModel {
         return Messages.Label.ViewModel(id: response.id, title: response.title, color: response.color)
+    }
+    
+    private func getStarIcon(response: Messages.Message.Response) -> Messages.Star.ViewModel {
+        let icon: String
+        let tooltip: String
+        
+        if response.isStarred {
+            icon = "star.fill"
+            tooltip = NSLocalizedString("messageUnstarConversation", comment: "")
+        } else {
+            icon = "star"
+            tooltip = NSLocalizedString("messageStarConversation", comment: "")
+        }
+        
+        return Messages.Star.ViewModel(icon: icon, isSelected: response.isStarred, color: NSColor.systemOrange, tooltip: tooltip)
     }
 
 }

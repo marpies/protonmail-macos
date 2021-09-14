@@ -127,6 +127,22 @@ enum Messages {
         }
     }
     
+    enum Star {
+        class ViewModel {
+            let icon: String
+            let isSelected: Bool
+            let color: NSColor
+            let tooltip: String
+
+            init(icon: String, isSelected: Bool, color: NSColor, tooltip: String) {
+                self.icon = icon
+                self.isSelected = isSelected
+                self.color = color
+                self.tooltip = tooltip
+            }
+        }
+    }
+    
     enum Message {
         class Response {
             let id: String
@@ -157,19 +173,19 @@ enum Messages {
             let title: String
             let subtitle: String
             let time: String
-            let isStarred: Bool
             let isRead: Bool
+            let starIcon: Messages.Star.ViewModel
             let folders: [Messages.Folder.ViewModel]?
             let labels: [Messages.Label.ViewModel]?
             let attachmentIcon: Messages.Attachment.ViewModel?
 
-            init(id: String, title: String, subtitle: String, time: String, isStarred: Bool, isRead: Bool, folders: [Messages.Folder.ViewModel]?, labels: [Messages.Label.ViewModel]?, attachmentIcon: Messages.Attachment.ViewModel?) {
+            init(id: String, title: String, subtitle: String, time: String, isRead: Bool, starIcon: Messages.Star.ViewModel, folders: [Messages.Folder.ViewModel]?, labels: [Messages.Label.ViewModel]?, attachmentIcon: Messages.Attachment.ViewModel?) {
                 self.id = id
                 self.title = title
                 self.subtitle = subtitle
                 self.time = time
-                self.isStarred = isStarred
                 self.isRead = isRead
+                self.starIcon = starIcon
                 self.folders = folders
                 self.labels = labels
                 self.attachmentIcon = attachmentIcon
@@ -242,6 +258,32 @@ enum Messages {
     }
     
     //
+    // MARK: - Update message
+    //
+    
+    enum UpdateMessage {
+        class Response {
+            let message: Messages.Message.Response
+            let index: Int
+
+            init(message: Messages.Message.Response, index: Int) {
+                self.message = message
+                self.index = index
+            }
+        }
+        
+        class ViewModel {
+            let message: Messages.Message.ViewModel
+            let index: Int
+            
+            init(message: Messages.Message.ViewModel, index: Int) {
+                self.message = message
+                self.index = index
+            }
+        }
+    }
+    
+    //
     // MARK: - Load error
     //
     
@@ -253,6 +295,26 @@ enum Messages {
         struct ViewModel {
             let message: String
             let button: String
+        }
+    }
+    
+    //
+    // MARK: - Star message
+    //
+    
+    enum StarMessage {
+        struct Request {
+            let id: String
+        }
+    }
+    
+    //
+    // MARK: - Unstar message
+    //
+    
+    enum UnstarMessage {
+        struct Request {
+            let id: String
         }
     }
     
