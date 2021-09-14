@@ -108,6 +108,44 @@ extension Message {
     }
     
     @discardableResult
+    func add(labelID: String) -> String? {
+        var outLabel: String?
+        //1, 2, labels can't be in inbox,
+        var addLabelID = labelID
+        if labelID == MailboxSidebar.Item.inbox.id && (self.contains(label: MailboxSidebar.Item.draft.hiddenId) || self.contains(label: MailboxSidebar.Item.draft.id)) {
+            // move message to 1 / 8
+            addLabelID = MailboxSidebar.Item.draft.id //"8"
+        }
+        
+        if labelID == MailboxSidebar.Item.inbox.id && (self.contains(label: MailboxSidebar.Item.outbox.hiddenId) || self.contains(label: MailboxSidebar.Item.outbox.id)) {
+            // move message to 2 / 7
+            addLabelID = sentSelf ? MailboxSidebar.Item.inbox.id : MailboxSidebar.Item.outbox.id //"7"
+        }
+        
+        if let context = self.managedObjectContext {
+            let labelObjs = self.mutableSetValue(forKey: Attributes.labels)
+            if let toLabel = Label.labelForLabelID(addLabelID, inManagedObjectContext: context) {
+                var exsited = false
+                for l in labelObjs {
+                    if let label = l as? Label {
+                        if label == toLabel {
+                            exsited = true
+                            break
+                        }
+                    }
+                }
+                if !exsited {
+                    outLabel = addLabelID
+                    labelObjs.add(toLabel)
+                }
+            }
+            self.setValue(labelObjs, forKey: Attributes.labels)
+            
+        }
+        return outLabel
+    }
+    
+    @discardableResult
     func remove(labelID: String) -> String? {
         if MailboxSidebar.Item.allMail.id == labelID  {
             return MailboxSidebar.Item.allMail.id
