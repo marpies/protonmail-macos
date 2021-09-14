@@ -53,6 +53,19 @@ extension CoreDataService: MessagesDatabaseManaging {
         }
     }
     
+    func loadMessage(id: String) -> Message? {
+        var message: Message?
+        
+        self.mainContext.performAndWaitWith { ctx in
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: Message.Attributes.entityName)
+            request.predicate = NSPredicate(format: "%K == %@", Message.Attributes.messageID, id)
+            
+            message = (try? ctx.fetch(request) as? [Message])?.first
+        }
+        
+        return message
+    }
+    
     func fetchMessages(forUser userId: String, labelId: String, olderThan time: Date?, completion: @escaping ([Message]) -> Void) {
         self.backgroundContext.performWith { ctx in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Message")
@@ -125,9 +138,80 @@ extension CoreDataService: MessagesDatabaseManaging {
         }
     }
     
+    func deleteMessage(id: String) {
+        self.deleteMessages(ids: [id])
+    }
+    
+    func deleteMessages(ids: [String]) {
+        let context: NSManagedObjectContext = self.mainContext
+        self.enqueue(context: self.mainContext) { ctx in
+            for id in ids {
+                if let message = Message.messageForMessageID(id, inManagedObjectContext: context) {
+                    let labelObjs = message.mutableSetValue(forKey: Message.Attributes.labels)
+                    labelObjs.removeAllObjects()
+                    message.setValue(labelObjs, forKey: Message.Attributes.labels)
+                    context.delete(message)
+                }
+            }
+            
+            if let error = context.saveUpstreamIfNeeded() {
+                PMLog.D("error: \(error)")
+            }
+        }
+    }
+    
+    func updateLabel(messageIds: [String], label: String, apply: Bool, userId: String) -> [Message]? {
+        let context: NSManagedObjectContext = self.mainContext
+        
+        var updatedMessages: [Message]?
+        
+        context.performAndWait {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Message.Attributes.entityName)
+            fetchRequest.predicate = NSPredicate(format: "%K in %@", Message.Attributes.messageID, messageIds as NSArray)
+            
+            do {
+                if let messages = try context.fetch(fetchRequest) as? [Message] {
+                    for message in messages {
+                        if apply {
+                            if message.add(labelID: label) != nil && message.unRead {
+                                self.updateCounterSync(plus: true, with: label, userId: userId, shouldSave: false)
+                            }
+                        } else {
+                            if message.remove(labelID: label) != nil && message.unRead {
+                                self.updateCounterSync(plus: false, with: label, userId: userId, shouldSave: false)
+                            }
+                        }
+                    }
+                    
+                    let error = context.saveUpstreamIfNeeded()
+                    if let error = error {
+                        PMLog.D(" error: \(error)")
+                    } else {
+                        updatedMessages = messages
+                    }
+                }
+            } catch let ex as NSError {
+                PMLog.D(" error: \(ex)")
+            }
+        }
+        
+        return updatedMessages
+    }
+    
     //
     // MARK: - Private
     //
+    
+    private func updateCounterSync(plus: Bool, with labelID: String, userId: String, shouldSave: Bool) {
+        let offset = plus ? 1 : -1
+        let unreadCount: Int = self.unreadCount(for: labelID, userId: userId)
+        var count = unreadCount + offset
+        if count < 0 {
+            count = 0
+        }
+        
+        self.updateUnreadCount(for: labelID, userId: userId, count: count, shouldSave: shouldSave)
+    }
     
     private func parseMessages(_ jsonArray: [[String: Any]], context: NSManagedObjectContext) -> [Message]? {
         do {
