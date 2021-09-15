@@ -80,6 +80,18 @@ class MessagesWorker: MessagesLoadingDelegate, MessageOpsProcessingDelegate {
         self.refreshMessage(id: request.id)
     }
     
+    func processMessagesSelection(request: Messages.MessagesDidSelect.Request) {
+        // todo load message first, only then update unread
+        if request.ids.count == 1 {
+            guard let userId = self.activeUserId else { return }
+            
+            let service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: userId)!
+            service.mark(messageIds: request.ids, unread: false)
+            
+            self.refreshMessage(id: request.ids[0])
+        }
+    }
+    
     //
     // MARK: - Messages loading delegate
     //

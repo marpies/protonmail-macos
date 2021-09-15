@@ -9,6 +9,10 @@
 import Foundation
 import AppKit
 
+protocol MessagesDataSourceDelegate: MessageTableCellViewDelegate {
+    func messagesDidSelect(ids: [String])
+}
+
 class MessagesDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
     
     private let cellId = NSUserInterfaceItemIdentifier("message")
@@ -16,7 +20,7 @@ class MessagesDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
     
     private var viewModel: [Messages.Message.ViewModel] = []
     
-    weak var cellDelegate: MessageTableCellViewDelegate?
+    weak var delegate: MessagesDataSourceDelegate?
 
     init(tableView: NSTableView) {
         self.tableView = tableView
@@ -55,7 +59,7 @@ class MessagesDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
         
         let message = self.viewModel[row]
         
-        cell.delegate = self.cellDelegate
+        cell.delegate = self.delegate
         cell.update(viewModel: message)
         
         return cell
@@ -67,6 +71,12 @@ class MessagesDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
             return 90
         }
         return 70
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        let ids: [String] = self.tableView.selectedRowIndexes.map { self.viewModel[$0].id }
+        
+        self.delegate?.messagesDidSelect(ids: ids)
     }
     
 }

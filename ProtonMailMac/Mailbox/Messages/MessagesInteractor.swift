@@ -13,6 +13,7 @@ protocol MessagesBusinessLogic {
     func processErrorViewButtonTap()
     func starMessage(request: Messages.StarMessage.Request)
     func unstarMessage(request: Messages.UnstarMessage.Request)
+    func processMessagesSelection(request: Messages.MessagesDidSelect.Request)
 }
 
 protocol MessagesDataStore {
@@ -52,6 +53,14 @@ class MessagesInteractor: MessagesBusinessLogic, MessagesDataStore, MessagesWork
     
     func unstarMessage(request: Messages.UnstarMessage.Request) {
         self.worker?.unstarMessage(request: request)
+    }
+    
+    //
+    // MARK: - Process messages selection
+    //
+    
+    func processMessagesSelection(request: Messages.MessagesDidSelect.Request) {
+        self.worker?.processMessagesSelection(request: request)
     }
     
     //

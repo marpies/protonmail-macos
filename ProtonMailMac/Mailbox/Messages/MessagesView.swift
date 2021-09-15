@@ -9,8 +9,8 @@
 import AppKit
 import SnapKit
 
-protocol MessagesViewDelegate: MessagesErrorViewDelegate, MessageTableCellViewDelegate {
-    
+protocol MessagesViewDelegate: MessagesErrorViewDelegate, MessagesDataSourceDelegate {
+    func refreshMessagesButtonDidTap()
 }
 
 class MessagesView: NSView {
@@ -44,7 +44,7 @@ class MessagesView: NSView {
             self.removeErrorView()
         }
         
-        self.dataSource.cellDelegate = self.delegate
+        self.dataSource.delegate = self.delegate
         self.dataSource.setData(viewModel: viewModel.messages)
         self.tableView.reloadData()
     }

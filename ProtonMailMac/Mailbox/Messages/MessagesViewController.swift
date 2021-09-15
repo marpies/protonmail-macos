@@ -97,4 +97,9 @@ class MessagesViewController: NSViewController, MessagesDisplayLogic, MessagesVi
         self.interactor?.unstarMessage(request: request)
     }
     
+    func messagesDidSelect(ids: [String]) {
+        let request = Messages.MessagesDidSelect.Request(ids: ids)
+        self.interactor?.processMessagesSelection(request: request)
+    }
+    
 }

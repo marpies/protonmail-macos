@@ -21,6 +21,9 @@ protocol MessageOpsProcessing {
     
     @discardableResult
     func label(messageIds: [String], label: String, apply: Bool) -> Bool
+    
+    @discardableResult
+    func mark(messageIds: [String], unread: Bool) -> Bool
 }
 
 class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
@@ -51,6 +54,17 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
         guard let messages = db.updateLabel(messageIds: messageIds, label: label, apply: apply, userId: self.userId) else { return false }
         
         self.queue(messages, action: apply ? .label : .unlabel, data1: label)
+        
+        return true
+    }
+    
+    @discardableResult
+    func mark(messageIds: [String], unread: Bool) -> Bool {
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
+        
+        guard let messages = db.updateUnread(messageIds: messageIds, unread: unread, userId: self.userId) else { return false }
+        
+        self.queue(messages, action: unread ? .unread : .read)
         
         return true
     }
@@ -125,7 +139,7 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
             case .empty:
                 fatalError("Not implemented yet.")
             case .read, .unread:
-                fatalError("Not implemented yet.")
+                self.messageAction(messageIds, action: actionString, UID: UID, completion: completeHandler)
             case .delete:
                 fatalError("Not implemented yet.")
             case .label:
@@ -242,6 +256,10 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
         }
     }
     
+    //
+    // MARK: - Label / unlabel
+    //
+    
     private func labelMessage(_ labelID: String, messageIds: [String], UID: String, completion: CompletionBlock?) {
         guard let user = self.usersManager.getUser(forId: UID) else {
             completion!(nil, nil, NSError.userLoggedOut())
@@ -271,6 +289,29 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
             self.delegate?.labelsDidUpdateForMessages(ids: messageIds, labelId: labelID)
             
             completion?(task, nil, error)
+        }
+    }
+    
+    //
+    // MARK: - Message action
+    //
+    
+    private func messageAction(_ managedObjectIds: [String], action: String, UID: String, completion: CompletionBlock?) {
+        guard let user = self.usersManager.getUser(forId: UID) else {
+            completion!(nil, nil, NSError.userLoggedOut())
+            return
+        }
+        
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
+        if let ids = db.getMessageIds(forURIRepresentations: managedObjectIds) {
+            self.auth = user.auth
+            
+            let request = MessageActionRequest(action: action, ids: ids)
+            self.apiService?.request(request, completion: { task, _, error in
+                completion?(task, nil, error)
+            })
+        } else {
+            completion?(nil, nil, NSError.unknownError())
         }
     }
     
