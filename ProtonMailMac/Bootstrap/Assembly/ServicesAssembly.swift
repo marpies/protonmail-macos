@@ -19,6 +19,14 @@ struct ServicesAssembly: Assembly {
         container.register(MessagesLoading.self) { (r: Resolver, labelId: String, userId: String) in
             return MessagesLoadingWorker(resolver: r, labelId: labelId, userId: userId)
         }.inObjectScope(.transient)
+        
+        container.register(MessageOpsProcessing.self) { (r: Resolver, userId: String) in
+            return MessageOpsService(userId: userId, resolver: r)
+        }.inObjectScope(.transient)
+        
+        container.register(MessageQueue.self) { (r: Resolver, queueName: String) in
+            return MessageQueue(queueName: queueName)
+        }.inObjectScope(.container)
     }
     
 }
