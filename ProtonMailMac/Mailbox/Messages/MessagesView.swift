@@ -128,6 +128,7 @@ class MessagesView: NSView {
                 table.dataSource = self.dataSource
                 table.delegate = self.dataSource
                 table.focusRingType = .none
+                table.allowsMultipleSelection = true
                 table.addTableColumn(self.column)
                 table.headerView = nil
                 table.intercellSpacing = NSSize(width: 0, height: 5)
