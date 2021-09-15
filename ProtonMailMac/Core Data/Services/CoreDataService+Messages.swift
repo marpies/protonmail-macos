@@ -161,41 +161,76 @@ extension CoreDataService: MessagesDatabaseManaging {
     }
     
     func updateLabel(messageIds: [String], label: String, apply: Bool, userId: String) -> [Message]? {
-        let context: NSManagedObjectContext = self.mainContext
-        
         var updatedMessages: [Message]?
         
-        context.performAndWait {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Message.Attributes.entityName)
-            fetchRequest.predicate = NSPredicate(format: "%K in %@", Message.Attributes.messageID, messageIds as NSArray)
+        self.mainContext.performAndWaitWith { ctx in
+            guard let messages = self.getMessages(ids: messageIds, context: ctx) else { return }
             
-            do {
-                if let messages = try context.fetch(fetchRequest) as? [Message] {
-                    for message in messages {
-                        if apply {
-                            if message.add(labelID: label) != nil && message.unRead {
-                                self.updateCounterSync(plus: true, with: label, userId: userId, shouldSave: false)
-                            }
-                        } else {
-                            if message.remove(labelID: label) != nil && message.unRead {
-                                self.updateCounterSync(plus: false, with: label, userId: userId, shouldSave: false)
-                            }
-                        }
+            for message in messages {
+                if apply {
+                    if message.add(labelID: label) != nil && message.unRead {
+                        self.updateCounterSync(plus: true, with: label, userId: userId, shouldSave: false)
                     }
-                    
-                    let error = context.saveUpstreamIfNeeded()
-                    if let error = error {
-                        PMLog.D(" error: \(error)")
-                    } else {
-                        updatedMessages = messages
+                } else {
+                    if message.remove(labelID: label) != nil && message.unRead {
+                        self.updateCounterSync(plus: false, with: label, userId: userId, shouldSave: false)
                     }
                 }
-            } catch let ex as NSError {
-                PMLog.D(" error: \(ex)")
+            }
+            
+            let error = ctx.saveUpstreamIfNeeded()
+            if let error = error {
+                PMLog.D(" error: \(error)")
+            } else {
+                updatedMessages = messages
             }
         }
         
         return updatedMessages
+    }
+    
+    func updateUnread(messageIds: [String], unread: Bool, userId: String) -> [Message]? {
+        var updatedMessages: [Message]?
+        
+        self.mainContext.performAndWaitWith { ctx in
+            guard let messages = self.getMessages(ids: messageIds, context: ctx) else { return }
+            
+            for message in messages {
+                guard message.unRead != unread else { continue }
+                
+                message.unRead = unread
+                
+                self.updateCounter(markUnRead: unread, on: message, userId: userId, context: ctx)
+                
+                // Track only messages that have their status changed
+                updatedMessages = updatedMessages ?? []
+                updatedMessages?.append(message)
+            }
+            
+            if let error = ctx.saveUpstreamIfNeeded() {
+                PMLog.D(error.localizedDescription)
+            }
+        }
+        
+        return updatedMessages
+    }
+    
+    func getMessageIds(forURIRepresentations ids: [String]) -> [String]? {
+        var messages: [String]?
+        
+        self.mainContext.performAndWaitWith { ctx in
+            messages = ids.compactMap { (id: String) -> String? in
+                if let objectID = self.managedObjectIDForURIRepresentation(id),
+                   let managedObject = try? ctx.existingObject(with: objectID),
+                   let message = managedObject as? Message
+                {
+                    return message.messageID
+                }
+                return nil
+            }
+        }
+        
+        return messages
     }
     
     //
@@ -213,11 +248,37 @@ extension CoreDataService: MessagesDatabaseManaging {
         self.updateUnreadCount(for: labelID, userId: userId, count: count, shouldSave: shouldSave)
     }
     
+    private func updateCounter(markUnRead: Bool, on message: Message, userId: String, context: NSManagedObjectContext) {
+        let offset = markUnRead ? 1 : -1
+        let labelIDs: [String] = message.getLabelIDs()
+        
+        for lID in labelIDs {
+            let unreadCount: Int = self.unreadCount(for: lID, userId: userId, context: context)
+            var count = unreadCount + offset
+            if count < 0 {
+                count = 0
+            }
+            self.updateUnreadCount(for: lID, userId: userId, count: count, context: context)
+        }
+    }
+    
     private func parseMessages(_ jsonArray: [[String: Any]], context: NSManagedObjectContext) -> [Message]? {
         do {
             return try GRTJSONSerialization.objects(withEntityName: "Message", fromJSONArray: jsonArray, in: context) as? [Message]
         } catch {
             PMLog.D("error parsing messages \(error)")
+            return nil
+        }
+    }
+    
+    private func getMessages(ids: [String], context: NSManagedObjectContext) -> [Message]? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Message.Attributes.entityName)
+        fetchRequest.predicate = NSPredicate(format: "%K in %@", Message.Attributes.messageID, ids as NSArray)
+        
+        do {
+            return try context.fetch(fetchRequest) as? [Message]
+        } catch {
+            PMLog.D(" error: \(error)")
             return nil
         }
     }
