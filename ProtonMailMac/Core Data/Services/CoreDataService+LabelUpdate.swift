@@ -92,6 +92,36 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         }
     }
     
+    func updateUnreadCount(for labelId: String, userId: String, count: Int, context: NSManagedObjectContext) {
+        let update = self.lastUpdateDefault(for: labelId, userId: userId, context: context)
+        update.unread = Int32(count)
+        
+        // Set app badge
+        if labelId == MailboxSidebar.Item.inbox.id {
+            self.setAppBadge(count)
+        }
+    }
+    
+    func unreadCount(for labelId: String, userId: String, context: NSManagedObjectContext) -> Int {
+        var unreadCount: Int32?
+        let update = self.lastUpdate(for: labelId, userId: userId, context: context)
+        
+        unreadCount = update?.unread
+        
+        guard let result = unreadCount else {
+            return 0
+        }
+        
+        return Int(result)
+    }
+    
+    func lastUpdateDefault(for labelId: String, userId: String, context: NSManagedObjectContext) -> LabelUpdate {
+        if let update = self.lastUpdate(for: labelId, userId: userId, context: context) {
+            return update
+        }
+        return LabelUpdate.newLabelUpdate(by: labelId, userID: userId, inManagedObjectContext: context)
+    }
+    
     //
     // MARK: - Private
     //
