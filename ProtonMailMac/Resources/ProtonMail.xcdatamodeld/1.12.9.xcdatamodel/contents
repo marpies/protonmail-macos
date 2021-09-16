@@ -110,7 +110,79 @@
             <entry key="identityAttribute" value="contactID"/>
         </userInfo>
     </entity>
-    <entity name="Conversation" representedClassName="." syncable="YES"/>
+    <entity name="Conversation" representedClassName=".Conversation" syncable="YES">
+        <attribute name="conversationID" attributeType="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="ID"/>
+            </userInfo>
+        </attribute>
+        <attribute name="numAttachments" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="NumAttachments"/>
+                <entry key="JSONTransformerName" value="NumberTransformer"/>
+            </userInfo>
+        </attribute>
+        <attribute name="numMessages" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="NumMessages"/>
+                <entry key="JSONTransformerName" value="NumberTransformer"/>
+            </userInfo>
+        </attribute>
+        <attribute name="numUnread" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="NumUnread"/>
+                <entry key="JSONTransformerName" value="NumberTransformer"/>
+            </userInfo>
+        </attribute>
+        <attribute name="order" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="JSONKeyPath" value="Order"/>
+                <entry key="JSONTransformerName" value="NumberTransformer"/>
+            </userInfo>
+        </attribute>
+        <attribute name="recipients" optional="YES" attributeType="Transformable" valueTransformerName="StringCryptoTransformer" customClassName="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="Recipients"/>
+                <entry key="JSONTransformerName" value="JsonStringTransformer"/>
+            </userInfo>
+        </attribute>
+        <attribute name="senders" optional="YES" attributeType="Transformable" valueTransformerName="StringCryptoTransformer" customClassName="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="Senders"/>
+                <entry key="JSONTransformerName" value="JsonStringTransformer"/>
+            </userInfo>
+        </attribute>
+        <attribute name="subject" attributeType="Transformable" valueTransformerName="StringCryptoTransformer" customClassName="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="Subject"/>
+            </userInfo>
+        </attribute>
+        <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO">
+            <userInfo>
+                <entry key="JSONKeyPath" value="Time"/>
+                <entry key="JSONTransformerName" value="DateTransformer"/>
+            </userInfo>
+        </attribute>
+        <attribute name="userID" optional="YES" attributeType="String">
+            <userInfo>
+                <entry key="JSONKeyPath" value="UserID"/>
+            </userInfo>
+        </attribute>
+        <relationship name="labels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Label" inverseName="conversations" inverseEntity="Label">
+            <userInfo>
+                <entry key="JSONKeyPath" value="LabelIDs"/>
+            </userInfo>
+        </relationship>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="conversation" inverseEntity="Message"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="conversationID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+        <userInfo>
+            <entry key="identityAttribute" value="conversationID"/>
+        </userInfo>
+    </entity>
     <entity name="Email" representedClassName=".Email" syncable="YES">
         <attribute name="contactID" optional="YES" attributeType="String" valueTransformerName="StringCryptoTransformer">
             <userInfo>
@@ -220,6 +292,7 @@
                 <entry key="JSONKeyPath" value="UserID"/>
             </userInfo>
         </attribute>
+        <relationship name="conversations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Conversation" inverseName="labels" inverseEntity="Conversation"/>
         <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="labels" inverseEntity="Email"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="labels" inverseEntity="Message"/>
         <fetchIndex name="byLabelIDIndex">
@@ -382,6 +455,11 @@
                 <entry key="JSONKeyPath" value="Attachments"/>
             </userInfo>
         </relationship>
+        <relationship name="conversation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Conversation" inverseName="messages" inverseEntity="Conversation">
+            <userInfo>
+                <entry key="JSONKeyPath" value="ConversationID"/>
+            </userInfo>
+        </relationship>
         <relationship name="labels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Label" inverseName="messages" inverseEntity="Label">
             <userInfo>
                 <entry key="JSONKeyPath" value="LabelIDs"/>
@@ -422,11 +500,11 @@
     <elements>
         <element name="Attachment" positionX="1989" positionY="-3666" width="128" height="224"/>
         <element name="Contact" positionX="1240" positionY="-3582" width="128" height="209"/>
-        <element name="Conversation" positionX="1719" positionY="-3726" width="128" height="45"/>
+        <element name="Conversation" positionX="1719" positionY="-3726" width="128" height="209"/>
         <element name="Email" positionX="1539" positionY="-3582" width="128" height="179"/>
-        <element name="Label" positionX="2095" positionY="-3357" width="128" height="194"/>
+        <element name="Label" positionX="2095" positionY="-3357" width="128" height="209"/>
         <element name="LabelUpdate" positionX="1440" positionY="-3717" width="128" height="148"/>
-        <element name="Message" positionX="1717" positionY="-3867" width="128" height="599"/>
+        <element name="Message" positionX="1717" positionY="-3867" width="128" height="614"/>
         <element name="UserEvent" positionX="1440" positionY="-3717" width="128" height="73"/>
     </elements>
 </model>

@@ -49,6 +49,7 @@ public class Label: NSManagedObject {
     @NSManaged public var order: NSNumber
     
     @NSManaged public var messages: NSSet
+    @NSManaged public var conversations: NSSet
     @NSManaged public var emails: NSSet
 }
 

@@ -29,6 +29,7 @@ extension Message {
         static let entityName = "Message"
         static let isDetailDownloaded = "isDetailDownloaded"
         static let messageID = "messageID"
+        static let conversationID = "conversationID"
         static let toList = "toList"
         static let sender = "sender"
         static let time = "time"

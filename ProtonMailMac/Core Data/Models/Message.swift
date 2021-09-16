@@ -69,6 +69,8 @@ final public class Message: NSManagedObject {
     @NSManaged public var lastModified: Date?
     /// ID : message id -- "ASnfew8asds92SDnsakr=="
     @NSManaged public var messageID: String
+    /// ID : conversation
+    @NSManaged public var conversation: Conversation
     /// local use, to check if message has metadata or not. some logic will fetch the metadata based on this
     @NSManaged public var messageStatus : NSNumber  // bit 0x00000000 no metadata  0x00000001 has
     /// local use, 0 is normal messages. 1 is review/rating tempery message
