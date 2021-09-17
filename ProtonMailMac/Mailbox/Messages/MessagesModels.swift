@@ -20,6 +20,17 @@ enum Messages {
         case today(Date)
         case yesterday(Date)
         case other(Date)
+        
+        var date: Date {
+            switch self {
+            case .today(let date):
+                return date
+            case .yesterday(let date):
+                return date
+            case .other(let date):
+                return date
+            }
+        }
     }
     
     enum Folder {
