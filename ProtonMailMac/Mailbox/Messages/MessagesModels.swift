@@ -155,7 +155,7 @@ enum Messages {
     }
     
     enum Message {
-        class Response {
+        class Response: Hashable {
             let id: String
             let subject: String
             let senderName: String
@@ -176,6 +176,23 @@ enum Messages {
                 self.isRead = isRead
                 self.folders = folders
                 self.labels = labels
+            }
+            
+            func hash(into hasher: inout Hasher) {
+                hasher.combine(self.id)
+                hasher.combine(self.subject)
+                hasher.combine(self.senderName)
+                hasher.combine(self.time.date.timeIntervalSince1970)
+                hasher.combine(self.numAttachments)
+                hasher.combine(self.isRead)
+                hasher.combine(self.isStarred)
+                
+                self.folders?.forEach { hasher.combine($0.kind.id) }
+                self.labels?.forEach { hasher.combine($0.id) }
+            }
+            
+            static func == (lhs: Messages.Message.Response, rhs: Messages.Message.Response) -> Bool {
+                return lhs.hashValue == rhs.hashValue
             }
         }
         
