@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 
 protocol UserEventsDatabaseProcessing {
-    func processMessages(_ messages: [[String : Any]], userId: String, completion: @escaping ([String], NSError?) -> Void)
+    func process(conversations: [[String: Any]], messages: [[String : Any]], userId: String, completion: @escaping ([String], NSError?) -> Void)
     
     func processEvents(addresses: [[String : Any]]?, userId: String) -> Promise<Void>
     func processEvents(labels: [[String : Any]]?, userId: String) -> Promise<Void>

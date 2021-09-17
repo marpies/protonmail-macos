@@ -37,6 +37,7 @@ final class EventCheckResponse : Response {
     var more : Int = 0
     
     var messages : [[String : Any]]?
+    var conversations : [[String : Any]]?
     var contacts : [[String : Any]]?
     var contactEmails : [[String : Any]]?
     var labels : [[String : Any]]?
@@ -69,6 +70,7 @@ final class EventCheckResponse : Response {
         self.more    = response["More"] as? Int ?? 0
         
         self.messages      = response["Messages"] as? [[String : Any]]
+        self.conversations = response["Conversations"] as? [[String : Any]]
         self.contacts      = response["Contacts"] as? [[String : Any]]
         self.contactEmails = response["ContactEmails"] as? [[String : Any]]
         self.labels        = response["Labels"] as? [[String : Any]]

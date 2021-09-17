@@ -65,172 +65,21 @@ extension CoreDataService: UserEventsDatabaseManaging {
 
 extension CoreDataService: UserEventsDatabaseProcessing {
     
-    func processMessages(_ messages: [[String : Any]], userId: String, completion: @escaping ([String], NSError?) -> Void) {
-        enum IncrementalUpdateType {
-            static let delete = 0
-            static let insert = 1
-            static let update1 = 2
-            static let update2 = 3
-        }
-        
+    func process(conversations: [[String: Any]], messages: [[String : Any]], userId: String, completion: @escaping ([String], NSError?) -> Void) {
         let context: NSManagedObjectContext = self.mainContext
-        self.enqueue(context: context) { (context) in
+        self.enqueue(context: context) { (ctx) in
             // List of message ids for which there is no metadata
-            var messagesNoCache: [String] = []
-            var responseError: NSError?
+            var (messagesNoCache, responseError): ([String], NSError?) = self.processMessageEvents(messages, userId: userId, context: ctx)
             
-            for message in messages {
-                let msg = MessageEvent(event: message)
-                switch(msg.Action) {
-                case .some(IncrementalUpdateType.delete):
-                    if let messageID = msg.ID {
-                        if let message = Message.messageForMessageID(messageID, inManagedObjectContext: context) {
-                            let labelObjs = message.mutableSetValue(forKey: "labels")
-                            labelObjs.removeAllObjects()
-                            message.setValue(labelObjs, forKey: "labels")
-                            context.delete(message)
-                            
-                            responseError = context.saveUpstreamIfNeeded()
-                        }
-                    }
-                case .some(IncrementalUpdateType.insert), .some(IncrementalUpdateType.update1), .some(IncrementalUpdateType.update2):
-                    if IncrementalUpdateType.insert == msg.Action {
-                        if let id = msg.ID, let cachedMessage = Message.messageForMessageID(id, inManagedObjectContext: context) {
-                            if !cachedMessage.contains(label: .outbox) {
-                                continue
-                            }
-                        }
-                        msg.message?["messageStatus"] = 1
-                    }
-                    
-                    let isMessageDraft: Bool = self.isMessageDraft(msg)
-                    if isMessageDraft,
-                       let id = msg.ID,
-                       let existingMsg = Message.messageForMessageID(id, inManagedObjectContext: context),
-                       existingMsg.messageStatus == 1 {
-                        if let subject = msg.message?["Subject"] as? String {
-                            existingMsg.title = subject
-                        }
-                        if let timeValue = msg.message?["Time"] {
-                            if let timeString = timeValue as? NSString {
-                                let time = timeString.doubleValue as TimeInterval
-                                if time != 0 {
-                                    existingMsg.time = time.asDate()
-                                }
-                            } else if let dateNumber = timeValue as? NSNumber {
-                                let time = dateNumber.doubleValue as TimeInterval
-                                if time != 0 {
-                                    existingMsg.time = time.asDate()
-                                }
-                            }
-                        }
-                        continue
-                    }
-                    
-                    do {
-                        if let messageObject = try GRTJSONSerialization.object(withEntityName: Message.Attributes.entityName, fromJSONDictionary: msg.message ?? [String : Any](), in: context) as? Message {
-                            // apply the label changes
-                            if let deleted = msg.message?["LabelIDsRemoved"] as? [String] {
-                                for labelId in deleted {
-                                    if let label = Label.labelForLabelID(labelId, inManagedObjectContext: context) {
-                                        let labelObjs = messageObject.mutableSetValue(forKey: "labels")
-                                        if labelObjs.count > 0 {
-                                            labelObjs.remove(label)
-                                            messageObject.setValue(labelObjs, forKey: "labels")
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            messageObject.userID = userId
-                            if msg.Action == IncrementalUpdateType.update1 {
-                                messageObject.isDetailDownloaded = false
-                            }
-                            
-                            
-                            if let added = msg.message?["LabelIDsAdded"] as? [String] {
-                                for labelId in added {
-                                    if let label = Label.labelForLabelID(labelId, inManagedObjectContext: context) {
-                                        let labelObjs = messageObject.mutableSetValue(forKey: "labels")
-                                        labelObjs.add(label)
-                                        messageObject.setValue(labelObjs, forKey: "labels")
-                                    }
-                                }
-                            }
-                            
-                            if msg.message?["LabelIDs"] != nil {
-                                messageObject.checkLabels()
-                            }
-                            
-                            // Check if we have metadata
-                            if messageObject.messageStatus == 0 {
-                                if messageObject.title.isEmpty {
-                                    messagesNoCache.append(messageObject.messageID)
-                                } else {
-                                    messageObject.messageStatus = 1
-                                }
-                            }
-                            
-                            if messageObject.managedObjectContext != nil {
-                                if let error = context.saveUpstreamIfNeeded() {
-                                    if let messageid = msg.message?["ID"] as? String {
-                                        messagesNoCache.append(messageid)
-                                    }
-                                    PMLog.D(" error: \(error)")
-                                    responseError = error
-                                }
-                            } else {
-                                if let messageid = msg.message?["ID"] as? String {
-                                    messagesNoCache.append(messageid)
-                                }
-                                PMLog.D(" GRTJSONSerialization Insert - context nil")
-                            }
-                        } else {
-                            // when GRTJSONSerialization inset returns no thing
-                            if let messageid = msg.message?["ID"] as? String {
-                                messagesNoCache.append(messageid)
-                            }
-                            PMLog.D(" case .Some(IncrementalUpdateType.insert), .Some(IncrementalUpdateType.update1), .Some(IncrementalUpdateType.update2): insert empty")
-                        }
-                    } catch let err as NSError {
-                        // when GRTJSONSerialization insert failed
-                        if let messageid = msg.message?["ID"] as? String {
-                            messagesNoCache.append(messageid)
-                        }
-                        
-                        #if DEBUG
-                        let status: String
-                        
-                        switch msg.Action {
-                        case IncrementalUpdateType.update1:
-                            status = "Update1"
-                        case IncrementalUpdateType.update2:
-                            status = "Update2"
-                        case IncrementalUpdateType.insert:
-                            status = "Insert"
-                        case IncrementalUpdateType.delete:
-                            status = "Delete"
-                        default:
-                            status = "Other: \(String(describing: msg.Action))"
-                        }
-                        
-                        PMLog.D(" error with msg status \(status): \(err)")
-                        #endif
-                    }
-                default:
-                    PMLog.D(" unknown type in message: \(message)")
-                    
-                }
-                
-                //TODO:: move this to the loop and to catch the error also put it in noCache queue.
-                if let error = context.saveUpstreamIfNeeded() {
-                    PMLog.D(" error: \(error)")
-                    responseError = error
-                }
+            let conversationsError: NSError? = self.processConversationEvents(conversations, userId: userId, context: ctx)
+            
+            if let error = ctx.saveUpstreamIfNeeded() {
+                PMLog.D(" error: \(error)")
+                responseError = error
             }
             
             DispatchQueue.main.async {
-                completion(messagesNoCache, responseError)
+                completion(messagesNoCache, responseError ?? conversationsError)
             }
         }
     }
@@ -428,6 +277,241 @@ extension CoreDataService: UserEventsDatabaseProcessing {
     //
     // MARK: - Private
     //
+    
+    private func processConversationEvents(_ conversations: [[String: Any]], userId: String, context: NSManagedObjectContext) -> NSError? {
+        enum IncrementalUpdateType {
+            static let delete = 0
+            static let insert = 1
+            static let update1 = 2
+            static let update2 = 3
+        }
+        
+        var responseError: NSError?
+        
+        for event in conversations {
+            let conversation: ConversationEvent = ConversationEvent(event: event)
+            
+            switch conversation.Action {
+            case .some(IncrementalUpdateType.delete):
+                if let id = conversation.ID {
+                    self.deleteConversation(id: id, context: context)
+                }
+                
+            case .some(IncrementalUpdateType.insert), .some(IncrementalUpdateType.update1), .some(IncrementalUpdateType.update2):
+                guard let json = conversation.conversation else { continue }
+                
+                do {
+                    if let conversationObject = try GRTJSONSerialization.object(withEntityName: Conversation.Attributes.entityName, fromJSONDictionary: json, in: context) as? Conversation {
+                        conversationObject.userID = userId
+                        
+                        // apply the label changes
+                        if let deleted = json["LabelIDsRemoved"] as? [String] {
+                            for labelId in deleted {
+                                guard let label = Label.labelForLabelID(labelId, inManagedObjectContext: context) else { continue }
+                                
+                                let labelObjs = conversationObject.mutableSetValue(forKey: "labels")
+                                if labelObjs.count > 0 {
+                                    labelObjs.remove(label)
+                                    conversationObject.setValue(labelObjs, forKey: "labels")
+                                }
+                            }
+                        }
+                        
+                        if let added = json["LabelIDsAdded"] as? [String] {
+                            for labelId in added {
+                                guard let label = Label.labelForLabelID(labelId, inManagedObjectContext: context) else { continue }
+                                
+                                let labelObjs = conversationObject.mutableSetValue(forKey: "labels")
+                                labelObjs.add(label)
+                                conversationObject.setValue(labelObjs, forKey: "labels")
+                            }
+                        }
+                        
+                        if conversationObject.managedObjectContext != nil {
+                            if let error = context.saveUpstreamIfNeeded() {
+                                PMLog.D(" error: \(error)")
+                                responseError = error
+                            }
+                        }
+                    }
+                } catch {
+                    #if DEBUG
+                    let status: String
+                    
+                    switch conversation.Action {
+                    case IncrementalUpdateType.update1:
+                        status = "Update1"
+                    case IncrementalUpdateType.update2:
+                        status = "Update2"
+                    case IncrementalUpdateType.insert:
+                        status = "Insert"
+                    case IncrementalUpdateType.delete:
+                        status = "Delete"
+                    default:
+                        status = "Other: \(String(describing: conversation.Action))"
+                    }
+                    
+                    PMLog.D(" error with msg status \(status): \(error)")
+                    #endif
+                }
+                
+            default:
+                PMLog.D(" unknown action in conversation: \(event)")
+            }
+        }
+        
+        return responseError
+    }
+    
+    private func processMessageEvents(_ messages: [[String: Any]], userId: String, context: NSManagedObjectContext) -> (noCacheIds: [String], error: NSError?) {
+        enum IncrementalUpdateType {
+            static let delete = 0
+            static let insert = 1
+            static let update1 = 2
+            static let update2 = 3
+        }
+        
+        var messagesNoCache: [String] = []
+        var responseError: NSError?
+        
+        for message in messages {
+            let msg = MessageEvent(event: message)
+            switch(msg.Action) {
+            case .some(IncrementalUpdateType.delete):
+                if let messageID = msg.ID {
+                    self.deleteMessage(id: messageID, context: context)
+                }
+            case .some(IncrementalUpdateType.insert), .some(IncrementalUpdateType.update1), .some(IncrementalUpdateType.update2):
+                if IncrementalUpdateType.insert == msg.Action {
+                    if let id = msg.ID, let cachedMessage = Message.messageForMessageID(id, inManagedObjectContext: context) {
+                        if !cachedMessage.contains(label: .outbox) {
+                            continue
+                        }
+                    }
+                    msg.message?["messageStatus"] = 1
+                }
+                
+                let isMessageDraft: Bool = self.isMessageDraft(msg)
+                if isMessageDraft,
+                   let id = msg.ID,
+                   let existingMsg = Message.messageForMessageID(id, inManagedObjectContext: context),
+                   existingMsg.messageStatus == 1 {
+                    if let subject = msg.message?["Subject"] as? String {
+                        existingMsg.title = subject
+                    }
+                    if let timeValue = msg.message?["Time"] {
+                        if let timeString = timeValue as? NSString {
+                            let time = timeString.doubleValue as TimeInterval
+                            if time != 0 {
+                                existingMsg.time = time.asDate()
+                            }
+                        } else if let dateNumber = timeValue as? NSNumber {
+                            let time = dateNumber.doubleValue as TimeInterval
+                            if time != 0 {
+                                existingMsg.time = time.asDate()
+                            }
+                        }
+                    }
+                    continue
+                }
+                
+                do {
+                    if let messageObject = try GRTJSONSerialization.object(withEntityName: Message.Attributes.entityName, fromJSONDictionary: msg.message ?? [String : Any](), in: context) as? Message {
+                        // apply the label changes
+                        if let deleted = msg.message?["LabelIDsRemoved"] as? [String] {
+                            for labelId in deleted {
+                                if let label = Label.labelForLabelID(labelId, inManagedObjectContext: context) {
+                                    let labelObjs = messageObject.mutableSetValue(forKey: "labels")
+                                    if labelObjs.count > 0 {
+                                        labelObjs.remove(label)
+                                        messageObject.setValue(labelObjs, forKey: "labels")
+                                    }
+                                }
+                            }
+                        }
+                        
+                        messageObject.userID = userId
+                        if msg.Action == IncrementalUpdateType.update1 {
+                            messageObject.isDetailDownloaded = false
+                        }
+                        
+                        
+                        if let added = msg.message?["LabelIDsAdded"] as? [String] {
+                            for labelId in added {
+                                if let label = Label.labelForLabelID(labelId, inManagedObjectContext: context) {
+                                    let labelObjs = messageObject.mutableSetValue(forKey: "labels")
+                                    labelObjs.add(label)
+                                    messageObject.setValue(labelObjs, forKey: "labels")
+                                }
+                            }
+                        }
+                        
+                        if msg.message?["LabelIDs"] != nil {
+                            messageObject.checkLabels()
+                        }
+                        
+                        // Check if we have metadata
+                        if messageObject.messageStatus == 0 {
+                            if messageObject.title.isEmpty {
+                                messagesNoCache.append(messageObject.messageID)
+                            } else {
+                                messageObject.messageStatus = 1
+                            }
+                        }
+                        
+                        if messageObject.managedObjectContext != nil {
+                            if let error = context.saveUpstreamIfNeeded() {
+                                if let messageid = msg.message?["ID"] as? String {
+                                    messagesNoCache.append(messageid)
+                                }
+                                PMLog.D(" error: \(error)")
+                                responseError = error
+                            }
+                        } else {
+                            if let messageid = msg.message?["ID"] as? String {
+                                messagesNoCache.append(messageid)
+                            }
+                            PMLog.D(" GRTJSONSerialization Insert - context nil")
+                        }
+                    } else {
+                        // when GRTJSONSerialization inset returns no thing
+                        if let messageid = msg.message?["ID"] as? String {
+                            messagesNoCache.append(messageid)
+                        }
+                        PMLog.D(" case .Some(IncrementalUpdateType.insert), .Some(IncrementalUpdateType.update1), .Some(IncrementalUpdateType.update2): insert empty")
+                    }
+                } catch let err as NSError {
+                    // when GRTJSONSerialization insert failed
+                    if let messageid = msg.message?["ID"] as? String {
+                        messagesNoCache.append(messageid)
+                    }
+                    
+                    #if DEBUG
+                    let status: String
+                    
+                    switch msg.Action {
+                    case IncrementalUpdateType.update1:
+                        status = "Update1"
+                    case IncrementalUpdateType.update2:
+                        status = "Update2"
+                    case IncrementalUpdateType.insert:
+                        status = "Insert"
+                    case IncrementalUpdateType.delete:
+                        status = "Delete"
+                    default:
+                        status = "Other: \(String(describing: msg.Action))"
+                    }
+                    
+                    PMLog.D(" error with msg status \(status): \(err)")
+                    #endif
+                }
+            default:
+                PMLog.D(" unknown type in message: \(message)")
+            }
+        }
+        
+        return (messagesNoCache, responseError)
+    }
     
     private func isMessageDraft(_ event: MessageEvent) -> Bool {
         guard let json = event.message else { return false }

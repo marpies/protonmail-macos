@@ -50,7 +50,6 @@ class Event {
     
 }
 
-// TODO:: remove the hard convert
 final class MessageEvent {
     var Action : Int?
     var ID : String?
@@ -61,6 +60,18 @@ final class MessageEvent {
         self.ID =  (event["ID"] as? String)
         self.message?["ID"] = self.ID
         self.message?["needsUpdate"] = false
+    }
+}
+
+final class ConversationEvent {
+    var Action : Int?
+    var ID : String?
+    var conversation : [String : Any]?
+    init(event: [String : Any]) {
+        self.Action = (event["Action"] as? Int)
+        self.conversation =  event["Conversation"] as? [String : Any]
+        self.ID =  (event["ID"] as? String)
+        self.conversation?["ID"] = self.ID
     }
 }
 

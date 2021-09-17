@@ -79,9 +79,9 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
                             completion(.cleanUp(eventResponse.eventID))
                         }
                     }
-                } else if let messageEvents = response.messages {
+                } else if let messageEvents = response.messages, let conversationEvents = response.conversations {
                     DispatchQueue.global().async {
-                        self.processMessageEvents(messageEvents, response: response, userId: userId) { (res, error) in
+                        self.processEvents(conversations: conversationEvents, messages: messageEvents, response: response, userId: userId) { (res, error) in
                             if let res = res {
                                 completion(.success(res))
                             }
@@ -91,7 +91,7 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
                         }
                     }
                 } else if response.code == 1000 {
-                    self.processEvents(messageEvents: nil, response: response, userId: userId) { res in
+                    self.processEvents(conversationEvents: nil, messageEvents: nil, response: response, userId: userId) { res in
                         completion(.success(res))
                     }
                 } else {
@@ -106,17 +106,17 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
     // MARK: - Event processing
     //
     
-    private func processMessageEvents(_ messages: [[String : Any]], response: EventCheckResponse, userId: String, completion: @escaping ([String: Any]?, NSError?) -> Void) {
+    private func processEvents(conversations: [[String : Any]], messages: [[String : Any]], response: EventCheckResponse, userId: String, completion: @escaping ([String: Any]?, NSError?) -> Void) {
         // this serial dispatch queue prevents multiple messages from appearing when an incremental update is triggered while another is in progress
         self.incrementalUpdateQueue.sync {
             let db: UserEventsDatabaseProcessing = resolver.resolve(UserEventsDatabaseProcessing.self)!
-            db.processMessages(messages, userId: userId) { missingMessageIds, error in
+            db.process(conversations: conversations, messages: messages, userId: userId) { missingMessageIds, error in
                 if !missingMessageIds.isEmpty {
                     self.fetchMessageInBatches(messageIDs: missingMessageIds, userId: userId)
                 }
                 
                 if error == nil {
-                    self.processEvents(messageEvents: messages, response: response, userId: userId) { res in
+                    self.processEvents(conversationEvents: conversations, messageEvents: messages, response: response, userId: userId) { res in
                         completion(res, nil)
                     }
                 } else {
@@ -126,7 +126,7 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
         }
     }
     
-    private func processEvents(messageEvents: [[String: Any]]?, response: EventCheckResponse, userId: String, completion: @escaping ([String: Any]) -> Void) {
+    private func processEvents(conversationEvents: [[String: Any]]?, messageEvents: [[String: Any]]?, response: EventCheckResponse, userId: String, completion: @escaping ([String: Any]) -> Void) {
         let userEventsDb: UserEventsDatabaseManaging = self.resolver.resolve(UserEventsDatabaseManaging.self)!
         let userEventsProcessing: UserEventsDatabaseProcessing = self.resolver.resolve(UserEventsDatabaseProcessing.self)!
         
@@ -189,6 +189,25 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
                 
                 if !updatedMessageIds.isEmpty {
                     result["UpdatedMessages"] = updatedMessageIds
+                }
+            }
+            
+            if let conversationEvents = conversationEvents {
+                var updatedConversationIds: Set<String> = []
+                var outConversations: [ConversationEvent] = []
+                for event in conversationEvents {
+                    let conversation = ConversationEvent(event: event)
+                    if conversation.Action == 1 {
+                        outConversations.append(conversation)
+                    } else if (conversation.Action == 2 || conversation.Action == 3), let id = conversation.ID {
+                        updatedConversationIds.insert(id)
+                    }
+                }
+                
+                result["Conversations"] = outConversations
+                
+                if !updatedConversationIds.isEmpty {
+                    result["UpdatedConversations"] = updatedConversationIds
                 }
             }
             
