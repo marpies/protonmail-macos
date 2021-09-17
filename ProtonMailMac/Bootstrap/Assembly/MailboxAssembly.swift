@@ -31,7 +31,7 @@ struct MailboxAssembly: Assembly {
             vc.interactor = r.resolve(MailboxBusinessLogic.self)
             vc.router = r.resolve(MailboxRouter.self)
             vc.sidebarViewController = r.resolve(MailboxSidebarViewController.self)
-            vc.messagesViewController = r.resolve(MessagesViewController.self)
+            vc.conversationsViewController = r.resolve(ConversationsViewController.self)
             vc.messageDetailsViewController = r.resolve(MessageDetailsViewController.self)
             return vc
         }

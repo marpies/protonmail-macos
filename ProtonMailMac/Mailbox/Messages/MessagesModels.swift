@@ -318,14 +318,4 @@ enum Messages {
         }
     }
     
-    //
-    // MARK: - Message did select
-    //
-    
-    enum MessagesDidSelect {
-        struct Request {
-            let ids: [String]
-        }
-    }
-    
 }

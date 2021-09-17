@@ -17,7 +17,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
 	var interactor: MailboxBusinessLogic?
 	var router: (MailboxRoutingLogic & MailboxDataPassing)?
     var sidebarViewController: MailboxSidebarViewController?
-    var messagesViewController: MessagesViewController?
+    var conversationsViewController: ConversationsViewController?
     var messageDetailsViewController: MessageDetailsViewController?
     
     weak var toolbarDelegate: ToolbarUtilizingDelegate?
@@ -31,14 +31,14 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
     override func loadView() {
         self.sidebarViewController?.delegate = self
         self.sidebarViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
-        self.messagesViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 300).isActive = true
+        self.conversationsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
         self.messageDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
         
         let sidebarItem = NSSplitViewItem(sidebarWithViewController: self.sidebarViewController!)
         sidebarItem.canCollapse = false
         addSplitViewItem(sidebarItem)
         
-        let contentItem = NSSplitViewItem(contentListWithViewController: self.messagesViewController!)
+        let contentItem = NSSplitViewItem(contentListWithViewController: self.conversationsViewController!)
         addSplitViewItem(contentItem)
         
         let detailsItem = NSSplitViewItem(viewController: self.messageDetailsViewController!)
@@ -82,7 +82,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
     //
     
     func mailboxSidebarDidSelectLabel(id: String) {
-        self.messagesViewController?.loadMessages(labelId: id)
+        self.conversationsViewController?.loadConversations(labelId: id)
     }
     
     //
