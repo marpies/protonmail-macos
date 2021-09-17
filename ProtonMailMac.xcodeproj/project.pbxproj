@@ -190,6 +190,8 @@
 		C3C6FD4326F09AD10066C504 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4226F09AD10066C504 /* ImageButton.swift */; };
 		C3C6FD4526F1D70B0066C504 /* MessageActionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4426F1D70B0066C504 /* MessageActionRequest.swift */; };
 		C3C6FD4B26F36B320066C504 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4A26F36B320066C504 /* Conversation.swift */; };
+		C3C6FD4D26F36CD10066C504 /* ConversationsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4C26F36CD10066C504 /* ConversationsRequest.swift */; };
+		C3C6FD4F26F36CE00066C504 /* ConversationsApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4E26F36CE00066C504 /* ConversationsApi.swift */; };
 		C3C6FD6926F382590066C504 /* ConversationsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD6826F382590066C504 /* ConversationsDatabaseManaging.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
@@ -458,6 +460,8 @@
 		C3C6FD4226F09AD10066C504 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		C3C6FD4426F1D70B0066C504 /* MessageActionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionRequest.swift; sourceTree = "<group>"; };
 		C3C6FD4A26F36B320066C504 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		C3C6FD4C26F36CD10066C504 /* ConversationsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsRequest.swift; sourceTree = "<group>"; };
+		C3C6FD4E26F36CE00066C504 /* ConversationsApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsApi.swift; sourceTree = "<group>"; };
 		C3C6FD6826F382590066C504 /* ConversationsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
@@ -934,6 +938,7 @@
 				C31D02FE26D970B3002EBBE0 /* LabelsApi.swift */,
 				C3DACB3E26E9423900927933 /* EventApi.swift */,
 				C3DACB6126EA859400927933 /* CardData.swift */,
+				C3C6FD4E26F36CE00066C504 /* ConversationsApi.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -959,6 +964,7 @@
 				C3C6FD3E26F087E90066C504 /* ApplyLabelToMessagesRequest.swift */,
 				C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */,
 				C3C6FD4426F1D70B0066C504 /* MessageActionRequest.swift */,
+				C3C6FD4C26F36CD10066C504 /* ConversationsRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1320,6 +1326,7 @@
 				C31D032626DA9A85002EBBE0 /* Label.swift in Sources */,
 				C3AA69E326E5441B00124A0B /* MessagesInteractor.swift in Sources */,
 				C3C6FD3B26EFB8440066C504 /* MessageAction.swift in Sources */,
+				C3C6FD4F26F36CE00066C504 /* ConversationsApi.swift in Sources */,
 				C39A244026D2D8FB008A482C /* JKBCrypt.swift in Sources */,
 				C39A241626D2D8D9008A482C /* AuthCredential.swift in Sources */,
 				C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */,
@@ -1438,6 +1445,7 @@
 				C39A244126D2D8FB008A482C /* Crypto.swift in Sources */,
 				C31D034C26DB95DF002EBBE0 /* CoreDataStore.swift in Sources */,
 				C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */,
+				C3C6FD4D26F36CD10066C504 /* ConversationsRequest.swift in Sources */,
 				C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */,
 				C31D034026DB898D002EBBE0 /* NSManagedObjectContext+Extensions.swift in Sources */,
 				C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */,
