@@ -74,6 +74,8 @@
 		C353421926F4A28A00EA0137 /* ConversationDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421226F4A28A00EA0137 /* ConversationDetailsInteractor.swift */; };
 		C353421A26F4A28A00EA0137 /* ConversationDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421326F4A28A00EA0137 /* ConversationDetailsView.swift */; };
 		C353421C26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421B26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift */; };
+		C353421E26F4AE9F00EA0137 /* ConversationByIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421D26F4AE9F00EA0137 /* ConversationByIdRequest.swift */; };
+		C353422026F4AF1700EA0137 /* ConversationByIdResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421F26F4AF1700EA0137 /* ConversationByIdResponse.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
 		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
@@ -355,6 +357,8 @@
 		C353421226F4A28A00EA0137 /* ConversationDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsInteractor.swift; sourceTree = "<group>"; };
 		C353421326F4A28A00EA0137 /* ConversationDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsView.swift; sourceTree = "<group>"; };
 		C353421B26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsAssembly.swift; sourceTree = "<group>"; };
+		C353421D26F4AE9F00EA0137 /* ConversationByIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationByIdRequest.swift; sourceTree = "<group>"; };
+		C353421F26F4AF1700EA0137 /* ConversationByIdResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationByIdResponse.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
 		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
@@ -946,6 +950,7 @@
 				C31D02FC26D97089002EBBE0 /* LabelsResponse.swift */,
 				C3DACB4226E942EB00927933 /* EventCheckResponse.swift */,
 				C3DACB4626E943B000927933 /* EventLatestIDResponse.swift */,
+				C353421F26F4AF1700EA0137 /* ConversationByIdResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -989,6 +994,7 @@
 				C3C6FD4026F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift */,
 				C3C6FD4426F1D70B0066C504 /* MessageActionRequest.swift */,
 				C3C6FD4C26F36CD10066C504 /* ConversationsRequest.swift */,
+				C353421D26F4AE9F00EA0137 /* ConversationByIdRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1421,6 +1427,7 @@
 				C3DACB4926E9448900927933 /* ServicesAssembly.swift in Sources */,
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
 				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
+				C353422026F4AF1700EA0137 /* ConversationByIdResponse.swift in Sources */,
 				C31D032C26DA9A85002EBBE0 /* LabelUpdate.swift in Sources */,
 				C31D034A26DB9534002EBBE0 /* CoreDataService.swift in Sources */,
 				C3C6FD2126EB44CE0066C504 /* MessageFoldersView.swift in Sources */,
@@ -1506,6 +1513,7 @@
 				C31D026526D6A1DE002EBBE0 /* SignInProcessingWorker.swift in Sources */,
 				C3C6FD5926F36EF10066C504 /* ConversationsWorker.swift in Sources */,
 				C3DACB5626E9FF2600927933 /* Contact+Helpers.swift in Sources */,
+				C353421E26F4AE9F00EA0137 /* ConversationByIdRequest.swift in Sources */,
 				C3C6FD5E26F36EF10066C504 /* ConversationsView.swift in Sources */,
 				C39A244126D2D8FB008A482C /* Crypto.swift in Sources */,
 				C31D034C26DB95DF002EBBE0 /* CoreDataStore.swift in Sources */,
