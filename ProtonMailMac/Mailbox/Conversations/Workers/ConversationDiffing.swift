@@ -35,8 +35,20 @@ extension ConversationDiffing {
             
             if let ids = updatedConversationIds {
                 updateSet = self.getIndexSet(ids: ids, conversations: newConversations)
+            }
+            
+            // Compare hashes of old and new conversations
+            for (index, newConv) in newConversations.enumerated() {
+                guard let oldConv = oldConversations.first(where: { $0.id == newConv.id }) else { continue }
                 
-                // Just in case, remove indices from "updateSet" if they are in "removeSet" and "insertSet"
+                if oldConv != newConv {
+                    updateSet = updateSet ?? IndexSet()
+                    updateSet?.insert(index)
+                }
+            }
+            
+            // Just in case, remove indices from "updateSet" if they are in "removeSet" and "insertSet"
+            if updateSet != nil {
                 self.removeIndices(from: &updateSet!, in: removeSet)
                 self.removeIndices(from: &updateSet!, in: insertSet)
             }

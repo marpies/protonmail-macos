@@ -11,7 +11,7 @@ import Foundation
 enum Conversations {
     
     enum Conversation {
-        class Response {
+        class Response: Hashable {
             let id: String
             let subject: String
             let senderNames: [String]
@@ -34,6 +34,24 @@ enum Conversations {
                 self.isStarred = isStarred
                 self.folders = folders
                 self.labels = labels
+            }
+            
+            func hash(into hasher: inout Hasher) {
+                hasher.combine(self.id)
+                hasher.combine(self.subject)
+                hasher.combine(self.senderNames)
+                hasher.combine(self.time.date.timeIntervalSince1970)
+                hasher.combine(self.numMessages)
+                hasher.combine(self.numAttachments)
+                hasher.combine(self.isRead)
+                hasher.combine(self.isStarred)
+                
+                self.folders?.forEach { hasher.combine($0.kind.id) }
+                self.labels?.forEach { hasher.combine($0.id) }
+            }
+            
+            static func == (lhs: Conversations.Conversation.Response, rhs: Conversations.Conversation.Response) -> Bool {
+                return lhs.hashValue == rhs.hashValue
             }
         }
         
