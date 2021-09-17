@@ -146,12 +146,7 @@ extension CoreDataService: MessagesDatabaseManaging {
         let context: NSManagedObjectContext = self.mainContext
         self.enqueue(context: self.mainContext) { ctx in
             for id in ids {
-                if let message = Message.messageForMessageID(id, inManagedObjectContext: context) {
-                    let labelObjs = message.mutableSetValue(forKey: Message.Attributes.labels)
-                    labelObjs.removeAllObjects()
-                    message.setValue(labelObjs, forKey: Message.Attributes.labels)
-                    context.delete(message)
-                }
+                self.deleteMessage(id: id, context: ctx)
             }
             
             if let error = context.saveUpstreamIfNeeded() {
@@ -167,15 +162,7 @@ extension CoreDataService: MessagesDatabaseManaging {
             guard let messages = self.getMessages(ids: messageIds, context: ctx) else { return }
             
             for message in messages {
-                if apply {
-                    if message.add(labelID: label) != nil && message.unRead {
-                        self.updateCounterSync(plus: true, with: label, userId: userId, shouldSave: false)
-                    }
-                } else {
-                    if message.remove(labelID: label) != nil && message.unRead {
-                        self.updateCounterSync(plus: false, with: label, userId: userId, shouldSave: false)
-                    }
-                }
+                self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: apply)
             }
             
             let error = ctx.saveUpstreamIfNeeded()
@@ -233,6 +220,41 @@ extension CoreDataService: MessagesDatabaseManaging {
         return messages
     }
     
+    func updateLabel(forMessage message: Message, labelId: String, userId: String, apply: Bool) {
+        if apply {
+            if message.add(labelID: labelId) != nil && message.unRead {
+                self.updateCounterSync(plus: true, with: labelId, userId: userId, shouldSave: false)
+            }
+        } else {
+            if message.remove(labelID: labelId) != nil && message.unRead {
+                self.updateCounterSync(plus: false, with: labelId, userId: userId, shouldSave: false)
+            }
+        }
+    }
+    
+    func updateCounter(markUnRead: Bool, on message: Message, userId: String, context: NSManagedObjectContext) {
+        let offset = markUnRead ? 1 : -1
+        let labelIDs: [String] = message.getLabelIDs()
+        
+        for lID in labelIDs {
+            let unreadCount: Int = self.unreadCount(for: lID, userId: userId, context: context)
+            var count = unreadCount + offset
+            if count < 0 {
+                count = 0
+            }
+            self.updateUnreadCount(for: lID, userId: userId, count: count, context: context)
+        }
+    }
+    
+    func deleteMessage(id: String, context: NSManagedObjectContext) {
+        if let message = Message.messageForMessageID(id, inManagedObjectContext: context) {
+            let labelObjs = message.mutableSetValue(forKey: "labels")
+            labelObjs.removeAllObjects()
+            message.setValue(labelObjs, forKey: "labels")
+            context.delete(message)
+        }
+    }
+    
     //
     // MARK: - Private
     //
@@ -246,20 +268,6 @@ extension CoreDataService: MessagesDatabaseManaging {
         }
         
         self.updateUnreadCount(for: labelID, userId: userId, count: count, shouldSave: shouldSave)
-    }
-    
-    private func updateCounter(markUnRead: Bool, on message: Message, userId: String, context: NSManagedObjectContext) {
-        let offset = markUnRead ? 1 : -1
-        let labelIDs: [String] = message.getLabelIDs()
-        
-        for lID in labelIDs {
-            let unreadCount: Int = self.unreadCount(for: lID, userId: userId, context: context)
-            var count = unreadCount + offset
-            if count < 0 {
-                count = 0
-            }
-            self.updateUnreadCount(for: lID, userId: userId, count: count, context: context)
-        }
     }
     
     private func parseMessages(_ jsonArray: [[String: Any]], context: NSManagedObjectContext) -> [Message]? {

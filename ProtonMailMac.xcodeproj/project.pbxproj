@@ -87,6 +87,8 @@
 		C36814D926D6641500A35A16 /* Withable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814D826D6641500A35A16 /* Withable.swift */; };
 		C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814DB26D6689D00A35A16 /* PaddedTextField.swift */; };
 		C36814E026D690DD00A35A16 /* PaddedSecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814DF26D690DD00A35A16 /* PaddedSecureTextField.swift */; };
+		C38ADA6C26F389510055A1AE /* CoreDataService+Conversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38ADA6B26F389510055A1AE /* CoreDataService+Conversations.swift */; };
+		C38ADA6E26F389C70055A1AE /* Conversation+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38ADA6D26F389C70055A1AE /* Conversation+Helpers.swift */; };
 		C39A23E926D2D81D008A482C /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E226D2D81D008A482C /* Key.swift */; };
 		C39A23EA26D2D81D008A482C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E326D2D81D008A482C /* UserInfo.swift */; };
 		C39A23EE26D2D81D008A482C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E826D2D81D008A482C /* Address.swift */; };
@@ -188,6 +190,7 @@
 		C3C6FD4326F09AD10066C504 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4226F09AD10066C504 /* ImageButton.swift */; };
 		C3C6FD4526F1D70B0066C504 /* MessageActionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4426F1D70B0066C504 /* MessageActionRequest.swift */; };
 		C3C6FD4B26F36B320066C504 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD4A26F36B320066C504 /* Conversation.swift */; };
+		C3C6FD6926F382590066C504 /* ConversationsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD6826F382590066C504 /* ConversationsDatabaseManaging.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
 		C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2E26E79A7100927933 /* Message+Defaults.swift */; };
@@ -354,6 +357,8 @@
 		C36814D826D6641500A35A16 /* Withable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Withable.swift; sourceTree = "<group>"; };
 		C36814DB26D6689D00A35A16 /* PaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedTextField.swift; sourceTree = "<group>"; };
 		C36814DF26D690DD00A35A16 /* PaddedSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedSecureTextField.swift; sourceTree = "<group>"; };
+		C38ADA6B26F389510055A1AE /* CoreDataService+Conversations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Conversations.swift"; sourceTree = "<group>"; };
+		C38ADA6D26F389C70055A1AE /* Conversation+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversation+Helpers.swift"; sourceTree = "<group>"; };
 		C39A23E226D2D81D008A482C /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		C39A23E326D2D81D008A482C /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		C39A23E826D2D81D008A482C /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
@@ -453,6 +458,7 @@
 		C3C6FD4226F09AD10066C504 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		C3C6FD4426F1D70B0066C504 /* MessageActionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionRequest.swift; sourceTree = "<group>"; };
 		C3C6FD4A26F36B320066C504 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		C3C6FD6826F382590066C504 /* ConversationsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
 		C3DACB2E26E79A7100927933 /* Message+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Defaults.swift"; sourceTree = "<group>"; };
@@ -608,6 +614,7 @@
 				C31D030C26DA9A84002EBBE0 /* Contact.swift */,
 				C3DACB5526E9FF2600927933 /* Contact+Helpers.swift */,
 				C3C6FD4A26F36B320066C504 /* Conversation.swift */,
+				C38ADA6D26F389C70055A1AE /* Conversation+Helpers.swift */,
 				C31D030A26DA9A84002EBBE0 /* Email.swift */,
 				C3DACB5726E9FF4D00927933 /* Email+Helpers.swift */,
 				C31D030D26DA9A84002EBBE0 /* Label.swift */,
@@ -629,6 +636,7 @@
 			isa = PBXGroup;
 			children = (
 				C31D034926DB9534002EBBE0 /* CoreDataService.swift */,
+				C38ADA6B26F389510055A1AE /* CoreDataService+Conversations.swift */,
 				C31D035226DBFBBE002EBBE0 /* CoreDataService+Labels.swift */,
 				C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */,
 				C3DACB3926E9258300927933 /* CoreDataService+UserEvents.swift */,
@@ -647,6 +655,7 @@
 				C3DACB3726E924AD00927933 /* UserEventsDatabaseManaging.swift */,
 				C3DACB5926EA25E900927933 /* LabelUpdateDatabaseManaging.swift */,
 				C3DACB4A26E9C05C00927933 /* UserEventsDatabaseProcessing.swift */,
+				C3C6FD6826F382590066C504 /* ConversationsDatabaseManaging.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -1316,6 +1325,7 @@
 				C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */,
 				C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */,
 				C3DACB3F26E9423900927933 /* EventApi.swift in Sources */,
+				C38ADA6C26F389510055A1AE /* CoreDataService+Conversations.swift in Sources */,
 				C3AA69F226E5459200124A0B /* MessageDetailsViewController.swift in Sources */,
 				C39A242F26D2D8D9008A482C /* ApiService.swift in Sources */,
 				C3DACB4126E9428B00927933 /* EventCheckRequest.swift in Sources */,
@@ -1367,11 +1377,13 @@
 				C31D030926DA9652002EBBE0 /* ProtonMail.xcdatamodeld in Sources */,
 				C3DACB4526E9436C00927933 /* EventLatestIDRequest.swift in Sources */,
 				C3F20A2A26D534FD0051EFEB /* SetupModels.swift in Sources */,
+				C38ADA6E26F389C70055A1AE /* Conversation+Helpers.swift in Sources */,
 				C39A244426D2D8FB008A482C /* PasswordUtils.swift in Sources */,
 				C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */,
 				C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */,
 				C39A241826D2D8D9008A482C /* MessageDetailResponse.swift in Sources */,
 				C31D02F726D945D7002EBBE0 /* MailboxAssembly.swift in Sources */,
+				C3C6FD6926F382590066C504 /* ConversationsDatabaseManaging.swift in Sources */,
 				C39A23EA26D2D81D008A482C /* UserInfo.swift in Sources */,
 				C39A24C726D3B56A008A482C /* DefaultKeyValueStore.swift in Sources */,
 				C39A242926D2D8D9008A482C /* MessageDetailRequest.swift in Sources */,

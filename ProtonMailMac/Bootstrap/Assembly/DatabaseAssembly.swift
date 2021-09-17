@@ -30,6 +30,9 @@ struct DatabaseAssembly: Assembly {
         container.register(LabelUpdateDatabaseManaging.self) { r in
             return r.resolve(CoreDataService.self)!
         }
+        container.register(ConversationsDatabaseManaging.self) { r in
+            return r.resolve(CoreDataService.self)!
+        }
     }
     
 }
