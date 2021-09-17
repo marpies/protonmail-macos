@@ -1,14 +1,14 @@
 //
-//  MessageDetailsModels.swift
+//  ConversationDetailsModels.swift
 //  ProtonMailMac
 //
-//  Created by Marcel Piešťanský on 05.09.2021.
+//  Created by Marcel Piešťanský on 17.09.2021.
 //  Copyright (c) 2021 marpies. All rights reserved.
 //
 
 import Foundation
 
-enum MessageDetails {
+enum ConversationDetails {
 
 	//
 	// MARK: - Init

@@ -32,7 +32,7 @@ struct MailboxAssembly: Assembly {
             vc.router = r.resolve(MailboxRouter.self)
             vc.sidebarViewController = r.resolve(MailboxSidebarViewController.self)
             vc.conversationsViewController = r.resolve(ConversationsViewController.self)
-            vc.messageDetailsViewController = r.resolve(MessageDetailsViewController.self)
+            vc.conversationDetailsViewController = r.resolve(ConversationDetailsViewController.self)
             return vc
         }
         container.register(MailboxDataStore.self) { r in

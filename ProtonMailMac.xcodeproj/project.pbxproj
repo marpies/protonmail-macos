@@ -66,6 +66,14 @@
 		C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */; };
 		C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */; };
 		C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3374F1E26D0F86100ED8DA0 /* SnapKit */; };
+		C353421426F4A28A00EA0137 /* ConversationDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420D26F4A28900EA0137 /* ConversationDetailsPresenter.swift */; };
+		C353421526F4A28A00EA0137 /* ConversationDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420E26F4A28900EA0137 /* ConversationDetailsWorker.swift */; };
+		C353421626F4A28A00EA0137 /* ConversationDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420F26F4A28A00EA0137 /* ConversationDetailsRouter.swift */; };
+		C353421726F4A28A00EA0137 /* ConversationDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421026F4A28A00EA0137 /* ConversationDetailsModels.swift */; };
+		C353421826F4A28A00EA0137 /* ConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421126F4A28A00EA0137 /* ConversationDetailsViewController.swift */; };
+		C353421926F4A28A00EA0137 /* ConversationDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421226F4A28A00EA0137 /* ConversationDetailsInteractor.swift */; };
+		C353421A26F4A28A00EA0137 /* ConversationDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421326F4A28A00EA0137 /* ConversationDetailsView.swift */; };
+		C353421C26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353421B26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
 		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
@@ -161,14 +169,6 @@
 		C3AA69E326E5441B00124A0B /* MessagesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */; };
 		C3AA69E426E5441B00124A0B /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DD26E5441B00124A0B /* MessagesView.swift */; };
 		C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */; };
-		C3AA69EE26E5459200124A0B /* MessageDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E726E5459200124A0B /* MessageDetailsPresenter.swift */; };
-		C3AA69EF26E5459200124A0B /* MessageDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E826E5459200124A0B /* MessageDetailsWorker.swift */; };
-		C3AA69F026E5459200124A0B /* MessageDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E926E5459200124A0B /* MessageDetailsRouter.swift */; };
-		C3AA69F126E5459200124A0B /* MessageDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69EA26E5459200124A0B /* MessageDetailsModels.swift */; };
-		C3AA69F226E5459200124A0B /* MessageDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69EB26E5459200124A0B /* MessageDetailsViewController.swift */; };
-		C3AA69F326E5459200124A0B /* MessageDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69EC26E5459200124A0B /* MessageDetailsInteractor.swift */; };
-		C3AA69F426E5459200124A0B /* MessageDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */; };
-		C3AA69F626E5459E00124A0B /* MessageDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */; };
 		C3AA69F826E651C700124A0B /* MessagesByLabelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */; };
 		C3C6FD1726EB1F450066C504 /* MessagesLoadingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */; };
 		C3C6FD1926EB21AA0066C504 /* MessageToModelConverting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */; };
@@ -347,6 +347,14 @@
 		C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacUITests.swift; sourceTree = "<group>"; };
 		C3374F1126D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C353420D26F4A28900EA0137 /* ConversationDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsPresenter.swift; sourceTree = "<group>"; };
+		C353420E26F4A28900EA0137 /* ConversationDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsWorker.swift; sourceTree = "<group>"; };
+		C353420F26F4A28A00EA0137 /* ConversationDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsRouter.swift; sourceTree = "<group>"; };
+		C353421026F4A28A00EA0137 /* ConversationDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsModels.swift; sourceTree = "<group>"; };
+		C353421126F4A28A00EA0137 /* ConversationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsViewController.swift; sourceTree = "<group>"; };
+		C353421226F4A28A00EA0137 /* ConversationDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsInteractor.swift; sourceTree = "<group>"; };
+		C353421326F4A28A00EA0137 /* ConversationDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsView.swift; sourceTree = "<group>"; };
+		C353421B26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsAssembly.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
 		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
@@ -441,14 +449,6 @@
 		C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesInteractor.swift; sourceTree = "<group>"; };
 		C3AA69DD26E5441B00124A0B /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesAssembly.swift; sourceTree = "<group>"; };
-		C3AA69E726E5459200124A0B /* MessageDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsPresenter.swift; sourceTree = "<group>"; };
-		C3AA69E826E5459200124A0B /* MessageDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsWorker.swift; sourceTree = "<group>"; };
-		C3AA69E926E5459200124A0B /* MessageDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsRouter.swift; sourceTree = "<group>"; };
-		C3AA69EA26E5459200124A0B /* MessageDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsModels.swift; sourceTree = "<group>"; };
-		C3AA69EB26E5459200124A0B /* MessageDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsViewController.swift; sourceTree = "<group>"; };
-		C3AA69EC26E5459200124A0B /* MessageDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsInteractor.swift; sourceTree = "<group>"; };
-		C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsView.swift; sourceTree = "<group>"; };
-		C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailsAssembly.swift; sourceTree = "<group>"; };
 		C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesByLabelRequest.swift; sourceTree = "<group>"; };
 		C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesLoadingWorker.swift; sourceTree = "<group>"; };
 		C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageToModelConverting.swift; sourceTree = "<group>"; };
@@ -578,10 +578,10 @@
 				C31D02F626D945D7002EBBE0 /* MailboxAssembly.swift */,
 				C31D02F826D96210002EBBE0 /* MailboxSidebarAssembly.swift */,
 				C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */,
-				C3AA69F526E5459E00124A0B /* MessageDetailsAssembly.swift */,
 				C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */,
 				C3DACB4826E9448800927933 /* ServicesAssembly.swift */,
 				C38ADA6926F388B20055A1AE /* ConversationsAssembly.swift */,
+				C353421B26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -760,11 +760,25 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
+		C353420C26F4A27A00EA0137 /* Conversation Details */ = {
+			isa = PBXGroup;
+			children = (
+				C353420D26F4A28900EA0137 /* ConversationDetailsPresenter.swift */,
+				C353420E26F4A28900EA0137 /* ConversationDetailsWorker.swift */,
+				C353420F26F4A28A00EA0137 /* ConversationDetailsRouter.swift */,
+				C353421026F4A28A00EA0137 /* ConversationDetailsModels.swift */,
+				C353421126F4A28A00EA0137 /* ConversationDetailsViewController.swift */,
+				C353421226F4A28A00EA0137 /* ConversationDetailsInteractor.swift */,
+				C353421326F4A28A00EA0137 /* ConversationDetailsView.swift */,
+			);
+			path = "Conversation Details";
+			sourceTree = "<group>";
+		};
 		C36814A226D627BE00A35A16 /* Mailbox */ = {
 			isa = PBXGroup;
 			children = (
 				C31D02D626D8CC37002EBBE0 /* Views */,
-				C36814B726D641F400A35A16 /* Message Details */,
+				C353420C26F4A27A00EA0137 /* Conversation Details */,
 				C3C6FD5026F36EDC0066C504 /* Conversations */,
 				C36814B626D641E300A35A16 /* Messages */,
 				C36814B526D641DD00A35A16 /* Sidebar */,
@@ -809,20 +823,6 @@
 				C3AA69DD26E5441B00124A0B /* MessagesView.swift */,
 			);
 			path = Messages;
-			sourceTree = "<group>";
-		};
-		C36814B726D641F400A35A16 /* Message Details */ = {
-			isa = PBXGroup;
-			children = (
-				C3AA69E726E5459200124A0B /* MessageDetailsPresenter.swift */,
-				C3AA69E826E5459200124A0B /* MessageDetailsWorker.swift */,
-				C3AA69E926E5459200124A0B /* MessageDetailsRouter.swift */,
-				C3AA69EA26E5459200124A0B /* MessageDetailsModels.swift */,
-				C3AA69EB26E5459200124A0B /* MessageDetailsViewController.swift */,
-				C3AA69EC26E5459200124A0B /* MessageDetailsInteractor.swift */,
-				C3AA69ED26E5459200124A0B /* MessageDetailsView.swift */,
-			);
-			path = "Message Details";
 			sourceTree = "<group>";
 		};
 		C36814BC26D65AA600A35A16 /* Resources */ = {
@@ -1355,20 +1355,19 @@
 				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
 				C39A247426D2DCAA008A482C /* Array+Extensions.swift in Sources */,
 				C31D034626DB8B34002EBBE0 /* Attachment+Info.swift in Sources */,
-				C3AA69EF26E5459200124A0B /* MessageDetailsWorker.swift in Sources */,
 				C39A242826D2D8D9008A482C /* AuthInfoRequest.swift in Sources */,
+				C353421626F4A28A00EA0137 /* ConversationDetailsRouter.swift in Sources */,
 				C39A244626D2D8FB008A482C /* Hash.swift in Sources */,
 				C39A241A26D2D8D9008A482C /* Response.swift in Sources */,
 				C31D02FB26D9705E002EBBE0 /* LabelsRequest.swift in Sources */,
 				C39A242126D2D8D9008A482C /* HttpMethod.swift in Sources */,
 				C39A241E26D2D8D9008A482C /* AuthResponse.swift in Sources */,
 				C39A242B26D2D8D9008A482C /* Request.swift in Sources */,
-				C3AA69F126E5459200124A0B /* MessageDetailsModels.swift in Sources */,
 				C39A24D226D3B818008A482C /* UsersManager.swift in Sources */,
 				C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */,
+				C353421526F4A28A00EA0137 /* ConversationDetailsWorker.swift in Sources */,
 				C3DACB3826E924AD00927933 /* UserEventsDatabaseManaging.swift in Sources */,
 				C39A23E926D2D81D008A482C /* Key.swift in Sources */,
-				C3AA69F626E5459E00124A0B /* MessageDetailsAssembly.swift in Sources */,
 				C3DACB4B26E9C05C00927933 /* UserEventsDatabaseProcessing.swift in Sources */,
 				C31D02F326D942A4002EBBE0 /* MailboxSidebarView.swift in Sources */,
 				C36814E026D690DD00A35A16 /* PaddedSecureTextField.swift in Sources */,
@@ -1392,9 +1391,9 @@
 				C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */,
 				C3C6FD5A26F36EF10066C504 /* ConversationsRouter.swift in Sources */,
 				C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */,
+				C353421C26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift in Sources */,
 				C3DACB3F26E9423900927933 /* EventApi.swift in Sources */,
 				C38ADA6C26F389510055A1AE /* CoreDataService+Conversations.swift in Sources */,
-				C3AA69F226E5459200124A0B /* MessageDetailsViewController.swift in Sources */,
 				C39A242F26D2D8D9008A482C /* ApiService.swift in Sources */,
 				C3DACB4126E9428B00927933 /* EventCheckRequest.swift in Sources */,
 				C39A241B26D2D8D9008A482C /* UserInfoResponse.swift in Sources */,
@@ -1409,6 +1408,7 @@
 				C3DACB5A26EA25E900927933 /* LabelUpdateDatabaseManaging.swift in Sources */,
 				C31D027526D76B6F002EBBE0 /* KeyValueStoreKeys.swift in Sources */,
 				C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */,
+				C353421826F4A28A00EA0137 /* ConversationDetailsViewController.swift in Sources */,
 				C3DACB5E26EA277A00927933 /* LabelUpdate+Helpers.swift in Sources */,
 				C3DACB4F26E9C5C500927933 /* Label+Helpers.swift in Sources */,
 				C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */,
@@ -1417,7 +1417,6 @@
 				C39A24DD26D3C241008A482C /* UserInfo+Locked.swift in Sources */,
 				C39A242C26D2D8D9008A482C /* KeySaltsRequest.swift in Sources */,
 				C3DACB3626E8E2E200927933 /* ConversationsDataSource.swift in Sources */,
-				C3AA69F326E5459200124A0B /* MessageDetailsInteractor.swift in Sources */,
 				C3AA69E126E5441B00124A0B /* MessagesModels.swift in Sources */,
 				C3DACB4926E9448900927933 /* ServicesAssembly.swift in Sources */,
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
@@ -1432,7 +1431,6 @@
 				C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */,
 				C39A241F26D2D8D9008A482C /* AddressesResponse.swift in Sources */,
 				C3C6FD3626EFB6C60066C504 /* MessageQueue.swift in Sources */,
-				C3AA69F026E5459200124A0B /* MessageDetailsRouter.swift in Sources */,
 				C31D02ED26D942A4002EBBE0 /* MailboxSidebarPresenter.swift in Sources */,
 				C3A658FC26E65C8500CFE2F9 /* CoreDataService+Messages.swift in Sources */,
 				C3F20A1026D5343C0051EFEB /* AppWindow.swift in Sources */,
@@ -1497,6 +1495,7 @@
 				C3C6FD5D26F36EF10066C504 /* ConversationsInteractor.swift in Sources */,
 				C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */,
 				C3DACB4D26E9C36D00927933 /* Message+Helpers.swift in Sources */,
+				C353421926F4A28A00EA0137 /* ConversationDetailsInteractor.swift in Sources */,
 				C31D02F226D942A4002EBBE0 /* MailboxSidebarInteractor.swift in Sources */,
 				C39A242526D2D8D9008A482C /* AddressesApi.swift in Sources */,
 				C3C6FD1F26EB43EA0066C504 /* CircleView.swift in Sources */,
@@ -1534,10 +1533,8 @@
 				C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */,
 				C3C6FD4126F0884E0066C504 /* RemoveLabelFromMessagesRequest.swift in Sources */,
 				C31D033026DA9A85002EBBE0 /* UserEvent.swift in Sources */,
-				C3AA69EE26E5459200124A0B /* MessageDetailsPresenter.swift in Sources */,
 				C31D02CB26D80EB3002EBBE0 /* TwoFactorInputPresenter.swift in Sources */,
 				C3F20A2C26D534FD0051EFEB /* SetupInteractor.swift in Sources */,
-				C3AA69F426E5459200124A0B /* MessageDetailsView.swift in Sources */,
 				C3DACB6226EA859400927933 /* CardData.swift in Sources */,
 				C3C6FD4526F1D70B0066C504 /* MessageActionRequest.swift in Sources */,
 				C39A242326D2D8D9008A482C /* UsersApi.swift in Sources */,
@@ -1551,14 +1548,17 @@
 				C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */,
 				C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */,
 				C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */,
+				C353421A26F4A28A00EA0137 /* ConversationDetailsView.swift in Sources */,
 				C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */,
 				C39A247026D2DC68008A482C /* JSONDecoder+Extensions.swift in Sources */,
+				C353421426F4A28A00EA0137 /* ConversationDetailsPresenter.swift in Sources */,
 				C3C6FD6526F37CF80066C504 /* ConversationDiffing.swift in Sources */,
 				C3DACB6026EA832D00927933 /* AppBadgeManaging.swift in Sources */,
 				C3C6FD1B26EB33090066C504 /* ConversationsErrorView.swift in Sources */,
 				C39A244526D2D8FB008A482C /* SRPClient.swift in Sources */,
 				C39A243426D2D8D9008A482C /* ApiErrorCode.swift in Sources */,
 				C36814C626D65CD600A35A16 /* AppViewController.swift in Sources */,
+				C353421726F4A28A00EA0137 /* ConversationDetailsModels.swift in Sources */,
 				C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

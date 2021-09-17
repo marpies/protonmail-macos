@@ -18,7 +18,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
 	var router: (MailboxRoutingLogic & MailboxDataPassing)?
     var sidebarViewController: MailboxSidebarViewController?
     var conversationsViewController: ConversationsViewController?
-    var messageDetailsViewController: MessageDetailsViewController?
+    var conversationDetailsViewController: ConversationDetailsViewController?
     
     weak var toolbarDelegate: ToolbarUtilizingDelegate?
     
@@ -32,7 +32,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
         self.sidebarViewController?.delegate = self
         self.sidebarViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
         self.conversationsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
-        self.messageDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
+        self.conversationDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
         
         let sidebarItem = NSSplitViewItem(sidebarWithViewController: self.sidebarViewController!)
         sidebarItem.canCollapse = false
@@ -41,7 +41,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
         let contentItem = NSSplitViewItem(contentListWithViewController: self.conversationsViewController!)
         addSplitViewItem(contentItem)
         
-        let detailsItem = NSSplitViewItem(viewController: self.messageDetailsViewController!)
+        let detailsItem = NSSplitViewItem(viewController: self.conversationDetailsViewController!)
         addSplitViewItem(detailsItem)
         
         super.loadView()
