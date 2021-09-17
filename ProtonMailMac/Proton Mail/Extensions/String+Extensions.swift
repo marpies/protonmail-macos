@@ -209,7 +209,7 @@ extension String {
 
 extension String {
     
-    func parseObjectAny () -> [String:Any]? {
+    func parseObjectAny() -> [String:Any]? {
         if self.isEmpty {
             return nil
         }
@@ -220,6 +220,23 @@ extension String {
         } catch let ex as NSError {
             PMLog.D("\(ex)")
         }
+        return nil
+    }
+    
+    
+    func parseJsonArray() -> [[String: Any]]? {
+        if self.isEmpty {
+            return []
+        }
+        
+        do {
+            if let data = self.data(using: String.Encoding.utf8) {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [[String : Any]]
+            }
+        } catch let ex as NSError {
+            PMLog.D(" func parseJson() -> error error \(ex)")
+        }
+        
         return nil
     }
 
