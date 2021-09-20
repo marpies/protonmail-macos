@@ -16,6 +16,22 @@ final class ConversationByIdResponse: Response {
         self.code = response["Code"] as? Int ?? 0
         self.conversation = response["Conversation"] as? [String: Any]
         self.messages = response["Messages"] as? [[String: Any]]
+        
+        self.updateLabelIds()
         return true
     }
+    
+    private func updateLabelIds() {
+        guard var labelIds = self.conversation?["LabelIDs"] as? [String], labelIds.isEmpty,
+              let labels = self.conversation?["Labels"] as? [[String: Any]] else { return }
+        
+        for json in labels {
+            guard let id = json["ID"] as? String else { continue }
+            
+            labelIds.append(id)
+        }
+        
+        self.conversation?["LabelIDs"] = labelIds
+    }
+    
 }
