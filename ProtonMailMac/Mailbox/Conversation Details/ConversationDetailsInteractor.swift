@@ -9,7 +9,8 @@
 import Foundation
 
 protocol ConversationDetailsBusinessLogic {
-	func loadData(request: ConversationDetails.Init.Request)
+	func loadConversation(request: ConversationDetails.Load.Request)
+    func reloadConversation()
 }
 
 protocol ConversationDetailsDataStore {
@@ -23,20 +24,32 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
 	var presenter: ConversationDetailsPresentationLogic?
 	
 	//
-	// MARK: - Load data
+	// MARK: - Load conversation
 	//
 	
-	func loadData(request: ConversationDetails.Init.Request) {
+    func loadConversation(request: ConversationDetails.Load.Request) {
 		self.worker?.delegate = self
-		self.worker?.loadData(request: request)
+		self.worker?.loadConversation(request: request)
 	}
+    
+    //
+    // MARK: - Reload conversation
+    //
+    
+    func reloadConversation() {
+        self.worker?.reloadConversation()
+    }
     
     //
     // MARK: - Worker delegate
     //
     
-    func ConversationDetailsDidLoad(response: ConversationDetails.Init.Response) {
-        self.presenter?.presentData(response: response)
+    func conversationDidLoad(response: ConversationDetails.Load.Response) {
+        self.presenter?.presentConversation(response: response)
+    }
+    
+    func conversationLoadDidFail(response: ConversationDetails.LoadError.Response) {
+        self.presenter?.presentLoadError(response: response)
     }
     
 }

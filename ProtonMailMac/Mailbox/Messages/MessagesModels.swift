@@ -33,6 +33,20 @@ enum Messages {
         }
     }
     
+    enum Icon {
+        class ViewModel {
+            let icon: String
+            let color: NSColor
+            let tooltip: String
+
+            init(icon: String, color: NSColor, tooltip: String) {
+                self.icon = icon
+                self.color = color
+                self.tooltip = tooltip
+            }
+        }
+    }
+    
     enum Folder {
         case draft
         case inbox
@@ -155,6 +169,30 @@ enum Messages {
     }
     
     enum Message {
+        enum Header {
+            class ViewModel {
+                let title: String
+                let labels: [Messages.Label.ViewModel]?
+                let folders: [Messages.Folder.ViewModel]
+                let date: String
+                let starIcon: Messages.Star.ViewModel
+                let isRead: Bool
+                let repliedIcon: Messages.Icon.ViewModel?
+                let attachmentIcon: Messages.Attachment.ViewModel?
+
+                init(title: String, labels: [Messages.Label.ViewModel]?, folders: [Messages.Folder.ViewModel], date: String, starIcon: Messages.Star.ViewModel, isRead: Bool, repliedIcon: Messages.Icon.ViewModel?, attachmentIcon: Messages.Attachment.ViewModel?) {
+                    self.title = title
+                    self.labels = labels
+                    self.folders = folders
+                    self.date = date
+                    self.starIcon = starIcon
+                    self.isRead = isRead
+                    self.repliedIcon = repliedIcon
+                    self.attachmentIcon = attachmentIcon
+                }
+            }
+        }
+        
         class Response: Hashable {
             let id: String
             let subject: String
@@ -202,25 +240,13 @@ enum Messages {
         
         class ViewModel {
             let id: String
-            let title: String
-            let subtitle: String
-            let time: String
-            let isRead: Bool
-            let starIcon: Messages.Star.ViewModel
-            let folders: [Messages.Folder.ViewModel]?
-            let labels: [Messages.Label.ViewModel]?
-            let attachmentIcon: Messages.Attachment.ViewModel?
+            let header: Messages.Message.Header.ViewModel
+            let content: String?
 
-            init(id: String, title: String, subtitle: String, time: String, isRead: Bool, starIcon: Messages.Star.ViewModel, folders: [Messages.Folder.ViewModel]?, labels: [Messages.Label.ViewModel]?, attachmentIcon: Messages.Attachment.ViewModel?) {
+            init(id: String, header: Messages.Message.Header.ViewModel, content: String?) {
                 self.id = id
-                self.title = title
-                self.subtitle = subtitle
-                self.time = time
-                self.isRead = isRead
-                self.starIcon = starIcon
-                self.folders = folders
-                self.labels = labels
-                self.attachmentIcon = attachmentIcon
+                self.header = header
+                self.content = content
             }
         }
     }

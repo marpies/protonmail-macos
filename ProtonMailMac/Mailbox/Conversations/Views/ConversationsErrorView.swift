@@ -37,8 +37,12 @@ class ConversationsErrorView: NSView {
     }
     
     func update(viewModel: Conversations.LoadError.ViewModel) {
-        self.label.stringValue = viewModel.message
-        self.button.title = viewModel.button
+        self.update(message: viewModel.message, button: viewModel.button)
+    }
+    
+    func update(message: String, button: String) {
+        self.label.stringValue = message
+        self.button.title = button
     }
     
     //

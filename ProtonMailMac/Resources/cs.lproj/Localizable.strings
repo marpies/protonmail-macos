@@ -71,3 +71,11 @@
 "messageDateYesterdayText" = "Včera";
 "messageStarConversation" = "Přidat hvězdičku";
 "messageUnstarConversation" = "Odebrat hvězdičku";
+
+//
+// MARK: - Conversation details
+//
+
+"messageDetailRepliedToIconTooltip" = "Odpovězeno";
+"conversationLoadErrorPotentiallyOutdatedMessage" = "Nepodařilo se načíst nejnovější zprávy, konverzace nemusí být aktuální.";
+"conversationLoadErrorMessage" = "Při načítání zpráv došlo k chybě.";

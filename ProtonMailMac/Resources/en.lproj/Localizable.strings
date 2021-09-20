@@ -71,3 +71,11 @@
 "messageDateYesterdayText" = "Yesterday";
 "messageStarConversation" = "Star conversation";
 "messageUnstarConversation" = "Unstar conversation";
+
+//
+// MARK: - Conversation details
+//
+
+"messageDetailRepliedToIconTooltip" = "Replied to";
+"conversationLoadErrorPotentiallyOutdatedMessage" = "Latest messages for this conversation could not be loaded. The conversation may be outdated.";
+"conversationLoadErrorMessage" = "There was an error loading the messages.";

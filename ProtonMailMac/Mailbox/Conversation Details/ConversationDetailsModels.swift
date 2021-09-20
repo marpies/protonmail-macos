@@ -9,20 +9,85 @@
 import Foundation
 
 enum ConversationDetails {
+    
+    enum Conversation {
+        class Response {
+            let conversation: Conversations.Conversation.Response
+            let messages: [Messages.Message.Response]
+
+            init(conversation: Conversations.Conversation.Response, messages: [Messages.Message.Response]) {
+                self.conversation = conversation
+                self.messages = messages
+            }
+        }
+        
+        class ViewModel {
+            let title: String
+            let starIcon: Messages.Star.ViewModel
+            let labels: [Messages.Label.ViewModel]?
+            let messages: [Messages.Message.ViewModel]
+
+            init(title: String, starIcon: Messages.Star.ViewModel, labels: [Messages.Label.ViewModel]?, messages: [Messages.Message.ViewModel]) {
+                self.title = title
+                self.starIcon = starIcon
+                self.labels = labels
+                self.messages = messages
+            }
+        }
+    }
 
 	//
-	// MARK: - Init
+	// MARK: - Load
 	//
 
-	enum Init {
+	enum Load {
 		struct Request {
+            let id: String
 		}
 
-		struct Response {
+		class Response {
+            let conversation: ConversationDetails.Conversation.Response
+
+            init(conversation: ConversationDetails.Conversation.Response) {
+                self.conversation = conversation
+            }
 		}
 
-		struct ViewModel {
+		class ViewModel {
+            let conversation: ConversationDetails.Conversation.ViewModel
+
+            init(conversation: ConversationDetails.Conversation.ViewModel) {
+                self.conversation = conversation
+            }
 		}
 	}
+    
+    //
+    // MARK: - Load error
+    //
+    
+    enum LoadError {
+        class Response {
+            let conversation: ConversationDetails.Conversation.Response
+            let hasCachedMessages: Bool
+
+            init(conversation: ConversationDetails.Conversation.Response, hasCachedMessages: Bool) {
+                self.conversation = conversation
+                self.hasCachedMessages = hasCachedMessages
+            }
+        }
+        
+        class ViewModel {
+            let conversation: ConversationDetails.Conversation.ViewModel
+            let message: String
+            let button: String
+
+            init(conversation: ConversationDetails.Conversation.ViewModel, message: String, button: String) {
+                self.conversation = conversation
+                self.message = message
+                self.button = button
+            }
+        }
+    }
     
 }
