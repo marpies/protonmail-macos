@@ -30,23 +30,16 @@ class MessageFoldersView: NSStackView {
             view.removeFromSuperview()
         }
         
-        if #available(macOS 11.0, *) {
-            for model in viewModel {
-                guard let image = NSImage(systemSymbolName: model.icon, accessibilityDescription: nil) else { continue }
-                
-                let icon = NSImageView(image: image)
-                
-                icon.contentTintColor = model.color ?? .secondaryLabelColor
-                
-                icon.toolTip = model.title
-                
-                self.addArrangedSubview(icon)
-                icon.snp.makeConstraints { make in
-                    make.size.equalTo(20)
-                }
+        for model in viewModel {
+            let color: NSColor = model.color ?? .secondaryLabelColor
+            
+            let icon = IconView()
+            icon.toolTip = model.title
+            icon.update(icon: model.icon, color: color)
+            self.addArrangedSubview(icon)
+            icon.snp.makeConstraints { make in
+                make.size.equalTo(20)
             }
-        } else {
-            // todo font icons
         }
     }
     
