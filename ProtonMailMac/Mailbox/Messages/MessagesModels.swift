@@ -161,21 +161,25 @@ enum Messages {
             let senderName: String
             let time: Messages.MessageTime
             let isStarred: Bool
+            let isRepliedTo: Bool
             let numAttachments: Int
             let isRead: Bool
             let folders: [Messages.Folder.Response]?
             let labels: [Messages.Label.Response]?
+            let content: String?
 
-            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, numAttachments: Int, isRead: Bool, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?) {
+            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, isRead: Bool, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, content: String?) {
                 self.id = id
                 self.subject = subject
                 self.senderName = senderName
                 self.time = time
                 self.isStarred = isStarred
+                self.isRepliedTo = isRepliedTo
                 self.numAttachments = numAttachments
                 self.isRead = isRead
                 self.folders = folders
                 self.labels = labels
+                self.content = content
             }
             
             func hash(into hasher: inout Hasher) {

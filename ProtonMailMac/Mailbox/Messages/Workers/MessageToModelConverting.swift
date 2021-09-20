@@ -24,7 +24,8 @@ extension MessageToModelConverting {
         let isStarred: Bool = self.isMessageStarred(message)
         let folders: [Messages.Folder.Response]? = self.getFolders(message)
         let labels: [Messages.Label.Response]? = self.getLabels(message)
-        return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, numAttachments: message.numAttachments.intValue, isRead: !message.unRead, folders: folders, labels: labels)
+        let isRepliedTo: Bool = message.flag.contains(.replied) || message.flag.contains(.repliedAll)
+        return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, isRead: !message.unRead, folders: folders, labels: labels, content: nil)
     }
     
     //
