@@ -83,8 +83,6 @@ class ConversationsView: NSView {
             self.errorView = ConversationsErrorView()
             self.errorView?.delegate = self.delegate
             self.errorView?.with { view in
-                view.wantsLayer = true
-                view.layer?.backgroundColor = NSColor.red.cgColor
                 self.addSubview(view)
                 view.snp.makeConstraints { make in
                     make.left.right.equalToSuperview().inset(8)
