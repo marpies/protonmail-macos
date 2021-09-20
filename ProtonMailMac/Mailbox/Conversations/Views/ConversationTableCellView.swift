@@ -226,11 +226,6 @@ class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
             }
             
             self.favoriteButton.with { button in
-                if #available(macOS 11.0, *) {
-                    button.image = NSImage(systemSymbolName: "star", accessibilityDescription: nil)
-                } else {
-                    // Fallback on earlier versions
-                }
                 button.delegate = self
                 button.setContentHuggingPriority(NSLayoutConstraint.Priority(140), for: .horizontal)
                 self.titleStackView.addArrangedSubview(button)
