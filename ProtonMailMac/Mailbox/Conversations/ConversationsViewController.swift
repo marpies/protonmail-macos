@@ -14,6 +14,11 @@ protocol ConversationsDisplayLogic: AnyObject {
     func displayConversationUpdate(viewModel: Conversations.UpdateConversation.ViewModel)
     func displayConversationsError(viewModel: Conversations.LoadError.ViewModel)
     func displayConversationsUpToDate()
+    func displayLoadConversation(viewModel: Conversations.LoadConversation.ViewModel)
+}
+
+protocol ConversationsViewControllerDelegate: AnyObject {
+    func conversationDidRequestLoad(conversationId: String)
 }
 
 class ConversationsViewController: NSViewController, ConversationsDisplayLogic, ConversationsViewDelegate {
@@ -22,6 +27,8 @@ class ConversationsViewController: NSViewController, ConversationsDisplayLogic, 
 	var router: (ConversationsRoutingLogic & ConversationsDataPassing)?
 
     private let mainView: ConversationsView = ConversationsView()
+    
+    weak var delegate: ConversationsViewControllerDelegate?
 	
 	//	
 	// MARK: - View lifecycle
@@ -75,6 +82,14 @@ class ConversationsViewController: NSViewController, ConversationsDisplayLogic, 
     
     func displayConversationsUpToDate() {
         self.mainView.removeErrorView()
+    }
+    
+    //
+    // MARK: - Load conversation
+    //
+    
+    func displayLoadConversation(viewModel: Conversations.LoadConversation.ViewModel) {
+        self.delegate?.conversationDidRequestLoad(conversationId: viewModel.id)
     }
     
     //

@@ -12,7 +12,7 @@ protocol MailboxDisplayLogic: AnyObject {
 	func displayData(viewModel: Mailbox.Init.ViewModel)
 }
 
-class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate {
+class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, ConversationsViewControllerDelegate {
 	
 	var interactor: MailboxBusinessLogic?
 	var router: (MailboxRoutingLogic & MailboxDataPassing)?
@@ -31,6 +31,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
     override func loadView() {
         self.sidebarViewController?.delegate = self
         self.sidebarViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
+        self.conversationsViewController?.delegate = self
         self.conversationsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
         self.conversationDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
         
@@ -83,6 +84,14 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
     
     func mailboxSidebarDidSelectLabel(id: String) {
         self.conversationsViewController?.loadConversations(labelId: id)
+    }
+    
+    //
+    // MARK: - Conversations delegate
+    //
+    
+    func conversationDidRequestLoad(conversationId: String) {
+        self.conversationDetailsViewController?.loadConversation(id: conversationId)
     }
     
     //

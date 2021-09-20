@@ -15,6 +15,7 @@ protocol ConversationsWorkerDelegate: AnyObject {
     func conversationDidUpdate(response: Conversations.UpdateConversation.Response)
     func conversationsLoadDidFail(response: Conversations.LoadError.Response)
     func conversationsDidUpdateWithoutChange()
+    func conversationShouldLoad(response: Conversations.LoadConversation.Response)
 }
 
 class ConversationsWorker: ConversationsLoadingDelegate {
@@ -58,7 +59,11 @@ class ConversationsWorker: ConversationsLoadingDelegate {
     }
     
     func processConversationsSelection(request: Conversations.ConversationsDidSelect.Request) {
-        
+        // Load conversation
+        if request.ids.count == 1 {
+            let response: Conversations.LoadConversation.Response = Conversations.LoadConversation.Response(id: request.ids[0])
+            self.delegate?.conversationShouldLoad(response: response)
+        }
     }
     
     func reloadConversations() {

@@ -14,6 +14,7 @@ protocol ConversationsPresentationLogic {
     func presentConversationUpdate(response: Conversations.UpdateConversation.Response)
     func presentConversationsError(response: Conversations.LoadError.Response)
     func presentConversationsUpToDate()
+    func presentLoadConversation(response: Conversations.LoadConversation.Response)
 }
 
 class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresenting, MessageLabelPresenting, MessageFolderPresenting,
@@ -83,6 +84,15 @@ class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresent
     
     func presentConversationsUpToDate() {
         self.viewController?.displayConversationsUpToDate()
+    }
+    
+    //
+    // MARK: - Present load conversation
+    //
+    
+    func presentLoadConversation(response: Conversations.LoadConversation.Response) {
+        let viewModel = Conversations.LoadConversation.ViewModel(id: response.id)
+        self.viewController?.displayLoadConversation(viewModel: viewModel)
     }
     
     //

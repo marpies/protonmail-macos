@@ -201,6 +201,20 @@ enum Conversations {
     }
     
     //
+    // MARK: - Load conversation
+    //
+    
+    enum LoadConversation {
+        struct Response {
+            let id: String
+        }
+        
+        struct ViewModel {
+            let id: String
+        }
+    }
+    
+    //
     // MARK: - Load error
     //
     

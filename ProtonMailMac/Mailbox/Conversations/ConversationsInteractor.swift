@@ -96,4 +96,8 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
         self.presenter?.presentConversationsUpToDate()
     }
     
+    func conversationShouldLoad(response: Conversations.LoadConversation.Response) {
+        self.presenter?.presentLoadConversation(response: response)
+    }
+    
 }
