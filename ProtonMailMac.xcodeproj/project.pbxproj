@@ -81,6 +81,7 @@
 		C353422E26F4DA6D00EA0137 /* MessageStarPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353422D26F4DA6D00EA0137 /* MessageStarPresenting.swift */; };
 		C353423026F4DA7E00EA0137 /* MessageAttachmentIconPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353422F26F4DA7E00EA0137 /* MessageAttachmentIconPresenting.swift */; };
 		C353423226F4DF1100EA0137 /* MessageTimePresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353423126F4DF1100EA0137 /* MessageTimePresenting.swift */; };
+		C353423926F8997A00EA0137 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353423826F8997A00EA0137 /* IconView.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
 		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
@@ -369,6 +370,7 @@
 		C353422D26F4DA6D00EA0137 /* MessageStarPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStarPresenting.swift; sourceTree = "<group>"; };
 		C353422F26F4DA7E00EA0137 /* MessageAttachmentIconPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAttachmentIconPresenting.swift; sourceTree = "<group>"; };
 		C353423126F4DF1100EA0137 /* MessageTimePresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTimePresenting.swift; sourceTree = "<group>"; };
+		C353423826F8997A00EA0137 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
 		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
@@ -893,6 +895,7 @@
 				C36814DB26D6689D00A35A16 /* PaddedTextField.swift */,
 				C36814DF26D690DD00A35A16 /* PaddedSecureTextField.swift */,
 				C3C6FD4226F09AD10066C504 /* ImageButton.swift */,
+				C353423826F8997A00EA0137 /* IconView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1372,6 +1375,7 @@
 				C3C6FD5826F36EF10066C504 /* ConversationsPresenter.swift in Sources */,
 				C36814BB26D659D100A35A16 /* NSTextField+Extensions.swift in Sources */,
 				C3DACB3126E79A9300927933 /* Label+Defaults.swift in Sources */,
+				C353423926F8997A00EA0137 /* IconView.swift in Sources */,
 				C39A241926D2D8D9008A482C /* KeySaltsResponse.swift in Sources */,
 				C31D032F26DA9A85002EBBE0 /* Attachment.swift in Sources */,
 				C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */,
