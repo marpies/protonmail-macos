@@ -138,7 +138,7 @@ extension CoreDataService: ConversationsDatabaseManaging {
         }
     }
     
-    func updateLabel(conversationIds: [String], label: String, apply: Bool, userId: String) -> [Conversation]? {
+    func updateLabel(conversationIds: [String], label: String, apply: Bool, includingMessages: Bool, userId: String) -> [Conversation]? {
         var updatedConversations: [Conversation]?
         
         self.mainContext.performAndWaitWith { ctx in
@@ -146,12 +146,16 @@ extension CoreDataService: ConversationsDatabaseManaging {
             
             for conversation in conversations {
                 // Update label on all the messages in the conversation
-                if let messages = self.getMessagesForConversationId(conversation.conversationID, context: ctx), !messages.isEmpty {
+                if includingMessages,
+                   let messages = self.getMessagesForConversationId(conversation.conversationID, context: ctx),
+                   !messages.isEmpty {
                     let labelObjs = conversation.mutableSetValue(forKey: Conversation.Attributes.labels)
+                    
                     labelObjs.removeAllObjects()
                     
                     for message in messages {
                         self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: apply)
+                        
                         for label in message.labels {
                             labelObjs.add(label)
                         }
@@ -159,16 +163,11 @@ extension CoreDataService: ConversationsDatabaseManaging {
                     
                     conversation.setValue(labelObjs, forKey: Conversation.Attributes.labels)
                 }
-                // No messages, update label on the conversation
-                else {
-                    if apply {
-                        conversation.add(labelID: label)
-                    } else {
-                        conversation.remove(labelID: label)
-                    }
-                    
-                    // Cannot update unread counter since we do not have the messages downloaded,
-                    // will be updated from the events API
+                
+                if apply {
+                    conversation.add(labelID: label)
+                } else {
+                    conversation.remove(labelID: label)
                 }
             }
             

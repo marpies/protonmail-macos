@@ -16,7 +16,15 @@ protocol ConversationsDatabaseManaging {
     func cleanConversations(forUser userId: String, removeDrafts: Bool) -> Promise<Void>
     func deleteConversation(id: String)
     func deleteConversations(ids: [String])
-    func updateLabel(conversationIds: [String], label: String, apply: Bool, userId: String) -> [Conversation]?
     func updateUnread(conversationIds: [String], unread: Bool, userId: String) -> [Conversation]?
     func getConversationIds(forURIRepresentations ids: [String]) -> [String]?
+    
+    /// Updates label on the given conversations.
+    /// - Parameters:
+    ///   - conversationIds: Ids of the conversations to update.
+    ///   - label: The label to add or remove.
+    ///   - apply: `true` if the label should be added.
+    ///   - includingMessages: `true` if the label should be updated on all the messages in the conversation as well.
+    ///   - userId: User's id.
+    func updateLabel(conversationIds: [String], label: String, apply: Bool, includingMessages: Bool, userId: String) -> [Conversation]?
 }
