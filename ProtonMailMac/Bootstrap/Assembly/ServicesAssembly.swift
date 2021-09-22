@@ -31,6 +31,10 @@ struct ServicesAssembly: Assembly {
         container.register(ConversationsLoading.self) { (r: Resolver, labelId: String, userId: String) in
             return ConversationsLoadingWorker(resolver: r, labelId: labelId, userId: userId)
         }.inObjectScope(.transient)
+        
+        container.register(ConversationOpsProcessing.self) { (r: Resolver, userId: String) in
+            return ConversationOpsService(userId: userId, resolver: r)
+        }.inObjectScope(.transient)
     }
     
 }

@@ -8,6 +8,11 @@
 
 import Foundation
 
+extension Notification.Name {
+    static let ConversationsLoadDidTimeout: Notification.Name = Notification.Name(rawValue: "Conversations.loadDidTimeout")
+    static let ConversationsServerUnreachable: Notification.Name = Notification.Name(rawValue: "Conversations.serverUnreachable")
+}
+
 enum Conversations {
     
     enum Conversation {
