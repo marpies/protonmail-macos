@@ -57,10 +57,7 @@ extension CoreDataService: MessagesDatabaseManaging {
         var message: Message?
         
         self.mainContext.performAndWaitWith { ctx in
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: Message.Attributes.entityName)
-            request.predicate = NSPredicate(format: "%K == %@", Message.Attributes.messageID, id)
-            
-            message = (try? ctx.fetch(request) as? [Message])?.first
+            message = self.loadMessage(id: id, context: ctx)
         }
         
         return message
@@ -232,6 +229,35 @@ extension CoreDataService: MessagesDatabaseManaging {
         }
     }
     
+    func saveBody(messageId: String, body: String, completion: @escaping (Bool) -> Void) {
+        self.backgroundContext.performWith { ctx in
+            if let message = self.loadMessage(id: messageId, context: ctx) {
+                message.body = body
+                
+                let success: Bool
+                
+                if let error = ctx.saveUpstreamIfNeeded() {
+                    PMLog.D("Error saving body: \(error)")
+                    success = false
+                } else {
+                    success = true
+                }
+                
+                DispatchQueue.main.async {
+                    completion(success)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+    //
+    // MARK: - Internal
+    //
+    
     func updateCounter(markUnRead: Bool, on message: Message, userId: String, context: NSManagedObjectContext) {
         let offset = markUnRead ? 1 : -1
         let labelIDs: [String] = message.getLabelIDs()
@@ -253,6 +279,13 @@ extension CoreDataService: MessagesDatabaseManaging {
             message.setValue(labelObjs, forKey: "labels")
             context.delete(message)
         }
+    }
+    
+    func loadMessage(id: String, context: NSManagedObjectContext) -> Message? {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: Message.Attributes.entityName)
+        request.predicate = NSPredicate(format: "%K == %@", Message.Attributes.messageID, id)
+        
+        return (try? context.fetch(request) as? [Message])?.first
     }
     
     //

@@ -10,6 +10,7 @@ import Foundation
 import PromiseKit
 
 protocol MessagesDatabaseManaging {
+    func saveBody(messageId: String, body: String, completion: @escaping (Bool) -> Void)
     func saveMessages(_ json: [[String: Any]], forUser userId: String, completion: @escaping () -> Void)
     func loadMessage(id: String) -> Message?
     func fetchMessages(forUser userId: String, labelId: String, olderThan time: Date?, completion: @escaping ([Message]) -> Void)
