@@ -15,6 +15,36 @@ extension Notification.Name {
 
 enum Conversations {
     
+    enum Notifications {
+        struct ConversationUpdate: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("Conversations.conversationUpdate")
+            }
+            
+            var name: Notification.Name {
+                return ConversationUpdate.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["conversationId": self.conversationId]
+            }
+            
+            let conversationId: String
+
+            init(conversationId: String) {
+                self.conversationId = conversationId
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == ConversationUpdate.name,
+                      let conversationId = notification?.userInfo?["conversationId"] as? String else { return nil }
+                
+                self.conversationId = conversationId
+            }
+        }
+    }
+    
     enum Conversation {
         class Response: Hashable {
             let id: String
@@ -176,22 +206,13 @@ enum Conversations {
     }
     
     //
-    // MARK: - Star conversation
+    // MARK: - Update conversation star
     //
     
-    enum StarConversation {
+    enum UpdateConversationStar {
         struct Request {
             let id: String
-        }
-    }
-    
-    //
-    // MARK: - Unstar conversation
-    //
-    
-    enum UnstarConversation {
-        struct Request {
-            let id: String
+            let isOn: Bool
         }
     }
     

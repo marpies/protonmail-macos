@@ -15,6 +15,10 @@ protocol ConversationsLoading {
     
     func loadConversations()
     func loadConversation(id: String) -> Conversations.Conversation.Response?
+    
+    /// Updates the model for the conversation of the given id.
+    /// - Returns: Tuple with the conversation model and the model's index in the list of all conversations.
+    func updateConversation(id: String) -> (Conversations.Conversation.Response, Int)?
 }
 
 protocol ConversationsLoadingDelegate: AnyObject {
@@ -48,7 +52,7 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
     private let resolver: Resolver
     private let usersManager: UsersManager
     
-    /// List of currently loaded messages.
+    /// List of currently loaded conversations.
     private var conversations: [Conversations.Conversation.Response]?
     
     /// Timer triggering an auto-refresh.
@@ -148,9 +152,21 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
     func loadConversation(id: String) -> Conversations.Conversation.Response? {
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         
-        guard let message = db.loadConversation(id: id) else { return nil }
+        guard let conversation = db.loadConversation(id: id) else { return nil }
         
-        return self.getConversation(message)
+        return self.getConversation(conversation)
+    }
+    
+    func updateConversation(id: String) -> (Conversations.Conversation.Response, Int)? {
+        let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
+        
+        guard let index = self.conversations?.firstIndex(where: { $0.id == id }),
+              let conversation = db.loadConversation(id: id) else { return nil }
+        
+        let model: Conversations.Conversation.Response = self.getConversation(conversation)
+        self.conversations?[index] = model
+        
+        return (model, index)
     }
     
     //

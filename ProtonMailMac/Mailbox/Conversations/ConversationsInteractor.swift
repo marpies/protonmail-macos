@@ -11,8 +11,7 @@ import Foundation
 protocol ConversationsBusinessLogic {
     func loadConversations(request: Conversations.LoadConversations.Request)
     func processErrorViewButtonTap()
-    func starConversation(request: Conversations.StarConversation.Request)
-    func unstarConversation(request: Conversations.UnstarConversation.Request)
+    func updateConversationStar(request: Conversations.UpdateConversationStar.Request)
     func processConversationsSelection(request: Conversations.ConversationsDidSelect.Request)
     func processRefreshButtonTap()
 }
@@ -48,12 +47,8 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
     // MARK: - Star / unstar conversation
     //
     
-    func starConversation(request: Conversations.StarConversation.Request) {
-        self.worker?.starConversation(request: request)
-    }
-    
-    func unstarConversation(request: Conversations.UnstarConversation.Request) {
-        self.worker?.unstarConversation(request: request)
+    func updateConversationStar(request: Conversations.UpdateConversationStar.Request) {
+        self.worker?.updateConversationStar(request: request)
     }
     
     //

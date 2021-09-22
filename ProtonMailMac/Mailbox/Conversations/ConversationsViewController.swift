@@ -103,13 +103,13 @@ class ConversationsViewController: NSViewController, ConversationsDisplayLogic, 
     }
     
     func conversationCellDidStarConversation(id: String) {
-        let request = Conversations.StarConversation.Request(id: id)
-        self.interactor?.starConversation(request: request)
+        let request: Conversations.UpdateConversationStar.Request = Conversations.UpdateConversationStar.Request(id: id, isOn: true)
+        self.interactor?.updateConversationStar(request: request)
     }
     
     func conversationCellDidUnstarConversation(id: String) {
-        let request = Conversations.UnstarConversation.Request(id: id)
-        self.interactor?.unstarConversation(request: request)
+        let request: Conversations.UpdateConversationStar.Request = Conversations.UpdateConversationStar.Request(id: id, isOn: false)
+        self.interactor?.updateConversationStar(request: request)
     }
     
     func messagesDidSelect(ids: [String]) {

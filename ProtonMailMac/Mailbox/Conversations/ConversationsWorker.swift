@@ -18,7 +18,7 @@ protocol ConversationsWorkerDelegate: AnyObject {
     func conversationShouldLoad(response: Conversations.LoadConversation.Response)
 }
 
-class ConversationsWorker: ConversationsLoadingDelegate {
+class ConversationsWorker: ConversationsLoadingDelegate, ConversationOpsProcessingDelegate {
     
 	private let resolver: Resolver
     private let usersManager: UsersManager
@@ -29,6 +29,8 @@ class ConversationsWorker: ConversationsLoadingDelegate {
         return self.usersManager.activeUser?.userId
     }
     
+    private var conversationUpdateObserver: NSObjectProtocol?
+    
     /// The last loaded label. Nil if messages have not been loaded yet.
     var labelId: String?
 
@@ -37,6 +39,8 @@ class ConversationsWorker: ConversationsLoadingDelegate {
 	init(resolver: Resolver) {
 		self.resolver = resolver
         self.usersManager = resolver.resolve(UsersManager.self)!
+        
+        self.addObservers()
 	}
 
     func loadConversations(request: Conversations.LoadConversations.Request) {
@@ -50,12 +54,17 @@ class ConversationsWorker: ConversationsLoadingDelegate {
         self.loadConversations(forLabel: labelId, userId: user.userId)
     }
     
-    func starConversation(request: Conversations.StarConversation.Request) {
-        // todo conversations ops service
-    }
-    
-    func unstarConversation(request: Conversations.UnstarConversation.Request) {
+    func updateConversationStar(request: Conversations.UpdateConversationStar.Request) {
+        guard let userId = self.activeUserId else { return }
         
+        var service: ConversationOpsProcessing = self.resolver.resolve(ConversationOpsProcessing.self, argument: userId)!
+        service.delegate = self
+        service.label(conversationIds: [request.id], label: MailboxSidebar.Item.starred.id, apply: request.isOn, includingMessages: true)
+        
+        // Dispatch notification for other sections (e.g. conversation details)
+        // This worker will react to this notification as well
+        let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: request.id)
+        NotificationCenter.default.post(notification)
     }
     
     func processConversationsSelection(request: Conversations.ConversationsDidSelect.Request) {
@@ -100,8 +109,24 @@ class ConversationsWorker: ConversationsLoadingDelegate {
     }
     
     //
+    // MARK: - Conversation ops delegate
+    //
+    
+    func labelsDidUpdateForConversations(ids: [String], labelId: String) {
+        // todo refresh
+    }
+    
+    //
     // MARK: - Private
     //
+    
+    private func addObservers() {
+        self.conversationUpdateObserver = NotificationCenter.default.addObserver(forType: Conversations.Notifications.ConversationUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let weakSelf = self, let conversationId = notification?.conversationId else { return }
+            
+            weakSelf.refreshConversation(id: conversationId)
+        })
+    }
     
     private func loadConversations(forLabel labelId: String, userId: String) {
         // Create new worker if needed
@@ -113,6 +138,13 @@ class ConversationsWorker: ConversationsLoadingDelegate {
         }
         
         self.loadingWorker?.loadConversations()
+    }
+    
+    private func refreshConversation(id: String) {
+        guard let (conversation, index) = self.loadingWorker?.updateConversation(id: id) else { return }
+        
+        let response: Conversations.UpdateConversation.Response = Conversations.UpdateConversation.Response(conversation: conversation, index: index)
+        self.delegate?.conversationDidUpdate(response: response)
     }
     
 }
