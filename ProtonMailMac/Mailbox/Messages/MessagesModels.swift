@@ -202,11 +202,13 @@ enum Messages {
             let isRepliedTo: Bool
             let numAttachments: Int
             let isRead: Bool
+            let isDraft: Bool
             let folders: [Messages.Folder.Response]?
             let labels: [Messages.Label.Response]?
-            let content: String?
+            var body: String?
+            var isExpanded: Bool
 
-            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, isRead: Bool, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, content: String?) {
+            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, isRead: Bool, isDraft: Bool, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, body: String?, isExpanded: Bool) {
                 self.id = id
                 self.subject = subject
                 self.senderName = senderName
@@ -215,9 +217,11 @@ enum Messages {
                 self.isRepliedTo = isRepliedTo
                 self.numAttachments = numAttachments
                 self.isRead = isRead
+                self.isDraft = isDraft
                 self.folders = folders
                 self.labels = labels
-                self.content = content
+                self.body = body
+                self.isExpanded = isExpanded
             }
             
             func hash(into hasher: inout Hasher) {
@@ -241,12 +245,10 @@ enum Messages {
         class ViewModel {
             let id: String
             let header: Messages.Message.Header.ViewModel
-            let content: String?
 
-            init(id: String, header: Messages.Message.Header.ViewModel, content: String?) {
+            init(id: String, header: Messages.Message.Header.ViewModel) {
                 self.id = id
                 self.header = header
-                self.content = content
             }
         }
     }
