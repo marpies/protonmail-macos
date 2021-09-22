@@ -35,6 +35,14 @@ struct ServicesAssembly: Assembly {
         container.register(ConversationOpsProcessing.self) { (r: Resolver, userId: String) in
             return ConversationOpsService(userId: userId, resolver: r)
         }.inObjectScope(.transient)
+        
+        container.register(MessageBodyLoading.self) { (r: Resolver, apiService: ApiService) in
+            return MessageBodyLoadingWorker(apiService: apiService, messagesDb: r.resolve(MessagesDatabaseManaging.self)!)
+        }.inObjectScope(.transient)
+        
+        container.register(MessageBodyDecrypting.self) { r in
+            return MessageBodyDecryptingWorker()
+        }.inObjectScope(.transient)
     }
     
 }

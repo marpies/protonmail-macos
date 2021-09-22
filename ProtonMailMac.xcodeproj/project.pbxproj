@@ -222,6 +222,8 @@
 		C3C825FF26FA619F00B4E95C /* RemoveLabelFromConversationsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C825FE26FA619F00B4E95C /* RemoveLabelFromConversationsRequest.swift */; };
 		C3C8260126FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260026FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift */; };
 		C3C8260426FB1CAD00B4E95C /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260326FB1CAD00B4E95C /* NotificationType.swift */; };
+		C3C8260726FB607D00B4E95C /* MessageBodyLoadingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260626FB607D00B4E95C /* MessageBodyLoadingWorker.swift */; };
+		C3C8260926FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
 		C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2E26E79A7100927933 /* Message+Defaults.swift */; };
@@ -521,6 +523,8 @@
 		C3C825FE26FA619F00B4E95C /* RemoveLabelFromConversationsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveLabelFromConversationsRequest.swift; sourceTree = "<group>"; };
 		C3C8260026FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyLabelToConversationsRequest.swift; sourceTree = "<group>"; };
 		C3C8260326FB1CAD00B4E95C /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		C3C8260626FB607D00B4E95C /* MessageBodyLoadingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyLoadingWorker.swift; sourceTree = "<group>"; };
+		C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyDecryptingWorker.swift; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
 		C3DACB2E26E79A7100927933 /* Message+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Defaults.swift"; sourceTree = "<group>"; };
@@ -817,6 +821,7 @@
 			isa = PBXGroup;
 			children = (
 				C353422326F4C11100EA0137 /* Views */,
+				C3C8260526FB606500B4E95C /* Workers */,
 			);
 			path = "Message Details";
 			sourceTree = "<group>";
@@ -1226,6 +1231,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		C3C8260526FB606500B4E95C /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				C3C8260626FB607D00B4E95C /* MessageBodyLoadingWorker.swift */,
+				C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
 		C3DACB3426E8E2DC00927933 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1557,6 +1571,7 @@
 				C3A658FC26E65C8500CFE2F9 /* CoreDataService+Messages.swift in Sources */,
 				C3F20A1026D5343C0051EFEB /* AppWindow.swift in Sources */,
 				C3C6FD3826EFB7B80066C504 /* MessageOpsService.swift in Sources */,
+				C3C8260726FB607D00B4E95C /* MessageBodyLoadingWorker.swift in Sources */,
 				C3C825FF26FA619F00B4E95C /* RemoveLabelFromConversationsRequest.swift in Sources */,
 				C3C6FD3426EFB3470066C504 /* QueueConstant.swift in Sources */,
 				C31D034426DB8AD5002EBBE0 /* NSManagedObjectExtension.swift in Sources */,
@@ -1637,6 +1652,7 @@
 				C31D034C26DB95DF002EBBE0 /* CoreDataStore.swift in Sources */,
 				C38ADA6A26F388B20055A1AE /* ConversationsAssembly.swift in Sources */,
 				C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */,
+				C3C8260926FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift in Sources */,
 				C3C6FD4D26F36CD10066C504 /* ConversationsRequest.swift in Sources */,
 				C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */,
 				C31D034026DB898D002EBBE0 /* NSManagedObjectContext+Extensions.swift in Sources */,
