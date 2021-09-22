@@ -155,4 +155,107 @@ enum ConversationDetails {
         }
     }
     
+    //
+    // MARK: - Message click
+    //
+    
+    enum MessageClick {
+        struct Request {
+            let id: String
+        }
+    }
+    
+    //
+    // MARK: - Message content load did begin
+    //
+    
+    enum MessageContentLoadDidBegin {
+        struct Response {
+            let id: String
+        }
+        
+        struct ViewModel {
+            let id: String
+        }
+    }
+    
+    //
+    // MARK: - Message content loaded
+    //
+    
+    enum MessageContentLoaded {
+        class Response {
+            let messageId: String
+            let body: String
+
+            init(messageId: String, body: String) {
+                self.messageId = messageId
+                self.body = body
+            }
+        }
+        
+        class ViewModel {
+            let messageId: String
+            let body: String
+
+            init(messageId: String, body: String) {
+                self.messageId = messageId
+                self.body = body
+            }
+        }
+    }
+    
+    //
+    // MARK: - Message content collapsed
+    //
+    
+    enum MessageContentCollapsed {
+        struct Response {
+            let messageId: String
+        }
+        
+        struct ViewModel {
+            let messageId: String
+        }
+    }
+    
+    //
+    // MARK: - Message content load error
+    //
+    
+    enum MessageContentError {
+        /// Error occurred when trying to load the message content.
+        case load
+        
+        /// Error occurred when trying to decrypt the message content.
+        case decryption
+        
+        struct Response {
+            let type: ConversationDetails.MessageContentError
+            let messageId: String
+        }
+        
+        class ViewModel {
+            let messageId: String
+            let errorMessage: String
+            let button: String
+
+            init(messageId: String, errorMessage: String, button: String) {
+                self.messageId = messageId
+                self.errorMessage = errorMessage
+                self.button = button
+            }
+        }
+    }
+    
+    //
+    // MARK: - Retry message content load
+    //
+    
+    enum RetryMessageContentLoad {
+        struct Request {
+            let id: String
+        }
+    }
+    
 }

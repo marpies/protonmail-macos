@@ -13,6 +13,10 @@ protocol ConversationDetailsDisplayLogic: AnyObject {
     func displayLoadError(viewModel: ConversationDetails.LoadError.ViewModel)
     func displayMessageUpdate(viewModel: ConversationDetails.UpdateMessage.ViewModel)
     func displayConversationUpdate(viewModel: ConversationDetails.UpdateConversation.ViewModel)
+    func displayMessageContentLoading(viewModel: ConversationDetails.MessageContentLoadDidBegin.ViewModel)
+    func displayMessageContentLoaded(viewModel: ConversationDetails.MessageContentLoaded.ViewModel)
+    func displayMessageContentCollapsed(viewModel: ConversationDetails.MessageContentCollapsed.ViewModel)
+    func displayMessageContentError(viewModel: ConversationDetails.MessageContentError.ViewModel)
 }
 
 class ConversationDetailsViewController: NSViewController, ConversationDetailsDisplayLogic, ConversationDetailsViewDelegate {
@@ -79,6 +83,38 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     }
     
     //
+    // MARK: - Display message content loading
+    //
+    
+    func displayMessageContentLoading(viewModel: ConversationDetails.MessageContentLoadDidBegin.ViewModel) {
+        self.mainView.displayMessageContentLoading(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Display message content loaded
+    //
+    
+    func displayMessageContentLoaded(viewModel: ConversationDetails.MessageContentLoaded.ViewModel) {
+        self.mainView.displayMessageContentLoaded(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Display message content collapsed
+    //
+    
+    func displayMessageContentCollapsed(viewModel: ConversationDetails.MessageContentCollapsed.ViewModel) {
+        self.mainView.displayMessageContentCollapsed(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Display message content error
+    //
+    
+    func displayMessageContentError(viewModel: ConversationDetails.MessageContentError.ViewModel) {
+        self.mainView.displayMessageContentError(viewModel: viewModel)
+    }
+    
+    //
     // MARK: - View delegate
     //
     
@@ -89,7 +125,8 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     }
     
     func messageDetailDidClick(messageId: String) {
-        // todo expand/collapse message + load content
+        let request: ConversationDetails.MessageClick.Request = ConversationDetails.MessageClick.Request(id: messageId)
+        self.interactor?.processMessageClick(request: request)
     }
     
     func messageFavoriteStatusDidChange(messageId: String, isOn: Bool) {
@@ -100,6 +137,11 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     func conversationFavoriteStatusDidChange(isOn: Bool) {
         let request: ConversationDetails.UpdateConversationStar.Request = ConversationDetails.UpdateConversationStar.Request(isOn: isOn)
         self.interactor?.updateConversationStar(request: request)
+    }
+    
+    func messageRetryContentLoadButtonDidTap(messageId: String) {
+        let request: ConversationDetails.RetryMessageContentLoad.Request = ConversationDetails.RetryMessageContentLoad.Request(id: messageId)
+        self.interactor?.retryMessageContentLoad(request: request)
     }
     
 }

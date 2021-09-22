@@ -223,6 +223,7 @@
 		C3C8260426FB1CAD00B4E95C /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260326FB1CAD00B4E95C /* NotificationType.swift */; };
 		C3C8260726FB607D00B4E95C /* MessageBodyLoadingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260626FB607D00B4E95C /* MessageBodyLoadingWorker.swift */; };
 		C3C8260926FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */; };
+		C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260A26FB874200B4E95C /* MessageBodyView.swift */; };
 		C3C8260D26FB9C5800B4E95C /* BoxErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
@@ -524,6 +525,7 @@
 		C3C8260326FB1CAD00B4E95C /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		C3C8260626FB607D00B4E95C /* MessageBodyLoadingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyLoadingWorker.swift; sourceTree = "<group>"; };
 		C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyDecryptingWorker.swift; sourceTree = "<group>"; };
+		C3C8260A26FB874200B4E95C /* MessageBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyView.swift; sourceTree = "<group>"; };
 		C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxErrorView.swift; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
@@ -831,6 +833,7 @@
 			children = (
 				C353422426F4C12100EA0137 /* MessageDetailsView.swift */,
 				C353422626F4C43300EA0137 /* MessageDetailsHeaderView.swift */,
+				C3C8260A26FB874200B4E95C /* MessageBodyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1507,6 +1510,7 @@
 				C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */,
 				C3C6FD6726F37E1B0066C504 /* ConversationToModelConverting.swift in Sources */,
 				C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */,
+				C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */,
 				C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */,
 				C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */,
 				C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */,

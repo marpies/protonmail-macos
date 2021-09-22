@@ -13,6 +13,8 @@ protocol ConversationDetailsBusinessLogic {
     func reloadConversation()
     func updateMessageStar(request: ConversationDetails.UpdateMessageStar.Request)
     func updateConversationStar(request: ConversationDetails.UpdateConversationStar.Request)
+    func processMessageClick(request: ConversationDetails.MessageClick.Request)
+    func retryMessageContentLoad(request: ConversationDetails.RetryMessageContentLoad.Request)
 }
 
 protocol ConversationDetailsDataStore {
@@ -59,6 +61,22 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     }
     
     //
+    // MARK: - Process message click
+    //
+    
+    func processMessageClick(request: ConversationDetails.MessageClick.Request) {
+        self.worker?.processMessageClick(request: request)
+    }
+    
+    //
+    // MARK: - Retry message content load
+    //
+    
+    func retryMessageContentLoad(request: ConversationDetails.RetryMessageContentLoad.Request) {
+        self.worker?.retryMessageContentLoad(request: request)
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
@@ -76,6 +94,22 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     
     func conversationDidUpdate(response: ConversationDetails.UpdateConversation.Response) {
         self.presenter?.presentConversationUpdate(response: response)
+    }
+    
+    func conversationMessageBodyLoadDidBegin(response: ConversationDetails.MessageContentLoadDidBegin.Response) {
+        self.presenter?.presentMessageContentLoading(response: response)
+    }
+    
+    func conversationMessageBodyDidLoad(response: ConversationDetails.MessageContentLoaded.Response) {
+        self.presenter?.presentMessageContentLoaded(response: response)
+    }
+    
+    func conversationMessageBodyCollapse(response: ConversationDetails.MessageContentCollapsed.Response) {
+        self.presenter?.presentMessageContentCollapsed(response: response)
+    }
+    
+    func conversationMessageBodyLoadDidFail(response: ConversationDetails.MessageContentError.Response) {
+        self.presenter?.presentMessageContentError(response: response)
     }
     
 }

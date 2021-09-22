@@ -79,3 +79,6 @@
 "messageDetailRepliedToIconTooltip" = "Odpovězeno";
 "conversationLoadErrorPotentiallyOutdatedMessage" = "Nepodařilo se načíst nejnovější zprávy, konverzace nemusí být aktuální.";
 "conversationLoadErrorMessage" = "Při načítání zpráv došlo k chybě.";
+"messageBodyLoadErrorMessage" = "Při načítání obsahu zprávy došlo k chybě.";
+"messageBodyDecryptErrorMessage" = "Při dešifrování obsahu zprávy došlo k chybě.";
+"messageBodyRetryLoadButton" = "Zkusit znovu";

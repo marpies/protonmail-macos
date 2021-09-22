@@ -90,15 +90,31 @@ class ConversationDetailsView: NSView {
     }
     
     func displayMessageUpdate(viewModel: ConversationDetails.UpdateMessage.ViewModel) {
-        self.updateMessageView(viewModel: viewModel.message)
+        self.getMessageView(forId: viewModel.message.id)?.update(viewModel: viewModel.message)
     }
     
     func displayConversationUpdate(viewModel: ConversationDetails.UpdateConversation.ViewModel) {
         self.headerView.update(title: viewModel.conversation.title, starIcon: viewModel.conversation.starIcon, labels: viewModel.conversation.labels)
         
         for message in viewModel.conversation.messages {
-            self.updateMessageView(viewModel: message)
+            self.getMessageView(forId: message.id)?.update(viewModel: message)
         }
+    }
+    
+    func displayMessageContentLoading(viewModel: ConversationDetails.MessageContentLoadDidBegin.ViewModel) {
+        self.getMessageView(forId: viewModel.id)?.showContentLoading()
+    }
+    
+    func displayMessageContentLoaded(viewModel: ConversationDetails.MessageContentLoaded.ViewModel) {
+        self.getMessageView(forId: viewModel.messageId)?.showContent(viewModel.body)
+    }
+    
+    func displayMessageContentCollapsed(viewModel: ConversationDetails.MessageContentCollapsed.ViewModel) {
+        self.getMessageView(forId: viewModel.messageId)?.removeContentView()
+    }
+    
+    func displayMessageContentError(viewModel: ConversationDetails.MessageContentError.ViewModel) {
+        self.getMessageView(forId: viewModel.messageId)?.showErrorContent(message: viewModel.errorMessage, button: viewModel.button)
     }
     
     //
@@ -162,14 +178,14 @@ class ConversationDetailsView: NSView {
         }
     }
     
-    private func updateMessageView(viewModel: Messages.Message.ViewModel) {
+    private func getMessageView(forId id: String) -> MessageDetailsView? {
         for view in self.contentStackView.arrangedSubviews {
             guard let messageView = view as? MessageDetailsView,
-                  messageView.messageId == viewModel.id else { continue }
+                  messageView.messageId == id else { continue }
             
-            messageView.update(viewModel: viewModel)
-            return
+            return messageView
         }
+        return nil
     }
     
     private func hideLoading() {

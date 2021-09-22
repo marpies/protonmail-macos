@@ -14,6 +14,10 @@ protocol ConversationDetailsWorkerDelegate: AnyObject {
     func conversationLoadDidFail(response: ConversationDetails.LoadError.Response)
     func conversationMessageDidUpdate(response: ConversationDetails.UpdateMessage.Response)
     func conversationDidUpdate(response: ConversationDetails.UpdateConversation.Response)
+    func conversationMessageBodyLoadDidBegin(response: ConversationDetails.MessageContentLoadDidBegin.Response)
+    func conversationMessageBodyDidLoad(response: ConversationDetails.MessageContentLoaded.Response)
+    func conversationMessageBodyCollapse(response: ConversationDetails.MessageContentCollapsed.Response)
+    func conversationMessageBodyLoadDidFail(response: ConversationDetails.MessageContentError.Response)
 }
 
 class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConverting, ConversationToModelConverting, MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate {
@@ -26,6 +30,9 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     
     /// Previously loaded converation id.
     private var conversationId: String?
+    
+    /// Current conversation model.
+    private var conversation: ConversationDetails.Conversation.Response?
     
     private var conversationUpdateObserver: NSObjectProtocol?
     
@@ -85,6 +92,36 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         NotificationCenter.default.post(notification)
     }
     
+    func processMessageClick(request: ConversationDetails.MessageClick.Request) {
+        guard let message = self.conversation?.messages.first(where: { $0.id == request.id }) else { return }
+        
+        // Message is a draft, show composer
+        if message.isDraft {
+            // todo implement composer
+            return
+        }
+        
+        // Message is expanded, collapse it
+        if message.isExpanded {
+            message.isExpanded = false
+            
+            let response: ConversationDetails.MessageContentCollapsed.Response = ConversationDetails.MessageContentCollapsed.Response(messageId: request.id)
+            self.delegate?.conversationMessageBodyCollapse(response: response)
+        }
+        // Load the content
+        else {
+            message.isExpanded = true
+            
+            self.loadBody(for: message)
+        }
+    }
+    
+    func retryMessageContentLoad(request: ConversationDetails.RetryMessageContentLoad.Request) {
+        guard let message = self.conversation?.messages.first(where: { $0.id == request.id }) else { return }
+        
+        self.loadBody(for: message)
+    }
+    
     //
     // MARK: - Auth delegate
     //
@@ -142,8 +179,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // If we have cached messages, provide those for now
         if hasCachedMessages {
-            let model: ConversationDetails.Conversation.Response = self.getConversationWithMessages(conversationObject)
-            let response: ConversationDetails.Load.Response = ConversationDetails.Load.Response(conversation: model)
+            self.conversation = self.getConversationWithMessages(conversationObject)
+            let response: ConversationDetails.Load.Response = ConversationDetails.Load.Response(conversation: self.conversation!)
             self.delegate?.conversationDidLoad(response: response)
         }
         
@@ -162,8 +199,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
                         // Make sure we are still showing the conversation we requested
                         guard self.conversationId == id else { return }
                         
-                        let model: ConversationDetails.Conversation.Response = self.getConversationWithMessages(conversationObject)
-                        let response: ConversationDetails.Load.Response = ConversationDetails.Load.Response(conversation: model)
+                        self.conversation = self.getConversationWithMessages(conversationObject)
+                        let response: ConversationDetails.Load.Response = ConversationDetails.Load.Response(conversation: self.conversation!)
                         self.delegate?.conversationDidLoad(response: response)
                     }
                 }
@@ -171,8 +208,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
                 // Make sure we are still showing the conversation we requested
                 guard self.conversationId == id else { return }
                 
-                let model: ConversationDetails.Conversation.Response = self.getConversationWithMessages(conversationObject)
-                let response: ConversationDetails.LoadError.Response = ConversationDetails.LoadError.Response(conversation: model, hasCachedMessages: hasCachedMessages)
+                self.conversation = self.getConversationWithMessages(conversationObject)
+                let response: ConversationDetails.LoadError.Response = ConversationDetails.LoadError.Response(conversation: self.conversation!, hasCachedMessages: hasCachedMessages)
                 self.delegate?.conversationLoadDidFail(response: response)
             }
         })
@@ -224,12 +261,10 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // Remove star if is starred and should NOT be starred
         if isStarred && !shouldBeStarred {
-            print(" removing star from conversation")
             updatedConversation = db.updateLabel(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: false, includingMessages: false, userId: userId)?.first
         }
         // Add star if is NOT starred and should be starred
         else if !isStarred && shouldBeStarred {
-            print(" adding star to conversation")
             updatedConversation = db.updateLabel(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: true, includingMessages: false, userId: userId)?.first
         }
         
@@ -252,9 +287,95 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     private func refreshConversation(_ conversation: Conversation) {
-        let model: ConversationDetails.Conversation.Response = self.getConversationWithMessages(conversation)
-        let response = ConversationDetails.UpdateConversation.Response(conversation: model)
+        // Track expanded messages
+        var expandedMessages: [String: Bool] = [:]
+        
+        if let messages = self.conversation?.messages {
+            for message in messages {
+                expandedMessages[message.id] = message.isExpanded
+            }
+        }
+        
+        // Parse the new conversation
+        self.conversation = self.getConversationWithMessages(conversation)
+        
+        // Restore expanded flags on messages
+        for message in self.conversation!.messages {
+            message.isExpanded = expandedMessages[message.id] ?? false
+        }
+        
+        let response = ConversationDetails.UpdateConversation.Response(conversation: self.conversation!)
         self.delegate?.conversationDidUpdate(response: response)
+    }
+    
+    //
+    // MARK: - Message body
+    //
+    
+    private func loadBody(for message: Messages.Message.Response) {
+        let messageId: String = message.id
+        
+        // Check if we have the body loaded
+        if let body = message.body {
+            self.processEncryptedBody(body, messageId: messageId)
+        }
+        // Load the body
+        else {
+            self.loadMessageBody(messageId: messageId) { body in
+                if let body = body {
+                    self.updateMessageBody(body, messageId: messageId)
+                    self.processEncryptedBody(body, messageId: messageId)
+                } else {
+                    self.dispatchMessageBodyError(.load, messageId: messageId)
+                }
+            }
+        }
+    }
+    
+    private func loadMessageBody(messageId: String, completion: @escaping (String?) -> Void) {
+        let response: ConversationDetails.MessageContentLoadDidBegin.Response = ConversationDetails.MessageContentLoadDidBegin.Response(id: messageId)
+        self.delegate?.conversationMessageBodyLoadDidBegin(response: response)
+        
+        // Load message body
+        let worker: MessageBodyLoading = self.resolver.resolve(MessageBodyLoading.self, argument: self.apiService!)!
+        worker.load(messageId: messageId) { body in
+            completion(body)
+        }
+    }
+    
+    private func processEncryptedBody(_ body: String, messageId: String) {
+        guard let decrypted = self.decryptMessageBody(body, messageId: messageId) else {
+            self.dispatchMessageBodyError(.decryption, messageId: messageId)
+            return
+        }
+
+        self.dispatchMessageBody(decrypted, messageId: messageId)
+    }
+    
+    private func decryptMessageBody(_ body: String, messageId: String) -> String? {
+        guard let user = self.usersManager.activeUser else {
+            fatalError("Unexpected application state.")
+        }
+        
+        let decryptor: MessageBodyDecrypting = self.resolver.resolve(MessageBodyDecrypting.self)!
+        
+        return decryptor.decrypt(body: body, user: user)
+    }
+    
+    private func updateMessageBody(_ body: String, messageId: String) {
+        guard let message = self.conversation?.messages.first(where: { $0.id == messageId }) else { return }
+        
+        message.body = body
+    }
+    
+    private func dispatchMessageBody(_ body: String, messageId: String) {
+        let response: ConversationDetails.MessageContentLoaded.Response = ConversationDetails.MessageContentLoaded.Response(messageId: messageId, body: body)
+        self.delegate?.conversationMessageBodyDidLoad(response: response)
+    }
+    
+    private func dispatchMessageBodyError(_ type: ConversationDetails.MessageContentError, messageId: String) {
+        let response: ConversationDetails.MessageContentError.Response = ConversationDetails.MessageContentError.Response(type: type, messageId: messageId)
+        self.delegate?.conversationMessageBodyLoadDidFail(response: response)
     }
 
 }

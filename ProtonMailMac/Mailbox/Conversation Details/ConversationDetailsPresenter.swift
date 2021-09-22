@@ -13,6 +13,10 @@ protocol ConversationDetailsPresentationLogic {
     func presentLoadError(response: ConversationDetails.LoadError.Response)
     func presentMessageUpdate(response: ConversationDetails.UpdateMessage.Response)
     func presentConversationUpdate(response: ConversationDetails.UpdateConversation.Response)
+    func presentMessageContentLoading(response: ConversationDetails.MessageContentLoadDidBegin.Response)
+    func presentMessageContentLoaded(response: ConversationDetails.MessageContentLoaded.Response)
+    func presentMessageContentCollapsed(response: ConversationDetails.MessageContentCollapsed.Response)
+    func presentMessageContentError(response: ConversationDetails.MessageContentError.Response)
 }
 
 class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, MessageLabelPresenting, MessageFolderPresenting, MessageTimePresenting,
@@ -77,6 +81,52 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
     }
     
     //
+    // MARK: - Present message content loading
+    //
+    
+    func presentMessageContentLoading(response: ConversationDetails.MessageContentLoadDidBegin.Response) {
+        let viewModel = ConversationDetails.MessageContentLoadDidBegin.ViewModel(id: response.id)
+        self.viewController?.displayMessageContentLoading(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present message content loaded
+    //
+    
+    func presentMessageContentLoaded(response: ConversationDetails.MessageContentLoaded.Response) {
+        let viewModel = ConversationDetails.MessageContentLoaded.ViewModel(messageId: response.messageId, body: response.body)
+        self.viewController?.displayMessageContentLoaded(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present message content collapsed
+    //
+    
+    func presentMessageContentCollapsed(response: ConversationDetails.MessageContentCollapsed.Response) {
+        let viewModel = ConversationDetails.MessageContentCollapsed.ViewModel(messageId: response.messageId)
+        self.viewController?.displayMessageContentCollapsed(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present message content error
+    //
+    
+    func presentMessageContentError(response: ConversationDetails.MessageContentError.Response) {
+        let message: String
+        let button: String = NSLocalizedString("messageBodyRetryLoadButton", comment: "")
+        
+        switch response.type {
+        case .load:
+            message = NSLocalizedString("messageBodyLoadErrorMessage", comment: "")
+        case .decryption:
+            message = NSLocalizedString("messageBodyDecryptErrorMessage", comment: "")
+        }
+        
+        let viewModel = ConversationDetails.MessageContentError.ViewModel(messageId: response.messageId, errorMessage: message, button: button)
+        self.viewController?.displayMessageContentError(viewModel: viewModel)
+    }
+    
+    //
     // MARK: - Private
     //
     
@@ -100,7 +150,7 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
             repliedIcon = Messages.Icon.ViewModel(icon: "arrowshape.turn.up.left", color: .secondaryLabelColor, tooltip: tooltip)
         }
         let header: Messages.Message.Header.ViewModel = Messages.Message.Header.ViewModel(title: response.senderName, labels: labels, folders: folders, date: date, starIcon: starIcon, isRead: response.isRead, repliedIcon: repliedIcon, attachmentIcon: attachmentIcon)
-        return Messages.Message.ViewModel(id: response.id, header: header, content: response.content)
+        return Messages.Message.ViewModel(id: response.id, header: header)
     }
 
 }

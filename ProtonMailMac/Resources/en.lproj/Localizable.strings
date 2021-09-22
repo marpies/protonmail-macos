@@ -79,3 +79,6 @@
 "messageDetailRepliedToIconTooltip" = "Replied to";
 "conversationLoadErrorPotentiallyOutdatedMessage" = "Latest messages for this conversation could not be loaded. The conversation may be outdated.";
 "conversationLoadErrorMessage" = "There was an error loading the messages.";
+"messageBodyLoadErrorMessage" = "There was an error loading the message contents.";
+"messageBodyDecryptErrorMessage" = "There was an error decrypting the message contents.";
+"messageBodyRetryLoadButton" = "Retry";
