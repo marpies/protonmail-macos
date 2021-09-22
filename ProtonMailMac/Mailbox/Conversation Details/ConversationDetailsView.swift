@@ -9,7 +9,7 @@
 import AppKit
 import SnapKit
 
-protocol ConversationDetailsViewDelegate: ConversationDetailsHeaderViewDelegate, ConversationsErrorViewDelegate, MessageDetailsViewDelegate {
+protocol ConversationDetailsViewDelegate: ConversationDetailsHeaderViewDelegate, BoxErrorViewDelegate, MessageDetailsViewDelegate {
     //
 }
 
@@ -21,7 +21,7 @@ class ConversationDetailsView: NSView {
     
     private let spinnerView: NSProgressIndicator = NSProgressIndicator()
     
-    private var errorView: ConversationsErrorView?
+    private var errorView: BoxErrorView?
     
     weak var delegate: ConversationDetailsViewDelegate? {
         didSet {
@@ -57,7 +57,7 @@ class ConversationDetailsView: NSView {
         self.displayMessages(viewModel.conversation.messages)
         
         if self.errorView == nil {
-            self.errorView = ConversationsErrorView().with { view in
+            self.errorView = BoxErrorView().with { view in
                 view.delegate = self.delegate
             }
         }

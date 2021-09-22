@@ -8,7 +8,7 @@
 
 import AppKit
 
-protocol ConversationsViewDelegate: ConversationsDataSourceDelegate, ConversationsErrorViewDelegate {
+protocol ConversationsViewDelegate: ConversationsDataSourceDelegate, BoxErrorViewDelegate {
     func refreshMessagesButtonDidTap()
 }
 
@@ -20,7 +20,7 @@ class ConversationsView: NSView {
     
     private lazy var dataSource: ConversationsDataSource = ConversationsDataSource(tableView: self.tableView)
     
-    private var errorView: ConversationsErrorView?
+    private var errorView: BoxErrorView?
     
     weak var delegate: ConversationsViewDelegate?
     
@@ -80,7 +80,7 @@ class ConversationsView: NSView {
     
     func displayConversationsError(viewModel: Conversations.LoadError.ViewModel) {
         if self.errorView == nil {
-            self.errorView = ConversationsErrorView()
+            self.errorView = BoxErrorView()
             self.errorView?.delegate = self.delegate
             self.errorView?.with { view in
                 self.addSubview(view)
