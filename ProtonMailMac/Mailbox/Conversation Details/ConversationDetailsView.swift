@@ -89,6 +89,18 @@ class ConversationDetailsView: NSView {
         }
     }
     
+    func displayMessageUpdate(viewModel: ConversationDetails.UpdateMessage.ViewModel) {
+        self.updateMessageView(viewModel: viewModel.message)
+    }
+    
+    func displayConversationUpdate(viewModel: ConversationDetails.UpdateConversation.ViewModel) {
+        self.headerView.update(title: viewModel.conversation.title, starIcon: viewModel.conversation.starIcon, labels: viewModel.conversation.labels)
+        
+        for message in viewModel.conversation.messages {
+            self.updateMessageView(viewModel: message)
+        }
+    }
+    
     //
     // MARK: - Private
     //
@@ -147,6 +159,16 @@ class ConversationDetailsView: NSView {
             view.snp.makeConstraints { make in
                 make.width.equalToSuperview().inset(20)
             }
+        }
+    }
+    
+    private func updateMessageView(viewModel: Messages.Message.ViewModel) {
+        for view in self.contentStackView.arrangedSubviews {
+            guard let messageView = view as? MessageDetailsView,
+                  messageView.messageId == viewModel.id else { continue }
+            
+            messageView.update(viewModel: viewModel)
+            return
         }
     }
     

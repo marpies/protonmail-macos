@@ -90,4 +90,69 @@ enum ConversationDetails {
         }
     }
     
+    //
+    // MARK: - Update message star
+    //
+    
+    enum UpdateMessageStar {
+        struct Request {
+            let id: String
+            let isOn: Bool
+        }
+    }
+    
+    //
+    // MARK: - Update conversation star
+    //
+    
+    enum UpdateConversationStar {
+        struct Request {
+            let isOn: Bool
+        }
+    }
+    
+    //
+    // MARK: - Update message
+    //
+    
+    enum UpdateMessage {
+        class Response {
+            let message: Messages.Message.Response
+
+            init(message: Messages.Message.Response) {
+                self.message = message
+            }
+        }
+        
+        class ViewModel {
+            let message: Messages.Message.ViewModel
+
+            init(message: Messages.Message.ViewModel) {
+                self.message = message
+            }
+        }
+    }
+    
+    //
+    // MARK: - Update conversation
+    //
+    
+    enum UpdateConversation {
+        class Response {
+            let conversation: ConversationDetails.Conversation.Response
+
+            init(conversation: ConversationDetails.Conversation.Response) {
+                self.conversation = conversation
+            }
+        }
+        
+        class ViewModel {
+            let conversation: ConversationDetails.Conversation.ViewModel
+            
+            init(conversation: ConversationDetails.Conversation.ViewModel) {
+                self.conversation = conversation
+            }
+        }
+    }
+    
 }

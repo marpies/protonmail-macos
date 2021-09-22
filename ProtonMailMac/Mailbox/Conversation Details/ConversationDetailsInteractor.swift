@@ -11,6 +11,8 @@ import Foundation
 protocol ConversationDetailsBusinessLogic {
 	func loadConversation(request: ConversationDetails.Load.Request)
     func reloadConversation()
+    func updateMessageStar(request: ConversationDetails.UpdateMessageStar.Request)
+    func updateConversationStar(request: ConversationDetails.UpdateConversationStar.Request)
 }
 
 protocol ConversationDetailsDataStore {
@@ -41,6 +43,22 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     }
     
     //
+    // MARK: - Update message star
+    //
+    
+    func updateMessageStar(request: ConversationDetails.UpdateMessageStar.Request) {
+        self.worker?.updateMessageStar(request: request)
+    }
+    
+    //
+    // MARK: - Update conversation star
+    //
+    
+    func updateConversationStar(request: ConversationDetails.UpdateConversationStar.Request) {
+        self.worker?.updateConversationStar(request: request)
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
@@ -50,6 +68,14 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     
     func conversationLoadDidFail(response: ConversationDetails.LoadError.Response) {
         self.presenter?.presentLoadError(response: response)
+    }
+    
+    func conversationMessageDidUpdate(response: ConversationDetails.UpdateMessage.Response) {
+        self.presenter?.presentMessageUpdate(response: response)
+    }
+    
+    func conversationDidUpdate(response: ConversationDetails.UpdateConversation.Response) {
+        self.presenter?.presentConversationUpdate(response: response)
     }
     
 }

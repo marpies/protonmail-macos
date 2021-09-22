@@ -11,6 +11,8 @@ import AppKit
 protocol ConversationDetailsDisplayLogic: AnyObject {
     func displayConversation(viewModel: ConversationDetails.Load.ViewModel)
     func displayLoadError(viewModel: ConversationDetails.LoadError.ViewModel)
+    func displayMessageUpdate(viewModel: ConversationDetails.UpdateMessage.ViewModel)
+    func displayConversationUpdate(viewModel: ConversationDetails.UpdateConversation.ViewModel)
 }
 
 class ConversationDetailsViewController: NSViewController, ConversationDetailsDisplayLogic, ConversationDetailsViewDelegate {
@@ -60,6 +62,26 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
         self.mainView.displayLoadError(viewModel: viewModel)
     }
     
+    //
+    // MARK: - Display message update
+    //
+    
+    func displayMessageUpdate(viewModel: ConversationDetails.UpdateMessage.ViewModel) {
+        self.mainView.displayMessageUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Display conversation update
+    //
+    
+    func displayConversationUpdate(viewModel: ConversationDetails.UpdateConversation.ViewModel) {
+        self.mainView.displayConversationUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - View delegate
+    //
+    
     func errorViewButtonDidTap() {
         self.mainView.showLoading()
         
@@ -71,11 +93,13 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     }
     
     func messageFavoriteStatusDidChange(messageId: String, isOn: Bool) {
-        // todo update status
+        let request: ConversationDetails.UpdateMessageStar.Request = ConversationDetails.UpdateMessageStar.Request(id: messageId, isOn: isOn)
+        self.interactor?.updateMessageStar(request: request)
     }
     
     func conversationFavoriteStatusDidChange(isOn: Bool) {
-        // todo update status
+        let request: ConversationDetails.UpdateConversationStar.Request = ConversationDetails.UpdateConversationStar.Request(isOn: isOn)
+        self.interactor?.updateConversationStar(request: request)
     }
     
 }

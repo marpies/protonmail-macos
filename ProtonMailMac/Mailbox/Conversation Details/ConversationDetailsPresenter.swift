@@ -11,6 +11,8 @@ import AppKit
 protocol ConversationDetailsPresentationLogic {
     func presentConversation(response: ConversationDetails.Load.Response)
     func presentLoadError(response: ConversationDetails.LoadError.Response)
+    func presentMessageUpdate(response: ConversationDetails.UpdateMessage.Response)
+    func presentConversationUpdate(response: ConversationDetails.UpdateConversation.Response)
 }
 
 class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, MessageLabelPresenting, MessageFolderPresenting, MessageTimePresenting,
@@ -52,6 +54,26 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
         let conversation: ConversationDetails.Conversation.ViewModel = self.getConversation(response: response.conversation)
         let viewModel = ConversationDetails.LoadError.ViewModel(conversation: conversation, message: message, button: button)
         self.viewController?.displayLoadError(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present message update
+    //
+    
+    func presentMessageUpdate(response: ConversationDetails.UpdateMessage.Response) {
+        let message: Messages.Message.ViewModel = self.getMessage(response: response.message)
+        let viewModel = ConversationDetails.UpdateMessage.ViewModel(message: message)
+        self.viewController?.displayMessageUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present conversation update
+    //
+    
+    func presentConversationUpdate(response: ConversationDetails.UpdateConversation.Response) {
+        let conversation: ConversationDetails.Conversation.ViewModel = self.getConversation(response: response.conversation)
+        let viewModel = ConversationDetails.UpdateConversation.ViewModel(conversation: conversation)
+        self.viewController?.displayConversationUpdate(viewModel: viewModel)
     }
     
     //
