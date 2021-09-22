@@ -11,9 +11,8 @@ public struct MessageDetailRequest: Request {
     public var authCredential : AuthCredential?
     public let messageId: String
     
-    public init(messageId: String, authCredential: AuthCredential) {
+    public init(messageId: String) {
         self.messageId = messageId
-        self.authCredential = authCredential
     }
     
     public var path: String {
