@@ -94,7 +94,7 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
         
         if action == .saveDraft || action == .send || action == .read || action == .unread {
             let ids: [String] = messages.map { $0.objectID.uriRepresentation().absoluteString }
-            let _ = self.messageQueue.addMessages(ids, action: action, data1: data1, data2: data2, userId: self.userId)
+            let _ = self.messageQueue.addMessages(ids, action: action.rawValue, data1: data1, data2: data2, userId: self.userId)
         } else {
             let ids: [String] = messages.compactMap { msg in
                 if msg.managedObjectContext != nil && !msg.messageID.isEmpty {
@@ -105,7 +105,7 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
             
             if ids.isEmpty { return }
             
-            let _ = self.messageQueue.addMessages(ids, action: action, data1: data1, data2: data2, userId: self.userId)
+            let _ = self.messageQueue.addMessages(ids, action: action.rawValue, data1: data1, data2: data2, userId: self.userId)
         }
         
         dequeueIfNeeded()

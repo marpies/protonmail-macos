@@ -40,9 +40,9 @@ class MessageQueue: PersistentQueue {
     var isRequiredHumanCheck : Bool = false
     
     //TODO::here need input the time of action when local cache changed.
-    func addMessages(_ messageIds: [String], action: MessageAction, data1: String = "", data2: String = "", userId: String = "") -> UUID {
+    func addMessages(_ messageIds: [String], action: String, data1: String = "", data2: String = "", userId: String = "") -> UUID {
         let time = Date().timeIntervalSince1970
-        let element: [String: Any] = [Key.id : messageIds as NSArray, Key.action : action.rawValue, Key.time : "\(time)", Key.count : "0", Key.data1 : data1, Key.data2 : data2, Key.userId: userId]
+        let element: [String: Any] = [Key.id : messageIds as NSArray, Key.action : action, Key.time : "\(time)", Key.count : "0", Key.data1 : data1, Key.data2 : data2, Key.userId: userId]
         return add(element as NSCoding)
     }
     
