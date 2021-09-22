@@ -106,7 +106,7 @@ class ConversationDetailsHeaderView: NSStackView, ImageButtonDelegate {
     
     private func updateStarIcon(viewModel: Messages.Star.ViewModel) {
         if #available(macOS 11.0, *) {
-            self.favoriteButton.image = NSImage(systemSymbolName: viewModel.icon, accessibilityDescription: nil)?.withSymbolConfiguration(NSImage.SymbolConfiguration(scale: .medium))
+            self.favoriteButton.image = NSImage(systemSymbolName: viewModel.icon, accessibilityDescription: nil)?.withSymbolConfiguration(NSImage.SymbolConfiguration(scale: .large))
             self.favoriteButton.state = viewModel.isSelected ? .on : .off
         } else {
             // todo font icon
