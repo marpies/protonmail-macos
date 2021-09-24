@@ -66,12 +66,13 @@ extension CoreDataService: UserEventsDatabaseManaging {
 extension CoreDataService: UserEventsDatabaseProcessing {
     
     func process(conversations: [[String: Any]], messages: [[String : Any]], userId: String, completion: @escaping ([String], NSError?) -> Void) {
-        let context: NSManagedObjectContext = self.mainContext
+        let context: NSManagedObjectContext = self.backgroundContext
         self.enqueue(context: context) { (ctx) in
+            // Process conversations first to have them correctly assigned to Message objects later
+            let conversationsError: NSError? = self.processConversationEvents(conversations, userId: userId, context: ctx)
+            
             // List of message ids for which there is no metadata
             var (messagesNoCache, responseError): ([String], NSError?) = self.processMessageEvents(messages, userId: userId, context: ctx)
-            
-            let conversationsError: NSError? = self.processConversationEvents(conversations, userId: userId, context: ctx)
             
             if let error = ctx.saveUpstreamIfNeeded() {
                 PMLog.D(" error: \(error)")
@@ -326,13 +327,6 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                                 conversationObject.setValue(labelObjs, forKey: "labels")
                             }
                         }
-                        
-                        if conversationObject.managedObjectContext != nil {
-                            if let error = context.saveUpstreamIfNeeded() {
-                                PMLog.D(" error: \(error)")
-                                responseError = error
-                            }
-                        }
                     }
                 } catch {
                     #if DEBUG
@@ -353,6 +347,8 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                     
                     PMLog.D(" error with msg status \(status): \(error)")
                     #endif
+                    
+                    responseError = error as NSError
                 }
                 
             default:
@@ -417,6 +413,11 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                 
                 do {
                     if let messageObject = try GRTJSONSerialization.object(withEntityName: Message.Attributes.entityName, fromJSONDictionary: msg.message ?? [String : Any](), in: context) as? Message {
+                        messageObject.userID = userId
+                        if msg.Action == IncrementalUpdateType.update1 {
+                            messageObject.isDetailDownloaded = false
+                        }
+                        
                         // apply the label changes
                         if let deleted = msg.message?["LabelIDsRemoved"] as? [String] {
                             for labelId in deleted {
@@ -429,12 +430,6 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                                 }
                             }
                         }
-                        
-                        messageObject.userID = userId
-                        if msg.Action == IncrementalUpdateType.update1 {
-                            messageObject.isDetailDownloaded = false
-                        }
-                        
                         
                         if let added = msg.message?["LabelIDsAdded"] as? [String] {
                             for labelId in added {
@@ -459,15 +454,15 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                             }
                         }
                         
-                        if messageObject.managedObjectContext != nil {
-                            if let error = context.saveUpstreamIfNeeded() {
-                                if let messageid = msg.message?["ID"] as? String {
-                                    messagesNoCache.append(messageid)
-                                }
-                                PMLog.D(" error: \(error)")
-                                responseError = error
-                            }
-                        } else {
+                        // Update the conversation's time (it may be nil), since the time is not part of the events response
+                        // Use the message's time if it is newer that the conversation's
+                        let conversation: Conversation = messageObject.conversation
+                        let conversationTime: Date = conversation.time ?? Date.distantPast
+                        if let msgTime = messageObject.time, conversationTime < msgTime {
+                            conversation.time = msgTime
+                        }
+                        
+                        if messageObject.managedObjectContext == nil {
                             if let messageid = msg.message?["ID"] as? String {
                                 messagesNoCache.append(messageid)
                             }
@@ -504,6 +499,8 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                     
                     PMLog.D(" error with msg status \(status): \(err)")
                     #endif
+                    
+                    responseError = err
                 }
             default:
                 PMLog.D(" unknown type in message: \(message)")
