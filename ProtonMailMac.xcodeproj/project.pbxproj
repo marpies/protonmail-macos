@@ -239,6 +239,7 @@
 		C3C8262A26FE3BC500B4E95C /* MimeTypesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */; };
 		C3C8262E26FE4B3A00B4E95C /* Attachment+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */; };
 		C3C8263026FE4BAA00B4E95C /* Data+Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262F26FE4BAA00B4E95C /* Data+Attachment.swift */; };
+		C3C8263226FF0A3000B4E95C /* MessageInlineAttachmentDecryptingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263126FF0A3000B4E95C /* MessageInlineAttachmentDecryptingWorker.swift */; };
 		C3C8263426FF229E00B4E95C /* AttachmentsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263326FF229E00B4E95C /* AttachmentsAPI.swift */; };
 		C3C8263826FF23AC00B4E95C /* DownloadAttachmentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263726FF23AC00B4E95C /* DownloadAttachmentRequest.swift */; };
 		C3C8263A26FF284000B4E95C /* CoreDataService+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */; };
@@ -560,6 +561,7 @@
 		C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypesExtensions.swift; sourceTree = "<group>"; };
 		C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Helpers.swift"; sourceTree = "<group>"; };
 		C3C8262F26FE4BAA00B4E95C /* Data+Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Attachment.swift"; sourceTree = "<group>"; };
+		C3C8263126FF0A3000B4E95C /* MessageInlineAttachmentDecryptingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInlineAttachmentDecryptingWorker.swift; sourceTree = "<group>"; };
 		C3C8263326FF229E00B4E95C /* AttachmentsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentsAPI.swift; sourceTree = "<group>"; };
 		C3C8263726FF23AC00B4E95C /* DownloadAttachmentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAttachmentRequest.swift; sourceTree = "<group>"; };
 		C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Attachments.swift"; sourceTree = "<group>"; };
@@ -1287,6 +1289,7 @@
 			children = (
 				C3C8260626FB607D00B4E95C /* MessageBodyLoadingWorker.swift */,
 				C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */,
+				C3C8263126FF0A3000B4E95C /* MessageInlineAttachmentDecryptingWorker.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -1638,6 +1641,7 @@
 				C3DACB5A26EA25E900927933 /* LabelUpdateDatabaseManaging.swift in Sources */,
 				C31D027526D76B6F002EBBE0 /* KeyValueStoreKeys.swift in Sources */,
 				C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */,
+				C3C8263226FF0A3000B4E95C /* MessageInlineAttachmentDecryptingWorker.swift in Sources */,
 				C353421826F4A28A00EA0137 /* ConversationDetailsViewController.swift in Sources */,
 				C3DACB5E26EA277A00927933 /* LabelUpdate+Helpers.swift in Sources */,
 				C3C8263426FF229E00B4E95C /* AttachmentsAPI.swift in Sources */,

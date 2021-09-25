@@ -43,6 +43,10 @@ struct ServicesAssembly: Assembly {
         container.register(MessageBodyDecrypting.self) { r in
             return MessageBodyDecryptingWorker()
         }.inObjectScope(.transient)
+        
+        container.register(MessageInlineAttachmentDecrypting.self) { (r: Resolver, apiService: ApiService) in
+            return MessageInlineAttachmentDecryptingWorker(resolver: r, apiService: apiService)
+        }.inObjectScope(.transient)
     }
     
 }
