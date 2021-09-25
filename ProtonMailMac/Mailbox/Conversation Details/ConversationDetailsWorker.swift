@@ -357,17 +357,16 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     private func decryptMessageBody(_ body: String, messageId: String) -> String? {
-        guard let user = self.usersManager.activeUser else {
-            fatalError("Unexpected application state.")
-        }
+        guard let user = self.usersManager.activeUser,
+              let message = self.getMessageModel(id: messageId) else { return nil }
         
         let decryptor: MessageBodyDecrypting = self.resolver.resolve(MessageBodyDecrypting.self)!
         
-        return decryptor.decrypt(body: body, user: user)
+        return decryptor.decrypt(message: message, user: user)
     }
     
     private func updateMessageBody(_ body: String, messageId: String) {
-        guard let message = self.conversation?.messages.first(where: { $0.id == messageId }) else { return }
+        guard let message = self.getMessageModel(id: messageId) else { return }
         
         message.body = body
     }
@@ -380,6 +379,10 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     private func dispatchMessageBodyError(_ type: ConversationDetails.MessageContentError, messageId: String) {
         let response: ConversationDetails.MessageContentError.Response = ConversationDetails.MessageContentError.Response(type: type, messageId: messageId)
         self.delegate?.conversationMessageBodyLoadDidFail(response: response)
+    }
+    
+    private func getMessageModel(id: String) -> Messages.Message.Response? {
+        return self.conversation?.messages.first(where: { $0.id == id })
     }
 
 }
