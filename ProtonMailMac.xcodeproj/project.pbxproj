@@ -225,6 +225,11 @@
 		C3C8260926FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */; };
 		C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260A26FB874200B4E95C /* MessageBodyView.swift */; };
 		C3C8260D26FB9C5800B4E95C /* BoxErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */; };
+		C3C8261226FC6A7900B4E95C /* WebContentsSecureLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8261126FC6A7900B4E95C /* WebContentsSecureLoader.swift */; };
+		C3C8261426FC6A8500B4E95C /* WebContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8261326FC6A8500B4E95C /* WebContents.swift */; };
+		C3C8261626FC6A8E00B4E95C /* HTTPRequestSecureLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8261526FC6A8E00B4E95C /* HTTPRequestSecureLoader.swift */; };
+		C3C8261A26FC73D100B4E95C /* purify.min.js in Resources */ = {isa = PBXBuildFile; fileRef = C3C8261826FC73D100B4E95C /* purify.min.js */; };
+		C3C8261B26FC73D100B4E95C /* editor.css in Resources */ = {isa = PBXBuildFile; fileRef = C3C8261926FC73D100B4E95C /* editor.css */; };
 		C3C8261E26FC7D2700B4E95C /* MIMEMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8261D26FC7D2700B4E95C /* MIMEMessage.swift */; };
 		C3C8262026FC7D4C00B4E95C /* MIMEMessagePart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8261F26FC7D4C00B4E95C /* MIMEMessagePart.swift */; };
 		C3C8262226FC7D6500B4E95C /* MIMEMessageHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262126FC7D6500B4E95C /* MIMEMessageHeader.swift */; };
@@ -539,6 +544,11 @@
 		C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyDecryptingWorker.swift; sourceTree = "<group>"; };
 		C3C8260A26FB874200B4E95C /* MessageBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyView.swift; sourceTree = "<group>"; };
 		C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxErrorView.swift; sourceTree = "<group>"; };
+		C3C8261126FC6A7900B4E95C /* WebContentsSecureLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebContentsSecureLoader.swift; sourceTree = "<group>"; };
+		C3C8261326FC6A8500B4E95C /* WebContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebContents.swift; sourceTree = "<group>"; };
+		C3C8261526FC6A8E00B4E95C /* HTTPRequestSecureLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestSecureLoader.swift; sourceTree = "<group>"; };
+		C3C8261826FC73D100B4E95C /* purify.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = purify.min.js; sourceTree = "<group>"; };
+		C3C8261926FC73D100B4E95C /* editor.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = editor.css; sourceTree = "<group>"; };
 		C3C8261D26FC7D2700B4E95C /* MIMEMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEMessage.swift; sourceTree = "<group>"; };
 		C3C8261F26FC7D4C00B4E95C /* MIMEMessagePart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEMessagePart.swift; sourceTree = "<group>"; };
 		C3C8262126FC7D6500B4E95C /* MIMEMessageHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEMessageHeader.swift; sourceTree = "<group>"; };
@@ -694,6 +704,7 @@
 			isa = PBXGroup;
 			children = (
 				C3C8261C26FC7D1700B4E95C /* Mime */,
+				C3C8261026FC699000B4E95C /* Web Contents */,
 				C3C6FD3026EFB2C70066C504 /* Queue */,
 				C31D033D26DB8924002EBBE0 /* Logger.swift */,
 			);
@@ -957,6 +968,7 @@
 		C36814BC26D65AA600A35A16 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C3C8261726FC73BE00B4E95C /* Web */,
 				C31D030426DA9652002EBBE0 /* ProtonMail.xcdatamodeld */,
 				C36814C126D65B2F00A35A16 /* Localizable.strings */,
 				C3C6FD2E26EE22B60066C504 /* Localizable.stringsdict */,
@@ -1273,6 +1285,25 @@
 			path = Workers;
 			sourceTree = "<group>";
 		};
+		C3C8261026FC699000B4E95C /* Web Contents */ = {
+			isa = PBXGroup;
+			children = (
+				C3C8261126FC6A7900B4E95C /* WebContentsSecureLoader.swift */,
+				C3C8261326FC6A8500B4E95C /* WebContents.swift */,
+				C3C8261526FC6A8E00B4E95C /* HTTPRequestSecureLoader.swift */,
+			);
+			path = "Web Contents";
+			sourceTree = "<group>";
+		};
+		C3C8261726FC73BE00B4E95C /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				C3C8261926FC73D100B4E95C /* editor.css */,
+				C3C8261826FC73D100B4E95C /* purify.min.js */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
 		C3C8261C26FC7D1700B4E95C /* Mime */ = {
 			isa = PBXGroup;
 			children = (
@@ -1481,7 +1512,9 @@
 			files = (
 				C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */,
 				C3C6FD2C26EE22B60066C504 /* Localizable.stringsdict in Resources */,
+				C3C8261B26FC73D100B4E95C /* editor.css in Resources */,
 				C36814BF26D65B2F00A35A16 /* Localizable.strings in Resources */,
+				C3C8261A26FC73D100B4E95C /* purify.min.js in Resources */,
 				C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1534,6 +1567,7 @@
 				C31D02CF26D80EB3002EBBE0 /* TwoFactorInputViewController.swift in Sources */,
 				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
 				C39A247426D2DCAA008A482C /* Array+Extensions.swift in Sources */,
+				C3C8261626FC6A8E00B4E95C /* HTTPRequestSecureLoader.swift in Sources */,
 				C31D034626DB8B34002EBBE0 /* Attachment+Info.swift in Sources */,
 				C39A242826D2D8D9008A482C /* AuthInfoRequest.swift in Sources */,
 				C353421626F4A28A00EA0137 /* ConversationDetailsRouter.swift in Sources */,
@@ -1658,6 +1692,7 @@
 				C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */,
 				C36814D226D6601600A35A16 /* SignInWorker.swift in Sources */,
 				C3F20A0B26D42A090051EFEB /* AuthRefreshRequest.swift in Sources */,
+				C3C8261426FC6A8500B4E95C /* WebContents.swift in Sources */,
 				C31D033E26DB8924002EBBE0 /* Logger.swift in Sources */,
 				C39A242226D2D8D9008A482C /* KeysApi.swift in Sources */,
 				C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */,
@@ -1712,6 +1747,7 @@
 				C3F20A0926D427500051EFEB /* UserDataService.swift in Sources */,
 				C3C8260926FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift in Sources */,
 				C3C6FD4D26F36CD10066C504 /* ConversationsRequest.swift in Sources */,
+				C3C8261226FC6A7900B4E95C /* WebContentsSecureLoader.swift in Sources */,
 				C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */,
 				C31D034026DB898D002EBBE0 /* NSManagedObjectContext+Extensions.swift in Sources */,
 				C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */,
