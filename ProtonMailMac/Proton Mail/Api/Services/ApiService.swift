@@ -22,6 +22,7 @@ public protocol ApiService: ApiUrlInjected {
     func request<T>(_ request: Request, completion: @escaping (_ response: T) -> Void) where T: Response
     func request<T>(_ request: Request, completion: @escaping (_ task: URLSessionDataTask?, _ result: Result<T, Error>) -> Void) where T: Codable
     func request(_ request: Request, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void)
+    func download(_ request: DownloadRequest, completion: @escaping ((URLResponse?, URL?, NSError?) -> Void))
 }
 
 public extension ApiService {
@@ -74,6 +75,14 @@ public extension ApiService {
     func request(_ request: Request, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void) {
         do {
             try self.makeRequest(request, completion: completion)
+        } catch {
+            completion(nil, nil, error as NSError)
+        }
+    }
+    
+    func download(_ request: DownloadRequest, completion: @escaping ((URLResponse?, URL?, NSError?) -> Void)) {
+        do {
+            try self.makeDownloadRequest(request: request, refreshTokenIfNeeded: true, completion: completion)
         } catch {
             completion(nil, nil, error as NSError)
         }
@@ -169,12 +178,95 @@ public extension ApiService {
         task?.resume()
     }
     
+    private func makeDownloadRequest(request: DownloadRequest, refreshTokenIfNeeded: Bool = true, completion: @escaping ((URLResponse?, URL?, NSError?) -> Void)) throws {
+        let accessToken: String = request.authCredential?.accessToken ?? ""
+        
+        if request.isAuth && accessToken.isEmpty {
+            #if DEBUG
+            print("   Download for /\(request.path) requires authentication, requesting credential from the delegate = \(self.authDelegate != nil)")
+            #endif
+            
+            if refreshTokenIfNeeded, let delegate = self.authDelegate {
+                delegate.refreshSession { newCredential, err in
+                    self.processRefreshedCredential(request: request, newCredential: newCredential, error: err, completion: completion)
+                }
+            } else {
+                let error = NSError.protonMailError(401,
+                                                    localizedDescription: "The request failed, invalid access token.",
+                                                    localizedFailureReason: "The request failed, invalid access token.",
+                                                    localizedRecoverySuggestion: nil)
+                completion(nil, nil, error)
+            }
+            return
+        }
+        
+        #if DEBUG
+        print(" Downloading path /\(request.path)")
+        #endif
+        
+        let url: String = self.getApiUrl(path: request.path)
+        let urlRequest: NSMutableURLRequest = try self.sessionManager.requestSerializer.request(withMethod: request.method.toString(),
+                                                                                                urlString: url,
+                                                                                                parameters: request.parameters)
+        
+        var headers = request.headers
+        headers[HTTPHeader.apiVersion] = request.version
+        
+        // Set headers
+        for (k, v) in headers {
+            urlRequest.setValue("\(v)", forHTTPHeaderField: k)
+        }
+        
+        // Set auth
+        urlRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        
+        // Set session id
+        if let userid = request.authCredential?.sessionID {
+            urlRequest.setValue(userid, forHTTPHeaderField: "x-pm-uid")
+        }
+        
+        // App version
+        let appversion: String = "iOS_1.15.3"
+        urlRequest.setValue(appversion, forHTTPHeaderField: "x-pm-appversion")
+        
+        urlRequest.setValue("application/vnd.protonmail.v1+json", forHTTPHeaderField: "Accept")
+        
+        // User agent
+        let ua: String = "ProtonMail/1.15.3 (iOS/14.5 iPhone11,2)"
+        urlRequest.setValue(ua, forHTTPHeaderField: "User-Agent")
+        
+        let downloadTask: URLSessionDownloadTask = self.sessionManager.downloadTask(with: urlRequest as URLRequest, progress: { (_) in
+            
+        }, destination: { (_, _) -> URL in
+            return request.destinationURL
+        }, completionHandler: { (response, url, error) in
+            completion(response, url, error as NSError?)
+        })
+        
+        downloadTask.resume()
+    }
+    
     private func processRefreshedCredential(request: Request, newCredential: AuthCredential?, error: NSError?, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void) {
         if let credential = newCredential {
             // Create a new request with the updated credential
             let reqCopy: Request = request.copyWithCredential(credential)
             do {
                 try self.makeRequest(reqCopy, refreshTokenIfNeeded: false, completion: completion)
+            } catch {
+                completion(nil, nil, error as NSError)
+            }
+        } else {
+            let error: NSError = error ?? NSError.unknownError()
+            completion(nil, nil, error)
+        }
+    }
+    
+    private func processRefreshedCredential(request: DownloadRequest, newCredential: AuthCredential?, error: NSError?, completion: @escaping ((URLResponse?, URL?, NSError?) -> Void)) {
+        if let credential = newCredential {
+            // Create a new request with the updated credential
+            let reqCopy: DownloadRequest = request.copyWithCredential(credential)
+            do {
+                try self.makeDownloadRequest(request: reqCopy, refreshTokenIfNeeded: false, completion: completion)
             } catch {
                 completion(nil, nil, error as NSError)
             }

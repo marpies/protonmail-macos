@@ -62,3 +62,10 @@ public extension Request {
         return v_default
     }
 }
+
+
+public protocol DownloadRequest: Request {
+    
+    var destinationURL: URL { get }
+    
+}
