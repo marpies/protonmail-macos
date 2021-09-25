@@ -183,9 +183,6 @@ class HTTPRequestSecureLoader: NSObject, WebContentsSecureLoader, WKScriptMessag
         config.setURLSchemeHandler(self, forURLScheme: HTTPRequestSecureLoader.loopbackScheme)
     }
     
-    deinit {
-        print(" loader deinit")
-    }
 }
 
 extension HTTPRequestSecureLoader: WKURLSchemeHandler {
