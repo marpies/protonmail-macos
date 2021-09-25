@@ -225,6 +225,13 @@
 		C3C8260926FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */; };
 		C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260A26FB874200B4E95C /* MessageBodyView.swift */; };
 		C3C8260D26FB9C5800B4E95C /* BoxErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */; };
+		C3C8261E26FC7D2700B4E95C /* MIMEMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8261D26FC7D2700B4E95C /* MIMEMessage.swift */; };
+		C3C8262026FC7D4C00B4E95C /* MIMEMessagePart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8261F26FC7D4C00B4E95C /* MIMEMessagePart.swift */; };
+		C3C8262226FC7D6500B4E95C /* MIMEMessageHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262126FC7D6500B4E95C /* MIMEMessageHeader.swift */; };
+		C3C8262426FC7D7E00B4E95C /* String+Mime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262326FC7D7E00B4E95C /* String+Mime.swift */; };
+		C3C8262626FC7D9100B4E95C /* UInt8+Mime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262526FC7D9100B4E95C /* UInt8+Mime.swift */; };
+		C3C8262826FC7DDE00B4E95C /* Data+Mime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262726FC7DDE00B4E95C /* Data+Mime.swift */; };
+		C3C8262A26FE3BC500B4E95C /* MimeTypesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */; };
 		C3C8262E26FE4B3A00B4E95C /* Attachment+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
@@ -528,6 +535,13 @@
 		C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyDecryptingWorker.swift; sourceTree = "<group>"; };
 		C3C8260A26FB874200B4E95C /* MessageBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBodyView.swift; sourceTree = "<group>"; };
 		C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxErrorView.swift; sourceTree = "<group>"; };
+		C3C8261D26FC7D2700B4E95C /* MIMEMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEMessage.swift; sourceTree = "<group>"; };
+		C3C8261F26FC7D4C00B4E95C /* MIMEMessagePart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEMessagePart.swift; sourceTree = "<group>"; };
+		C3C8262126FC7D6500B4E95C /* MIMEMessageHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEMessageHeader.swift; sourceTree = "<group>"; };
+		C3C8262326FC7D7E00B4E95C /* String+Mime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Mime.swift"; sourceTree = "<group>"; };
+		C3C8262526FC7D9100B4E95C /* UInt8+Mime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt8+Mime.swift"; sourceTree = "<group>"; };
+		C3C8262726FC7DDE00B4E95C /* Data+Mime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Mime.swift"; sourceTree = "<group>"; };
+		C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypesExtensions.swift; sourceTree = "<group>"; };
 		C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Helpers.swift"; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
@@ -671,6 +685,7 @@
 		C31D033C26DB8918002EBBE0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C3C8261C26FC7D1700B4E95C /* Mime */,
 				C3C6FD3026EFB2C70066C504 /* Queue */,
 				C31D033D26DB8924002EBBE0 /* Logger.swift */,
 			);
@@ -1019,6 +1034,7 @@
 				C31D034D26DB9825002EBBE0 /* URL+Extensions.swift */,
 				C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */,
 				C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */,
+				C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1244,6 +1260,19 @@
 				C3C8260826FB6AF700B4E95C /* MessageBodyDecryptingWorker.swift */,
 			);
 			path = Workers;
+			sourceTree = "<group>";
+		};
+		C3C8261C26FC7D1700B4E95C /* Mime */ = {
+			isa = PBXGroup;
+			children = (
+				C3C8261D26FC7D2700B4E95C /* MIMEMessage.swift */,
+				C3C8261F26FC7D4C00B4E95C /* MIMEMessagePart.swift */,
+				C3C8262126FC7D6500B4E95C /* MIMEMessageHeader.swift */,
+				C3C8262326FC7D7E00B4E95C /* String+Mime.swift */,
+				C3C8262526FC7D9100B4E95C /* UInt8+Mime.swift */,
+				C3C8262726FC7DDE00B4E95C /* Data+Mime.swift */,
+			);
+			path = Mime;
 			sourceTree = "<group>";
 		};
 		C3DACB3426E8E2DC00927933 /* Views */ = {
@@ -1475,6 +1504,7 @@
 				C3C8260126FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift in Sources */,
 				C3C6FD5826F36EF10066C504 /* ConversationsPresenter.swift in Sources */,
 				C36814BB26D659D100A35A16 /* NSTextField+Extensions.swift in Sources */,
+				C3C8261E26FC7D2700B4E95C /* MIMEMessage.swift in Sources */,
 				C3DACB3126E79A9300927933 /* Label+Defaults.swift in Sources */,
 				C353423926F8997A00EA0137 /* IconView.swift in Sources */,
 				C353423426F4E7F400EA0137 /* FlippedStackView.swift in Sources */,
@@ -1494,6 +1524,7 @@
 				C31D034626DB8B34002EBBE0 /* Attachment+Info.swift in Sources */,
 				C39A242826D2D8D9008A482C /* AuthInfoRequest.swift in Sources */,
 				C353421626F4A28A00EA0137 /* ConversationDetailsRouter.swift in Sources */,
+				C3C8262826FC7DDE00B4E95C /* Data+Mime.swift in Sources */,
 				C39A244626D2D8FB008A482C /* Hash.swift in Sources */,
 				C39A241A26D2D8D9008A482C /* Response.swift in Sources */,
 				C31D02FB26D9705E002EBBE0 /* LabelsRequest.swift in Sources */,
@@ -1529,11 +1560,13 @@
 				C39A241626D2D8D9008A482C /* AuthCredential.swift in Sources */,
 				C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */,
 				C3C6FD5A26F36EF10066C504 /* ConversationsRouter.swift in Sources */,
+				C3C8262A26FE3BC500B4E95C /* MimeTypesExtensions.swift in Sources */,
 				C3F20A0526D421240051EFEB /* AuthDeleteRequest.swift in Sources */,
 				C353424126F9035100EA0137 /* ConversationAction.swift in Sources */,
 				C353421C26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift in Sources */,
 				C3C8260426FB1CAD00B4E95C /* NotificationType.swift in Sources */,
 				C3DACB3F26E9423900927933 /* EventApi.swift in Sources */,
+				C3C8262426FC7D7E00B4E95C /* String+Mime.swift in Sources */,
 				C38ADA6C26F389510055A1AE /* CoreDataService+Conversations.swift in Sources */,
 				C39A242F26D2D8D9008A482C /* ApiService.swift in Sources */,
 				C3DACB4126E9428B00927933 /* EventCheckRequest.swift in Sources */,
@@ -1569,6 +1602,7 @@
 				C31D032C26DA9A85002EBBE0 /* LabelUpdate.swift in Sources */,
 				C31D034A26DB9534002EBBE0 /* CoreDataService.swift in Sources */,
 				C3C6FD2126EB44CE0066C504 /* MessageFoldersView.swift in Sources */,
+				C3C8262226FC7D6500B4E95C /* MIMEMessageHeader.swift in Sources */,
 				C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */,
 				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
 				C31D02F126D942A4002EBBE0 /* MailboxSidebarViewController.swift in Sources */,
@@ -1666,6 +1700,7 @@
 				C39A242426D2D8D9008A482C /* ApiModels.swift in Sources */,
 				C31D034026DB898D002EBBE0 /* NSManagedObjectContext+Extensions.swift in Sources */,
 				C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */,
+				C3C8262626FC7D9100B4E95C /* UInt8+Mime.swift in Sources */,
 				C3A6590326E693D200CFE2F9 /* Message+Flags.swift in Sources */,
 				C39A24D426D3B849008A482C /* AuthUser.swift in Sources */,
 				C3C6FD1926EB21AA0066C504 /* MessageToModelConverting.swift in Sources */,
@@ -1693,6 +1728,7 @@
 				C39A242A26D2D8D9008A482C /* UserInfoRequest.swift in Sources */,
 				C31D034E26DB9825002EBBE0 /* URL+Extensions.swift in Sources */,
 				C36814B126D6295400A35A16 /* MailboxInteractor.swift in Sources */,
+				C3C8262026FC7D4C00B4E95C /* MIMEMessagePart.swift in Sources */,
 				C36814C826D65D0100A35A16 /* AppModels.swift in Sources */,
 				C353423E26F9025A00EA0137 /* ConversationOpsService.swift in Sources */,
 				C31D02EF26D942A4002EBBE0 /* MailboxSidebarRouter.swift in Sources */,
