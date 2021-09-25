@@ -149,7 +149,12 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
             let tooltip: String = NSLocalizedString("messageDetailRepliedToIconTooltip", comment: "")
             repliedIcon = Messages.Icon.ViewModel(icon: "arrowshape.turn.up.left", color: .secondaryLabelColor, tooltip: tooltip)
         }
-        let header: Messages.Message.Header.ViewModel = Messages.Message.Header.ViewModel(title: response.senderName, labels: labels, folders: folders, date: date, starIcon: starIcon, isRead: response.isRead, repliedIcon: repliedIcon, attachmentIcon: attachmentIcon)
+        var draftLabel: Messages.Label.ViewModel?
+        if response.isDraft {
+            let title: String = NSLocalizedString("messageLabelDraft", comment: "")
+            draftLabel = Messages.Label.ViewModel(id: "", title: title, color: .systemGreen)
+        }
+        let header: Messages.Message.Header.ViewModel = Messages.Message.Header.ViewModel(title: response.senderName, labels: labels, folders: folders, date: date, starIcon: starIcon, isRead: response.isRead, draftLabel: draftLabel, repliedIcon: repliedIcon, attachmentIcon: attachmentIcon)
         return Messages.Message.ViewModel(id: response.id, header: header)
     }
 

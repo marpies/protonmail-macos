@@ -60,6 +60,7 @@
 "mailboxLabelSpam" = "Spam";
 "mailboxLabelTrash" = "Koš";
 "mailboxLabelAllMail" = "Všechna pošta";
+"messageLabelDraft" = "Koncept";
 
 //
 // MARK: - Mailbox messages

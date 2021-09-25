@@ -60,6 +60,7 @@
 "mailboxLabelSpam" = "Spam";
 "mailboxLabelTrash" = "Trash";
 "mailboxLabelAllMail" = "All mail";
+"messageLabelDraft" = "Draft";
 
 //
 // MARK: - Mailbox messages

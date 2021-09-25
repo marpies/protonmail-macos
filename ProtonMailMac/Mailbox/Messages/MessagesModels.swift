@@ -177,16 +177,18 @@ enum Messages {
                 let date: String
                 let starIcon: Messages.Star.ViewModel
                 let isRead: Bool
+                let draftLabel: Messages.Label.ViewModel?
                 let repliedIcon: Messages.Icon.ViewModel?
                 let attachmentIcon: Messages.Attachment.ViewModel?
 
-                init(title: String, labels: [Messages.Label.ViewModel]?, folders: [Messages.Folder.ViewModel], date: String, starIcon: Messages.Star.ViewModel, isRead: Bool, repliedIcon: Messages.Icon.ViewModel?, attachmentIcon: Messages.Attachment.ViewModel?) {
+                init(title: String, labels: [Messages.Label.ViewModel]?, folders: [Messages.Folder.ViewModel], date: String, starIcon: Messages.Star.ViewModel, isRead: Bool, draftLabel: Messages.Label.ViewModel?, repliedIcon: Messages.Icon.ViewModel?, attachmentIcon: Messages.Attachment.ViewModel?) {
                     self.title = title
                     self.labels = labels
                     self.folders = folders
                     self.date = date
                     self.starIcon = starIcon
                     self.isRead = isRead
+                    self.draftLabel = draftLabel
                     self.repliedIcon = repliedIcon
                     self.attachmentIcon = attachmentIcon
                 }

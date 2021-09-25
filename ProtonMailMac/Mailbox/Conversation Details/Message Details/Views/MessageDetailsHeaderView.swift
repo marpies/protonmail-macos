@@ -20,6 +20,8 @@ class MessageDetailsHeaderView: NSButton {
     private let dateLabel: NSTextField = NSTextField.asLabel
     private let foldersView: MessageFoldersView = MessageFoldersView()
     private let favoriteButton: ImageButton = ImageButton()
+    
+    private var draftLabelView: MessageLabelView?
     private var repliedIcon: IconView?
     
     weak var delegate: MessageDetailsHeaderViewDelegate?
@@ -43,6 +45,12 @@ class MessageDetailsHeaderView: NSButton {
         self.titleLabel.stringValue = viewModel.title
         self.foldersView.update(viewModel: viewModel.folders)
         self.dateLabel.stringValue = viewModel.date
+        
+        if let draft = viewModel.draftLabel {
+            self.addDraftLabel(viewModel: draft)
+        } else {
+            self.removeDraftLabel()
+        }
         
         if let icon = viewModel.repliedIcon {
             self.addRepliedIcon(viewModel: icon)
@@ -139,6 +147,22 @@ class MessageDetailsHeaderView: NSButton {
         guard let view = self.repliedIcon else { return }
         
         self.repliedIcon = nil
+        view.removeFromSuperview()
+    }
+    
+    private func addDraftLabel(viewModel: Messages.Label.ViewModel) {
+        guard self.draftLabelView == nil else { return }
+        
+        self.draftLabelView = MessageLabelView().with { view in
+            self.titleStackView.insertArrangedSubview(view, at: 1)
+            view.update(viewModel: viewModel)
+        }
+    }
+    
+    private func removeDraftLabel() {
+        guard let view = self.draftLabelView else { return }
+        
+        self.draftLabelView = nil
         view.removeFromSuperview()
     }
     
