@@ -101,11 +101,11 @@ class HTTPRequestSecureLoader: NSObject, WebContentsSecureLoader, WKScriptMessag
     private func prepareRendering(_ contents: WebContents, into config: WKWebViewConfiguration) {
         self.contents = contents
         
-        let textColor: NSColor = .labelColor
-        let bgColor: NSColor = .controlBackgroundColor
+        let textColor: String = NSColor.labelColor.hexString ?? "#FFF"
+        let bgColor: String = NSColor.controlBackgroundColor.hexString ?? "#000"
         let fontSize: Int = Int(NSFont.LegacyTextStyle.body.fontSize)
         var css: String = WebContents.css
-        css += "body { color: \(textColor.hexString); background-color: \(bgColor.hexString) } html { font-size: \(fontSize)px; }"
+        css += "body { color: \(textColor); background-color: \(bgColor) } html { font-size: \(fontSize)px; }"
         
         let sanitizeRaw = """
         var dirty = document.documentElement.outerHTML.toString();
@@ -167,8 +167,6 @@ class HTTPRequestSecureLoader: NSObject, WebContentsSecureLoader, WKScriptMessag
             let request = URLRequest(url: url)
             let data = sanitized.data(using: .unicode)
             self.loopbacks[url] = data
-            
-            print("\(sanitized)")
             
             self.webView?.load(request)
         }

@@ -46,4 +46,14 @@ extension NSColor {
         self.init(red:red, green:green, blue:blue, alpha:alpha)
     }
     
+    var hexString: String? {
+        guard let color = self.usingColorSpace(.deviceRGB) else { return nil }
+        
+        let red = Int(round(color.redComponent * 0xFF))
+        let green = Int(round(color.greenComponent * 0xFF))
+        let blue = Int(round(color.blueComponent * 0xFF))
+        
+        return String(format: "#%02X%02X%02X", red, green, blue)
+    }
+    
 }
