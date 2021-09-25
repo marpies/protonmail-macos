@@ -44,8 +44,4 @@ class Attachment: NSManagedObject {
     //Added in version 1.12.5 to handle the attachment deletion failed issue
     @NSManaged var isSoftDeleted: Bool
     
-    var downloaded: Bool {
-        return (localURL != nil) && (FileManager.default.fileExists(atPath: localURL!.path))
-    }
-    
 }
