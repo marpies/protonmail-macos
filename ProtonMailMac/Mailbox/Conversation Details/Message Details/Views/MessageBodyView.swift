@@ -8,15 +8,17 @@
 
 import Cocoa
 import SnapKit
+import WebKit
 
 protocol MessageBodyViewDelegate: AnyObject {
     func retryContentLoadButtonDidTap()
 }
 
-class MessageBodyView: NSView, BoxErrorViewDelegate {
+class MessageBodyView: NSView, BoxErrorViewDelegate, WebContentsSecureLoaderDelegate {
     
     private var spinnerView: NSProgressIndicator?
     private var errorView: BoxErrorView?
+    private var webView: MessageBodyWebView?
     
     weak var delegate: MessageBodyViewDelegate?
     
@@ -49,11 +51,12 @@ class MessageBodyView: NSView, BoxErrorViewDelegate {
         }
     }
     
-    func showContent(_ value: String) {
-        self.hideLoading()
+    func showContent(viewModel: Messages.Message.Contents.ViewModel) {
         self.hideErrorView()
         
-        // todo show content
+        self.initWebView(viewModel: viewModel)
+        
+        viewModel.loader.load(contents: viewModel.contents, in: self.webView!)
     }
     
     func showErrorContent(message: String, button: String) {
@@ -71,12 +74,37 @@ class MessageBodyView: NSView, BoxErrorViewDelegate {
         }
     }
     
+    func dispose() {
+        self.hideLoading()
+        self.webView?.stopLoading()
+        self.webView?.configuration.userContentController.removeAllUserScripts()
+        self.webView?.configuration.userContentController.removeScriptMessageHandler(forName: "loaded")
+    }
+    
     //
     // MARK: - Box error view delegate
     //
     
     func errorViewButtonDidTap() {
         self.delegate?.retryContentLoadButtonDidTap()
+    }
+    
+    //
+    // MARK: - Web loader delegate
+    //
+    
+    func webContentsHeightDidUpdate(_ height: CGFloat) {
+        self.hideLoading()
+        self.webView?.isHidden = false
+        
+        guard let bounds = self.webView?.bounds, bounds.height != height else { return }
+        
+        self.webView?.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview().inset(1)
+            make.top.equalToSuperview().offset(1)
+            make.height.equalTo(height)
+            make.bottom.equalToSuperview().inset(1).priority(.required)
+        }
     }
     
     //
@@ -107,6 +135,36 @@ class MessageBodyView: NSView, BoxErrorViewDelegate {
     private func hideErrorView() {
         self.errorView?.removeFromSuperview()
         self.errorView = nil
+    }
+    
+    private func initWebView(viewModel: Messages.Message.Contents.ViewModel) {
+        guard self.webView == nil else { return }
+        
+        let preferences = WKPreferences()
+        preferences.javaScriptCanOpenWindowsAutomatically = false
+        
+        let config: WKWebViewConfiguration = WKWebViewConfiguration()
+        
+        let loader: WebContentsSecureLoader = viewModel.loader
+        loader.delegate = self
+        loader.inject(into: config)
+        
+        config.preferences = preferences
+        
+        self.webView = MessageBodyWebView(frame: .zero, configuration: config).with { view in
+            view.enclosingScrollView?.drawsBackground = false
+            view.enclosingScrollView?.contentView.drawsBackground = false
+            view.setValue(false, forKey: "drawsBackground")
+            view.setContentCompressionResistancePriority(.required, for: .vertical)
+            view.isHidden = true
+            self.addSubview(view)
+            view.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview().inset(1)
+                make.top.equalToSuperview().offset(1)
+                make.height.equalTo(1)
+                make.bottom.equalToSuperview().inset(1).priority(.medium)
+            }
+        }
     }
     
 }

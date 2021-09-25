@@ -106,7 +106,7 @@ class ConversationDetailsView: NSView {
     }
     
     func displayMessageContentLoaded(viewModel: ConversationDetails.MessageContentLoaded.ViewModel) {
-        self.getMessageView(forId: viewModel.messageId)?.showContent(viewModel.body)
+        self.getMessageView(forId: viewModel.messageId)?.showContent(viewModel: viewModel.contents)
     }
     
     func displayMessageContentCollapsed(viewModel: ConversationDetails.MessageContentCollapsed.ViewModel) {

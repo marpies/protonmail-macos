@@ -105,6 +105,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         if message.isExpanded {
             message.isExpanded = false
             
+            message.contents = nil
+            
             let response: ConversationDetails.MessageContentCollapsed.Response = ConversationDetails.MessageContentCollapsed.Response(messageId: request.id)
             self.delegate?.conversationMessageBodyCollapse(response: response)
         }
@@ -348,12 +350,20 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     private func processEncryptedBody(_ body: String, messageId: String) {
-        guard let decrypted = self.decryptMessageBody(body, messageId: messageId) else {
+        guard let decrypted = self.decryptMessageBody(body, messageId: messageId),
+              let user = self.usersManager.activeUser else {
             self.dispatchMessageBodyError(.decryption, messageId: messageId)
             return
         }
 
         self.dispatchMessageBody(decrypted, messageId: messageId)
+        
+        let worker: MessageInlineAttachmentDecrypting = self.resolver.resolve(MessageInlineAttachmentDecrypting.self, argument: self.apiService!)!
+        worker.decryptInlineAttachments(inBody: decrypted, messageId: messageId, user: user) { newBody in
+            if let body = newBody {
+                self.dispatchMessageBody(body, messageId: messageId)
+            }
+        }
     }
     
     private func decryptMessageBody(_ body: String, messageId: String) -> String? {
@@ -372,7 +382,24 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     private func dispatchMessageBody(_ body: String, messageId: String) {
-        let response: ConversationDetails.MessageContentLoaded.Response = ConversationDetails.MessageContentLoaded.Response(messageId: messageId, body: body)
+        guard let message = self.getMessageModel(id: messageId) else { return }
+        
+        let contents: Messages.Message.Contents.Response
+        
+        if let existingContents = message.contents {
+            let webContents: WebContents = WebContents(body: body, remoteContentMode: existingContents.contents.remoteContentMode)
+            contents = Messages.Message.Contents.Response(contents: webContents, loader: existingContents.loader)
+        } else {
+            let webContents: WebContents = WebContents(body: body, remoteContentMode: .disallowed)
+            let loader: WebContentsSecureLoader = HTTPRequestSecureLoader(addSpacerIfNeeded: false)
+            contents = Messages.Message.Contents.Response(contents: webContents, loader: loader)
+        }
+        
+        message.contents = contents
+        
+        guard message.isExpanded else { return }
+        
+        let response: ConversationDetails.MessageContentLoaded.Response = ConversationDetails.MessageContentLoaded.Response(messageId: messageId, contents: contents)
         self.delegate?.conversationMessageBodyDidLoad(response: response)
     }
     

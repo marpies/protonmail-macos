@@ -57,9 +57,9 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
         self.bodyView?.showLoading()
     }
     
-    func showContent(_ value: String) {
+    func showContent(viewModel: Messages.Message.Contents.ViewModel) {
         self.initBodyView()
-        self.bodyView?.showContent(value)
+        self.bodyView?.showContent(viewModel: viewModel)
     }
     
     func showErrorContent(message: String, button: String) {
@@ -68,6 +68,7 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
     }
     
     func removeContentView() {
+        self.bodyView?.dispose()
         self.bodyView?.removeFromSuperview()
         self.bodyView = nil
     }

@@ -186,21 +186,21 @@ enum ConversationDetails {
     enum MessageContentLoaded {
         class Response {
             let messageId: String
-            let body: String
+            let contents: Messages.Message.Contents.Response
 
-            init(messageId: String, body: String) {
+            init(messageId: String, contents: Messages.Message.Contents.Response) {
                 self.messageId = messageId
-                self.body = body
+                self.contents = contents
             }
         }
         
         class ViewModel {
             let messageId: String
-            let body: String
+            let contents: Messages.Message.Contents.ViewModel
 
-            init(messageId: String, body: String) {
+            init(messageId: String, contents: Messages.Message.Contents.ViewModel) {
                 self.messageId = messageId
-                self.body = body
+                self.contents = contents
             }
         }
     }

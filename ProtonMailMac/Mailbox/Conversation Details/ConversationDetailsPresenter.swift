@@ -94,7 +94,8 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
     //
     
     func presentMessageContentLoaded(response: ConversationDetails.MessageContentLoaded.Response) {
-        let viewModel = ConversationDetails.MessageContentLoaded.ViewModel(messageId: response.messageId, body: response.body)
+        let contents: Messages.Message.Contents.ViewModel = Messages.Message.Contents.ViewModel(contents: response.contents.contents, loader: response.contents.loader)
+        let viewModel = ConversationDetails.MessageContentLoaded.ViewModel(messageId: response.messageId, contents: contents)
         self.viewController?.displayMessageContentLoaded(viewModel: viewModel)
     }
     
