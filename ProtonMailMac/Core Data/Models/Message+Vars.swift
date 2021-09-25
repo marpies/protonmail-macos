@@ -24,6 +24,34 @@ import Foundation
 
 extension Message {
     
+    enum MimeType {
+        static let html : String          = "text/html"
+        static let plainText : String     = "text/plain"
+        static let mutipartMixed : String = "multipart/mixed"
+    }
+    
+    /// wrappers
+    var cachedPassphrase: String? {
+        get {
+            guard let raw = self.cachedPassphraseRaw as Data? else { return nil }
+            return String(data: raw, encoding: .utf8)
+        }
+        set { self.cachedPassphraseRaw = newValue?.data(using: .utf8) as NSData? }
+    }
+    
+    var cachedAuthCredential: AuthCredential? {
+        get { return AuthCredential.unarchive(data: self.cachedAuthCredentialRaw) }
+        set { self.cachedAuthCredentialRaw = newValue?.archive() as NSData? }
+    }
+    var cachedUser: UserInfo? {
+        get { return UserInfo.unarchive(self.cachedPrivateKeysRaw as Data?) }
+        set { self.cachedPrivateKeysRaw = newValue?.archive() as NSData? }
+    }
+    var cachedAddress: Address? {
+        get { return Address.unarchive(self.cachedAddressRaw as Data?) }
+        set { self.cachedAddressRaw = newValue?.archive() as NSData? }
+    }
+    
     /// check if message starred
     var starred : Bool {
         get {
@@ -144,6 +172,76 @@ extension Message {
     var draftHardCheck : Bool {
         get {
             return self.contains(label: .draft) || self.contains(label: "1")
+        }
+    }
+    
+    /// received and from protonmail internal
+    var isInternal : Bool {
+        get {
+            return self.flag.contains(.internal) && self.flag.contains(.received)
+        }
+    }
+    
+    //signed mime also external message
+    var isExternal : Bool {
+        get {
+            return !self.flag.contains(.internal) && self.flag.contains(.received)
+        }
+    }
+    
+    // 7  & 8
+    var isE2E : Bool {
+        get {
+            return self.flag.contains(.e2e)
+        }
+    }
+    
+    //case outPGPInline = 7
+    var isPgpInline : Bool {
+        get {
+            if isE2E, !isPgpMime {
+                return true
+            }
+            return false
+        }
+    }
+    
+    //case outPGPMime = 8       // out pgp mime
+    var isPgpMime : Bool {
+        get {
+            if let mt = self.mimeType, mt.lowercased() == Message.MimeType.mutipartMixed, isExternal, isE2E {
+                return true
+            }
+            return false
+        }
+    }
+    
+    //case outSignedPGPMime = 9 //PGP/MIME signed message
+    var isSignedMime : Bool {
+        get {
+            if let mt = self.mimeType, mt.lowercased() == Message.MimeType.mutipartMixed, isExternal, !isE2E {
+                return true
+            }
+            return false
+        }
+    }
+    
+    var isPlainText : Bool {
+        get {
+            if let type = mimeType, (type.isEmpty || type.lowercased() == MimeType.plainText) {
+                return true
+            }
+            return false
+        }
+        
+    }
+    
+    var isMultipartMixed : Bool {
+        get {
+            if let type = mimeType, type.lowercased() == MimeType.mutipartMixed {
+                return true
+            }
+            return false
         }
     }
     
