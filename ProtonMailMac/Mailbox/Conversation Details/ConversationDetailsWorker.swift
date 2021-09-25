@@ -112,6 +112,9 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         else {
             message.isExpanded = true
             
+            let response: ConversationDetails.MessageContentLoadDidBegin.Response = ConversationDetails.MessageContentLoadDidBegin.Response(id: request.id)
+            self.delegate?.conversationMessageBodyLoadDidBegin(response: response)
+            
             self.loadBody(for: message)
         }
     }
@@ -333,12 +336,13 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     private func loadMessageBody(messageId: String, completion: @escaping (String?) -> Void) {
-        let response: ConversationDetails.MessageContentLoadDidBegin.Response = ConversationDetails.MessageContentLoadDidBegin.Response(id: messageId)
-        self.delegate?.conversationMessageBodyLoadDidBegin(response: response)
+        guard let userId = self.usersManager.activeUser?.userId else {
+            fatalError("Unexpected application state.")
+        }
         
         // Load message body
         let worker: MessageBodyLoading = self.resolver.resolve(MessageBodyLoading.self, argument: self.apiService!)!
-        worker.load(messageId: messageId) { body in
+        worker.load(messageId: messageId, forUser: userId) { body in
             completion(body)
         }
     }

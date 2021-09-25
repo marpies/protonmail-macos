@@ -9,7 +9,7 @@
 import Foundation
 
 protocol MessageBodyLoading {
-    func load(messageId: String, completion: @escaping (String?) -> Void)
+    func load(messageId: String, forUser userId: String, completion: @escaping (String?) -> Void)
 }
 
 struct MessageBodyLoadingWorker: MessageBodyLoading {
@@ -22,7 +22,7 @@ struct MessageBodyLoadingWorker: MessageBodyLoading {
         self.messagesDb = messagesDb
     }
     
-    func load(messageId: String, completion: @escaping (String?) -> Void) {
+    func load(messageId: String, forUser userId: String, completion: @escaping (String?) -> Void) {
         // Get cached body
         if let message = self.messagesDb.loadMessage(id: messageId), !message.body.isEmpty {
             completion(message.body)
@@ -32,9 +32,8 @@ struct MessageBodyLoadingWorker: MessageBodyLoading {
         // Fetch body from the server
         let request: MessageDetailRequest = MessageDetailRequest(messageId: messageId)
         self.apiService.request(request) { (response: MessageDetailResponse) in
-            if let id = response.messageId, let body = response.body {
-                self.messagesDb.saveBody(messageId: id, body: body) { _ in
-                    // Even if not success saving, provide the body, we will just try saving it again next time
+            if let json = response.messageJson, let body = response.body {
+                self.messagesDb.saveMessages([json], forUser: userId) {
                     completion(body)
                 }
             } else {
