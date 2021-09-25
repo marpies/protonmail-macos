@@ -233,6 +233,7 @@
 		C3C8262826FC7DDE00B4E95C /* Data+Mime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262726FC7DDE00B4E95C /* Data+Mime.swift */; };
 		C3C8262A26FE3BC500B4E95C /* MimeTypesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */; };
 		C3C8262E26FE4B3A00B4E95C /* Attachment+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */; };
+		C3C8263026FE4BAA00B4E95C /* Data+Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262F26FE4BAA00B4E95C /* Data+Attachment.swift */; };
 		C3C8263A26FF284000B4E95C /* CoreDataService+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */; };
 		C3C8263C26FF285500B4E95C /* AttachmentsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263B26FF285500B4E95C /* AttachmentsDatabaseManaging.swift */; };
 		C3C8263E26FF2D3700B4E95C /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263D26FF2D3700B4E95C /* FileManager+Extensions.swift */; };
@@ -546,6 +547,7 @@
 		C3C8262726FC7DDE00B4E95C /* Data+Mime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Mime.swift"; sourceTree = "<group>"; };
 		C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypesExtensions.swift; sourceTree = "<group>"; };
 		C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Helpers.swift"; sourceTree = "<group>"; };
+		C3C8262F26FE4BAA00B4E95C /* Data+Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Attachment.swift"; sourceTree = "<group>"; };
 		C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Attachments.swift"; sourceTree = "<group>"; };
 		C3C8263B26FF285500B4E95C /* AttachmentsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3C8263D26FF2D3700B4E95C /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
@@ -1043,6 +1045,7 @@
 				C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */,
 				C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */,
 				C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */,
+				C3C8262F26FE4BAA00B4E95C /* Data+Attachment.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1536,6 +1539,7 @@
 				C353421626F4A28A00EA0137 /* ConversationDetailsRouter.swift in Sources */,
 				C3C8262826FC7DDE00B4E95C /* Data+Mime.swift in Sources */,
 				C39A244626D2D8FB008A482C /* Hash.swift in Sources */,
+				C3C8263026FE4BAA00B4E95C /* Data+Attachment.swift in Sources */,
 				C39A241A26D2D8D9008A482C /* Response.swift in Sources */,
 				C31D02FB26D9705E002EBBE0 /* LabelsRequest.swift in Sources */,
 				C39A242126D2D8D9008A482C /* HttpMethod.swift in Sources */,
