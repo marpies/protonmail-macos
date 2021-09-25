@@ -239,6 +239,8 @@
 		C3C8262A26FE3BC500B4E95C /* MimeTypesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */; };
 		C3C8262E26FE4B3A00B4E95C /* Attachment+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */; };
 		C3C8263026FE4BAA00B4E95C /* Data+Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262F26FE4BAA00B4E95C /* Data+Attachment.swift */; };
+		C3C8263426FF229E00B4E95C /* AttachmentsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263326FF229E00B4E95C /* AttachmentsAPI.swift */; };
+		C3C8263826FF23AC00B4E95C /* DownloadAttachmentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263726FF23AC00B4E95C /* DownloadAttachmentRequest.swift */; };
 		C3C8263A26FF284000B4E95C /* CoreDataService+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */; };
 		C3C8263C26FF285500B4E95C /* AttachmentsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263B26FF285500B4E95C /* AttachmentsDatabaseManaging.swift */; };
 		C3C8263E26FF2D3700B4E95C /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263D26FF2D3700B4E95C /* FileManager+Extensions.swift */; };
@@ -558,6 +560,8 @@
 		C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypesExtensions.swift; sourceTree = "<group>"; };
 		C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Helpers.swift"; sourceTree = "<group>"; };
 		C3C8262F26FE4BAA00B4E95C /* Data+Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Attachment.swift"; sourceTree = "<group>"; };
+		C3C8263326FF229E00B4E95C /* AttachmentsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentsAPI.swift; sourceTree = "<group>"; };
+		C3C8263726FF23AC00B4E95C /* DownloadAttachmentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadAttachmentRequest.swift; sourceTree = "<group>"; };
 		C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Attachments.swift"; sourceTree = "<group>"; };
 		C3C8263B26FF285500B4E95C /* AttachmentsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3C8263D26FF2D3700B4E95C /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
@@ -1100,6 +1104,7 @@
 		C39A23FF26D2D8D9008A482C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C3C8263326FF229E00B4E95C /* AttachmentsAPI.swift */,
 				C39A240026D2D8D9008A482C /* KeysApi.swift */,
 				C39A240126D2D8D9008A482C /* UsersApi.swift */,
 				C39A240226D2D8D9008A482C /* ApiModels.swift */,
@@ -1140,6 +1145,7 @@
 				C3C825FC26FA612B00B4E95C /* ConversationActionRequest.swift */,
 				C3C825FE26FA619F00B4E95C /* RemoveLabelFromConversationsRequest.swift */,
 				C3C8260026FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift */,
+				C3C8263726FF23AC00B4E95C /* DownloadAttachmentRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1595,6 +1601,7 @@
 				C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */,
 				C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */,
 				C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */,
+				C3C8263826FF23AC00B4E95C /* DownloadAttachmentRequest.swift in Sources */,
 				C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */,
 				C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */,
 				C3AA69E026E5441B00124A0B /* MessagesRouter.swift in Sources */,
@@ -1633,6 +1640,7 @@
 				C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */,
 				C353421826F4A28A00EA0137 /* ConversationDetailsViewController.swift in Sources */,
 				C3DACB5E26EA277A00927933 /* LabelUpdate+Helpers.swift in Sources */,
+				C3C8263426FF229E00B4E95C /* AttachmentsAPI.swift in Sources */,
 				C3DACB4F26E9C5C500927933 /* Label+Helpers.swift in Sources */,
 				C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */,
 				C39A243626D2D8E7008A482C /* NSError+Extensions.swift in Sources */,
