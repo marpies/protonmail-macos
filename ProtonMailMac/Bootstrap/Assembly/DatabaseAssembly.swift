@@ -33,6 +33,9 @@ struct DatabaseAssembly: Assembly {
         container.register(ConversationsDatabaseManaging.self) { r in
             return r.resolve(CoreDataService.self)!
         }
+        container.register(AttachmentsDatabaseManaging.self) { r in
+            return r.resolve(CoreDataService.self)!
+        }
     }
     
 }

@@ -233,6 +233,8 @@
 		C3C8262826FC7DDE00B4E95C /* Data+Mime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262726FC7DDE00B4E95C /* Data+Mime.swift */; };
 		C3C8262A26FE3BC500B4E95C /* MimeTypesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */; };
 		C3C8262E26FE4B3A00B4E95C /* Attachment+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */; };
+		C3C8263A26FF284000B4E95C /* CoreDataService+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */; };
+		C3C8263C26FF285500B4E95C /* AttachmentsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8263B26FF285500B4E95C /* AttachmentsDatabaseManaging.swift */; };
 		C3DACB2B26E7814700927933 /* CoreDataValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */; };
 		C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */; };
 		C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DACB2E26E79A7100927933 /* Message+Defaults.swift */; };
@@ -543,6 +545,8 @@
 		C3C8262726FC7DDE00B4E95C /* Data+Mime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Mime.swift"; sourceTree = "<group>"; };
 		C3C8262926FE3BC500B4E95C /* MimeTypesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypesExtensions.swift; sourceTree = "<group>"; };
 		C3C8262D26FE4B3A00B4E95C /* Attachment+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Helpers.swift"; sourceTree = "<group>"; };
+		C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Attachments.swift"; sourceTree = "<group>"; };
+		C3C8263B26FF285500B4E95C /* AttachmentsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataValueTransformer.swift; sourceTree = "<group>"; };
 		C3DACB2C26E781D400927933 /* TimeInterval+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Date.swift"; sourceTree = "<group>"; };
 		C3DACB2E26E79A7100927933 /* Message+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message+Defaults.swift"; sourceTree = "<group>"; };
@@ -726,6 +730,7 @@
 				C38ADA6B26F389510055A1AE /* CoreDataService+Conversations.swift */,
 				C31D035226DBFBBE002EBBE0 /* CoreDataService+Labels.swift */,
 				C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */,
+				C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */,
 				C3DACB3926E9258300927933 /* CoreDataService+UserEvents.swift */,
 				C3DACB5B26EA26C500927933 /* CoreDataService+LabelUpdate.swift */,
 				C31D034B26DB95DF002EBBE0 /* CoreDataStore.swift */,
@@ -743,6 +748,7 @@
 				C3DACB5926EA25E900927933 /* LabelUpdateDatabaseManaging.swift */,
 				C3DACB4A26E9C05C00927933 /* UserEventsDatabaseProcessing.swift */,
 				C3C6FD6826F382590066C504 /* ConversationsDatabaseManaging.swift */,
+				C3C8263B26FF285500B4E95C /* AttachmentsDatabaseManaging.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -1500,6 +1506,7 @@
 				C353423726F4ED1500EA0137 /* ConversationDetailsHeaderView.swift in Sources */,
 				C3A6590726E6967900CFE2F9 /* Array+JSON.swift in Sources */,
 				C3C6FD6326F37B450066C504 /* ConversationsLoadingWorker.swift in Sources */,
+				C3C8263C26FF285500B4E95C /* AttachmentsDatabaseManaging.swift in Sources */,
 				C36814B426D6312700A35A16 /* ToolbarUtilizing.swift in Sources */,
 				C3C8260126FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift in Sources */,
 				C3C6FD5826F36EF10066C504 /* ConversationsPresenter.swift in Sources */,
@@ -1659,6 +1666,7 @@
 				C353422A26F4DA4600EA0137 /* MessageFolderPresenting.swift in Sources */,
 				C36814B026D6295400A35A16 /* MailboxViewController.swift in Sources */,
 				C31D02E326D93963002EBBE0 /* NSView+Extensions.swift in Sources */,
+				C3C8263A26FF284000B4E95C /* CoreDataService+Attachments.swift in Sources */,
 				C3DACB4326E942EB00927933 /* EventCheckResponse.swift in Sources */,
 				C3C6FD1D26EB42430066C504 /* ConversationTableCellView.swift in Sources */,
 				C3C6FD3D26EFBAFC0066C504 /* Message+Vars.swift in Sources */,
