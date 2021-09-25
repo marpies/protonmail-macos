@@ -169,6 +169,19 @@ enum Messages {
     }
     
     enum Message {
+        enum Metadata {
+            struct Response {
+                let isEndToEndEncrypted: Bool
+                let isInternal: Bool
+                let isExternal: Bool
+                let isPgpInline: Bool
+                let isPgpMime: Bool
+                let isSignedMime: Bool
+                let isPlainText: Bool
+                let isMultipartMixed: Bool
+            }
+        }
+        
         enum Header {
             class ViewModel {
                 let title: String
@@ -195,6 +208,28 @@ enum Messages {
             }
         }
         
+        enum Contents {
+            class Response {
+                let contents: WebContents
+                let loader: WebContentsSecureLoader
+
+                init(contents: WebContents, loader: WebContentsSecureLoader) {
+                    self.contents = contents
+                    self.loader = loader
+                }
+            }
+            
+            class ViewModel {
+                let contents: WebContents
+                let loader: WebContentsSecureLoader
+                
+                init(contents: WebContents, loader: WebContentsSecureLoader) {
+                    self.contents = contents
+                    self.loader = loader
+                }
+            }
+        }
+        
         class Response: Hashable {
             let id: String
             let subject: String
@@ -205,12 +240,14 @@ enum Messages {
             let numAttachments: Int
             let isRead: Bool
             let isDraft: Bool
+            let metadata: Messages.Message.Metadata.Response
             let folders: [Messages.Folder.Response]?
             let labels: [Messages.Label.Response]?
             var body: String?
             var isExpanded: Bool
+            var contents: Messages.Message.Contents.Response?
 
-            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, isRead: Bool, isDraft: Bool, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, body: String?, isExpanded: Bool) {
+            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, isRead: Bool, isDraft: Bool, metadata: Messages.Message.Metadata.Response, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, body: String?, isExpanded: Bool) {
                 self.id = id
                 self.subject = subject
                 self.senderName = senderName
@@ -220,6 +257,7 @@ enum Messages {
                 self.numAttachments = numAttachments
                 self.isRead = isRead
                 self.isDraft = isDraft
+                self.metadata = metadata
                 self.folders = folders
                 self.labels = labels
                 self.body = body

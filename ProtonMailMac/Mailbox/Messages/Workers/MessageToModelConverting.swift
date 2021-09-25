@@ -27,12 +27,17 @@ extension MessageToModelConverting {
         let isRepliedTo: Bool = message.flag.contains(.replied) || message.flag.contains(.repliedAll)
         let body: String? = message.body.isEmpty ? nil : message.body
         let isDraft: Bool = message.contains(label: .draft)
-        return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, isRead: !message.unRead, isDraft: isDraft, folders: folders, labels: labels, body: body, isExpanded: false)
+        let metadata: Messages.Message.Metadata.Response = self.getMetadata(message)
+        return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, isRead: !message.unRead, isDraft: isDraft, metadata: metadata, folders: folders, labels: labels, body: body, isExpanded: false)
     }
     
     //
     // MARK: - Private
     //
+    
+    private func getMetadata(_ message: Message) -> Messages.Message.Metadata.Response {
+        return Messages.Message.Metadata.Response(isEndToEndEncrypted: message.isE2E, isInternal: message.isInternal, isExternal: message.isExternal, isPgpInline: message.isPgpInline, isPgpMime: message.isPgpMime, isSignedMime: message.isSignedMime, isPlainText: message.isPlainText, isMultipartMixed: message.isMultipartMixed)
+    }
     
     private func getMessageTime(_ messageDate: Date) -> Messages.MessageTime {
         let today: Date = Calendar.current.startOfDay(for: Date())
