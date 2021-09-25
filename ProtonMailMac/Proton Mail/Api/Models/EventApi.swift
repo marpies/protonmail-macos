@@ -72,6 +72,24 @@ final class ConversationEvent {
         self.conversation =  event["Conversation"] as? [String : Any]
         self.ID =  (event["ID"] as? String)
         self.conversation?["ID"] = self.ID
+        
+        self.updateLabelIds()
+    }
+    
+    private func updateLabelIds() {
+        guard let labels = self.conversation?["Labels"] as? [[String: Any]] else { return }
+        
+        var labelIds: [String] = []
+        
+        for json in labels {
+            guard let id = json["ID"] as? String else { continue }
+            
+            labelIds.append(id)
+        }
+        
+        guard !labelIds.isEmpty else { return }
+        
+        self.conversation?["LabelIDs"] = labelIds
     }
 }
 
