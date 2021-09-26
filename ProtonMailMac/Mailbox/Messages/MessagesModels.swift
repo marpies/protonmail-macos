@@ -238,6 +238,7 @@ enum Messages {
             let isStarred: Bool
             let isRepliedTo: Bool
             let numAttachments: Int
+            let hasInlineAttachments: Bool
             let isRead: Bool
             let isDraft: Bool
             let metadata: Messages.Message.Metadata.Response
@@ -246,8 +247,8 @@ enum Messages {
             var body: String?
             var isExpanded: Bool
             var contents: Messages.Message.Contents.Response?
-
-            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, isRead: Bool, isDraft: Bool, metadata: Messages.Message.Metadata.Response, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, body: String?, isExpanded: Bool) {
+            
+            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, hasInlineAttachments: Bool, isRead: Bool, isDraft: Bool, metadata: Messages.Message.Metadata.Response, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, body: String?, isExpanded: Bool) {
                 self.id = id
                 self.subject = subject
                 self.senderName = senderName
@@ -255,6 +256,7 @@ enum Messages {
                 self.isStarred = isStarred
                 self.isRepliedTo = isRepliedTo
                 self.numAttachments = numAttachments
+                self.hasInlineAttachments = hasInlineAttachments
                 self.isRead = isRead
                 self.isDraft = isDraft
                 self.metadata = metadata

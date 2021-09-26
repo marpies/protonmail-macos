@@ -322,14 +322,14 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // Check if we have the body loaded
         if let body = message.body {
-            self.processEncryptedBody(body, messageId: messageId)
+            self.processEncryptedBody(body, message: message)
         }
         // Load the body
         else {
             self.loadMessageBody(messageId: messageId) { body in
                 if let body = body {
                     self.updateMessageBody(body, messageId: messageId)
-                    self.processEncryptedBody(body, messageId: messageId)
+                    self.processEncryptedBody(body, message: message)
                 } else {
                     self.dispatchMessageBodyError(.load, messageId: messageId)
                 }
@@ -349,21 +349,27 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         }
     }
     
-    private func processEncryptedBody(_ body: String, messageId: String) {
-        guard let decrypted = self.decryptMessageBody(body, messageId: messageId),
+    private func processEncryptedBody(_ body: String, message: Messages.Message.Response) {
+        guard let decrypted = self.decryptMessageBody(body, messageId: message.id),
               let user = self.usersManager.activeUser else {
-            self.dispatchMessageBodyError(.decryption, messageId: messageId)
+            self.dispatchMessageBodyError(.decryption, messageId: message.id)
             return
         }
-
-        self.dispatchMessageBody(decrypted, messageId: messageId)
         
-        let worker: MessageInlineAttachmentDecrypting = self.resolver.resolve(MessageInlineAttachmentDecrypting.self, argument: self.apiService!)!
-        worker.decryptInlineAttachments(inBody: decrypted, messageId: messageId, user: user) { newBody in
-            if let body = newBody {
-                self.dispatchMessageBody(body, messageId: messageId)
+        // Decrypt inline attachments first to avoid displaying email without attachments momentarily
+        if message.hasInlineAttachments {
+            let worker: MessageInlineAttachmentDecrypting = self.resolver.resolve(MessageInlineAttachmentDecrypting.self, argument: self.apiService!)!
+            worker.decryptInlineAttachments(inBody: decrypted, messageId: message.id, user: user) { newBody in
+                if let body = newBody {
+                    self.dispatchMessageBody(body, messageId: message.id)
+                } else {
+                    self.dispatchMessageBody(decrypted, messageId: message.id)
+                }
             }
+            return
         }
+        
+        self.dispatchMessageBody(decrypted, messageId: message.id)
     }
     
     private func decryptMessageBody(_ body: String, messageId: String) -> String? {

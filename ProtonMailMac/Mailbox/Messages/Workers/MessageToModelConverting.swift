@@ -28,12 +28,20 @@ extension MessageToModelConverting {
         let body: String? = message.body.isEmpty ? nil : message.body
         let isDraft: Bool = message.contains(label: .draft)
         let metadata: Messages.Message.Metadata.Response = self.getMetadata(message)
-        return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, isRead: !message.unRead, isDraft: isDraft, metadata: metadata, folders: folders, labels: labels, body: body, isExpanded: false)
+        let hasInlineAttachments: Bool = self.hasInlineAttachments(message)
+        return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, hasInlineAttachments: hasInlineAttachments, isRead: !message.unRead, isDraft: isDraft, metadata: metadata, folders: folders, labels: labels, body: body, isExpanded: false)
     }
     
     //
     // MARK: - Private
     //
+    
+    private func hasInlineAttachments(_ message: Message) -> Bool {
+        if let attachments = message.attachments as? Set<Attachment> {
+            return attachments.contains(where: { $0.inline() && $0.contentID()?.isEmpty == false })
+        }
+        return false
+    }
     
     private func getMetadata(_ message: Message) -> Messages.Message.Metadata.Response {
         return Messages.Message.Metadata.Response(isEndToEndEncrypted: message.isE2E, isInternal: message.isInternal, isExternal: message.isExternal, isPgpInline: message.isPgpInline, isPgpMime: message.isPgpMime, isSignedMime: message.isSignedMime, isPlainText: message.isPlainText, isMultipartMixed: message.isMultipartMixed)
