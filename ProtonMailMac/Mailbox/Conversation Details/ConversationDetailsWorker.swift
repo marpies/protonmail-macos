@@ -204,7 +204,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
                         // Make sure we are still showing the conversation we requested
                         guard self.conversationId == id else { return }
                         
-                        self.conversation = self.getConversationWithMessages(conversationObject)
+                        self.updateConversationModel(conversationObject)
+                        
                         let response: ConversationDetails.Load.Response = ConversationDetails.Load.Response(conversation: self.conversation!)
                         self.delegate?.conversationDidLoad(response: response)
                     }
@@ -213,7 +214,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
                 // Make sure we are still showing the conversation we requested
                 guard self.conversationId == id else { return }
                 
-                self.conversation = self.getConversationWithMessages(conversationObject)
+                self.updateConversationModel(conversationObject)
+                
                 let response: ConversationDetails.LoadError.Response = ConversationDetails.LoadError.Response(conversation: self.conversation!, hasCachedMessages: hasCachedMessages)
                 self.delegate?.conversationLoadDidFail(response: response)
             }
@@ -292,6 +294,16 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     private func refreshConversation(_ conversation: Conversation) {
+        self.updateConversationModel(conversation)
+        
+        let response = ConversationDetails.UpdateConversation.Response(conversation: self.conversation!)
+        self.delegate?.conversationDidUpdate(response: response)
+    }
+    
+    
+    /// Updates the local (memory) conversation model and preserves expanded state of existing messages.
+    /// - Parameter conversation: The updated conversation model to read from.
+    private func updateConversationModel(_ conversation: Conversation) {
         // Track expanded messages
         var expandedMessages: [String: Bool] = [:]
         
@@ -308,9 +320,6 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         for message in self.conversation!.messages {
             message.isExpanded = expandedMessages[message.id] ?? false
         }
-        
-        let response = ConversationDetails.UpdateConversation.Response(conversation: self.conversation!)
-        self.delegate?.conversationDidUpdate(response: response)
     }
     
     //
@@ -388,7 +397,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     private func dispatchMessageBody(_ body: String, messageId: String) {
-        guard let message = self.getMessageModel(id: messageId) else { return }
+        guard let message = self.getMessageModel(id: messageId), message.isExpanded else { return }
         
         let contents: Messages.Message.Contents.Response
         
@@ -402,8 +411,6 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         }
         
         message.contents = contents
-        
-        guard message.isExpanded else { return }
         
         let response: ConversationDetails.MessageContentLoaded.Response = ConversationDetails.MessageContentLoaded.Response(messageId: messageId, contents: contents)
         self.delegate?.conversationMessageBodyDidLoad(response: response)

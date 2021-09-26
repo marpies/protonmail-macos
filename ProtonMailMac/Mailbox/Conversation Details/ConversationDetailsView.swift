@@ -163,12 +163,18 @@ class ConversationDetailsView: NSView {
     }
     
     private func displayMessages(_ messages: [Messages.Message.ViewModel]) {
+        // Reuse existing views if possible
+        var existingViews: [String: MessageDetailsView] = [:]
+        
         for view in self.contentStackView.subviews {
+            if let messageView = view as? MessageDetailsView, let id = messageView.messageId {
+                existingViews[id] = messageView
+            }
             view.removeFromSuperview()
         }
         
         for model in messages {
-            let view = MessageDetailsView()
+            let view: MessageDetailsView = existingViews[model.id] ?? MessageDetailsView()
             view.delegate = self.delegate
             view.update(viewModel: model)
             self.contentStackView.addArrangedSubview(view)
