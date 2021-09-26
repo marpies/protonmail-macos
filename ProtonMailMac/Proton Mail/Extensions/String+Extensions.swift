@@ -437,4 +437,11 @@ extension String {
         return html.isEmpty ? plaintext.ln2br() : html
     }
     
+    func hasRemoteContent() -> Bool {
+        if self.preg_match("\\ssrc='(?!cid:)|\\ssrc=\"(?!cid:)|xlink:href=|poster=|background=|url\\(|url&#40;|url&#x28;|url&lpar;") {
+            return true
+        }
+        return false
+    }
+    
 }
