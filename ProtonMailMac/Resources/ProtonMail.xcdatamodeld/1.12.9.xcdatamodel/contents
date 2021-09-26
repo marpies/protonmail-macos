@@ -32,7 +32,7 @@
                 <entry key="JSONKeyPath" value="KeyPackets"/>
             </userInfo>
         </attribute>
-        <attribute name="localURL" optional="YES" attributeType="Transformable" valueTransformerName="" allowsExternalBinaryDataStorage="YES" customClassName="URL"/>
+        <attribute name="localURL" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" allowsExternalBinaryDataStorage="YES" customClassName="URL"/>
         <attribute name="mimeType" optional="YES" attributeType="Transformable" valueTransformerName="StringCryptoTransformer" customClassName="String">
             <userInfo>
                 <entry key="JSONKeyPath" value="MIMEType"/>
