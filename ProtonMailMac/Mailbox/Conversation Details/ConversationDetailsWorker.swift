@@ -23,7 +23,7 @@ protocol ConversationDetailsWorkerDelegate: AnyObject {
 }
 
 class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConverting, ConversationToModelConverting, MessageBodyRemoteContentChecking,
-                                 MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate {
+                                 MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate, DefaultConversationMessageSelecting {
 
 	private let resolver: Resolver
     private let usersManager: UsersManager
@@ -60,13 +60,13 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     func loadConversation(request: ConversationDetails.Load.Request) {
         self.conversationId = request.id
         
-        self.loadConversation(id: request.id)
+        self.loadConversation(id: request.id, expandDefaultMessage: true)
     }
     
     func reloadConversation() {
         guard let conversationId = self.conversationId else { return }
         
-        self.loadConversation(id: conversationId)
+        self.loadConversation(id: conversationId, expandDefaultMessage: false)
     }
     
     func updateMessageStar(request: ConversationDetails.UpdateMessageStar.Request) {
@@ -115,12 +115,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         }
         // Load the content
         else {
-            message.isExpanded = true
-            
-            let response: ConversationDetails.MessageContentLoadDidBegin.Response = ConversationDetails.MessageContentLoadDidBegin.Response(id: request.id)
-            self.delegate?.conversationMessageBodyLoadDidBegin(response: response)
-            
-            self.loadBody(for: message)
+            self.loadMessage(message)
         }
     }
     
@@ -185,7 +180,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         })
     }
     
-    private func loadConversation(id: String) {
+    private func loadConversation(id: String, expandDefaultMessage: Bool) {
         guard let user = self.usersManager.activeUser else {
             fatalError("Unexpected application state.")
         }
@@ -222,6 +217,11 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
                         
                         let response: ConversationDetails.Load.Response = ConversationDetails.Load.Response(conversation: self.conversation!)
                         self.delegate?.conversationDidLoad(response: response)
+                        
+                        // Expand the default message if needed
+                        if expandDefaultMessage, let message = self.getDefaultMessage(conversation: self.conversation!) {
+                            self.loadMessage(message)
+                        }
                     }
                 }
             } else {
@@ -339,6 +339,15 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     //
     // MARK: - Message body
     //
+    
+    private func loadMessage(_ message: Messages.Message.Response) {
+        message.isExpanded = true
+        
+        let response: ConversationDetails.MessageContentLoadDidBegin.Response = ConversationDetails.MessageContentLoadDidBegin.Response(id: message.id)
+        self.delegate?.conversationMessageBodyLoadDidBegin(response: response)
+        
+        self.loadBody(for: message)
+    }
     
     private func loadBody(for message: Messages.Message.Response) {
         let messageId: String = message.id
