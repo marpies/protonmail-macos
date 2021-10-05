@@ -258,4 +258,48 @@ enum ConversationDetails {
         }
     }
     
+    //
+    // MARK: - Display remote content box
+    //
+    
+    enum DisplayRemoteContentBox {
+        struct Response {
+            let messageId: String
+        }
+        
+        class ViewModel {
+            let messageId: String
+            let box: Messages.Message.RemoteContentBox.ViewModel
+
+            init(messageId: String, box: Messages.Message.RemoteContentBox.ViewModel) {
+                self.messageId = messageId
+                self.box = box
+            }
+        }
+    }
+    
+    //
+    // MARK: - Remove remote content box
+    //
+    
+    enum RemoveRemoteContentBox {
+        struct Response {
+            let messageId: String
+        }
+        
+        struct ViewModel {
+            let messageId: String
+        }
+    }
+    
+    //
+    // MARK: - Process remote content button click
+    //
+    
+    enum RemoteContentButtonClick {
+        struct Request {
+            let messageId: String
+        }
+    }
+    
 }

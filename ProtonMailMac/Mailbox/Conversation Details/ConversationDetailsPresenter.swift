@@ -17,6 +17,8 @@ protocol ConversationDetailsPresentationLogic {
     func presentMessageContentLoaded(response: ConversationDetails.MessageContentLoaded.Response)
     func presentMessageContentCollapsed(response: ConversationDetails.MessageContentCollapsed.Response)
     func presentMessageContentError(response: ConversationDetails.MessageContentError.Response)
+    func presentRemoteContentBox(response: ConversationDetails.DisplayRemoteContentBox.Response)
+    func removeRemoteContentBox(response: ConversationDetails.RemoveRemoteContentBox.Response)
 }
 
 class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, MessageLabelPresenting, MessageFolderPresenting, MessageTimePresenting,
@@ -125,6 +127,27 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
         
         let viewModel = ConversationDetails.MessageContentError.ViewModel(messageId: response.messageId, errorMessage: message, button: button)
         self.viewController?.displayMessageContentError(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present remote content box
+    //
+    
+    func presentRemoteContentBox(response: ConversationDetails.DisplayRemoteContentBox.Response) {
+        let message: String = NSLocalizedString("messageHasRemoteContentBoxMessage", comment: "")
+        let button: String = NSLocalizedString("messageLoadRemoteContentButton", comment: "")
+        let box: Messages.Message.RemoteContentBox.ViewModel = Messages.Message.RemoteContentBox.ViewModel(message: message, button: button)
+        let viewModel = ConversationDetails.DisplayRemoteContentBox.ViewModel(messageId: response.messageId, box: box)
+        self.viewController?.displayRemoteContentBox(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Remove remote content box
+    //
+    
+    func removeRemoteContentBox(response: ConversationDetails.RemoveRemoteContentBox.Response) {
+        let viewModel = ConversationDetails.RemoveRemoteContentBox.ViewModel(messageId: response.messageId)
+        self.viewController?.removeRemoteContentBox(viewModel: viewModel)
     }
     
     //

@@ -15,6 +15,7 @@ protocol ConversationDetailsBusinessLogic {
     func updateConversationStar(request: ConversationDetails.UpdateConversationStar.Request)
     func processMessageClick(request: ConversationDetails.MessageClick.Request)
     func retryMessageContentLoad(request: ConversationDetails.RetryMessageContentLoad.Request)
+    func processRemoteContentButtonClick(request: ConversationDetails.RemoteContentButtonClick.Request)
 }
 
 protocol ConversationDetailsDataStore {
@@ -77,6 +78,14 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     }
     
     //
+    // MARK: - Process remote content button click
+    //
+    
+    func processRemoteContentButtonClick(request: ConversationDetails.RemoteContentButtonClick.Request) {
+        self.worker?.processRemoteContentButtonClick(request: request)
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
@@ -110,6 +119,14 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     
     func conversationMessageBodyLoadDidFail(response: ConversationDetails.MessageContentError.Response) {
         self.presenter?.presentMessageContentError(response: response)
+    }
+    
+    func conversationMessageRemoteContentBoxShouldAppear(response: ConversationDetails.DisplayRemoteContentBox.Response) {
+        self.presenter?.presentRemoteContentBox(response: response)
+    }
+    
+    func conversationMessageRemoteContentBoxShouldDisappear(response: ConversationDetails.RemoveRemoteContentBox.Response) {
+        self.presenter?.removeRemoteContentBox(response: response)
     }
     
 }

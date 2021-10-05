@@ -83,3 +83,5 @@
 "messageBodyLoadErrorMessage" = "There was an error loading the message contents.";
 "messageBodyDecryptErrorMessage" = "There was an error decrypting the message contents.";
 "messageBodyRetryLoadButton" = "Retry";
+"messageHasRemoteContentBoxMessage" = "This message contains remote content.";
+"messageLoadRemoteContentButton" = "Load";

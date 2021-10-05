@@ -14,12 +14,14 @@ protocol MessageDetailsViewDelegate: AnyObject {
     func messageDetailDidClick(messageId: String)
     func messageFavoriteStatusDidChange(messageId: String, isOn: Bool)
     func messageRetryContentLoadButtonDidTap(messageId: String)
+    func messageRemoteContentButtonDidClick(messageId: String)
 }
 
-class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyViewDelegate {
+class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyViewDelegate, MessageRemoteContentBoxViewDelegate {
     
     private let headerView: MessageDetailsHeaderView = MessageDetailsHeaderView()
     private var bodyView: MessageBodyView?
+    private var remoteContentView: MessageRemoteContentBoxView?
     
     private(set) var messageId: String?
     
@@ -67,7 +69,36 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
         self.bodyView?.showErrorContent(message: message, button: button)
     }
     
+    func showRemoteContentBox(viewModel: Messages.Message.RemoteContentBox.ViewModel) {
+        if self.remoteContentView == nil {
+            self.remoteContentView = MessageRemoteContentBoxView().with { view in
+                view.delegate = self
+                self.addSubview(view)
+                view.snp.makeConstraints { make in
+                    make.left.right.equalToSuperview()
+                    make.top.equalTo(self.headerView.snp.bottom).priority(.required)
+                    make.bottom.equalToSuperview().priority(.high)
+                }
+            }
+
+            self.updateBodyViewConstraints()
+        }
+
+        self.remoteContentView?.update(viewModel: viewModel)
+    }
+    
+    func removeRemoteContentBox() {
+        guard let view = self.remoteContentView else { return }
+        
+        view.removeFromSuperview()
+        self.remoteContentView = nil
+        
+        self.updateBodyViewConstraints()
+    }
+    
     func removeContentView() {
+        self.removeRemoteContentBox()
+        
         self.bodyView?.dispose()
         self.bodyView?.removeFromSuperview()
         self.bodyView = nil
@@ -106,6 +137,16 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
     }
     
     //
+    // MARK: - Remote content box delegate
+    //
+    
+    func messageRemoteContentButtonDidClick() {
+        guard let messageId = self.messageId else { return }
+        
+        self.delegate?.messageRemoteContentButtonDidClick(messageId: messageId)
+    }
+    
+    //
     // MARK: - Private
     //
     
@@ -130,11 +171,18 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
         self.bodyView = MessageBodyView().with { view in
             view.delegate = self
             self.addSubview(view)
-            view.snp.makeConstraints { make in
-                make.left.right.equalToSuperview()
-                make.bottom.equalToSuperview().priority(.required)
-                make.top.equalTo(self.headerView.snp.bottom)
-            }
+        }
+        
+        self.updateBodyViewConstraints()
+    }
+    
+    private func updateBodyViewConstraints() {
+        let topAnchor: NSView = self.remoteContentView ?? self.headerView
+        
+        self.bodyView?.snp.remakeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().priority(.required)
+            make.top.equalTo(topAnchor.snp.bottom)
         }
     }
     

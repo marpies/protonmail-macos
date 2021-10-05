@@ -18,9 +18,12 @@ protocol ConversationDetailsWorkerDelegate: AnyObject {
     func conversationMessageBodyDidLoad(response: ConversationDetails.MessageContentLoaded.Response)
     func conversationMessageBodyCollapse(response: ConversationDetails.MessageContentCollapsed.Response)
     func conversationMessageBodyLoadDidFail(response: ConversationDetails.MessageContentError.Response)
+    func conversationMessageRemoteContentBoxShouldAppear(response: ConversationDetails.DisplayRemoteContentBox.Response)
+    func conversationMessageRemoteContentBoxShouldDisappear(response: ConversationDetails.RemoveRemoteContentBox.Response)
 }
 
-class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConverting, ConversationToModelConverting, MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate {
+class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConverting, ConversationToModelConverting, MessageBodyRemoteContentChecking,
+                                 MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate {
 
 	private let resolver: Resolver
     private let usersManager: UsersManager
@@ -93,7 +96,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     func processMessageClick(request: ConversationDetails.MessageClick.Request) {
-        guard let message = self.conversation?.messages.first(where: { $0.id == request.id }) else { return }
+        guard let message = self.getMessageModel(id: request.id) else { return }
         
         // Message is a draft, show composer
         if message.isDraft {
@@ -122,9 +125,20 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     func retryMessageContentLoad(request: ConversationDetails.RetryMessageContentLoad.Request) {
-        guard let message = self.conversation?.messages.first(where: { $0.id == request.id }) else { return }
+        guard let message = self.getMessageModel(id: request.id) else { return }
         
         self.loadBody(for: message)
+    }
+    
+    func processRemoteContentButtonClick(request: ConversationDetails.RemoteContentButtonClick.Request) {
+        guard let message = self.getMessageModel(id: request.messageId), let body = message.contents?.contents.body else { return }
+        
+        // Hide the remote content box
+        let response: ConversationDetails.RemoveRemoteContentBox.Response = ConversationDetails.RemoveRemoteContentBox.Response(messageId: request.messageId)
+        self.delegate?.conversationMessageRemoteContentBoxShouldDisappear(response: response)
+        
+        // Reload the body with the new content mode
+        self.dispatchMessageBody(body, messageId: message.id, remoteContentMode: .allowed)
     }
     
     //
@@ -374,11 +388,14 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
                 } else {
                     self.dispatchMessageBody(decrypted, messageId: message.id)
                 }
+                
+                self.checkRemoteContent(message: message, rawBody: decrypted)
             }
             return
         }
         
         self.dispatchMessageBody(decrypted, messageId: message.id)
+        self.checkRemoteContent(message: message, rawBody: decrypted)
     }
     
     private func decryptMessageBody(_ body: String, messageId: String) -> String? {
@@ -396,19 +413,15 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         message.body = body
     }
     
-    private func dispatchMessageBody(_ body: String, messageId: String) {
+    private func dispatchMessageBody(_ body: String, messageId: String, remoteContentMode: WebContents.RemoteContentPolicy? = nil) {
         guard let message = self.getMessageModel(id: messageId), message.isExpanded else { return }
         
-        let contents: Messages.Message.Contents.Response
-        
-        if let existingContents = message.contents {
-            let webContents: WebContents = WebContents(body: body, remoteContentMode: existingContents.contents.remoteContentMode)
-            contents = Messages.Message.Contents.Response(contents: webContents, loader: existingContents.loader)
-        } else {
-            let webContents: WebContents = WebContents(body: body, remoteContentMode: .disallowed)
-            let loader: WebContentsSecureLoader = HTTPRequestSecureLoader(addSpacerIfNeeded: false)
-            contents = Messages.Message.Contents.Response(contents: webContents, loader: loader)
-        }
+        // todo default content mode may be allowed as per user settings
+        let defaultContentMode: WebContents.RemoteContentPolicy = .disallowed
+        let contentMode: WebContents.RemoteContentPolicy = remoteContentMode ?? message.contents?.contents.remoteContentMode ?? defaultContentMode
+        let loader: WebContentsSecureLoader = message.contents?.loader ?? HTTPRequestSecureLoader(addSpacerIfNeeded: false)
+        let webContents: WebContents = WebContents(body: body, remoteContentMode: contentMode)
+        let contents: Messages.Message.Contents.Response = Messages.Message.Contents.Response(contents: webContents, loader: loader)
         
         message.contents = contents
         
@@ -420,6 +433,39 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         let response: ConversationDetails.MessageContentError.Response = ConversationDetails.MessageContentError.Response(type: type, messageId: messageId)
         self.delegate?.conversationMessageBodyLoadDidFail(response: response)
     }
+    
+    //
+    // MARK: - Remote content
+    //
+    
+    private func checkRemoteContent(message: Messages.Message.Response, rawBody: String) {
+        guard message.isExpanded, let contents = message.contents?.contents else { return }
+        
+        // See if we already checked for remote content
+        if let hasRemoteContent = message.hasRemoteContent {
+            if message.isExpanded, hasRemoteContent, contents.remoteContentMode != .allowed {
+                self.showRemoteContentBox(onMessage: message)
+            }
+            return
+        }
+        
+        self.checkHasMessageRemoteContent(body: rawBody, contentPolicy: contents.remoteContentMode) { hasRemoteContent in
+            message.hasRemoteContent = hasRemoteContent
+            
+            guard message.isExpanded, hasRemoteContent else { return }
+            
+            self.showRemoteContentBox(onMessage: message)
+        }
+    }
+    
+    private func showRemoteContentBox(onMessage message: Messages.Message.Response) {
+        let response: ConversationDetails.DisplayRemoteContentBox.Response = ConversationDetails.DisplayRemoteContentBox.Response(messageId: message.id)
+        self.delegate?.conversationMessageRemoteContentBoxShouldAppear(response: response)
+    }
+    
+    //
+    // MARK: - Helpers
+    //
     
     private func getMessageModel(id: String) -> Messages.Message.Response? {
         return self.conversation?.messages.first(where: { $0.id == id })

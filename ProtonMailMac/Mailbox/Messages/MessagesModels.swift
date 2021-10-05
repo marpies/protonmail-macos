@@ -182,6 +182,18 @@ enum Messages {
             }
         }
         
+        enum RemoteContentBox {
+            class ViewModel {
+                let message: String
+                let button: String
+                
+                init(message: String, button: String) {
+                    self.message = message
+                    self.button = button
+                }
+            }
+        }
+        
         enum Header {
             class ViewModel {
                 let title: String
@@ -244,6 +256,7 @@ enum Messages {
             let metadata: Messages.Message.Metadata.Response
             let folders: [Messages.Folder.Response]?
             let labels: [Messages.Label.Response]?
+            var hasRemoteContent: Bool?
             var body: String?
             var isExpanded: Bool
             var contents: Messages.Message.Contents.Response?

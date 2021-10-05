@@ -117,6 +117,14 @@ class ConversationDetailsView: NSView {
         self.getMessageView(forId: viewModel.messageId)?.showErrorContent(message: viewModel.errorMessage, button: viewModel.button)
     }
     
+    func displayRemoteContentBox(viewModel: ConversationDetails.DisplayRemoteContentBox.ViewModel) {
+        self.getMessageView(forId: viewModel.messageId)?.showRemoteContentBox(viewModel: viewModel.box)
+    }
+    
+    func removeRemoteContentBox(viewModel: ConversationDetails.RemoveRemoteContentBox.ViewModel) {
+        self.getMessageView(forId: viewModel.messageId)?.removeRemoteContentBox()
+    }
+    
     //
     // MARK: - Private
     //

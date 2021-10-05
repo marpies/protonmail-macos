@@ -83,3 +83,5 @@
 "messageBodyLoadErrorMessage" = "Při načítání obsahu zprávy došlo k chybě.";
 "messageBodyDecryptErrorMessage" = "Při dešifrování obsahu zprávy došlo k chybě.";
 "messageBodyRetryLoadButton" = "Zkusit znovu";
+"messageHasRemoteContentBoxMessage" = "Tato zpráva obsahuje vzdálený obsah.";
+"messageLoadRemoteContentButton" = "Načíst";

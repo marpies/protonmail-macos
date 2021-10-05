@@ -17,6 +17,8 @@ protocol ConversationDetailsDisplayLogic: AnyObject {
     func displayMessageContentLoaded(viewModel: ConversationDetails.MessageContentLoaded.ViewModel)
     func displayMessageContentCollapsed(viewModel: ConversationDetails.MessageContentCollapsed.ViewModel)
     func displayMessageContentError(viewModel: ConversationDetails.MessageContentError.ViewModel)
+    func displayRemoteContentBox(viewModel: ConversationDetails.DisplayRemoteContentBox.ViewModel)
+    func removeRemoteContentBox(viewModel: ConversationDetails.RemoveRemoteContentBox.ViewModel)
 }
 
 class ConversationDetailsViewController: NSViewController, ConversationDetailsDisplayLogic, ConversationDetailsViewDelegate {
@@ -115,6 +117,22 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     }
     
     //
+    // MARK: - Display remote content box
+    //
+    
+    func displayRemoteContentBox(viewModel: ConversationDetails.DisplayRemoteContentBox.ViewModel) {
+        self.mainView.displayRemoteContentBox(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Remove remote content box
+    //
+    
+    func removeRemoteContentBox(viewModel: ConversationDetails.RemoveRemoteContentBox.ViewModel) {
+        self.mainView.removeRemoteContentBox(viewModel: viewModel)
+    }
+    
+    //
     // MARK: - View delegate
     //
     
@@ -142,6 +160,11 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     func messageRetryContentLoadButtonDidTap(messageId: String) {
         let request: ConversationDetails.RetryMessageContentLoad.Request = ConversationDetails.RetryMessageContentLoad.Request(id: messageId)
         self.interactor?.retryMessageContentLoad(request: request)
+    }
+    
+    func messageRemoteContentButtonDidClick(messageId: String) {
+        let request: ConversationDetails.RemoteContentButtonClick.Request = ConversationDetails.RemoteContentButtonClick.Request(messageId: messageId)
+        self.interactor?.processRemoteContentButtonClick(request: request)
     }
     
 }
