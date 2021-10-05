@@ -103,9 +103,10 @@ class HTTPRequestSecureLoader: NSObject, WebContentsSecureLoader, WKScriptMessag
         
         let textColor: String = NSColor.labelColor.hexString ?? "#FFF"
         let bgColor: String = NSColor.controlBackgroundColor.hexString ?? "#000"
+        let linkColor: String = NSColor.controlAccentColor.hexString ?? "#00f"
         let fontSize: Int = Int(NSFont.LegacyTextStyle.body.fontSize)
         var css: String = WebContents.css
-        css += "body { color: \(textColor); background-color: \(bgColor) } html { font-size: \(fontSize)px; }"
+        css += "body { color: \(textColor); background-color: \(bgColor) } a { color: \(linkColor); } html { font-size: \(fontSize)px; }"
         
         let sanitizeRaw = """
         var dirty = document.documentElement.outerHTML.toString();
