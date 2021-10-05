@@ -48,7 +48,12 @@ extension ConversationToModelConverting {
         if let json = conversation.senders?.parseJsonArray() {
             var senders: [String] = []
             for sender in json {
-                let name: String = sender.getString("Name") ?? sender.getString("Address") ?? ""
+                let name: String
+                if let senderName = sender.getString("Name"), !senderName.isEmpty {
+                    name = senderName
+                } else {
+                    name = sender.getString("Address") ?? ""
+                }
                 senders.append(name)
             }
             return senders

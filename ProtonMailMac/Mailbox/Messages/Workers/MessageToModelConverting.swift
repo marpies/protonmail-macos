@@ -62,7 +62,10 @@ extension MessageToModelConverting {
     
     private func getSender(_ message: Message) -> String {
         if let jsonRaw = message.sender, let json = jsonRaw.parseObjectAny() {
-            return json.getString("Name") ?? json.getString("Address") ?? ""
+            if let senderName = json.getString("Name"), !senderName.isEmpty {
+                return senderName
+            }
+            return json.getString("Address") ?? ""
         }
         return ""
     }
