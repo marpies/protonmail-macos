@@ -65,14 +65,23 @@ extension CoreDataService: UserEventsDatabaseManaging {
 
 extension CoreDataService: UserEventsDatabaseProcessing {
     
-    func process(conversations: [[String: Any]], messages: [[String : Any]], userId: String, completion: @escaping ([String], NSError?) -> Void) {
+    func process(conversations: [[String: Any]]?, messages: [[String : Any]]?, userId: String, completion: @escaping ([String], NSError?) -> Void) {
         let context: NSManagedObjectContext = self.backgroundContext
         self.enqueue(context: context) { (ctx) in
             // Process conversations first to have them correctly assigned to Message objects later
-            let conversationsError: NSError? = self.processConversationEvents(conversations, userId: userId, context: ctx)
+            var conversationsError: NSError?
+            if let conversations = conversations {
+                conversationsError = self.processConversationEvents(conversations, userId: userId, context: ctx)
+            }
             
             // List of message ids for which there is no metadata
-            var (messagesNoCache, responseError): ([String], NSError?) = self.processMessageEvents(messages, userId: userId, context: ctx)
+            let messagesNoCache: [String]
+            var responseError: NSError?
+            if let messages = messages {
+                (messagesNoCache, responseError) = self.processMessageEvents(messages, userId: userId, context: ctx)
+            } else {
+                messagesNoCache = []
+            }
             
             if let error = ctx.saveUpstreamIfNeeded() {
                 PMLog.D(" error: \(error)")

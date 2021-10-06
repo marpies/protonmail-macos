@@ -79,9 +79,9 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
                             completion(.cleanUp(eventResponse.eventID))
                         }
                     }
-                } else if let messageEvents = response.messages, let conversationEvents = response.conversations {
+                } else if response.messages != nil || response.conversations != nil {
                     DispatchQueue.global().async {
-                        self.processEvents(conversations: conversationEvents, messages: messageEvents, response: response, userId: userId) { (res, error) in
+                        self.processEvents(conversations: response.conversations, messages: response.messages, response: response, userId: userId) { (res, error) in
                             if let res = res {
                                 completion(.success(res))
                             }
@@ -106,7 +106,7 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
     // MARK: - Event processing
     //
     
-    private func processEvents(conversations: [[String : Any]], messages: [[String : Any]], response: EventCheckResponse, userId: String, completion: @escaping ([String: Any]?, NSError?) -> Void) {
+    private func processEvents(conversations: [[String : Any]]?, messages: [[String : Any]]?, response: EventCheckResponse, userId: String, completion: @escaping ([String: Any]?, NSError?) -> Void) {
         // this serial dispatch queue prevents multiple messages from appearing when an incremental update is triggered while another is in progress
         self.incrementalUpdateQueue.sync {
             let db: UserEventsDatabaseProcessing = resolver.resolve(UserEventsDatabaseProcessing.self)!
