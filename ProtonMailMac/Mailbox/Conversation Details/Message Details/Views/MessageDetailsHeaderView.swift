@@ -23,6 +23,7 @@ class MessageDetailsHeaderView: NSButton {
     
     private var draftLabelView: MessageLabelView?
     private var repliedIcon: IconView?
+    private var unreadIndicationView: CircleView?
     
     weak var delegate: MessageDetailsHeaderViewDelegate?
 
@@ -45,6 +46,12 @@ class MessageDetailsHeaderView: NSButton {
         self.titleLabel.stringValue = viewModel.title
         self.foldersView.update(viewModel: viewModel.folders)
         self.dateLabel.stringValue = viewModel.date
+        
+        if viewModel.isRead {
+            self.removeUnreadIndicator()
+        } else {
+            self.addUnreadIndicator()
+        }
         
         if let draft = viewModel.draftLabel {
             self.addDraftLabel(viewModel: draft)
@@ -183,6 +190,25 @@ class MessageDetailsHeaderView: NSButton {
         
         self.favoriteButton.contentTintColor = viewModel.color
         self.favoriteButton.toolTip = viewModel.tooltip
+    }
+    
+    private func addUnreadIndicator() {
+        guard self.unreadIndicationView == nil else { return }
+        
+        self.unreadIndicationView = CircleView().with { view in
+            self.titleStackView.insertArrangedSubview(view, at: 0)
+            view.snp.makeConstraints { make in
+                make.size.equalTo(6)
+            }
+        }
+        
+    }
+    
+    private func removeUnreadIndicator() {
+        if let view = self.unreadIndicationView {
+            self.unreadIndicationView = nil
+            view.removeFromSuperview()
+        }
     }
     
 }
