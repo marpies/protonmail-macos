@@ -16,6 +16,17 @@ public protocol NotificationType {
     var userInfo: [AnyHashable : Any]? { get }
     
     init?(notification: Notification?)
+    
+    /// Posts the notification using the default notification center.
+    func post()
+}
+
+public extension NotificationType {
+    
+    func post() {
+        NotificationCenter.default.post(self)
+    }
+    
 }
 
 public extension NotificationCenter {
