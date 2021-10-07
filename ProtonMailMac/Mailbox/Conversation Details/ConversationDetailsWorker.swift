@@ -392,19 +392,18 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         if message.hasInlineAttachments {
             let worker: MessageInlineAttachmentDecrypting = self.resolver.resolve(MessageInlineAttachmentDecrypting.self, argument: self.apiService!)!
             worker.decryptInlineAttachments(inBody: decrypted, messageId: message.id, user: user) { newBody in
-                if let body = newBody {
-                    self.dispatchMessageBody(body, messageId: message.id)
-                } else {
-                    self.dispatchMessageBody(decrypted, messageId: message.id)
-                }
+                let body: String = newBody ?? decrypted
                 
+                self.dispatchMessageBody(body, messageId: message.id)
                 self.checkRemoteContent(message: message, rawBody: decrypted)
+                self.markMessageAsRead(message)
             }
             return
         }
         
         self.dispatchMessageBody(decrypted, messageId: message.id)
         self.checkRemoteContent(message: message, rawBody: decrypted)
+        self.markMessageAsRead(message)
     }
     
     private func decryptMessageBody(_ body: String, messageId: String) -> String? {
@@ -470,6 +469,62 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     private func showRemoteContentBox(onMessage message: Messages.Message.Response) {
         let response: ConversationDetails.DisplayRemoteContentBox.Response = ConversationDetails.DisplayRemoteContentBox.Response(messageId: message.id)
         self.delegate?.conversationMessageRemoteContentBoxShouldAppear(response: response)
+    }
+    
+    //
+    // MARK: - Mark as read
+    //
+    
+    private func markMessageAsRead(_ message: Messages.Message.Response) {
+        guard !message.isRead else { return }
+        
+        guard let userId = self.activeUserId else { return }
+        
+        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: userId)!
+        service.delegate = self
+        
+        let success: Bool = service.mark(messageIds: [message.id], unread: false)
+        guard success else { return }
+        
+        self.refreshMessage(id: message.id)
+        
+        // Check if the conversation itself should be marked as read
+        self.checkConversationRead()
+    }
+    
+    private func checkConversationRead() {
+        guard let id = self.conversationId, let userId = self.activeUserId else { return }
+        
+        let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
+        
+        guard let conversation = db.loadConversation(id: id), let messages = conversation.messages as? Set<Message> else { return }
+        
+        let isUnread: Bool = conversation.numUnread.intValue > 0
+        var shouldBeUnread: Bool = false
+        for message in messages {
+            if message.unRead {
+                shouldBeUnread = true
+                break
+            }
+        }
+        
+        var updatedConversation: Conversation?
+        
+        // Mark as read if unread and should NOT be unread
+        if isUnread && !shouldBeUnread {
+            updatedConversation = db.updateUnread(conversationIds: [id], unread: false, userId: userId)?.first
+        }
+        // Mark as unread if read and should be unread
+        else if !isUnread && shouldBeUnread {
+            updatedConversation = db.updateUnread(conversationIds: [id], unread: true, userId: userId)?.first
+        }
+        
+        if updatedConversation != nil {
+            // Dispatch notification for other sections (e.g. list of conversations)
+            // This worker will react to this notification as well
+            let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: id)
+            NotificationCenter.default.post(notification)
+        }
     }
     
     //
