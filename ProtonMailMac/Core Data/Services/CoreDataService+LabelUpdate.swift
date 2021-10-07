@@ -80,9 +80,13 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         }
         
         // Set app badge
-        if labelId == MailboxSidebar.Item.inbox.id {
+        if labelId == MailboxSidebar.Item.allMail.id {
             self.setAppBadge(count)
         }
+    }
+    
+    func updateCount(for labelId: String, userId: String, unread: Int, total: Int, shouldSave: Bool) {
+        self.updateCount(for: labelId, userId: userId, unread: unread, total: total, shouldSave: shouldSave, context: self.mainContext)
     }
     
     func removeUpdateTime(forUser userId: String) {
@@ -97,7 +101,7 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         update.unread = Int32(count)
         
         // Set app badge
-        if labelId == MailboxSidebar.Item.inbox.id {
+        if labelId == MailboxSidebar.Item.allMail.id {
             self.setAppBadge(count)
         }
     }
@@ -120,6 +124,26 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
             return update
         }
         return LabelUpdate.newLabelUpdate(by: labelId, userID: userId, inManagedObjectContext: context)
+    }
+    
+    //
+    // MARK: - Internal
+    //
+    
+    func updateCount(for labelId: String, userId: String, unread: Int, total: Int, shouldSave: Bool, context: NSManagedObjectContext) {
+        let update: LabelUpdate = self.lastUpdateDefault(for: labelId, userId: userId, context: context)
+        
+        update.unread = Int32(unread)
+        update.total = Int32(total)
+        
+        if shouldSave {
+            let _ = context.saveUpstreamIfNeeded()
+        }
+        
+        // Set app badge
+        if labelId == MailboxSidebar.Item.allMail.id {
+            self.setAppBadge(unread)
+        }
     }
     
     //

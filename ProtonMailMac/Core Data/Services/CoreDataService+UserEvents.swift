@@ -261,21 +261,20 @@ extension CoreDataService: UserEventsDatabaseProcessing {
         }
         
         let context: NSManagedObjectContext = self.mainContext
-        self.enqueue(context: context) { (context) in
-            for count in messageCounts {
-                if let labelID = count["LabelID"] as? String {
-                    guard let unread = count["Unread"] as? Int else {
-                        continue
-                    }
-                    self.updateUnreadCount(for: labelID, userId: userId, count: unread, shouldSave: false)
-                }
+        self.enqueue(context: context) { (ctx) in
+            for json in messageCounts {
+                guard let id = json.getString("LabelID"),
+                      let total = json.getInt("Total"),
+                      let unread = json.getInt("Unread") else { continue }
+                
+                self.updateCount(for: id, userId: userId, unread: unread, total: total, shouldSave: false, context: ctx)
             }
             
-            if let error = context.saveUpstreamIfNeeded() {
+            if let error = ctx.saveUpstreamIfNeeded() {
                 PMLog.D(error.localizedDescription)
             }
             
-            let unreadCount: Int = self.unreadCount(for: MailboxSidebar.Item.inbox.id, userId: userId)
+            let unreadCount: Int = self.unreadCount(for: MailboxSidebar.Item.allMail.id, userId: userId)
             var badgeNumber = unreadCount
             if  badgeNumber < 0 {
                 badgeNumber = 0

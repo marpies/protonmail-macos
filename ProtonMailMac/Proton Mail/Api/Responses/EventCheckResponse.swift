@@ -57,10 +57,9 @@ final class EventCheckResponse : Response {
     
     var organization : [String : Any]? //TODO:: use when we add org setting in the app
     
-    var messageCounts: [[String : Any]]?
+    var conversationCounts: [[String: Any]]?
     
-    var conversationCounts: [[String : Any]]? //TODO:: use when we add conversation view
-    
+    /// Bytes, divide by (1024*1024) to get MB
     var usedSpace : Int64?
     var notices : [String]?
     
@@ -90,9 +89,7 @@ final class EventCheckResponse : Response {
         
         //self.organization = response["Organization"] as? [String : Any]
         
-        self.messageCounts = response["MessageCounts"] as? [[String : Any]]
-        
-        //self.conversationCounts = response["ConversationCounts"] as? [[String : Any]]
+        self.conversationCounts = response["ConversationCounts"] as? [[String : Any]]
         
         self.usedSpace = response["UsedSpace"] as? Int64
         self.notices = response["Notices"] as? [String]

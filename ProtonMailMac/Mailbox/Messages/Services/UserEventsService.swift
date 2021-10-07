@@ -165,7 +165,7 @@ class UserEventsService: UserEventsProcessing, AuthCredentialRefreshing {
 //            self.processEvents(user: response.user)
 //            self.processEvents(userSettings: response.userSettings)
 //            self.processEvents(mailSettings: response.mailSettings)
-            userEventsProcessing.processEvents(counts: response.messageCounts, userId: userId)
+            userEventsProcessing.processEvents(counts: response.conversationCounts, userId: userId)
 //            self.processEvents(space: response.usedSpace)
             
             var result: [String: Any] = [
