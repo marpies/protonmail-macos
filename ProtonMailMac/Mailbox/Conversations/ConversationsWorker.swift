@@ -98,6 +98,10 @@ class ConversationsWorker: ConversationsLoadingDelegate, ConversationOpsProcessi
     
     func conversationsDidUpdate(response: Conversations.UpdateConversations.Response) {
         self.delegate?.conversationsDidUpdate(response: response)
+        
+        let ids: [String] = response.conversations.map { $0.id }
+        let notification: Conversations.Notifications.ConversationsUpdate = Conversations.Notifications.ConversationsUpdate(conversationIds: ids)
+        notification.post()
     }
     
     func conversationsLoadDidFail(response: Conversations.LoadError.Response) {

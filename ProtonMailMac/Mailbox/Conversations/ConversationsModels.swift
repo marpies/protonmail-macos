@@ -43,6 +43,34 @@ enum Conversations {
                 self.conversationId = conversationId
             }
         }
+        
+        struct ConversationsUpdate: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("Conversations.conversationsUpdate")
+            }
+            
+            var name: Notification.Name {
+                return ConversationsUpdate.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["conversationIds": self.conversationIds]
+            }
+            
+            let conversationIds: [String]
+            
+            init(conversationIds: [String]) {
+                self.conversationIds = conversationIds
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == ConversationsUpdate.name,
+                      let conversationIds = notification?.userInfo?["conversationIds"] as? [String] else { return nil }
+                
+                self.conversationIds = conversationIds
+            }
+        }
     }
     
     enum Conversation {

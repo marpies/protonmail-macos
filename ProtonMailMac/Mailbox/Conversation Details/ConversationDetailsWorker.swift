@@ -38,6 +38,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     private var conversation: ConversationDetails.Conversation.Response?
     
     private var conversationUpdateObserver: NSObjectProtocol?
+    private var conversationsUpdateObserver: NSObjectProtocol?
     
     private var activeUserId: String? {
         return self.usersManager.activeUser?.userId
@@ -177,6 +178,15 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
             guard let weakSelf = self, let conversationId = notification?.conversationId else { return }
             
             weakSelf.refreshConversation(id: conversationId)
+        })
+        
+        self.conversationsUpdateObserver = NotificationCenter.default.addObserver(forType: Conversations.Notifications.ConversationsUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let weakSelf = self,
+                  let id = self?.conversationId,
+                  let conversationIds = notification?.conversationIds,
+                  conversationIds.contains(id) else { return }
+            
+            weakSelf.refreshConversation(id: id)
         })
     }
     
