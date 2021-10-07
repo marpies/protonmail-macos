@@ -23,6 +23,7 @@
 import Foundation
 
 struct EventCheckRequest: Request {
+    let version: Int = 4
     let eventID : String
     
     init(eventID : String) {
