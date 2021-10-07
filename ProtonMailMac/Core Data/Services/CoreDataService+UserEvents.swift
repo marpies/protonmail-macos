@@ -256,13 +256,13 @@ extension CoreDataService: UserEventsDatabaseProcessing {
     }
     
     func processEvents(counts: [[String : Any]]?, userId: String) {
-        guard let messageCounts = counts, messageCounts.count > 0 else {
+        guard let conversationCounts = counts, conversationCounts.count > 0 else {
             return
         }
         
         let context: NSManagedObjectContext = self.mainContext
         self.enqueue(context: context) { (ctx) in
-            for json in messageCounts {
+            for json in conversationCounts {
                 guard let id = json.getString("LabelID"),
                       let total = json.getInt("Total"),
                       let unread = json.getInt("Unread") else { continue }
