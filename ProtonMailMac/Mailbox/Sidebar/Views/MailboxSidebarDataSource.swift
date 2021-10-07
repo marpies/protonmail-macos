@@ -18,6 +18,8 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
     private typealias Group = MailboxSidebar.Group.ViewModel
     private typealias Item = MailboxSidebar.Item.ViewModel
     
+    private let cellId: NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier("item")
+    
     private let tableView: NSOutlineView
     
     private var viewModel: [Group] = []
@@ -118,47 +120,16 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         }
         
         if let item = item as? Item {
-            let cell: NSTableCellView
+            let cell: MailboxSidebarItemCellView
             
-            if let existingCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("item"), owner: self) as? NSTableCellView {
+            if let existingCell = tableView.makeView(withIdentifier: self.cellId, owner: self) as? MailboxSidebarItemCellView {
                 cell = existingCell
             } else {
-                cell = NSTableCellView()
-                let imageView: NSImageView = NSImageView()
-                imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-                cell.addSubview(imageView)
-                cell.imageView = imageView
-                imageView.snp.makeConstraints { make in
-                    make.left.equalToSuperview()
-                    make.width.greaterThanOrEqualTo(20)
-                    make.centerY.equalToSuperview()
-                }
-                
-                let label = NSTextField.asLabel
-                label.stringValue = item.title
-                label.setContentHuggingPriority(.defaultLow, for: .horizontal)
-                
-                // Default font for macOS 10.15 and lower
-                if #available(macOS 11.0, *) { } else {
-                    label.setPreferredFont(style: .body)
-                }
-                
-                cell.addSubview(label)
-                cell.textField = label
-                label.snp.makeConstraints { make in
-                    make.left.equalTo(imageView.snp.right).offset(8)
-                    make.centerY.equalToSuperview()
-                    make.right.equalToSuperview()
-                }
+                cell = MailboxSidebarItemCellView()
+                cell.identifier = self.cellId
             }
             
-            cell.textField?.stringValue = item.title
-            
-            if #available(macOS 11.0, *) {
-                cell.imageView?.image = NSImage(systemSymbolName: item.icon, accessibilityDescription: item.icon)
-            } else {
-                // todo fallback icon
-            }
+            cell.update(viewModel: item)
             
             return cell
         }

@@ -97,8 +97,12 @@ class MailboxSidebarPresenter: MailboxSidebarPresentationLogic {
         }
         
         let children = response.children?.map { self.getItem(response: $0) }
+        var badge: String?
+        if response.numUnread > 0 {
+            badge = String(response.numUnread)
+        }
         
-        return MailboxSidebar.Item.ViewModel(id: response.kind.id, title: title, icon: icon, children: children, color: response.color)
+        return MailboxSidebar.Item.ViewModel(id: response.kind.id, title: title, icon: icon, children: children, color: response.color, badge: badge)
     }
 
 }

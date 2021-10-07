@@ -160,7 +160,7 @@ class MailboxSidebarWorker {
     }
     
     private func parseLabels(_ response: [Label]) -> [MailboxSidebar.Group.Response] {
-        guard !response.isEmpty else { return [] }
+        guard !response.isEmpty, let userId = self.usersManager.activeUser?.userId else { return [] }
         
         // Default ProtonMail inboxes
         var inboxes: [MailboxSidebar.Item.Response] = []
@@ -172,7 +172,7 @@ class MailboxSidebarWorker {
         var processedIds: Set<String> = []
         
         for label in response {
-            let item: MailboxSidebar.Item.Response = self.getItem(response: label)
+            let item: MailboxSidebar.Item.Response = self.getItem(response: label, userId: userId)
             
             // Skip duplicate default items (e.g. drafts, sent)
             if processedIds.contains(item.kind.id) { continue }
@@ -244,7 +244,7 @@ class MailboxSidebarWorker {
         return false
     }
     
-    private func getItem(response: Label) -> MailboxSidebar.Item.Response {
+    private func getItem(response: Label, userId: String) -> MailboxSidebar.Item.Response {
         var color: NSColor?
         if !response.color.isEmpty {
             color = NSColor(hexColorCode: response.color)
@@ -252,7 +252,10 @@ class MailboxSidebarWorker {
         
         let kind: MailboxSidebar.Item = self.getItemKind(response: response)
         
-        return MailboxSidebar.Item.Response(kind: kind, color: color)
+        let db: LabelUpdateDatabaseManaging = self.resolver.resolve(LabelUpdateDatabaseManaging.self)!
+        let numUnread: Int = db.unreadCount(for: response.labelID, userId: userId)
+        
+        return MailboxSidebar.Item.Response(kind: kind, color: color, numUnread: numUnread)
     }
     
     private func getItemKind(response: Label) -> MailboxSidebar.Item {

@@ -88,6 +88,8 @@
 		C353423926F8997A00EA0137 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353423826F8997A00EA0137 /* IconView.swift */; };
 		C353423E26F9025A00EA0137 /* ConversationOpsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353423D26F9025A00EA0137 /* ConversationOpsService.swift */; };
 		C353424126F9035100EA0137 /* ConversationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353424026F9035100EA0137 /* ConversationAction.swift */; };
+		C35B579A270F3C0F005315B9 /* MailboxSidebarItemCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B5799270F3C0F005315B9 /* MailboxSidebarItemCellView.swift */; };
+		C35B579C270F3C9C005315B9 /* UnreadBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
 		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
@@ -414,6 +416,8 @@
 		C353423826F8997A00EA0137 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		C353423D26F9025A00EA0137 /* ConversationOpsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationOpsService.swift; sourceTree = "<group>"; };
 		C353424026F9035100EA0137 /* ConversationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationAction.swift; sourceTree = "<group>"; };
+		C35B5799270F3C0F005315B9 /* MailboxSidebarItemCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarItemCellView.swift; sourceTree = "<group>"; };
+		C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadgeView.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
 		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
@@ -701,6 +705,8 @@
 			children = (
 				C31D02DE26D92961002EBBE0 /* MailboxSidebarRowView.swift */,
 				C31D02F426D942EA002EBBE0 /* MailboxSidebarDataSource.swift */,
+				C35B5799270F3C0F005315B9 /* MailboxSidebarItemCellView.swift */,
+				C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1663,6 +1669,7 @@
 				C31D02FF26D970B3002EBBE0 /* LabelsApi.swift in Sources */,
 				C3C8263226FF0A3000B4E95C /* MessageInlineAttachmentDecryptingWorker.swift in Sources */,
 				C353421826F4A28A00EA0137 /* ConversationDetailsViewController.swift in Sources */,
+				C35B579A270F3C0F005315B9 /* MailboxSidebarItemCellView.swift in Sources */,
 				C3DACB5E26EA277A00927933 /* LabelUpdate+Helpers.swift in Sources */,
 				C3C8263426FF229E00B4E95C /* AttachmentsAPI.swift in Sources */,
 				C3DACB4F26E9C5C500927933 /* Label+Helpers.swift in Sources */,
@@ -1816,6 +1823,7 @@
 				C36814B126D6295400A35A16 /* MailboxInteractor.swift in Sources */,
 				C3C8262026FC7D4C00B4E95C /* MIMEMessagePart.swift in Sources */,
 				C36814C826D65D0100A35A16 /* AppModels.swift in Sources */,
+				C35B579C270F3C9C005315B9 /* UnreadBadgeView.swift in Sources */,
 				C3C8263E26FF2D3700B4E95C /* FileManager+Extensions.swift in Sources */,
 				C353423E26F9025A00EA0137 /* ConversationOpsService.swift in Sources */,
 				C31D02EF26D942A4002EBBE0 /* MailboxSidebarRouter.swift in Sources */,

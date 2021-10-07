@@ -101,11 +101,13 @@ enum MailboxSidebar {
         class Response {
             let kind: MailboxSidebar.Item
             let color: NSColor?
+            let numUnread: Int
             var children: [MailboxSidebar.Item.Response]?
-
-            init(kind: MailboxSidebar.Item, color: NSColor?) {
+            
+            init(kind: MailboxSidebar.Item, color: NSColor?, numUnread: Int) {
                 self.kind = kind
                 self.color = color
+                self.numUnread = numUnread
             }
             
             func addChild(_ item: MailboxSidebar.Item.Response) {
@@ -122,13 +124,15 @@ enum MailboxSidebar {
             let icon: String
             let children: [MailboxSidebar.Item.ViewModel]?
             let color: NSColor?
+            let badge: String?
 
-            init(id: String, title: String, icon: String, children: [MailboxSidebar.Item.ViewModel]?, color: NSColor?) {
+            init(id: String, title: String, icon: String, children: [MailboxSidebar.Item.ViewModel]?, color: NSColor?, badge: String?) {
                 self.id = id
                 self.title = title
                 self.icon = icon
                 self.children = children
                 self.color = color
+                self.badge = badge
             }
         }
     }
