@@ -10,7 +10,7 @@ import Foundation
 enum ApiUrl {
     
     static let `protocol`: String = "https"
-    static let host: String = "api.protonmail.ch"
+    static let host: String = "mail.protonmail.com"
     
     static let prefix: String = "mail/v4"
     
@@ -25,7 +25,7 @@ public protocol ApiUrlInjected {
 public extension ApiUrlInjected {
     
     var apiUrl: String {
-        return "\(ApiUrl.protocol)://\(ApiUrl.host)"
+        return "\(ApiUrl.protocol)://\(ApiUrl.host)/api"
     }
     
     func getApiUrl(path: String) -> String {

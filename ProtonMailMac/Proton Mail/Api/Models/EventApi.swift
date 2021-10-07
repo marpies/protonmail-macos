@@ -24,7 +24,7 @@
 import Foundation
 
 public enum EventAPI {
-    public static let path: String = "events"
+    public static let path: String = "v4/events"
     
 }
 
