@@ -131,22 +131,23 @@ public extension ApiService {
             urlRequest.setValue("\(v)", forHTTPHeaderField: k)
         }
         
-        // Set auth
-        urlRequest.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        
-        // Set session id
+        // Set auth and session id
         if let userid = request.authCredential?.sessionID {
             urlRequest.setValue(userid, forHTTPHeaderField: "x-pm-uid")
+            
+            if request.isAuth {
+                urlRequest.setValue("AUTH-\(userid)=\(accessToken); Version=default", forHTTPHeaderField: "Cookie")
+            }
         }
         
         // App version
-        let appversion: String = "iOS_1.15.3"
+        let appversion: String = "WebMail_4.7.5"
         urlRequest.setValue(appversion, forHTTPHeaderField: "x-pm-appversion")
-        
+
         urlRequest.setValue("application/vnd.protonmail.v1+json", forHTTPHeaderField: "Accept")
         
         // User agent
-        let ua: String = "ProtonMail/1.15.3 (iOS/14.5 iPhone11,2)"
+        let ua: String = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15"
         urlRequest.setValue(ua, forHTTPHeaderField: "User-Agent")
         
         var task: URLSessionDataTask?
