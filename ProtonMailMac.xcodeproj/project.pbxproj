@@ -90,6 +90,7 @@
 		C353424126F9035100EA0137 /* ConversationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353424026F9035100EA0137 /* ConversationAction.swift */; };
 		C35B579A270F3C0F005315B9 /* MailboxSidebarItemCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B5799270F3C0F005315B9 /* MailboxSidebarItemCellView.swift */; };
 		C35B579C270F3C9C005315B9 /* UnreadBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */; };
+		C35B57A127104D05005315B9 /* LabelToSidebarItemParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A027104D05005315B9 /* LabelToSidebarItemParsing.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
 		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
@@ -418,6 +419,7 @@
 		C353424026F9035100EA0137 /* ConversationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationAction.swift; sourceTree = "<group>"; };
 		C35B5799270F3C0F005315B9 /* MailboxSidebarItemCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarItemCellView.swift; sourceTree = "<group>"; };
 		C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadgeView.swift; sourceTree = "<group>"; };
+		C35B57A027104D05005315B9 /* LabelToSidebarItemParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelToSidebarItemParsing.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
 		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
@@ -936,6 +938,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		C35B579F27104CE8005315B9 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				C35B57A027104D05005315B9 /* LabelToSidebarItemParsing.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
 		C36814A226D627BE00A35A16 /* Mailbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -958,6 +968,7 @@
 			isa = PBXGroup;
 			children = (
 				C31D02DD26D92948002EBBE0 /* Views */,
+				C35B579F27104CE8005315B9 /* Workers */,
 				C31D02E626D942A4002EBBE0 /* MailboxSidebarPresenter.swift */,
 				C31D02E726D942A4002EBBE0 /* MailboxSidebarWorker.swift */,
 				C31D02E826D942A4002EBBE0 /* MailboxSidebarRouter.swift */,
@@ -1803,6 +1814,7 @@
 				C36814D726D6601600A35A16 /* SignInView.swift in Sources */,
 				C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */,
 				C3DACB5C26EA26C500927933 /* CoreDataService+LabelUpdate.swift in Sources */,
+				C35B57A127104D05005315B9 /* LabelToSidebarItemParsing.swift in Sources */,
 				C36814D126D6601600A35A16 /* SignInPresenter.swift in Sources */,
 				C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */,
 				C31D02D826D8CC59002EBBE0 /* MailboxOverlayView.swift in Sources */,

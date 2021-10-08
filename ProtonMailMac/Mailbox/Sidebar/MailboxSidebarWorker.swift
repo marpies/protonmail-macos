@@ -15,7 +15,7 @@ protocol MailboxSidebarWorkerDelegate: AnyObject {
     func mailboxSidebarDidRefresh(response: MailboxSidebar.RefreshGroups.Response)
 }
 
-class MailboxSidebarWorker {
+class MailboxSidebarWorker: LabelToSidebarItemParsing {
 
     private let resolver: Resolver
     private let usersManager: UsersManager
@@ -250,35 +250,12 @@ class MailboxSidebarWorker {
             color = NSColor(hexColorCode: response.color)
         }
         
-        let kind: MailboxSidebar.Item = self.getItemKind(response: response)
+        let kind: MailboxSidebar.Item = self.getSidebarItemKind(response: response)
         
         let db: LabelUpdateDatabaseManaging = self.resolver.resolve(LabelUpdateDatabaseManaging.self)!
         let numUnread: Int = db.unreadCount(for: response.labelID, userId: userId)
         
         return MailboxSidebar.Item.Response(kind: kind, color: color, numUnread: numUnread)
-    }
-    
-    private func getItemKind(response: Label) -> MailboxSidebar.Item {
-        switch response.labelID {
-        case "0":
-            return .inbox
-        case "1", "8":
-            return .draft
-        case "2", "7":
-            return .outbox
-        case "3":
-            return .trash
-        case "4":
-            return .spam
-        case "5":
-            return .allMail
-        case "6":
-            return .archive
-        case "10":
-            return .starred
-        default:
-            return .custom(id: response.labelID, title: response.name, isFolder: response.exclusive)
-        }
     }
 
 }
