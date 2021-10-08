@@ -160,6 +160,22 @@ extension CoreDataService: MessagesDatabaseManaging {
             
             for message in messages {
                 self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: apply)
+                
+                // Update label on the conversation as well
+                let conversation: Conversation = message.conversation
+                guard let messages = conversation.messages as? Set<Message> else { continue }
+                
+                if apply {
+                    // If at least one message truly has the label, make sure it is set on the conversation as well
+                    if messages.contains(where: { $0.contains(label: label) }), !conversation.contains(label: label) {
+                        let _ = conversation.add(labelID: label)
+                    }
+                } else {
+                    // If none of the messages in the conversation has the label, remove it from the conversation as well
+                    if messages.filter({ $0.contains(label: label) }).isEmpty, conversation.contains(label: label) {
+                        conversation.remove(labelID: label)
+                    }
+                }
             }
             
             let error = ctx.saveUpstreamIfNeeded()

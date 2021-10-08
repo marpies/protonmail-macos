@@ -71,8 +71,14 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     }
     
     func updateMessageStar(request: ConversationDetails.UpdateMessageStar.Request) {
-        guard let userId = self.activeUserId else { return }
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
         
+        guard let userId = self.activeUserId, let conversation = db.loadMessage(id: request.id)?.conversation else { return }
+        
+        // Get starred status before updating
+        let isConversationStarred: Bool = conversation.contains(label: .starred)
+        
+        // Update message's and conversation's label
         var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: userId)!
         service.delegate = self
         service.label(messageIds: [request.id], label: MailboxSidebar.Item.starred.id, apply: request.isOn)
@@ -80,7 +86,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         self.refreshMessage(id: request.id)
         
         // Check if the conversation itself should be starred/unstarred
-        self.checkConversationStar()
+        self.checkConversationStar(conversationId: conversation.conversationID, isStarred: isConversationStarred)
     }
     
     func updateConversationStar(request: ConversationDetails.UpdateConversationStar.Request) {
@@ -268,18 +274,19 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         guard let messageObject = db.loadMessage(id: id) else { return }
         
         let message: Messages.Message.Response = self.getMessage(messageObject)
+        self.conversation?.updateMessage(message)
+        
         let response: ConversationDetails.UpdateMessage.Response = ConversationDetails.UpdateMessage.Response(message: message)
         self.delegate?.conversationMessageDidUpdate(response: response)
     }
     
-    private func checkConversationStar() {
-        guard let id = self.conversationId, let userId = self.activeUserId else { return }
+    private func checkConversationStar(conversationId: String, isStarred: Bool) {
+        guard let userId = self.activeUserId else { return }
         
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         
-        guard let conversation = db.loadConversation(id: id), let messages = conversation.messages as? Set<Message> else { return }
+        guard let conversation = db.loadConversation(id: conversationId), let messages = conversation.messages as? Set<Message> else { return }
         
-        let isStarred: Bool = conversation.contains(label: .starred)
         var shouldBeStarred: Bool = false
         for message in messages {
             if message.contains(label: .starred) {
@@ -292,17 +299,17 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // Remove star if is starred and should NOT be starred
         if isStarred && !shouldBeStarred {
-            updatedConversation = db.updateLabel(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: false, includingMessages: false, userId: userId)?.first
+            updatedConversation = db.updateLabel(conversationIds: [conversationId], label: MailboxSidebar.Item.starred.id, apply: false, includingMessages: false, userId: userId)?.first
         }
         // Add star if is NOT starred and should be starred
         else if !isStarred && shouldBeStarred {
-            updatedConversation = db.updateLabel(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: true, includingMessages: false, userId: userId)?.first
+            updatedConversation = db.updateLabel(conversationIds: [conversationId], label: MailboxSidebar.Item.starred.id, apply: true, includingMessages: false, userId: userId)?.first
         }
         
         if updatedConversation != nil {
             // Dispatch notification for other sections (e.g. list of conversations)
             // This worker will react to this notification as well
-            let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: id)
+            let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: conversationId)
             NotificationCenter.default.post(notification)
         }
     }
@@ -488,8 +495,14 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     private func markMessageAsRead(_ message: Messages.Message.Response) {
         guard !message.isRead else { return }
         
-        guard let userId = self.activeUserId else { return }
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
         
+        guard let userId = self.activeUserId, let conversation = db.loadMessage(id: message.id)?.conversation else { return }
+        
+        // Get unread status before updating
+        let isConversationUnread: Bool = conversation.numUnread.intValue > 0
+        
+        // Update unread status of the message
         var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: userId)!
         service.delegate = self
         
@@ -499,17 +512,16 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         self.refreshMessage(id: message.id)
         
         // Check if the conversation itself should be marked as read
-        self.checkConversationRead()
+        self.checkConversationRead(conversationId: conversation.conversationID, isUnread: isConversationUnread)
     }
     
-    private func checkConversationRead() {
-        guard let id = self.conversationId, let userId = self.activeUserId else { return }
+    private func checkConversationRead(conversationId: String, isUnread: Bool) {
+        guard let userId = self.activeUserId else { return }
         
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         
-        guard let conversation = db.loadConversation(id: id), let messages = conversation.messages as? Set<Message> else { return }
+        guard let conversation = db.loadConversation(id: conversationId), let messages = conversation.messages as? Set<Message> else { return }
         
-        let isUnread: Bool = conversation.numUnread.intValue > 0
         var shouldBeUnread: Bool = false
         for message in messages {
             if message.unRead {
@@ -522,17 +534,17 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // Mark as read if unread and should NOT be unread
         if isUnread && !shouldBeUnread {
-            updatedConversation = db.updateUnread(conversationIds: [id], unread: false, userId: userId)?.first
+            updatedConversation = db.updateUnread(conversationIds: [conversationId], unread: false, userId: userId)?.first
         }
         // Mark as unread if read and should be unread
         else if !isUnread && shouldBeUnread {
-            updatedConversation = db.updateUnread(conversationIds: [id], unread: true, userId: userId)?.first
+            updatedConversation = db.updateUnread(conversationIds: [conversationId], unread: true, userId: userId)?.first
         }
         
         if updatedConversation != nil {
             // Dispatch notification for other sections (e.g. list of conversations)
             // This worker will react to this notification as well
-            let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: id)
+            let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: conversationId)
             NotificationCenter.default.post(notification)
         }
     }

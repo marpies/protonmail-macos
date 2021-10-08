@@ -13,11 +13,18 @@ enum ConversationDetails {
     enum Conversation {
         class Response {
             let conversation: Conversations.Conversation.Response
-            let messages: [Messages.Message.Response]
+            private(set) var messages: [Messages.Message.Response]
 
             init(conversation: Conversations.Conversation.Response, messages: [Messages.Message.Response]) {
                 self.conversation = conversation
                 self.messages = messages
+            }
+            
+            func updateMessage(_ message: Messages.Message.Response) {
+                guard let index = self.messages.firstIndex(where: { $0.id == message.id }) else { return }
+                
+                message.isExpanded = self.messages[index].isExpanded
+                self.messages[index] = message
             }
         }
         
