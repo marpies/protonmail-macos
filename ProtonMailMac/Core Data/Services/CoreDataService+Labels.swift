@@ -91,7 +91,7 @@ extension CoreDataService: LabelsDatabaseManaging {
     private func getPredicate(_ type: LabelFetchType, userId: String) -> NSPredicate {
         switch type {
         case .all:
-            let defaults = NSPredicate(format: "labelID IN %@", [0, 1, 2, 3, 4, 5, 6, 10])
+            let defaults = NSPredicate(format: "labelID IN %@", [0, 3, 4, 5, 6, 7, 8, 10])
             let user = NSPredicate(format: "(labelID MATCHES %@) AND (type == 1) AND (userID == %@)", "(?!^\\d+$)^.+$", userId)
             return NSCompoundPredicate(orPredicateWithSubpredicates: [defaults, user])
         case .folder:
