@@ -70,18 +70,17 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
     
     // update unread count
     func updateUnreadCount(for labelId : String, userId: String, count: Int, shouldSave: Bool) {
-        let update = self.lastUpdateDefault(for: labelId, userId: userId)
-        update.unread = Int32(count)
-        
         let context: NSManagedObjectContext = self.mainContext
+        self.updateUnreadCount(for: labelId, userId: userId, count: count, context: context)
         
         if shouldSave {
-            let _ = context.saveUpstreamIfNeeded()
-        }
-        
-        // Set app badge
-        if labelId == MailboxSidebar.Item.allMail.id {
-            self.setAppBadge(count)
+            let error = context.saveUpstreamIfNeeded()
+            if error == nil {
+                // Set app badge
+                if labelId == MailboxSidebar.Item.allMail.id {
+                    self.setAppBadge(count)
+                }
+            }
         }
     }
     
@@ -96,14 +95,13 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         }
     }
     
+    //
+    // MARK: - Internal
+    //
+    
     func updateUnreadCount(for labelId: String, userId: String, count: Int, context: NSManagedObjectContext) {
         let update = self.lastUpdateDefault(for: labelId, userId: userId, context: context)
         update.unread = Int32(count)
-        
-        // Set app badge
-        if labelId == MailboxSidebar.Item.allMail.id {
-            self.setAppBadge(count)
-        }
     }
     
     func unreadCount(for labelId: String, userId: String, context: NSManagedObjectContext) -> Int {
@@ -126,10 +124,6 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         return LabelUpdate.newLabelUpdate(by: labelId, userID: userId, inManagedObjectContext: context)
     }
     
-    //
-    // MARK: - Internal
-    //
-    
     func updateCount(for labelId: String, userId: String, unread: Int, total: Int, shouldSave: Bool, context: NSManagedObjectContext) {
         let update: LabelUpdate = self.lastUpdateDefault(for: labelId, userId: userId, context: context)
         
@@ -137,12 +131,13 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         update.total = Int32(total)
         
         if shouldSave {
-            let _ = context.saveUpstreamIfNeeded()
-        }
-        
-        // Set app badge
-        if labelId == MailboxSidebar.Item.allMail.id {
-            self.setAppBadge(unread)
+            let error = context.saveUpstreamIfNeeded()
+            if error == nil {
+                // Set app badge
+                if labelId == MailboxSidebar.Item.allMail.id {
+                    self.setAppBadge(unread)
+                }
+            }
         }
     }
     

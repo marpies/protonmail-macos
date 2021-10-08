@@ -11,6 +11,37 @@ import AppKit
 
 enum MailboxSidebar {
     
+    enum Notifications {
+        struct ItemsBadgeUpdate: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("MailboxSidebar.itemsBadgeUpdate")
+            }
+            
+            var name: Notification.Name {
+                return ItemsBadgeUpdate.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["items": self.items]
+            }
+            
+            /// Item id to badge number.
+            let items: [String: Int]
+
+            init(items: [String: Int]) {
+                self.items = items
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == ItemsBadgeUpdate.name,
+                      let items = notification?.userInfo?["items"] as? [String: Int] else { return nil }
+                
+                self.items = items
+            }
+        }
+    }
+    
     enum Group {
         case inboxes, folders, labels
         

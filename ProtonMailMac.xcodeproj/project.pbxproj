@@ -90,6 +90,7 @@
 		C353424126F9035100EA0137 /* ConversationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353424026F9035100EA0137 /* ConversationAction.swift */; };
 		C35B579A270F3C0F005315B9 /* MailboxSidebarItemCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B5799270F3C0F005315B9 /* MailboxSidebarItemCellView.swift */; };
 		C35B579C270F3C9C005315B9 /* UnreadBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */; };
+		C35B579E27104B30005315B9 /* CoreDataService+UnreadCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B579D27104B30005315B9 /* CoreDataService+UnreadCounter.swift */; };
 		C35B57A127104D05005315B9 /* LabelToSidebarItemParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A027104D05005315B9 /* LabelToSidebarItemParsing.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
@@ -419,6 +420,7 @@
 		C353424026F9035100EA0137 /* ConversationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationAction.swift; sourceTree = "<group>"; };
 		C35B5799270F3C0F005315B9 /* MailboxSidebarItemCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSidebarItemCellView.swift; sourceTree = "<group>"; };
 		C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadgeView.swift; sourceTree = "<group>"; };
+		C35B579D27104B30005315B9 /* CoreDataService+UnreadCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+UnreadCounter.swift"; sourceTree = "<group>"; };
 		C35B57A027104D05005315B9 /* LabelToSidebarItemParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelToSidebarItemParsing.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
@@ -770,6 +772,7 @@
 				C3C8263926FF284000B4E95C /* CoreDataService+Attachments.swift */,
 				C3DACB3926E9258300927933 /* CoreDataService+UserEvents.swift */,
 				C3DACB5B26EA26C500927933 /* CoreDataService+LabelUpdate.swift */,
+				C35B579D27104B30005315B9 /* CoreDataService+UnreadCounter.swift */,
 				C31D034B26DB95DF002EBBE0 /* CoreDataStore.swift */,
 				C3DACB2A26E7814700927933 /* CoreDataValueTransformer.swift */,
 			);
@@ -1726,6 +1729,7 @@
 				C38ADA6E26F389C70055A1AE /* Conversation+Helpers.swift in Sources */,
 				C39A244426D2D8FB008A482C /* PasswordUtils.swift in Sources */,
 				C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */,
+				C35B579E27104B30005315B9 /* CoreDataService+UnreadCounter.swift in Sources */,
 				C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */,
 				C39A241826D2D8D9008A482C /* MessageDetailResponse.swift in Sources */,
 				C31D02F726D945D7002EBBE0 /* MailboxAssembly.swift in Sources */,

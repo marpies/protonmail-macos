@@ -272,14 +272,9 @@ extension CoreDataService: UserEventsDatabaseProcessing {
             
             if let error = ctx.saveUpstreamIfNeeded() {
                 PMLog.D(error.localizedDescription)
+            } else {
+                self.notifyUnreadCountersUpdate(userId: userId)
             }
-            
-            let unreadCount: Int = self.unreadCount(for: MailboxSidebar.Item.allMail.id, userId: userId)
-            var badgeNumber = unreadCount
-            if  badgeNumber < 0 {
-                badgeNumber = 0
-            }
-            self.setAppBadge(badgeNumber)
         }
     }
     

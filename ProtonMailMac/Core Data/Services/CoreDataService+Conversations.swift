@@ -176,6 +176,8 @@ extension CoreDataService: ConversationsDatabaseManaging {
                 PMLog.D(" error: \(error)")
             } else {
                 updatedConversations = conversations
+                
+                self.notifyUnreadCountersUpdate(userId: userId)
             }
         }
         
@@ -192,7 +194,7 @@ extension CoreDataService: ConversationsDatabaseManaging {
                 var numUnread: Int = 0
                 
                 // Update status on all messages in the conversation
-                if let messages = self.getMessagesForConversationId(conversation.conversationID, context: ctx), !messages.isEmpty {
+                if let messages = conversation.messages as? Set<Message> {
                     for message in messages {
                         if message.unRead != unread {
                             message.unRead = unread
@@ -219,6 +221,8 @@ extension CoreDataService: ConversationsDatabaseManaging {
                 PMLog.D(" error: \(error)")
             } else {
                 updatedConversations = conversations
+                
+                self.notifyUnreadCountersUpdate(userId: userId)
             }
         }
         

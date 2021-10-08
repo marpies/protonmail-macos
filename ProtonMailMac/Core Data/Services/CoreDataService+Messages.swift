@@ -183,6 +183,8 @@ extension CoreDataService: MessagesDatabaseManaging {
                 PMLog.D(" error: \(error)")
             } else {
                 updatedMessages = messages
+                
+                self.notifyUnreadCountersUpdate(userId: userId)
             }
         }
         
@@ -200,6 +202,14 @@ extension CoreDataService: MessagesDatabaseManaging {
                 
                 message.unRead = unread
                 
+                // Update number of unread message on the message's conversation
+                let offset: Int = unread ? 1 : -1
+                var numUnread: Int = message.conversation.numUnread.intValue + offset
+                if numUnread < 0 {
+                    numUnread = 0
+                }
+                message.conversation.numUnread = NSNumber(integerLiteral: numUnread)
+                
                 self.updateCounter(markUnRead: unread, on: message, userId: userId, context: ctx)
                 
                 // Track only messages that have their status changed
@@ -209,6 +219,9 @@ extension CoreDataService: MessagesDatabaseManaging {
             
             if let error = ctx.saveUpstreamIfNeeded() {
                 PMLog.D(error.localizedDescription)
+                updatedMessages = nil
+            } else {
+                self.notifyUnreadCountersUpdate(userId: userId)
             }
         }
         
@@ -236,11 +249,11 @@ extension CoreDataService: MessagesDatabaseManaging {
     func updateLabel(forMessage message: Message, labelId: String, userId: String, apply: Bool) {
         if apply {
             if message.add(labelID: labelId) != nil && message.unRead {
-                self.updateCounterSync(plus: true, with: labelId, userId: userId, shouldSave: false)
+                self.updateCounterSync(message: message, plus: true, with: labelId, userId: userId, shouldSave: false)
             }
         } else {
             if message.remove(labelID: labelId) != nil && message.unRead {
-                self.updateCounterSync(plus: false, with: labelId, userId: userId, shouldSave: false)
+                self.updateCounterSync(message: message, plus: false, with: labelId, userId: userId, shouldSave: false)
             }
         }
     }
@@ -275,16 +288,28 @@ extension CoreDataService: MessagesDatabaseManaging {
     //
     
     func updateCounter(markUnRead: Bool, on message: Message, userId: String, context: NSManagedObjectContext) {
-        let offset = markUnRead ? 1 : -1
+        let offset: Int = markUnRead ? 1 : -1
         let labelIDs: [String] = message.getLabelIDs()
+        let conversation: Conversation = message.conversation
         
-        for lID in labelIDs {
-            let unreadCount: Int = self.unreadCount(for: lID, userId: userId, context: context)
+        guard let messages = conversation.messages as? Set<Message> else { return }
+        
+        for labelID in labelIDs {
+            // Get number of other unread messages in this conversation with this label
+            let hasOtherUnread: Bool = !messages.filter( { $0.messageID != message.messageID && $0.unRead && $0.contains(label: labelID) }).isEmpty
+            
+            // If there are still other unread messages in this conversation
+            // then the unread counter for this label does not change
+            if hasOtherUnread {
+                continue
+            }
+            
+            let unreadCount: Int = self.unreadCount(for: labelID, userId: userId, context: context)
             var count = unreadCount + offset
             if count < 0 {
                 count = 0
             }
-            self.updateUnreadCount(for: lID, userId: userId, count: count, context: context)
+            self.updateUnreadCount(for: labelID, userId: userId, count: count, context: context)
         }
     }
     
@@ -308,14 +333,26 @@ extension CoreDataService: MessagesDatabaseManaging {
     // MARK: - Private
     //
     
-    private func updateCounterSync(plus: Bool, with labelID: String, userId: String, shouldSave: Bool) {
-        let offset = plus ? 1 : -1
+    private func updateCounterSync(message: Message, plus: Bool, with labelID: String, userId: String, shouldSave: Bool) {
+        let conversation: Conversation = message.conversation
+        
+        guard let messages = conversation.messages as? Set<Message> else { return }
+        
+        // Get number of other unread messages in this conversation with this label
+        let hasOtherUnread: Bool = !messages.filter( { $0.messageID != message.messageID && $0.unRead && $0.contains(label: labelID) }).isEmpty
+        
+        // If there are still other unread messages in this conversation
+        // then the unread counter for this label does not change
+        if hasOtherUnread {
+            return
+        }
+        
+        let offset: Int = plus ? 1 : -1
         let unreadCount: Int = self.unreadCount(for: labelID, userId: userId)
         var count = unreadCount + offset
         if count < 0 {
             count = 0
         }
-        
         self.updateUnreadCount(for: labelID, userId: userId, count: count, shouldSave: shouldSave)
     }
     
