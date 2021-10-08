@@ -52,4 +52,8 @@ class MailboxSidebarInteractor: MailboxSidebarBusinessLogic, MailboxSidebarDataS
         self.presenter?.presentSidebarRefresh(response: response)
     }
     
+    func mailboxSidebarItemsBadgeDidUpdate(response: MailboxSidebar.ItemsBadgeUpdate.Response) {
+        self.presenter?.presentItemsBadgeUpdate(response: response)
+    }
+    
 }

@@ -11,6 +11,7 @@ import AppKit
 protocol MailboxSidebarPresentationLogic {
 	func presentData(response: MailboxSidebar.Init.Response)
     func presentSidebarRefresh(response: MailboxSidebar.RefreshGroups.Response)
+    func presentItemsBadgeUpdate(response: MailboxSidebar.ItemsBadgeUpdate.Response)
 }
 
 class MailboxSidebarPresenter: MailboxSidebarPresentationLogic {
@@ -34,6 +35,20 @@ class MailboxSidebarPresenter: MailboxSidebarPresentationLogic {
         let groups: [MailboxSidebar.Group.ViewModel] = response.groups.map { self.getGroup(response: $0) }
         let viewModel = MailboxSidebar.RefreshGroups.ViewModel(groups: groups, selectedRow: response.selectedRow)
         self.viewController?.displayGroupsRefresh(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present items badge update
+    //
+    
+    func presentItemsBadgeUpdate(response: MailboxSidebar.ItemsBadgeUpdate.Response) {
+        var items: [String: String] = [:]
+        for item in response.items {
+            items[item.key] = String(item.value)
+        }
+        
+        let viewModel = MailboxSidebar.ItemsBadgeUpdate.ViewModel(items: items)
+        self.viewController?.displayItemsBadgeUpdate(viewModel: viewModel)
     }
     
     //

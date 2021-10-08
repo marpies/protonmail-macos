@@ -11,6 +11,7 @@ import AppKit
 protocol MailboxSidebarDisplayLogic: AnyObject {
 	func displayData(viewModel: MailboxSidebar.Init.ViewModel)
     func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel)
+    func displayItemsBadgeUpdate(viewModel: MailboxSidebar.ItemsBadgeUpdate.ViewModel)
 }
 
 protocol MailboxSidebarViewControllerDelegate: AnyObject {
@@ -60,6 +61,14 @@ class MailboxSidebarViewController: NSViewController, MailboxSidebarDisplayLogic
     
     func displayGroupsRefresh(viewModel: MailboxSidebar.RefreshGroups.ViewModel) {
         self.mainView.displayGroupsRefresh(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Items badge update
+    //
+    
+    func displayItemsBadgeUpdate(viewModel: MailboxSidebar.ItemsBadgeUpdate.ViewModel) {
+        self.mainView.displayItemsBadgeUpdate(viewModel: viewModel)
     }
     
     //

@@ -86,6 +86,10 @@ class MailboxSidebarView: NSView {
         self.selectRow(viewModel.selectedRow)
     }
     
+    func displayItemsBadgeUpdate(viewModel: MailboxSidebar.ItemsBadgeUpdate.ViewModel) {
+        self.dataSource.updateBadges(viewModel: viewModel)
+    }
+    
     //
     // MARK: - Private
     //

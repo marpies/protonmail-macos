@@ -155,7 +155,7 @@ enum MailboxSidebar {
             let icon: String
             let children: [MailboxSidebar.Item.ViewModel]?
             let color: NSColor?
-            let badge: String?
+            var badge: String?
 
             init(id: String, title: String, icon: String, children: [MailboxSidebar.Item.ViewModel]?, color: NSColor?, badge: String?) {
                 self.id = id
@@ -210,6 +210,20 @@ enum MailboxSidebar {
     enum ItemSelected {
         struct Request {
             let id: String
+        }
+    }
+    
+    //
+    // MARK: - Items badge update
+    //
+    
+    enum ItemsBadgeUpdate {
+        struct Response {
+            let items: [String: Int]
+        }
+        
+        struct ViewModel {
+            let items: [String: String]
         }
     }
     

@@ -13,6 +13,7 @@ import AppKit
 protocol MailboxSidebarWorkerDelegate: AnyObject {
     func mailboxSidebarDidLoad(response: MailboxSidebar.Init.Response)
     func mailboxSidebarDidRefresh(response: MailboxSidebar.RefreshGroups.Response)
+    func mailboxSidebarItemsBadgeDidUpdate(response: MailboxSidebar.ItemsBadgeUpdate.Response)
 }
 
 class MailboxSidebarWorker: LabelToSidebarItemParsing {
@@ -23,6 +24,7 @@ class MailboxSidebarWorker: LabelToSidebarItemParsing {
     private let db: LabelsDatabaseManaging
     
     private var labelId: String?
+    private var itemsBadgeObserver: NSObjectProtocol?
     
 	weak var delegate: MailboxSidebarWorkerDelegate?
 
@@ -31,6 +33,8 @@ class MailboxSidebarWorker: LabelToSidebarItemParsing {
         self.usersManager = resolver.resolve(UsersManager.self)!
         self.keyValueStore = resolver.resolve(KeyValueStore.self)!
         self.db = self.resolver.resolve(LabelsDatabaseManaging.self)!
+        
+        self.addObservers()
     }
 
 	func loadData(request: MailboxSidebar.Init.Request) {
@@ -256,6 +260,15 @@ class MailboxSidebarWorker: LabelToSidebarItemParsing {
         let numUnread: Int = db.unreadCount(for: response.labelID, userId: userId)
         
         return MailboxSidebar.Item.Response(kind: kind, color: color, numUnread: numUnread)
+    }
+    
+    private func addObservers() {
+        self.itemsBadgeObserver = NotificationCenter.default.addObserver(forType: MailboxSidebar.Notifications.ItemsBadgeUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let weakSelf = self, let items = notification?.items else { return }
+            
+            let response = MailboxSidebar.ItemsBadgeUpdate.Response(items: items)
+            weakSelf.delegate?.mailboxSidebarItemsBadgeDidUpdate(response: response)
+        })
     }
 
 }

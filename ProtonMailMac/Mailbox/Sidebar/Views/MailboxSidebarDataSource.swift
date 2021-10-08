@@ -45,6 +45,28 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         }
     }
     
+    func updateBadges(viewModel: MailboxSidebar.ItemsBadgeUpdate.ViewModel) {
+        var changed: [MailboxSidebar.Item.ViewModel] = []
+        
+        for group in self.viewModel {
+            for item in group.labels {
+                let newBadge: String? = viewModel.items[item.id]
+                let didChange: Bool = newBadge != item.badge
+                item.badge = newBadge
+                
+                if didChange {
+                    changed.append(item)
+                }
+            }
+        }
+        
+        if !changed.isEmpty {
+            changed.forEach {
+                self.tableView.reloadItem($0, reloadChildren: false)
+            }
+        }
+    }
+    
     //
     // MARK: - Outline view delegate / data source
     //
