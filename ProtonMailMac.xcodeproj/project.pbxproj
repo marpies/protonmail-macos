@@ -92,6 +92,8 @@
 		C35B579C270F3C9C005315B9 /* UnreadBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */; };
 		C35B579E27104B30005315B9 /* CoreDataService+UnreadCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B579D27104B30005315B9 /* CoreDataService+UnreadCounter.swift */; };
 		C35B57A127104D05005315B9 /* LabelToSidebarItemParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A027104D05005315B9 /* LabelToSidebarItemParsing.swift */; };
+		C35B57A32711911D005315B9 /* ConversationsCountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A22711911D005315B9 /* ConversationsCountRequest.swift */; };
+		C35B57A527119188005315B9 /* ConversationsCountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A427119188005315B9 /* ConversationsCountResponse.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
 		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
@@ -422,6 +424,8 @@
 		C35B579B270F3C9C005315B9 /* UnreadBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadgeView.swift; sourceTree = "<group>"; };
 		C35B579D27104B30005315B9 /* CoreDataService+UnreadCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+UnreadCounter.swift"; sourceTree = "<group>"; };
 		C35B57A027104D05005315B9 /* LabelToSidebarItemParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelToSidebarItemParsing.swift; sourceTree = "<group>"; };
+		C35B57A22711911D005315B9 /* ConversationsCountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCountRequest.swift; sourceTree = "<group>"; };
+		C35B57A427119188005315B9 /* ConversationsCountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCountResponse.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
 		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
@@ -1138,6 +1142,7 @@
 				C3DACB4226E942EB00927933 /* EventCheckResponse.swift */,
 				C3DACB4626E943B000927933 /* EventLatestIDResponse.swift */,
 				C353421F26F4AF1700EA0137 /* ConversationByIdResponse.swift */,
+				C35B57A427119188005315B9 /* ConversationsCountResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1187,6 +1192,7 @@
 				C3C825FE26FA619F00B4E95C /* RemoveLabelFromConversationsRequest.swift */,
 				C3C8260026FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift */,
 				C3C8263726FF23AC00B4E95C /* DownloadAttachmentRequest.swift */,
+				C35B57A22711911D005315B9 /* ConversationsCountRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1775,10 +1781,12 @@
 				C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */,
 				C31D034226DB8AA0002EBBE0 /* PGPType.swift in Sources */,
 				C3F20A0D26D42A800051EFEB /* AuthRefreshResponse.swift in Sources */,
+				C35B57A32711911D005315B9 /* ConversationsCountRequest.swift in Sources */,
 				C31D033726DA9A85002EBBE0 /* Message.swift in Sources */,
 				C3F20A3226D53A5B0051EFEB /* NSSize+Extensions.swift in Sources */,
 				C31D027326D76506002EBBE0 /* SignInAssembly.swift in Sources */,
 				C3C6FD4326F09AD10066C504 /* ImageButton.swift in Sources */,
+				C35B57A527119188005315B9 /* ConversationsCountResponse.swift in Sources */,
 				C31D032326DA9A85002EBBE0 /* Email.swift in Sources */,
 				C3A6590026E686D300CFE2F9 /* AuthCredentialRefreshing.swift in Sources */,
 				C3C6FD5D26F36EF10066C504 /* ConversationsInteractor.swift in Sources */,
