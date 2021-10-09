@@ -10,6 +10,7 @@ import AppKit
 
 protocol MailboxDisplayLogic: AnyObject {
 	func displayData(viewModel: Mailbox.Init.ViewModel)
+    func displayTitle(viewModel: Mailbox.LoadTitle.ViewModel)
 }
 
 class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, ConversationsViewControllerDelegate {
@@ -79,11 +80,22 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
 	}
     
     //
+    // MARK: - Display title
+    //
+    
+    func displayTitle(viewModel: Mailbox.LoadTitle.ViewModel) {
+        self.toolbarDelegate?.toolbarTitleDidUpdate(title: viewModel.title, subtitle: viewModel.subtitle)
+    }
+    
+    //
     // MARK: - Sidebar delegate
     //
     
     func mailboxSidebarDidSelectLabel(id: String) {
         self.conversationsViewController?.loadConversations(labelId: id)
+        
+        let request = Mailbox.LoadTitle.Request(labelId: id)
+        self.interactor?.loadTitle(request: request)
     }
     
     //

@@ -26,4 +26,24 @@ enum Mailbox {
 		}
 	}
     
+    //
+    // MARK: - Load title
+    //
+    
+    enum LoadTitle {
+        struct Request {
+            let labelId: String
+        }
+        
+        struct Response {
+            let item: MailboxSidebar.Item
+            let numItems: Int
+        }
+        
+        struct ViewModel {
+            let title: String
+            let subtitle: String?
+        }
+    }
+    
 }

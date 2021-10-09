@@ -10,6 +10,7 @@ import Foundation
 
 protocol MailboxBusinessLogic {
 	func loadData(request: Mailbox.Init.Request)
+    func loadTitle(request: Mailbox.LoadTitle.Request)
 }
 
 protocol MailboxDataStore {
@@ -32,11 +33,23 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
 	}
     
     //
+    // MARK: - Load title
+    //
+    
+    func loadTitle(request: Mailbox.LoadTitle.Request) {
+        self.worker?.loadTitle(request: request)
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
     func mailboxDidLoad(response: Mailbox.Init.Response) {
         self.presenter?.presentData(response: response)
+    }
+    
+    func mailboxTitleDidLoad(response: Mailbox.LoadTitle.Response) {
+        self.presenter?.presentTitle(response: response)
     }
     
 }
