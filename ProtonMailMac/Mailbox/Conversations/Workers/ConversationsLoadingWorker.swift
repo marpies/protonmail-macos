@@ -266,8 +266,9 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         self.conversations = models
         
         if let oldConversations = oldConversationsOpt {
-            let response = self.getConversationsDiff(oldConversations: oldConversations, newConversations: models, updatedConversationIds: updatedConversationIds)
-            self.delegate?.conversationsDidUpdate(response: response)
+            if let response = self.getConversationsDiff(oldConversations: oldConversations, newConversations: models, updatedConversationIds: updatedConversationIds) {
+                self.delegate?.conversationsDidUpdate(response: response)
+            }
         } else {
             self.delegate?.conversationsDidLoad(models)
         }

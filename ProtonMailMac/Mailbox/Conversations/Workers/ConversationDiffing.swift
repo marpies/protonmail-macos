@@ -9,12 +9,12 @@
 import Foundation
 
 protocol ConversationDiffing {
-    func getConversationsDiff(oldConversations: [Conversations.Conversation.Response], newConversations: [Conversations.Conversation.Response], updatedConversationIds: Set<String>?) -> Conversations.UpdateConversations.Response
+    func getConversationsDiff(oldConversations: [Conversations.Conversation.Response], newConversations: [Conversations.Conversation.Response], updatedConversationIds: Set<String>?) -> Conversations.UpdateConversations.Response?
 }
 
 extension ConversationDiffing {
     
-    func getConversationsDiff(oldConversations: [Conversations.Conversation.Response], newConversations: [Conversations.Conversation.Response], updatedConversationIds: Set<String>?) -> Conversations.UpdateConversations.Response {
+    func getConversationsDiff(oldConversations: [Conversations.Conversation.Response], newConversations: [Conversations.Conversation.Response], updatedConversationIds: Set<String>?) -> Conversations.UpdateConversations.Response? {
         var removeSet: IndexSet?
         var insertSet: IndexSet?
         var updateSet: IndexSet?
@@ -52,6 +52,10 @@ extension ConversationDiffing {
                 self.removeIndices(from: &updateSet!, in: removeSet)
                 self.removeIndices(from: &updateSet!, in: insertSet)
             }
+        }
+        
+        if updateSet == nil && insertSet == nil && removeSet == nil {
+            return nil
         }
         
         return Conversations.UpdateConversations.Response(conversations: newConversations, removeSet: removeSet, insertSet: insertSet, updateSet: updateSet)
