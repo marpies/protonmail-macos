@@ -17,5 +17,6 @@ protocol LabelUpdateDatabaseManaging {
     func unreadCount(for labelId : String, userId: String) -> Promise<Int>
     func unreadCount(for labelId : String, userId: String) -> Int
     func updateCount(for labelId: String, userId: String, unread: Int, total: Int, shouldSave: Bool)
+    func updateCounts(userId: String, counts: [ConversationsCountResponse.ConversationCount])
     func updateUnreadCount(for labelId : String, userId: String, count: Int, shouldSave: Bool)
 }

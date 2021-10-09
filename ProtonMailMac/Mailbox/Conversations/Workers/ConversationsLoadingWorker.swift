@@ -241,14 +241,16 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         self.apiService?.request(request) { [weak self] (_, responseDict, error) in
             guard let weakSelf = self else { return }
             
-            if var messagesArray = responseDict?["Conversations"] as? [[String : Any]] {
-                // Add user id to every message
-                for (index, _) in messagesArray.enumerated() {
-                    messagesArray[index]["UserID"] = weakSelf.userId
+            if var conversationsArray = responseDict?["Conversations"] as? [[String : Any]] {
+                // Add user id to every conversation
+                for (index, _) in conversationsArray.enumerated() {
+                    conversationsArray[index]["UserID"] = weakSelf.userId
                 }
                 
+                weakSelf.loadConversationsCounts()
+                
                 let db: ConversationsDatabaseManaging = weakSelf.resolver.resolve(ConversationsDatabaseManaging.self)!
-                db.saveConversations(messagesArray, forUser: weakSelf.userId) {
+                db.saveConversations(conversationsArray, forUser: weakSelf.userId) {
                     weakSelf.loadCachedConversations { messages in
                         completion(messages, nil)
                     }
@@ -285,6 +287,21 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         
         let response = Conversations.LoadError.Response(error: error)
         self.delegate?.conversationsLoadDidFail(response: response)
+    }
+    
+    //
+    // MARK: - Conversations count
+    //
+    
+    private func loadConversationsCounts() {
+        let request: ConversationsCountRequest = ConversationsCountRequest()
+        
+        self.apiService?.request(request, completion: { (response: ConversationsCountResponse) in
+            guard let counts = response.conversationCounts else { return }
+            
+            let db: LabelUpdateDatabaseManaging = self.resolver.resolve(LabelUpdateDatabaseManaging.self)!
+            db.updateCounts(userId: self.userId, counts: counts)
+        })
     }
     
     //

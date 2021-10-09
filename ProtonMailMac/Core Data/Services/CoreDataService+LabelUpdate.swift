@@ -95,6 +95,18 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         }
     }
     
+    func updateCounts(userId: String, counts: [ConversationsCountResponse.ConversationCount]) {
+        self.enqueue(context: self.backgroundContext) { context in
+            for count in counts {
+                self.updateCount(for: count.labelId, userId: userId, unread: count.unread, total: count.total, shouldSave: false, context: context)
+                
+                let _ = context.saveUpstreamIfNeeded()
+            }
+            
+            self.notifyUnreadCountersUpdate(userId: userId, context: context)
+        }
+    }
+    
     //
     // MARK: - Internal
     //
