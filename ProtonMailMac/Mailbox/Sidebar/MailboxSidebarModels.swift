@@ -22,22 +22,26 @@ enum MailboxSidebar {
             }
             
             var userInfo: [AnyHashable : Any]? {
-                return ["items": self.items]
+                return ["items": self.items, "userId": self.userId]
             }
             
             /// Item id to badge number.
             let items: [String: Int]
+            let userId: String
 
-            init(items: [String: Int]) {
+            init(items: [String: Int], userId: String) {
                 self.items = items
+                self.userId = userId
             }
             
             init?(notification: Notification?) {
                 guard let name = notification?.name,
                       name == ItemsBadgeUpdate.name,
+                      let userId = notification?.userInfo?["userId"] as? String,
                       let items = notification?.userInfo?["items"] as? [String: Int] else { return nil }
                 
                 self.items = items
+                self.userId = userId
             }
         }
     }

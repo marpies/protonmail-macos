@@ -24,7 +24,7 @@ extension CoreDataService {
                 }
             }
             
-            let notification: MailboxSidebar.Notifications.ItemsBadgeUpdate = MailboxSidebar.Notifications.ItemsBadgeUpdate(items: items)
+            let notification: MailboxSidebar.Notifications.ItemsBadgeUpdate = MailboxSidebar.Notifications.ItemsBadgeUpdate(items: items, userId: userId)
             notification.post()
             
             // Update badge
