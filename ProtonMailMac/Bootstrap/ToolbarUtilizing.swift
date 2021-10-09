@@ -10,6 +10,7 @@ import Foundation
 import AppKit
 
 protocol ToolbarUtilizingDelegate: AnyObject {
+    func toolbarTitleDidUpdate(title: String, subtitle: String?)
     func toolbarItemsDidUpdate(identifiers: [NSToolbarItem.Identifier], items: [NSToolbarItem])
 }
 

@@ -14,6 +14,8 @@ class AppToolbarDelegate: NSObject, NSToolbarDelegate, ToolbarUtilizingDelegate 
     private var toolbarItems: [NSToolbarItem]?
     private var itemIdentifiers: [NSToolbarItem.Identifier]?
     
+    var window: NSWindow?
+    
     let toolbar: NSToolbar
     
     init(toolbar: NSToolbar) {
@@ -27,6 +29,14 @@ class AppToolbarDelegate: NSObject, NSToolbarDelegate, ToolbarUtilizingDelegate 
     //
     // MARK: - Toolbar utilizing delegate
     //
+    
+    func toolbarTitleDidUpdate(title: String, subtitle: String?) {
+        self.window?.title = title
+        
+        if #available(macOS 11.0, *), let subtitle = subtitle {
+            self.window?.subtitle = subtitle
+        }
+    }
     
     func toolbarItemsDidUpdate(identifiers: [NSToolbarItem.Identifier], items: [NSToolbarItem]) {
         // Remove existing items
