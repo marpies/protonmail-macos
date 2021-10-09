@@ -22,5 +22,45 @@
             <string>%u přílohy</string>
         </dict>
     </dict>
+    <key>num_conversations</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@num_conversations@</string>
+        <key>num_conversations</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>u</string>
+            <key>zero</key>
+            <string>%u konverzací</string>
+            <key>one</key>
+            <string>%u konverzace</string>
+            <key>other</key>
+            <string>%u konverzací</string>
+            <key>few</key>
+            <string>%u konverzace</string>
+        </dict>
+    </dict>
+    <key>num_messages</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@num_messages@</string>
+        <key>num_messages</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>u</string>
+            <key>zero</key>
+            <string>%u zpráv</string>
+            <key>one</key>
+            <string>%u zpráva</string>
+            <key>other</key>
+            <string>%u zpráv</string>
+            <key>few</key>
+            <string>%u zprávy</string>
+        </dict>
+    </dict>
 </dict>
 </plist>
