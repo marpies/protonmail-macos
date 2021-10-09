@@ -21,6 +21,7 @@ class MessageDetailsHeaderView: NSButton {
     private let foldersView: MessageFoldersView = MessageFoldersView()
     private let favoriteButton: ImageButton = ImageButton()
     
+    private var labelsView: MessageLabelsView?
     private var draftLabelView: MessageLabelView?
     private var repliedIcon: IconView?
     private var unreadIndicationView: CircleView?
@@ -63,6 +64,12 @@ class MessageDetailsHeaderView: NSButton {
             self.addRepliedIcon(viewModel: icon)
         } else {
             self.removeRepliedIcon()
+        }
+        
+        if let labels = viewModel.labels {
+            self.addLabelsView(viewModel: labels)
+        } else {
+            self.removeLabelsView()
         }
         
         self.updateFavoriteButton(viewModel: viewModel.starIcon)
@@ -170,6 +177,25 @@ class MessageDetailsHeaderView: NSButton {
         guard let view = self.draftLabelView else { return }
         
         self.draftLabelView = nil
+        view.removeFromSuperview()
+    }
+    
+    private func addLabelsView(viewModel: [Messages.Label.ViewModel]) {
+        if self.labelsView == nil {
+            guard let index = self.titleStackView.arrangedSubviews.firstIndex(of: self.foldersView) else { return }
+            
+            self.labelsView = MessageLabelsView().with { view in
+                self.titleStackView.insertArrangedSubview(view, at: index)
+            }
+        }
+        
+        self.labelsView?.update(viewModel: viewModel)
+    }
+    
+    private func removeLabelsView() {
+        guard let view = self.labelsView else { return }
+        
+        self.labelsView = nil
         view.removeFromSuperview()
     }
     
