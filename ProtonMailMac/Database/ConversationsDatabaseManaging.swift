@@ -12,7 +12,7 @@ import PromiseKit
 protocol ConversationsDatabaseManaging {
     func saveConversations(_ json: [[String: Any]], forUser userId: String, completion: @escaping () -> Void)
     func loadConversation(id: String) -> Conversation?
-    func fetchConversations(forUser userId: String, labelId: String, completion: @escaping ([Conversation]) -> Void)
+    func fetchConversations(forUser userId: String, labelId: String, converter: ConversationToModelConverting, completion: @escaping ([Conversations.Conversation.Response]) -> Void)
     func cleanConversations(forUser userId: String, removeDrafts: Bool) -> Promise<Void>
     func deleteConversation(id: String)
     func deleteConversations(ids: [String])

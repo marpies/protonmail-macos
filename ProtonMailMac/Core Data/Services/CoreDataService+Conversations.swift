@@ -47,7 +47,7 @@ extension CoreDataService: ConversationsDatabaseManaging {
         return conversation
     }
     
-    func fetchConversations(forUser userId: String, labelId: String, completion: @escaping ([Conversation]) -> Void) {
+    func fetchConversations(forUser userId: String, labelId: String, converter: ConversationToModelConverting, completion: @escaping ([Conversations.Conversation.Response]) -> Void) {
         self.backgroundContext.performWith { ctx in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: Conversation.Attributes.entityName)
             request.predicate = self.getPredicate(forUser: userId, labelId: labelId)
@@ -56,8 +56,9 @@ extension CoreDataService: ConversationsDatabaseManaging {
             
             do {
                 if let conversations = try ctx.fetch(request) as? [Conversation] {
+                    let models: [Conversations.Conversation.Response] = conversations.map { converter.getConversation($0) }
                     DispatchQueue.main.async {
-                        completion(conversations)
+                        completion(models)
                     }
                     return
                 }

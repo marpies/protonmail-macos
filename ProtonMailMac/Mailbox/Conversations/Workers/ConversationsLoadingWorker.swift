@@ -89,13 +89,11 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         
         // Load local cache
         self.loadCachedConversations { conversations in
-            let models: [Conversations.Conversation.Response] = conversations.map { self.getConversation($0) }
-            
             if !conversations.isEmpty {
-                self.conversations = conversations.map { self.getConversation($0) }
+                self.conversations = conversations
             }
             
-            self.delegate?.cachedConversationsDidLoad(models)
+            self.delegate?.cachedConversationsDidLoad(conversations)
             
             let userEventsDb: UserEventsDatabaseManaging = self.resolver.resolve(UserEventsDatabaseManaging.self)!
             let eventId: String = userEventsDb.getLastEventId(forUser: self.userId)
@@ -203,10 +201,10 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         }
     }
     
-    private func loadCachedConversations(completion: @escaping ([Conversation]) -> Void) {
+    private func loadCachedConversations(completion: @escaping ([Conversations.Conversation.Response]) -> Void) {
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         
-        db.fetchConversations(forUser: self.userId, labelId: self.labelId) { conversations in
+        db.fetchConversations(forUser: self.userId, labelId: self.labelId, converter: self) { conversations in
             completion(conversations)
         }
     }
@@ -217,14 +215,14 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
             let labelUpdateDb: LabelUpdateDatabaseManaging = self.resolver.resolve(LabelUpdateDatabaseManaging.self)!
             labelUpdateDb.removeUpdateTime(forUser: self.userId)
             
-            self.loadConversations() { [weak self] (conversations, error) in
+            self.loadConversations { [weak self] (conversations, error) in
                 guard let weakSelf = self else { return }
                 
                 let userEventsDb: UserEventsDatabaseManaging = weakSelf.resolver.resolve(UserEventsDatabaseManaging.self)!
                 userEventsDb.updateEventId(forUser: weakSelf.userId, eventId: eventId, completion: nil)
                 
-                if let models = conversations?.map({ weakSelf.getConversation($0) }) {
-                    weakSelf.dispatchConversations(models, updatedConversationIds: nil)
+                if let conversations = conversations {
+                    weakSelf.dispatchConversations(conversations, updatedConversationIds: nil)
                 } else {
                     PMLog.D("ERROR LOADING Conversations... \(String(describing: error))")
                     weakSelf.setRefreshTimer()
@@ -234,7 +232,7 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         }.cauterize()
     }
     
-    private func loadConversations(completion: @escaping ([Conversation]?, NSError?) -> Void) {
+    private func loadConversations(completion: @escaping ([Conversations.Conversation.Response]?, NSError?) -> Void) {
         // Fetch conversations from the server
         let request = ConversationsRequest(labelID: self.labelId)
         
@@ -261,11 +259,6 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
                 }
             }
         }
-    }
-    
-    private func dispatchConversations(_ conversations: [Conversation], updatedConversationIds: Set<String>?) {
-        let models: [Conversations.Conversation.Response] = conversations.map { self.getConversation($0) }
-        self.dispatchConversations(models, updatedConversationIds: updatedConversationIds)
     }
     
     private func dispatchConversations(_ models: [Conversations.Conversation.Response], updatedConversationIds: Set<String>?) {
