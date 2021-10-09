@@ -84,6 +84,22 @@ extension CoreDataService: LabelsDatabaseManaging {
         }
     }
     
+    func getLabel(byId id: String) -> Label? {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Label")
+        request.predicate = NSPredicate(format: "%K == %@", Label.Attributes.labelID, id)
+        request.fetchLimit = 1
+        
+        do {
+            if let labels = try self.mainContext.fetch(request) as? [Label] {
+                return labels.first
+            }
+        } catch {
+            PMLog.D("Error fetching label \(error)")
+        }
+        
+        return nil
+    }
+    
     //
     // MARK: - Private
     //

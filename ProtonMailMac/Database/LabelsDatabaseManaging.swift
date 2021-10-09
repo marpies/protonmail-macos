@@ -21,4 +21,5 @@ protocol LabelsDatabaseManaging {
     func saveLabels(_ json: [[String: Any]], forUser userId: String, completion: @escaping ([Label]) -> Void)
     func fetchLabels(ofType type: LabelFetchType, forUser userId: String, completion: @escaping ([Label]) -> Void)
     func deleteLabelsById(_ ids: Set<String>, completion: (() -> Void)?)
+    func getLabel(byId id: String) -> Label?
 }
