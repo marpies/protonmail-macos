@@ -184,7 +184,7 @@ extension CoreDataService: MessagesDatabaseManaging {
             } else {
                 updatedMessages = messages
                 
-                self.notifyUnreadCountersUpdate(userId: userId)
+                self.notifyConversationCountsUpdate(userId: userId)
             }
         }
         
@@ -221,7 +221,7 @@ extension CoreDataService: MessagesDatabaseManaging {
                 PMLog.D(error.localizedDescription)
                 updatedMessages = nil
             } else {
-                self.notifyUnreadCountersUpdate(userId: userId)
+                self.notifyConversationCountsUpdate(userId: userId)
             }
         }
         

@@ -178,7 +178,7 @@ extension CoreDataService: ConversationsDatabaseManaging {
             } else {
                 updatedConversations = conversations
                 
-                self.notifyUnreadCountersUpdate(userId: userId)
+                self.notifyConversationCountsUpdate(userId: userId)
             }
         }
         
@@ -223,7 +223,7 @@ extension CoreDataService: ConversationsDatabaseManaging {
             } else {
                 updatedConversations = conversations
                 
-                self.notifyUnreadCountersUpdate(userId: userId)
+                self.notifyConversationCountsUpdate(userId: userId)
             }
         }
         

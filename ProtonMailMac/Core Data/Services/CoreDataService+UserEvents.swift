@@ -273,7 +273,7 @@ extension CoreDataService: UserEventsDatabaseProcessing {
             if let error = ctx.saveUpstreamIfNeeded() {
                 PMLog.D(error.localizedDescription)
             } else {
-                self.notifyUnreadCountersUpdate(userId: userId)
+                self.notifyConversationCountsUpdate(userId: userId)
             }
         }
     }

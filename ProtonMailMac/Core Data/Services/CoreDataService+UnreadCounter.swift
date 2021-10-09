@@ -11,25 +11,29 @@ import CoreData
 
 extension CoreDataService {
     
-    func notifyUnreadCountersUpdate(userId: String) {
+    func notifyConversationCountsUpdate(userId: String) {
         self.backgroundContext.performWith { ctx in
-            self.notifyUnreadCountersUpdate(userId: userId, context: ctx)
+            self.notifyConversationCountsUpdate(userId: userId, context: ctx)
         }
     }
     
-    func notifyUnreadCountersUpdate(userId: String, context: NSManagedObjectContext) {
-        // Label id to badge number
-        var items: [String: Int] = [:]
+    func notifyConversationCountsUpdate(userId: String, context: NSManagedObjectContext) {
+        // Label id to number of conversations
+        var unread: [String: Int] = [:]
+        var total: [String: Int] = [:]
         
         let labels: [Label] = self.fetchLabels(ofType: .all, forUser: userId, withContext: context)
         for label in labels {
-            let numUnread: Int = self.unreadCount(for: label.labelID, userId: userId, context: context)
-            if numUnread > 0 {
-                items[label.labelID] = numUnread
+            if let update = self.lastUpdate(for: label.labelID, userId: userId, context: context) {
+                let numUnread: Int = numericCast(update.unread)
+                if numUnread > 0 {
+                    unread[label.labelID] = numUnread
+                }
+                total[label.labelID] = numericCast(update.total)
             }
         }
         
-        let notification: MailboxSidebar.Notifications.ItemsBadgeUpdate = MailboxSidebar.Notifications.ItemsBadgeUpdate(items: items, userId: userId)
+        let notification: Mailbox.Notifications.ConversationCountsUpdate = Mailbox.Notifications.ConversationCountsUpdate(unread: unread, total: total, userId: userId)
         notification.post()
         
         // Update badge

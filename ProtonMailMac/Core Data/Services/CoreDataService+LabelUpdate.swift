@@ -110,7 +110,7 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
                 let _ = context.saveUpstreamIfNeeded()
             }
             
-            self.notifyUnreadCountersUpdate(userId: userId, context: context)
+            self.notifyConversationCountsUpdate(userId: userId, context: context)
         }
     }
     
@@ -160,11 +160,7 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
         }
     }
     
-    //
-    // MARK: - Private
-    //
-    
-    private func lastUpdate(for labelId : String, userId: String, context: NSManagedObjectContext) -> LabelUpdate? {
+    func lastUpdate(for labelId : String, userId: String, context: NSManagedObjectContext) -> LabelUpdate? {
         return LabelUpdate.lastUpdate(by: labelId, userID: userId, inManagedObjectContext: context)
     }
     
