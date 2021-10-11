@@ -22,8 +22,12 @@ final class ConversationsCountResponse: Response {
         if let counts = response["Counts"] as? [[String: Any]] {
             self.conversationCounts = []
             
+            // Skip outbox/draft labels for conversations, we use message counts for those
+            let skipIds: Set<String> = ["1", "2", "7", "8"]
+            
             for json in counts {
                 guard let labelId = json.getString("LabelID"),
+                      !skipIds.contains(labelId),
                       let total = json.getInt("Total"),
                       let unread = json.getInt("Unread") else { continue }
                 

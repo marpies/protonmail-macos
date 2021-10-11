@@ -91,6 +91,22 @@ final class EventCheckResponse : Response {
         
         self.conversationCounts = response["ConversationCounts"] as? [[String : Any]]
         
+        // Use message counts for outbox/drafts instead of conversation counts
+        // since we are displaying messages in these folders
+        if let messageCounts = response["MessageCounts"] as? [[String: Any]],
+           var conversationCounts = self.conversationCounts {
+            let ids: Set<String> = ["1", "2", "7", "8"]
+            for json in messageCounts {
+                guard let id = json.getString("LabelID"), ids.contains(id) else { continue }
+                
+                // Find conversation count for this label and replace it with the message count
+                guard let index = conversationCounts.firstIndex(where: { $0.getString("LabelID") == id }) else { continue }
+                
+                conversationCounts[index] = json
+            }
+            self.conversationCounts = conversationCounts
+        }
+        
         self.usedSpace = response["UsedSpace"] as? Int64
         self.notices = response["Notices"] as? [String]
         
