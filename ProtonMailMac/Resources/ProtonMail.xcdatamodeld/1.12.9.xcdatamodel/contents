@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="1.11.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19206" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="1.11.0">
     <entity name="Attachment" representedClassName=".Attachment" syncable="YES">
         <attribute name="attachmentID" attributeType="String" valueTransformerName="StringCryptoTransformer">
             <userInfo>
@@ -152,7 +152,7 @@
                 <entry key="JSONTransformerName" value="JsonStringTransformer"/>
             </userInfo>
         </attribute>
-        <attribute name="subject" attributeType="Transformable" valueTransformerName="StringCryptoTransformer" customClassName="String">
+        <attribute name="subject" optional="YES" attributeType="Transformable" valueTransformerName="StringCryptoTransformer" customClassName="String">
             <userInfo>
                 <entry key="JSONKeyPath" value="Subject"/>
             </userInfo>
