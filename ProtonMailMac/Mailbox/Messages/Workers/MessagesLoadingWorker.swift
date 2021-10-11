@@ -256,8 +256,9 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
         self.messages = models
         
         if let oldMessages = oldMessagesOpt {
-            let response = self.getMessagesDiff(oldMessages: oldMessages, newMessages: models, updatedMessageIds: updatedMessageIds)
-            self.delegate?.messagesDidUpdate(response: response)
+            if let response = self.getMessagesDiff(oldMessages: oldMessages, newMessages: models, updatedMessageIds: updatedMessageIds) {
+                self.delegate?.messagesDidUpdate(response: response)
+            }
         } else {
             self.delegate?.messagesDidLoad(models)
         }

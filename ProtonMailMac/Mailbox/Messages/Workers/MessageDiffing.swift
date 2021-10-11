@@ -9,12 +9,12 @@
 import Foundation
 
 protocol MessageDiffing {
-    func getMessagesDiff(oldMessages: [Messages.Message.Response], newMessages: [Messages.Message.Response], updatedMessageIds: Set<String>?) -> Messages.UpdateMessages.Response
+    func getMessagesDiff(oldMessages: [Messages.Message.Response], newMessages: [Messages.Message.Response], updatedMessageIds: Set<String>?) -> Messages.UpdateMessages.Response?
 }
 
 extension MessageDiffing {
     
-    func getMessagesDiff(oldMessages: [Messages.Message.Response], newMessages: [Messages.Message.Response], updatedMessageIds: Set<String>?) -> Messages.UpdateMessages.Response {
+    func getMessagesDiff(oldMessages: [Messages.Message.Response], newMessages: [Messages.Message.Response], updatedMessageIds: Set<String>?) -> Messages.UpdateMessages.Response? {
         var removeSet: IndexSet?
         var insertSet: IndexSet?
         var updateSet: IndexSet?
@@ -35,11 +35,27 @@ extension MessageDiffing {
             
             if let ids = updatedMessageIds {
                 updateSet = self.getIndexSet(ids: ids, messages: newMessages)
+            }
+            
+            // Compare hashes of old and new messages
+            for (index, newMsg) in newMessages.enumerated() {
+                guard let oldMsg = oldMessages.first(where: { $0.id == newMsg.id }) else { continue }
                 
-                // Just in case, remove indices from "updateSet" if they are in "removeSet" and "insertSet"
+                if oldMsg != newMsg {
+                    updateSet = updateSet ?? IndexSet()
+                    updateSet?.insert(index)
+                }
+            }
+            
+            // Just in case, remove indices from "updateSet" if they are in "removeSet" and "insertSet"
+            if updateSet != nil {
                 self.removeIndices(from: &updateSet!, in: removeSet)
                 self.removeIndices(from: &updateSet!, in: insertSet)
             }
+        }
+        
+        if updateSet == nil && insertSet == nil && removeSet == nil {
+            return nil
         }
         
         return Messages.UpdateMessages.Response(messages: newMessages, removeSet: removeSet, insertSet: insertSet, updateSet: updateSet)
