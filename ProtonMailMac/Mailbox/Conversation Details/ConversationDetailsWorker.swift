@@ -39,6 +39,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     
     private var conversationUpdateObserver: NSObjectProtocol?
     private var conversationsUpdateObserver: NSObjectProtocol?
+    private var messageUpdateObserver: NSObjectProtocol?
+    private var messagesUpdateObserver: NSObjectProtocol?
     
     private var activeUserId: String? {
         return self.usersManager.activeUser?.userId
@@ -87,6 +89,11 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // Check if the conversation star changed and dispatch notification if needed for other scenes to reflect this change
         self.checkConversationLabel(label: .starred, conversation: conversation, hasLabel: isConversationStarred)
+        
+        // Dispatch notification for other sections (e.g. list of messages)
+        // This worker will react to this notification as well
+        let notification: Messages.Notifications.MessageUpdate = Messages.Notifications.MessageUpdate(messageId: request.id)
+        notification.post()
     }
     
     func updateConversationStar(request: ConversationDetails.UpdateConversationStar.Request) {
@@ -96,10 +103,17 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         service.delegate = self
         service.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: request.isOn, includingMessages: true)
         
+        let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
+        if let conversation = db.loadConversation(id: id), let messages = conversation.messages as? Set<Message> {
+            let ids: Set<String> = Set(messages.map { $0.messageID })
+            let notification: Messages.Notifications.MessagesUpdate = Messages.Notifications.MessagesUpdate(messageIds: ids)
+            notification.post()
+        }
+        
         // Dispatch notification for other sections (e.g. list of conversations)
         // This worker will react to this notification as well
         let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: id)
-        NotificationCenter.default.post(notification)
+        notification.post()
     }
     
     func processMessageClick(request: ConversationDetails.MessageClick.Request) {
@@ -188,11 +202,29 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         self.conversationsUpdateObserver = NotificationCenter.default.addObserver(forType: Conversations.Notifications.ConversationsUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
             guard let weakSelf = self,
-                  let id = self?.conversationId,
+                  let id = weakSelf.conversationId,
                   let conversationIds = notification?.conversationIds,
                   conversationIds.contains(id) else { return }
             
             weakSelf.refreshConversation(id: id)
+        })
+        
+        self.messageUpdateObserver = NotificationCenter.default.addObserver(forType: Messages.Notifications.MessageUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let weakSelf = self, let messageId = notification?.messageId else { return }
+            
+            weakSelf.refreshMessage(id: messageId)
+        })
+        
+        self.messagesUpdateObserver = NotificationCenter.default.addObserver(forType: Messages.Notifications.MessagesUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let weakSelf = self,
+                  let conversation = weakSelf.conversation,
+                  let messageIds = notification?.messageIds else { return }
+            
+            for message in conversation.messages {
+                if messageIds.contains(message.id) {
+                    weakSelf.refreshMessage(id: message.id)
+                }
+            }
         })
     }
     
@@ -479,6 +511,9 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // Check if the conversation itself should be marked as read
         self.checkConversationRead(conversationId: conversation.conversationID, isUnread: isConversationUnread)
+        
+        let notification: Messages.Notifications.MessageUpdate = Messages.Notifications.MessageUpdate(messageId: message.id)
+        notification.post()
     }
     
     private func checkConversationRead(conversationId: String, isUnread: Bool) {
