@@ -16,6 +16,64 @@ extension Notification.Name {
 
 enum Messages {
     
+    enum Notifications {
+        struct MessageUpdate: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("Messages.messageUpdate")
+            }
+            
+            var name: Notification.Name {
+                return MessageUpdate.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["messageId": self.messageId]
+            }
+            
+            let messageId: String
+            
+            init(messageId: String) {
+                self.messageId = messageId
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == MessageUpdate.name,
+                      let messageId = notification?.userInfo?["messageId"] as? String else { return nil }
+                
+                self.messageId = messageId
+            }
+        }
+        
+        struct MessagesUpdate: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("Messages.messagesUpdate")
+            }
+            
+            var name: Notification.Name {
+                return MessagesUpdate.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["messageIds": self.messageIds]
+            }
+            
+            let messageIds: Set<String>
+            
+            init(messageIds: Set<String>) {
+                self.messageIds = messageIds
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == MessagesUpdate.name,
+                      let messageIds = notification?.userInfo?["messageIds"] as? Set<String> else { return nil }
+                
+                self.messageIds = messageIds
+            }
+        }
+    }
+    
     enum MessageTime {
         case today(Date)
         case yesterday(Date)
