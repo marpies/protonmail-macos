@@ -40,7 +40,7 @@ class SetupRouter: SetupRoutingLogic, SetupDataPassing {
     
     func routeToMailbox() {
         if let app = self.viewController?.parent as? AppViewController {
-            let destinationVC = self.resolver.resolve(MailboxViewController.self)!
+            let destinationVC = self.resolver.resolve(MainViewController.self)!
             app.displaySection(destinationVC)
         }
     }

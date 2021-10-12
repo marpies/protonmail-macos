@@ -1,5 +1,5 @@
 //
-//  MailboxPresenter.swift
+//  MainPresenter.swift
 //  ProtonMailMac
 //
 //  Created by Marcel Piešťanský on 25.08.2021.
@@ -8,21 +8,21 @@
 
 import AppKit
 
-protocol MailboxPresentationLogic {
-	func presentData(response: Mailbox.Init.Response)
-    func presentTitle(response: Mailbox.LoadTitle.Response)
+protocol MainPresentationLogic {
+	func presentData(response: Main.Init.Response)
+    func presentTitle(response: Main.LoadTitle.Response)
 }
 
-class MailboxPresenter: MailboxPresentationLogic {
-	weak var viewController: MailboxDisplayLogic?
+class MainPresenter: MainPresentationLogic {
+	weak var viewController: MainDisplayLogic?
 
 	//
 	// MARK: - Present initial data
 	//
 
-	func presentData(response: Mailbox.Init.Response) {
+	func presentData(response: Main.Init.Response) {
         let message: String = NSLocalizedString("mailboxLoadingMessage", comment: "")
-		let viewModel = Mailbox.Init.ViewModel(loadingMessage: message)
+		let viewModel = Main.Init.ViewModel(loadingMessage: message)
 		self.viewController?.displayData(viewModel: viewModel)
 	}
     
@@ -30,7 +30,7 @@ class MailboxPresenter: MailboxPresentationLogic {
     // MARK: - Present title
     //
     
-    func presentTitle(response: Mailbox.LoadTitle.Response) {
+    func presentTitle(response: Main.LoadTitle.Response) {
         let title: String
         var isMessages: Bool = false
         
@@ -70,7 +70,7 @@ class MailboxPresenter: MailboxPresentationLogic {
             subtitle = String.localizedStringWithFormat(format, response.numItems)
         }
         
-        let viewModel = Mailbox.LoadTitle.ViewModel(title: title, subtitle: subtitle)
+        let viewModel = Main.LoadTitle.ViewModel(title: title, subtitle: subtitle)
         self.viewController?.displayTitle(viewModel: viewModel)
     }
 

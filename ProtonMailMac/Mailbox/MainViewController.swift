@@ -1,5 +1,5 @@
 //
-//  MailboxViewController.swift
+//  MainViewController.swift
 //  ProtonMailMac
 //
 //  Created by Marcel Piešťanský on 25.08.2021.
@@ -8,15 +8,15 @@
 
 import AppKit
 
-protocol MailboxDisplayLogic: AnyObject {
-	func displayData(viewModel: Mailbox.Init.ViewModel)
-    func displayTitle(viewModel: Mailbox.LoadTitle.ViewModel)
+protocol MainDisplayLogic: AnyObject {
+	func displayData(viewModel: Main.Init.ViewModel)
+    func displayTitle(viewModel: Main.LoadTitle.ViewModel)
 }
 
-class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, ConversationsViewControllerDelegate {
+class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, ConversationsViewControllerDelegate {
 	
-	var interactor: MailboxBusinessLogic?
-	var router: (MailboxRoutingLogic & MailboxDataPassing)?
+	var interactor: MainBusinessLogic?
+	var router: (MainRoutingLogic & MainDataPassing)?
     var sidebarViewController: MailboxSidebarViewController?
     var conversationsViewController: ConversationsViewController?
     var conversationDetailsViewController: ConversationDetailsViewController?
@@ -60,11 +60,11 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
 	//
 	
 	private func loadData() {
-		let request = Mailbox.Init.Request()
+		let request = Main.Init.Request()
 		self.interactor?.loadData(request: request)
 	}
 	
-	func displayData(viewModel: Mailbox.Init.ViewModel) {
+	func displayData(viewModel: Main.Init.ViewModel) {
         self.overlayView = MailboxOverlayView().with { view in
             view.update(message: viewModel.loadingMessage)
             self.view.addSubview(view)
@@ -83,7 +83,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
     // MARK: - Display title
     //
     
-    func displayTitle(viewModel: Mailbox.LoadTitle.ViewModel) {
+    func displayTitle(viewModel: Main.LoadTitle.ViewModel) {
         self.toolbarDelegate?.toolbarTitleDidUpdate(title: viewModel.title, subtitle: viewModel.subtitle)
     }
     
@@ -94,7 +94,7 @@ class MailboxViewController: NSSplitViewController, MailboxDisplayLogic, Toolbar
     func mailboxSidebarDidSelectLabel(id: String) {
         self.conversationsViewController?.loadConversations(labelId: id)
         
-        let request = Mailbox.LoadTitle.Request(labelId: id)
+        let request = Main.LoadTitle.Request(labelId: id)
         self.interactor?.loadTitle(request: request)
     }
     

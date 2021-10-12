@@ -1,5 +1,5 @@
 //
-//  MailboxModels.swift
+//  MainModels.swift
 //  ProtonMailMac
 //
 //  Created by Marcel Piešťanský on 25.08.2021.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-enum Mailbox {
+enum Main {
     
     enum Notifications {
         struct ConversationCountsUpdate: NotificationType {
             static var name: Notification.Name {
-                return Notification.Name("Mailbox.ConversationCountsUpdate")
+                return Notification.Name("Main.ConversationCountsUpdate")
             }
             
             var name: Notification.Name {

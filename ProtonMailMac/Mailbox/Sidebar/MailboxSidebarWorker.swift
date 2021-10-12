@@ -263,7 +263,7 @@ class MailboxSidebarWorker: LabelToSidebarItemParsing {
     }
     
     private func addObservers() {
-        self.itemsBadgeObserver = NotificationCenter.default.addObserver(forType: Mailbox.Notifications.ConversationCountsUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+        self.itemsBadgeObserver = NotificationCenter.default.addObserver(forType: Main.Notifications.ConversationCountsUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
             guard let weakSelf = self, let notification = notification,
                   let userId = weakSelf.usersManager.activeUser?.userId,
                   userId == notification.userId else { return }
