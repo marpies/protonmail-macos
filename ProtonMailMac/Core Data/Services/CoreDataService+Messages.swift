@@ -296,14 +296,21 @@ extension CoreDataService: MessagesDatabaseManaging {
         
         guard let messages = conversation.messages as? Set<Message> else { return }
         
+        // Ids of labels where messages are used (instead of conversations)
+        // Unread count for these labels should update without checking other messages in the same conversation
+        let messageLabels: Set<String> = ["1", "2", "7", "8"]
+        
         for labelID in labelIDs {
-            // Get number of other unread messages in this conversation with this label
-            let hasOtherUnread: Bool = !messages.filter( { $0.messageID != message.messageID && $0.unRead && $0.contains(label: labelID) }).isEmpty
-            
-            // If there are still other unread messages in this conversation
-            // then the unread counter for this label does not change
-            if hasOtherUnread {
-                continue
+            // Check if this label shows conversations count (instead of messages)
+            if !messageLabels.contains(labelID) {
+                // Get number of other unread messages in this conversation with this label
+                let hasOtherUnread: Bool = !messages.filter( { $0.messageID != message.messageID && $0.unRead && $0.contains(label: labelID) }).isEmpty
+                
+                // If there are still other unread messages in this conversation
+                // then the unread counter for this label does not change
+                if hasOtherUnread {
+                    continue
+                }
             }
             
             let unreadCount: Int = self.unreadCount(for: labelID, userId: userId, context: context)
@@ -340,13 +347,20 @@ extension CoreDataService: MessagesDatabaseManaging {
         
         guard let messages = conversation.messages as? Set<Message> else { return }
         
-        // Get number of other unread messages in this conversation with this label
-        let hasOtherUnread: Bool = !messages.filter( { $0.messageID != message.messageID && $0.unRead && $0.contains(label: labelID) }).isEmpty
+        // Ids of labels where messages are used (instead of conversations)
+        // Unread count for these labels should update without checking other messages in the same conversation
+        let messageLabels: Set<String> = ["1", "2", "7", "8"]
         
-        // If there are still other unread messages in this conversation
-        // then the unread counter for this label does not change
-        if hasOtherUnread {
-            return
+        // Check if this label shows conversations count (instead of messages)
+        if !messageLabels.contains(labelID) {
+            // Get number of other unread messages in this conversation with this label
+            let hasOtherUnread: Bool = !messages.filter( { $0.messageID != message.messageID && $0.unRead && $0.contains(label: labelID) }).isEmpty
+            
+            // If there are still other unread messages in this conversation
+            // then the unread counter for this label does not change
+            if hasOtherUnread {
+                return
+            }
         }
         
         let offset: Int = plus ? 1 : -1
