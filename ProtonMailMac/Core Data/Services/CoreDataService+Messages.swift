@@ -63,7 +63,7 @@ extension CoreDataService: MessagesDatabaseManaging {
         return message
     }
     
-    func fetchMessages(forUser userId: String, labelId: String, olderThan time: Date?, completion: @escaping ([Message]) -> Void) {
+    func fetchMessages(forUser userId: String, labelId: String, olderThan time: Date?, converter: MessageToModelConverting, completion: @escaping ([Messages.Message.Response]) -> Void) {
         self.backgroundContext.performWith { ctx in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Message")
             request.predicate = self.getPredicate(forUser: userId, labelId: labelId, time: time)
@@ -72,8 +72,10 @@ extension CoreDataService: MessagesDatabaseManaging {
             
             do {
                 if let messages = try ctx.fetch(request) as? [Message] {
+                    let models: [Messages.Message.Response] = messages.map { converter.getMessage($0) }
+                    
                     DispatchQueue.main.async {
-                        completion(messages)
+                        completion(models)
                     }
                     return
                 }

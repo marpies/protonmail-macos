@@ -16,8 +16,8 @@ struct ServicesAssembly: Assembly {
             return UserEventsService(resolver: r)
         }.inObjectScope(.container)
         
-        container.register(MessagesLoading.self) { (r: Resolver, labelId: String, userId: String) in
-            return MessagesLoadingWorker(resolver: r, labelId: labelId, userId: userId)
+        container.register(MessagesLoading.self) { (r: Resolver, labelId: String, userId: String, apiService: ApiService) in
+            return MessagesLoadingWorker(resolver: r, labelId: labelId, userId: userId, apiService: apiService)
         }.inObjectScope(.transient)
         
         container.register(MessageOpsProcessing.self) { (r: Resolver, userId: String) in

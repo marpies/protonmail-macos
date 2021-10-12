@@ -13,8 +13,17 @@ protocol MessagesLoading {
     var labelId: String { get }
     var delegate: MessagesLoadingDelegate? { get set }
     
-    func loadMessages(olderThan lastMessageTime: Date?)
+    func updateCachedMessages(_ messages: [Messages.Message.Response])
+    
     func loadMessage(id: String) -> Messages.Message.Response?
+    func loadMessages(completion: ((Bool) -> Void)?)
+    
+    /// Updates the model for the message of the given id.
+    /// - Returns: Tuple with the message model and the model's index in the list of all messages.
+    func updateMessage(id: String) -> (Messages.Message.Response, Int)?
+    
+    func loadCachedMessages(completion: @escaping ([Messages.Message.Response]) -> Void)
+    func loadCachedMessages(updatedMessageIds: Set<String>?)
 }
 
 protocol MessagesLoadingDelegate: AnyObject {
@@ -33,116 +42,36 @@ protocol MessagesLoadingDelegate: AnyObject {
     /// Called when an error is encountered when loading the messages.
     /// - Parameter response:
     func messagesLoadDidFail(response: Messages.LoadError.Response)
-    
-    /// Called when the messages were updated but no actual changes were detected.
-    func messagesDidUpdateWithoutChange()
 }
 
-class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConverting, AuthCredentialRefreshing {
-    
-    private let refreshTimerInterval: TimeInterval = 30
+class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConverting {
     
     let labelId: String
     
     private let userId: String
     private let resolver: Resolver
-    private let usersManager: UsersManager
+    private let apiService: ApiService
     
     /// List of currently loaded messages.
     private var messages: [Messages.Message.Response]?
     
-    /// Timer triggering an auto-refresh.
-    private var timer: Timer?
-    
-    private(set) var auth: AuthCredential?
-    private(set) var apiService: ApiService?
-    
     weak var delegate: MessagesLoadingDelegate?
 
-    init(resolver: Resolver, labelId: String, userId: String) {
+    init(resolver: Resolver, labelId: String, userId: String, apiService: ApiService) {
         self.resolver = resolver
         self.labelId = labelId
         self.userId = userId
-        self.usersManager = resolver.resolve(UsersManager.self)!
-        self.apiService = self.resolver.resolve(ApiService.self)!
-        self.apiService?.authDelegate = self
-    }
-    
-    deinit {
-        self.timer?.invalidate()
+        self.apiService = apiService
     }
     
     //
     // MARK: - Public
     //
     
-    func loadMessages(olderThan lastMessageTime: Date?) {
-        guard let user = self.usersManager.getUser(forId: self.userId) else {
-            fatalError("Unexpected application state.")
-        }
+    func updateCachedMessages(_ messages: [Messages.Message.Response]) {
+        self.messages = messages
         
-        self.auth = user.auth
-        
-        // Load local cache
-        self.loadCachedMessages(olderThan: lastMessageTime) { messages in
-            let models: [Messages.Message.Response] = messages.map { self.getMessage($0) }
-            
-            if !messages.isEmpty {
-                self.messages = messages.map { self.getMessage($0) }
-            }
-            
-            self.delegate?.cachedMessagesDidLoad(models)
-            
-            let userEventsDb: UserEventsDatabaseManaging = self.resolver.resolve(UserEventsDatabaseManaging.self)!
-            let eventId: String = userEventsDb.getLastEventId(forUser: self.userId)
-            
-            // Invalid event id
-            if eventId.isEmpty || eventId == "0" {
-                // todo load event id first
-                let request = EventLatestIDRequest()
-                self.apiService?.request(request, completion: { [weak self] (response: EventLatestIDResponse) in
-                    guard let weakSelf = self else { return }
-                    
-                    if !response.eventID.isEmpty {
-                        weakSelf.cleanUpAndLoadMessages(eventId: response.eventID)
-                    } else {
-                        PMLog.D("Error loading EVENT ID \(response.error)")
-                        weakSelf.setRefreshTimer()
-                        weakSelf.dispatchLoadError(response.error)
-                    }
-                })
-            } else {
-                let service: UserEventsProcessing = self.resolver.resolve(UserEventsProcessing.self)!
-                service.fetchEvents(forLabel: self.labelId, userId: self.userId) { [weak self] (response: UserEventsResponse) in
-                    guard let weakSelf = self else { return }
-                    
-                    switch response {
-                    case .cleanUp(let eventId):
-                        weakSelf.cleanUpAndLoadMessages(eventId: eventId)
-                    case .success(let json):
-                        // Check if there are any message updates
-                        guard json["Messages"] != nil else {
-                            // todo may have Notices
-                            // todo check "More"
-                            weakSelf.delegate?.messagesDidUpdateWithoutChange()
-                            
-                            weakSelf.fetchMessages()
-                            return
-                        }
-                        
-                        let updatedMessageIds: Set<String>? = json["UpdatedMessages"] as? Set<String>
-                        
-                        weakSelf.loadCachedMessages(olderThan: lastMessageTime) { messages in
-                            weakSelf.dispatchMessages(messages, updatedMessageIds: updatedMessageIds)
-                        }
-                    case .error(let error):
-                        PMLog.D("Error loading events \(error)")
-                        weakSelf.setRefreshTimer()
-                        weakSelf.dispatchLoadError(error)
-                    }
-                }
-            }
-        }
+        self.delegate?.cachedMessagesDidLoad(messages)
     }
     
     func loadMessage(id: String) -> Messages.Message.Response? {
@@ -153,77 +82,56 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
         return self.getMessage(message)
     }
     
-    //
-    // MARK: - Auth delegate
-    //
-    
-    func onForceUpgrade() {
-        //
+    func updateMessage(id: String) -> (Messages.Message.Response, Int)? {
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
+        
+        guard let index = self.messages?.firstIndex(where: { $0.id == id }),
+              let message = db.loadMessage(id: id) else { return nil }
+        
+        let model: Messages.Message.Response = self.getMessage(message)
+        self.messages?[index] = model
+        
+        return (model, index)
     }
     
-    func sessionDidRevoke() {
-        //
+    func loadCachedMessages(completion: @escaping ([Messages.Message.Response]) -> Void) {
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
+        
+        db.fetchMessages(forUser: self.userId, labelId: self.labelId, olderThan: nil, converter: self) { messages in
+            completion(messages)
+        }
     }
     
-    func authCredentialDidRefresh() {
-        self.usersManager.save()
+    func loadCachedMessages(updatedMessageIds: Set<String>?) {
+        self.loadCachedMessages { messages in
+            self.dispatchMessages(messages, updatedMessageIds: updatedMessageIds)
+        }
     }
     
-    //
-    // MARK: - Private
-    //
-    
-    private func fetchMessages() {
+    func loadMessages(completion: ((Bool) -> Void)?) {
         self.loadMessages(olderThan: nil) { [weak self] (messages, error) in
             guard let weakSelf = self else { return }
-            
-            weakSelf.setRefreshTimer()
             
             if let messages = messages {
                 weakSelf.dispatchMessages(messages, updatedMessageIds: nil)
             } else {
                 weakSelf.dispatchLoadError(error)
             }
-        }
-    }
-    
-    private func loadCachedMessages(olderThan lastMessageTime: Date?, completion: @escaping ([Message]) -> Void) {
-        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
-        
-        db.fetchMessages(forUser: self.userId, labelId: self.labelId, olderThan: lastMessageTime) { messages in
-            completion(messages)
-        }
-    }
-    
-    private func cleanUpAndLoadMessages(eventId: String) {
-        let messagesDb: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
-        messagesDb.cleanMessages(forUser: self.userId, removeDrafts: true).done { _ in
-            let labelUpdateDb: LabelUpdateDatabaseManaging = self.resolver.resolve(LabelUpdateDatabaseManaging.self)!
-            labelUpdateDb.removeUpdateTime(forUser: self.userId)
             
-            self.loadMessages(olderThan: nil) { [weak self] (messages, error) in
-                guard let weakSelf = self else { return }
-                
-                let userEventsDb: UserEventsDatabaseManaging = weakSelf.resolver.resolve(UserEventsDatabaseManaging.self)!
-                userEventsDb.updateEventId(forUser: weakSelf.userId, eventId: eventId, completion: nil)
-                
-                if let models = messages?.map({ weakSelf.getMessage($0) }) {
-                    weakSelf.dispatchMessages(models, updatedMessageIds: nil)
-                } else {
-                    PMLog.D("ERROR LOADING MESSAGES... \(error)")
-                    weakSelf.setRefreshTimer()
-                    weakSelf.dispatchLoadError(error)
-                }
-            }
-        }.cauterize()
+            completion?(messages != nil)
+        }
     }
     
-    private func loadMessages(olderThan lastMessageTime: Date?, completion: @escaping ([Message]?, NSError?) -> Void) {
+    //
+    // MARK: - Private
+    //
+    
+    private func loadMessages(olderThan lastMessageTime: Date?, completion: @escaping ([Messages.Message.Response]?, NSError?) -> Void) {
         // Fetch messages from the server
         let endTime: TimeInterval = lastMessageTime?.timeIntervalSince1970 ?? 0
         let request = MessagesByLabelRequest(labelID: self.labelId, endTime: endTime)
         
-        self.apiService?.request(request) { [weak self] (_, responseDict, error) in
+        self.apiService.request(request) { [weak self] (_, responseDict, error) in
             guard let weakSelf = self else { return }
             
             if var messagesArray = responseDict?["Messages"] as? [[String : Any]] {
@@ -234,7 +142,7 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
                 
                 let db: MessagesDatabaseManaging = weakSelf.resolver.resolve(MessagesDatabaseManaging.self)!
                 db.saveMessages(messagesArray, forUser: weakSelf.userId) {
-                    weakSelf.loadCachedMessages(olderThan: lastMessageTime) { messages in
+                    weakSelf.loadCachedMessages { messages in
                         completion(messages, nil)
                     }
                 }
@@ -244,11 +152,6 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
                 }
             }
         }
-    }
-    
-    private func dispatchMessages(_ messages: [Message], updatedMessageIds: Set<String>?) {
-        let models: [Messages.Message.Response] = messages.map { self.getMessage($0) }
-        self.dispatchMessages(models, updatedMessageIds: updatedMessageIds)
     }
     
     private func dispatchMessages(_ models: [Messages.Message.Response], updatedMessageIds: Set<String>?) {
@@ -262,8 +165,6 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
         } else {
             self.delegate?.messagesDidLoad(models)
         }
-        
-        self.setRefreshTimer()
     }
     
     private func dispatchLoadError(_ error: NSError?) {
@@ -271,26 +172,6 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
         
         let response = Messages.LoadError.Response(error: error)
         self.delegate?.messagesLoadDidFail(response: response)
-    }
-    
-    //
-    // MARK: - Timer
-    //
-    
-    private func setRefreshTimer() {
-        guard self.timer == nil else { return }
-        
-        self.timer = Timer.scheduledTimer(withTimeInterval: self.refreshTimerInterval, repeats: true, block: { [weak self] (_) in
-            self?.refreshMessagesIfNeeded()
-        })
-    }
-    
-    private func refreshMessagesIfNeeded() {
-        guard let user = self.usersManager.getUser(forId: userId) else { return }
-        
-        self.auth = user.auth
-        
-        self.loadMessages(olderThan: nil)
     }
     
 }
