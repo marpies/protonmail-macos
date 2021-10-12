@@ -23,7 +23,7 @@ protocol ConversationDetailsWorkerDelegate: AnyObject {
 }
 
 class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConverting, ConversationToModelConverting, MessageBodyRemoteContentChecking,
-                                 MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate, DefaultConversationMessageSelecting {
+                                 MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate, DefaultConversationMessageSelecting, ConversationLabelStatusChecking {
 
 	private let resolver: Resolver
     private let usersManager: UsersManager
@@ -85,8 +85,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         self.refreshMessage(id: request.id)
         
-        // Check if the conversation itself should be starred/unstarred
-        self.checkConversationStar(conversationId: conversation.conversationID, isStarred: isConversationStarred)
+        // Check if the conversation star changed and dispatch notification if needed for other scenes to reflect this change
+        self.checkConversationLabel(label: .starred, conversation: conversation, hasLabel: isConversationStarred)
     }
     
     func updateConversationStar(request: ConversationDetails.UpdateConversationStar.Request) {
@@ -278,40 +278,6 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         let response: ConversationDetails.UpdateMessage.Response = ConversationDetails.UpdateMessage.Response(message: message)
         self.delegate?.conversationMessageDidUpdate(response: response)
-    }
-    
-    private func checkConversationStar(conversationId: String, isStarred: Bool) {
-        guard let userId = self.activeUserId else { return }
-        
-        let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
-        
-        guard let conversation = db.loadConversation(id: conversationId), let messages = conversation.messages as? Set<Message> else { return }
-        
-        var shouldBeStarred: Bool = false
-        for message in messages {
-            if message.contains(label: .starred) {
-                shouldBeStarred = true
-                break
-            }
-        }
-        
-        var updatedConversation: Conversation?
-        
-        // Remove star if is starred and should NOT be starred
-        if isStarred && !shouldBeStarred {
-            updatedConversation = db.updateLabel(conversationIds: [conversationId], label: MailboxSidebar.Item.starred.id, apply: false, includingMessages: false, userId: userId)?.first
-        }
-        // Add star if is NOT starred and should be starred
-        else if !isStarred && shouldBeStarred {
-            updatedConversation = db.updateLabel(conversationIds: [conversationId], label: MailboxSidebar.Item.starred.id, apply: true, includingMessages: false, userId: userId)?.first
-        }
-        
-        if updatedConversation != nil {
-            // Dispatch notification for other sections (e.g. list of conversations)
-            // This worker will react to this notification as well
-            let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: conversationId)
-            NotificationCenter.default.post(notification)
-        }
     }
     
     private func refreshConversation(id: String) {
