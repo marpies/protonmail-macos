@@ -12,9 +12,12 @@ protocol ConversationsPresentationLogic {
     func presentConversations(response: Conversations.LoadConversations.Response)
     func presentConversationsUpdate(response: Conversations.UpdateConversations.Response)
     func presentConversationUpdate(response: Conversations.UpdateConversation.Response)
-    func presentConversationsError(response: Conversations.LoadError.Response)
-    func presentConversationsUpToDate()
+    func presentLoadError(response: Conversations.LoadError.Response)
     func presentLoadConversation(response: Conversations.LoadConversation.Response)
+    func presentMessages(response: Messages.LoadMessages.Response)
+    func presentMessagesUpdate(response: Messages.UpdateMessages.Response)
+    func presentMessageUpdate(response: Messages.UpdateMessage.Response)
+    func presentItemsUpToDate()
 }
 
 class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresenting, MessageLabelPresenting, MessageFolderPresenting,
@@ -34,9 +37,9 @@ class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresent
     //
     
     func presentConversations(response: Conversations.LoadConversations.Response) {
-        let conversations: [Conversations.Conversation.ViewModel] = response.conversations.map { self.getConversation(response: $0) }
-        let viewModel = Conversations.LoadConversations.ViewModel(conversations: conversations, removeErrorView: response.isServerResponse)
-        self.viewController?.displayConversations(viewModel: viewModel)
+        let items: [Conversations.TableItem.ViewModel] = response.conversations.map { self.getItem(response: $0) }
+        let viewModel = Conversations.LoadItems.ViewModel(items: items, removeErrorView: response.isServerResponse)
+        self.viewController?.displayItems(viewModel: viewModel)
     }
     
     //
@@ -44,9 +47,9 @@ class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresent
     //
     
     func presentConversationsUpdate(response: Conversations.UpdateConversations.Response) {
-        let conversations: [Conversations.Conversation.ViewModel] = response.conversations.map { self.getConversation(response: $0) }
-        let viewModel = Conversations.UpdateConversations.ViewModel(conversations: conversations, removeSet: response.removeSet, insertSet: response.insertSet, updateSet: response.updateSet)
-        self.viewController?.displayConversationsUpdate(viewModel: viewModel)
+        let items: [Conversations.TableItem.ViewModel] = response.conversations.map { self.getItem(response: $0) }
+        let viewModel = Conversations.UpdateItems.ViewModel(items: items, removeSet: response.removeSet, insertSet: response.insertSet, updateSet: response.updateSet)
+        self.viewController?.displayItemsUpdate(viewModel: viewModel)
     }
     
     //
@@ -54,16 +57,16 @@ class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresent
     //
     
     func presentConversationUpdate(response: Conversations.UpdateConversation.Response) {
-        let conversation: Conversations.Conversation.ViewModel = self.getConversation(response: response.conversation)
-        let viewModel = Conversations.UpdateConversation.ViewModel(conversation: conversation, index: response.index)
-        self.viewController?.displayConversationUpdate(viewModel: viewModel)
+        let item: Conversations.TableItem.ViewModel = self.getItem(response: response.conversation)
+        let viewModel = Conversations.UpdateItem.ViewModel(item: item, index: response.index)
+        self.viewController?.displayItemUpdate(viewModel: viewModel)
     }
     
     //
-    // MARK: - Present messages error
+    // MARK: - Present load error
     //
     
-    func presentConversationsError(response: Conversations.LoadError.Response) {
+    func presentLoadError(response: Conversations.LoadError.Response) {
         let message: String
         
         if response.error.isInternetError() {
@@ -82,7 +85,7 @@ class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresent
     // MARK: - Present conversations up to date
     //
     
-    func presentConversationsUpToDate() {
+    func presentItemsUpToDate() {
         self.viewController?.displayConversationsUpToDate()
     }
     
@@ -96,22 +99,57 @@ class ConversationsPresenter: ConversationsPresentationLogic, MessageTimePresent
     }
     
     //
+    // MARK: - Present messages
+    //
+    
+    func presentMessages(response: Messages.LoadMessages.Response) {
+        let items: [Conversations.TableItem.ViewModel] = response.messages.map { self.getItem(response: $0) }
+        let viewModel = Conversations.LoadItems.ViewModel(items: items, removeErrorView: response.isServerResponse)
+        self.viewController?.displayItems(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present messages update
+    //
+    
+    func presentMessagesUpdate(response: Messages.UpdateMessages.Response) {
+        let items: [Conversations.TableItem.ViewModel] = response.messages.map { self.getItem(response: $0) }
+        let viewModel = Conversations.UpdateItems.ViewModel(items: items, removeSet: response.removeSet, insertSet: response.insertSet, updateSet: response.updateSet)
+        self.viewController?.displayItemsUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present message update
+    //
+    
+    func presentMessageUpdate(response: Messages.UpdateMessage.Response) {
+        let item: Conversations.TableItem.ViewModel = self.getItem(response: response.message)
+        let viewModel = Conversations.UpdateItem.ViewModel(item: item, index: response.index)
+        self.viewController?.displayItemUpdate(viewModel: viewModel)
+    }
+    
+    //
     // MARK: - Private
     //
     
-    private func getConversation(response: Conversations.Conversation.Response) -> Conversations.Conversation.ViewModel {
+    private func getItem(response: Conversations.Conversation.Response) -> Conversations.TableItem.ViewModel {
         let title: String = self.getTitle(senders: response.senderNames, numMessages: response.numMessages)
         let time: String = self.getMessageTime(response: response.time)
         let folders: [Messages.Folder.ViewModel]? = response.folders?.map { self.getFolder(response: $0) }
         let labels: [Messages.Label.ViewModel]? = response.labels?.map { self.getLabel(response: $0) }
         let starIcon: Messages.Star.ViewModel = self.getStarIcon(isSelected: response.isStarred)
-        var attachmentIcon: Messages.Attachment.ViewModel? = nil
-        if response.numAttachments > 0 {
-            let format: String = NSLocalizedString("num_attachments", comment: "")
-            let title: String = String.localizedStringWithFormat(format, response.numAttachments)
-            attachmentIcon = Messages.Attachment.ViewModel(icon: "paperclip", title: title)
-        }
-        return Conversations.Conversation.ViewModel(id: response.id, title: title, subtitle: response.subject, time: time, isRead: response.isRead, starIcon: starIcon, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
+        let attachmentIcon: Messages.Attachment.ViewModel? = self.getAttachmentIcon(numAttachments: response.numAttachments)
+        return Conversations.TableItem.ViewModel(type: .conversation, id: response.id, title: title, subtitle: response.subject, time: time, isRead: response.isRead, starIcon: starIcon, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
+    }
+    
+    private func getItem(response: Messages.Message.Response) -> Conversations.TableItem.ViewModel {
+        let title: String = response.senderName
+        let time: String = self.getMessageTime(response: response.time)
+        let folders: [Messages.Folder.ViewModel]? = response.folders?.map { self.getFolder(response: $0) }
+        let labels: [Messages.Label.ViewModel]? = response.labels?.map { self.getLabel(response: $0) }
+        let starIcon: Messages.Star.ViewModel = self.getStarIcon(isSelected: response.isStarred)
+        let attachmentIcon: Messages.Attachment.ViewModel? = self.getAttachmentIcon(numAttachments: response.numAttachments)
+        return Conversations.TableItem.ViewModel(type: .message, id: response.id, title: title, subtitle: response.subject, time: time, isRead: response.isRead, starIcon: starIcon, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
     }
     
     private func getTitle(senders: [String], numMessages: Int) -> String {

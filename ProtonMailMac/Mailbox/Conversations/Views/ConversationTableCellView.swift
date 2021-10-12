@@ -9,8 +9,8 @@
 import Cocoa
 
 protocol ConversationTableCellViewDelegate: AnyObject {
-    func conversationCellDidStarConversation(id: String)
-    func conversationCellDidUnstarConversation(id: String)
+    func conversationCellDidStarConversation(id: String, type: Conversations.TableItem.Kind)
+    func conversationCellDidUnstarConversation(id: String, type: Conversations.TableItem.Kind)
 }
 
 class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
@@ -31,6 +31,7 @@ class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
     private var attachmentIcon: NSImageView?
     
     private(set) var id: String?
+    private(set) var type: Conversations.TableItem.Kind?
     
     weak var delegate: ConversationTableCellViewDelegate?
 
@@ -48,8 +49,9 @@ class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
     // MARK: - Public
     //
     
-    func update(viewModel: Conversations.Conversation.ViewModel) {
+    func update(viewModel: Conversations.TableItem.ViewModel) {
         self.id = viewModel.id
+        self.type = viewModel.type
         
         self.titleLabel.stringValue = viewModel.title
         self.dateLabel.stringValue = viewModel.time
@@ -262,15 +264,15 @@ class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
     //
     
     func imageButtonDidSelect(_ button: ImageButton) {
-        guard let id = self.id else { return }
+        guard let id = self.id, let type = self.type else { return }
         
-        self.delegate?.conversationCellDidStarConversation(id: id)
+        self.delegate?.conversationCellDidStarConversation(id: id, type: type)
     }
     
     func imageButtonDidDeselect(_ button: ImageButton) {
-        guard let id = self.id else { return }
+        guard let id = self.id, let type = self.type else { return }
         
-        self.delegate?.conversationCellDidUnstarConversation(id: id)
+        self.delegate?.conversationCellDidUnstarConversation(id: id, type: type)
     }
     
 }

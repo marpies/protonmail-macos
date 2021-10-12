@@ -9,9 +9,9 @@
 import AppKit
 
 protocol ConversationsDisplayLogic: AnyObject {
-    func displayConversations(viewModel: Conversations.LoadConversations.ViewModel)
-    func displayConversationsUpdate(viewModel: Conversations.UpdateConversations.ViewModel)
-    func displayConversationUpdate(viewModel: Conversations.UpdateConversation.ViewModel)
+    func displayItems(viewModel: Conversations.LoadItems.ViewModel)
+    func displayItemsUpdate(viewModel: Conversations.UpdateItems.ViewModel)
+    func displayItemUpdate(viewModel: Conversations.UpdateItem.ViewModel)
     func displayConversationsError(viewModel: Conversations.LoadError.ViewModel)
     func displayConversationsUpToDate()
     func displayLoadConversation(viewModel: Conversations.LoadConversation.ViewModel)
@@ -48,24 +48,24 @@ class ConversationsViewController: NSViewController, ConversationsDisplayLogic, 
     //
     
     func loadConversations(labelId: String) {
-        let request = Conversations.LoadConversations.Request(labelId: labelId)
-        self.interactor?.loadConversations(request: request)
+        let request = Conversations.LoadItems.Request(labelId: labelId)
+        self.interactor?.loadItems(request: request)
     }
     
-    func displayConversations(viewModel: Conversations.LoadConversations.ViewModel) {
-        self.mainView.displayConversations(viewModel: viewModel)
+    func displayItems(viewModel: Conversations.LoadItems.ViewModel) {
+        self.mainView.displayItems(viewModel: viewModel)
     }
     
     //
-    // MARK: - Conversations update
+    // MARK: - Items update
     //
     
-    func displayConversationsUpdate(viewModel: Conversations.UpdateConversations.ViewModel) {
-        self.mainView.displayConversationsUpdate(viewModel: viewModel)
+    func displayItemsUpdate(viewModel: Conversations.UpdateItems.ViewModel) {
+        self.mainView.displayItemsUpdate(viewModel: viewModel)
     }
     
-    func displayConversationUpdate(viewModel: Conversations.UpdateConversation.ViewModel) {
-        self.mainView.displayConversationUpdate(viewModel: viewModel)
+    func displayItemUpdate(viewModel: Conversations.UpdateItem.ViewModel) {
+        self.mainView.displayItemUpdate(viewModel: viewModel)
     }
     
     //
@@ -102,19 +102,19 @@ class ConversationsViewController: NSViewController, ConversationsDisplayLogic, 
         self.interactor?.processErrorViewButtonTap()
     }
     
-    func conversationCellDidStarConversation(id: String) {
-        let request: Conversations.UpdateConversationStar.Request = Conversations.UpdateConversationStar.Request(id: id, isOn: true)
-        self.interactor?.updateConversationStar(request: request)
+    func conversationCellDidStarConversation(id: String, type: Conversations.TableItem.Kind) {
+        let request: Conversations.UpdateItemStar.Request = Conversations.UpdateItemStar.Request(id: id, isOn: true, type: type)
+        self.interactor?.updateItemStar(request: request)
     }
     
-    func conversationCellDidUnstarConversation(id: String) {
-        let request: Conversations.UpdateConversationStar.Request = Conversations.UpdateConversationStar.Request(id: id, isOn: false)
-        self.interactor?.updateConversationStar(request: request)
+    func conversationCellDidUnstarConversation(id: String, type: Conversations.TableItem.Kind) {
+        let request: Conversations.UpdateItemStar.Request = Conversations.UpdateItemStar.Request(id: id, isOn: false, type: type)
+        self.interactor?.updateItemStar(request: request)
     }
     
-    func messagesDidSelect(ids: [String]) {
-        let request = Conversations.ConversationsDidSelect.Request(ids: ids)
-        self.interactor?.processConversationsSelection(request: request)
+    func itemsDidSelect(ids: [String], type: Conversations.TableItem.Kind) {
+        let request = Conversations.ItemsDidSelect.Request(ids: ids, type: type)
+        self.interactor?.processItemsSelection(request: request)
     }
     
     func refreshMessagesButtonDidTap() {

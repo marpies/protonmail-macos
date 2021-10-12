@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 protocol ConversationsDataSourceDelegate: ConversationTableCellViewDelegate {
-    func messagesDidSelect(ids: [String])
+    func itemsDidSelect(ids: [String], type: Conversations.TableItem.Kind)
 }
 
 class ConversationsDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
@@ -18,7 +18,7 @@ class ConversationsDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSou
     private let cellId = NSUserInterfaceItemIdentifier("message")
     private let tableView: NSTableView
     
-    private var viewModel: [Conversations.Conversation.ViewModel] = []
+    private var viewModel: [Conversations.TableItem.ViewModel] = []
     
     weak var delegate: ConversationsDataSourceDelegate?
 
@@ -30,12 +30,12 @@ class ConversationsDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSou
     // MARK: - Public
     //
     
-    func setData(viewModel: [Conversations.Conversation.ViewModel]) {
+    func setData(viewModel: [Conversations.TableItem.ViewModel]) {
         self.viewModel.removeAll()
         self.viewModel.append(contentsOf: viewModel)
     }
     
-    func updateData(viewModel: Conversations.Conversation.ViewModel, at index: Int) {
+    func updateData(viewModel: Conversations.TableItem.ViewModel, at index: Int) {
         self.viewModel[index] = viewModel
     }
     
@@ -66,7 +66,7 @@ class ConversationsDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSou
     }
     
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        let message: Conversations.Conversation.ViewModel = self.viewModel[row]
+        let message: Conversations.TableItem.ViewModel = self.viewModel[row]
         if message.labels != nil {
             return 90
         }
@@ -74,9 +74,12 @@ class ConversationsDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSou
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
+        guard !self.tableView.selectedRowIndexes.isEmpty else { return }
+        
+        let type: Conversations.TableItem.Kind = self.viewModel.first?.type ?? .conversation
         let ids: [String] = self.tableView.selectedRowIndexes.map { self.viewModel[$0].id }
         
-        self.delegate?.messagesDidSelect(ids: ids)
+        self.delegate?.itemsDidSelect(ids: ids, type: type)
     }
     
 }

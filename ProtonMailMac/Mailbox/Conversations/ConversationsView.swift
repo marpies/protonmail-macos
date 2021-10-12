@@ -38,20 +38,20 @@ class ConversationsView: NSView {
     // MARK: - Public
     //
     
-    func displayConversations(viewModel: Conversations.LoadConversations.ViewModel) {
+    func displayItems(viewModel: Conversations.LoadItems.ViewModel) {
         if viewModel.removeErrorView {
             self.removeErrorView()
         }
         
         self.dataSource.delegate = self.delegate
-        self.dataSource.setData(viewModel: viewModel.conversations)
+        self.dataSource.setData(viewModel: viewModel.items)
         self.tableView.reloadData()
     }
     
-    func displayConversationsUpdate(viewModel: Conversations.UpdateConversations.ViewModel) {
+    func displayItemsUpdate(viewModel: Conversations.UpdateItems.ViewModel) {
         self.removeErrorView()
         
-        self.dataSource.setData(viewModel: viewModel.conversations)
+        self.dataSource.setData(viewModel: viewModel.items)
         
         guard viewModel.insertSet != nil || viewModel.removeSet != nil || viewModel.updateSet != nil else { return }
         
@@ -73,8 +73,8 @@ class ConversationsView: NSView {
         self.tableView.endUpdates()
     }
     
-    func displayConversationUpdate(viewModel: Conversations.UpdateConversation.ViewModel) {
-        self.dataSource.updateData(viewModel: viewModel.conversation, at: viewModel.index)
+    func displayItemUpdate(viewModel: Conversations.UpdateItem.ViewModel) {
+        self.dataSource.updateData(viewModel: viewModel.item, at: viewModel.index)
         self.tableView.reloadData(forRowIndexes: IndexSet(integer: viewModel.index), columnIndexes: IndexSet(integer: 0))
     }
     

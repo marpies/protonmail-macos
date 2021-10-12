@@ -13,23 +13,24 @@ protocol ConversationsWorkerDelegate: AnyObject {
     func conversationsDidLoad(response: Conversations.LoadConversations.Response)
     func conversationsDidUpdate(response: Conversations.UpdateConversations.Response)
     func conversationDidUpdate(response: Conversations.UpdateConversation.Response)
-    func conversationsLoadDidFail(response: Conversations.LoadError.Response)
-    func conversationsDidUpdateWithoutChange()
     func conversationShouldLoad(response: Conversations.LoadConversation.Response)
+    func messagesDidLoad(response: Messages.LoadMessages.Response)
+    func messagesDidUpdate(response: Messages.UpdateMessages.Response)
+    func messageDidUpdate(response: Messages.UpdateMessage.Response)
+    func mailboxDidUpdateWithoutChange()
+    func loadDidFail(response: Conversations.LoadError.Response)
 }
 
-class ConversationsWorker: ConversationsLoadingDelegate, ConversationOpsProcessingDelegate {
+class ConversationsWorker: MailboxManagingWorkerDelegate {
     
 	private let resolver: Resolver
     private let usersManager: UsersManager
     
-    private var loadingWorker: ConversationsLoading?
+    private var mailboxWorker: MailboxManaging?
     
     private var activeUserId: String? {
         return self.usersManager.activeUser?.userId
     }
-    
-    private var conversationUpdateObserver: NSObjectProtocol?
     
     /// The last loaded label. Nil if messages have not been loaded yet.
     var labelId: String?
@@ -39,11 +40,9 @@ class ConversationsWorker: ConversationsLoadingDelegate, ConversationOpsProcessi
 	init(resolver: Resolver) {
 		self.resolver = resolver
         self.usersManager = resolver.resolve(UsersManager.self)!
-        
-        self.addObservers()
 	}
 
-    func loadConversations(request: Conversations.LoadConversations.Request) {
+    func loadItems(request: Conversations.LoadItems.Request) {
         guard let user = self.usersManager.activeUser else {
             fatalError("Unexpected application state.")
         }
@@ -51,39 +50,47 @@ class ConversationsWorker: ConversationsLoadingDelegate, ConversationOpsProcessi
         let labelId: String = request.labelId
         self.labelId = labelId
         
-        self.loadConversations(forLabel: labelId, userId: user.userId)
+        self.loadItems(forLabel: labelId, userId: user.userId)
     }
     
-    func updateConversationStar(request: Conversations.UpdateConversationStar.Request) {
+    func updateItemStar(request: Conversations.UpdateItemStar.Request) {
         guard let userId = self.activeUserId else { return }
         
-        var service: ConversationOpsProcessing = self.resolver.resolve(ConversationOpsProcessing.self, argument: userId)!
-        service.delegate = self
-        service.label(conversationIds: [request.id], label: MailboxSidebar.Item.starred.id, apply: request.isOn, includingMessages: true)
-        
-        // Dispatch notification for other sections (e.g. conversation details)
-        // This worker will react to this notification as well
-        let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: request.id)
-        NotificationCenter.default.post(notification)
+        switch request.type {
+        case .conversation:
+            self.mailboxWorker?.updateConversationStar(id: request.id, isOn: request.isOn, userId: userId)
+            
+        case .message:
+            self.mailboxWorker?.updateMessageStar(id: request.id, isOn: request.isOn, userId: userId)
+        }
     }
     
-    func processConversationsSelection(request: Conversations.ConversationsDidSelect.Request) {
+    func processItemsSelection(request: Conversations.ItemsDidSelect.Request) {
         // Load conversation
         if request.ids.count == 1 {
-            let response: Conversations.LoadConversation.Response = Conversations.LoadConversation.Response(id: request.ids[0])
+            let conversationId: String
+            
+            switch request.type {
+            case .conversation:
+                conversationId = request.ids[0]
+                
+            case .message:
+                guard let id = self.mailboxWorker?.getConversationId(forMessageId: request.ids[0]) else { return }
+                
+                conversationId = id
+            }
+            
+            let response: Conversations.LoadConversation.Response = Conversations.LoadConversation.Response(id: conversationId)
             self.delegate?.conversationShouldLoad(response: response)
         }
     }
     
     func reloadConversations() {
-        guard let labelId = self.labelId,
-              let user = self.usersManager.activeUser else { return }
-        
-        self.loadConversations(forLabel: labelId, userId: user.userId)
+        self.mailboxWorker?.refreshMailbox()
     }
     
     //
-    // MARK: - Conversations loading delegate
+    // MARK: - Conversations managing delegate
     //
     
     func cachedConversationsDidLoad(_ conversations: [Conversations.Conversation.Response]) {
@@ -98,57 +105,76 @@ class ConversationsWorker: ConversationsLoadingDelegate, ConversationOpsProcessi
     
     func conversationsDidUpdate(response: Conversations.UpdateConversations.Response) {
         self.delegate?.conversationsDidUpdate(response: response)
-        
-        let ids: [String] = response.conversations.map { $0.id }
-        let notification: Conversations.Notifications.ConversationsUpdate = Conversations.Notifications.ConversationsUpdate(conversationIds: ids)
-        notification.post()
     }
     
     func conversationsLoadDidFail(response: Conversations.LoadError.Response) {
-        self.delegate?.conversationsLoadDidFail(response: response)
+        self.mailboxLoadDidFail(error: response.error)
     }
     
-    func conversationsDidUpdateWithoutChange() {
-        self.delegate?.conversationsDidUpdateWithoutChange()
+    func conversationDidUpdate(conversation: Conversations.Conversation.Response, index: Int) {
+        let response: Conversations.UpdateConversation.Response = Conversations.UpdateConversation.Response(conversation: conversation, index: index)
+        self.delegate?.conversationDidUpdate(response: response)
     }
     
     //
-    // MARK: - Conversation ops delegate
+    // MARK: - Messages managing delegate
     //
     
-    func labelsDidUpdateForConversations(ids: [String], labelId: String) {
-        // todo refresh
+    func cachedMessagesDidLoad(_ messages: [Messages.Message.Response]) {
+        let response = Messages.LoadMessages.Response(messages: messages, isServerResponse: false)
+        self.delegate?.messagesDidLoad(response: response)
+    }
+    
+    func messagesDidLoad(_ messages: [Messages.Message.Response]) {
+        let response = Messages.LoadMessages.Response(messages: messages, isServerResponse: true)
+        self.delegate?.messagesDidLoad(response: response)
+    }
+    
+    func messagesDidUpdate(response: Messages.UpdateMessages.Response) {
+        self.delegate?.messagesDidUpdate(response: response)
+    }
+    
+    func messagesLoadDidFail(response: Messages.LoadError.Response) {
+        self.mailboxLoadDidFail(error: response.error)
+    }
+    
+    func messageDidUpdate(message: Messages.Message.Response, index: Int) {
+        let response: Messages.UpdateMessage.Response = Messages.UpdateMessage.Response(message: message, index: index)
+        self.delegate?.messageDidUpdate(response: response)
+    }
+    
+    //
+    // MARK: - Mailbox managing delegate
+    //
+    
+    func mailboxDidUpdateWithoutChange() {
+        self.delegate?.mailboxDidUpdateWithoutChange()
+    }
+    
+    func mailboxLoadDidFail(error: NSError) {
+        let response: Conversations.LoadError.Response = Conversations.LoadError.Response(error: error)
+        self.delegate?.loadDidFail(response: response)
     }
     
     //
     // MARK: - Private
     //
     
-    private func addObservers() {
-        self.conversationUpdateObserver = NotificationCenter.default.addObserver(forType: Conversations.Notifications.ConversationUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
-            guard let weakSelf = self, let conversationId = notification?.conversationId else { return }
-            
-            weakSelf.refreshConversation(id: conversationId)
-        })
-    }
-    
-    private func loadConversations(forLabel labelId: String, userId: String) {
-        // Create new worker if needed
-        if self.loadingWorker == nil || self.loadingWorker!.labelId != labelId {
-            self.loadingWorker?.delegate = nil
-            
-            self.loadingWorker = self.resolver.resolve(ConversationsLoading.self, arguments: labelId, userId)
-            self.loadingWorker?.delegate = self
+    private func loadItems(forLabel labelId: String, userId: String) {
+        let item: MailboxSidebar.Item = MailboxSidebar.Item(id: labelId, title: nil)
+        
+        if self.mailboxWorker == nil || self.mailboxWorker!.userId != userId {
+            self.mailboxWorker = self.resolver.resolve(MailboxManaging.self, argument: userId)
+            self.mailboxWorker?.delegate = self
         }
         
-        self.loadingWorker?.loadConversations()
-    }
-    
-    private func refreshConversation(id: String) {
-        guard let (conversation, index) = self.loadingWorker?.updateConversation(id: id) else { return }
-        
-        let response: Conversations.UpdateConversation.Response = Conversations.UpdateConversation.Response(conversation: conversation, index: index)
-        self.delegate?.conversationDidUpdate(response: response)
+        switch item {
+        case .outbox, .draft:
+            self.mailboxWorker?.loadMailbox(labelId: labelId, isMessages: true)
+            
+        default:
+            self.mailboxWorker?.loadMailbox(labelId: labelId, isMessages: false)
+        }
     }
     
 }

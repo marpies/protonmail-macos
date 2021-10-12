@@ -9,10 +9,10 @@
 import Foundation
 
 protocol ConversationsBusinessLogic {
-    func loadConversations(request: Conversations.LoadConversations.Request)
+    func loadItems(request: Conversations.LoadItems.Request)
     func processErrorViewButtonTap()
-    func updateConversationStar(request: Conversations.UpdateConversationStar.Request)
-    func processConversationsSelection(request: Conversations.ConversationsDidSelect.Request)
+    func updateItemStar(request: Conversations.UpdateItemStar.Request)
+    func processItemsSelection(request: Conversations.ItemsDidSelect.Request)
     func processRefreshButtonTap()
 }
 
@@ -27,12 +27,12 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
     var presenter: ConversationsPresentationLogic?
     
     //
-    // MARK: - Load conversations
+    // MARK: - Load items
     //
     
-    func loadConversations(request: Conversations.LoadConversations.Request) {
+    func loadItems(request: Conversations.LoadItems.Request) {
         self.worker?.delegate = self
-        self.worker?.loadConversations(request: request)
+        self.worker?.loadItems(request: request)
     }
     
     //
@@ -47,16 +47,16 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
     // MARK: - Star / unstar conversation
     //
     
-    func updateConversationStar(request: Conversations.UpdateConversationStar.Request) {
-        self.worker?.updateConversationStar(request: request)
+    func updateItemStar(request: Conversations.UpdateItemStar.Request) {
+        self.worker?.updateItemStar(request: request)
     }
     
     //
     // MARK: - Process conversations selection
     //
     
-    func processConversationsSelection(request: Conversations.ConversationsDidSelect.Request) {
-        self.worker?.processConversationsSelection(request: request)
+    func processItemsSelection(request: Conversations.ItemsDidSelect.Request) {
+        self.worker?.processItemsSelection(request: request)
     }
     
     //
@@ -83,16 +83,28 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
         self.presenter?.presentConversationUpdate(response: response)
     }
     
-    func conversationsLoadDidFail(response: Conversations.LoadError.Response) {
-        self.presenter?.presentConversationsError(response: response)
-    }
-    
-    func conversationsDidUpdateWithoutChange() {
-        self.presenter?.presentConversationsUpToDate()
+    func loadDidFail(response: Conversations.LoadError.Response) {
+        self.presenter?.presentLoadError(response: response)
     }
     
     func conversationShouldLoad(response: Conversations.LoadConversation.Response) {
         self.presenter?.presentLoadConversation(response: response)
+    }
+    
+    func messagesDidLoad(response: Messages.LoadMessages.Response) {
+        self.presenter?.presentMessages(response: response)
+    }
+    
+    func messageDidUpdate(response: Messages.UpdateMessage.Response) {
+        self.presenter?.presentMessageUpdate(response: response)
+    }
+    
+    func messagesDidUpdate(response: Messages.UpdateMessages.Response) {
+        self.presenter?.presentMessagesUpdate(response: response)
+    }
+    
+    func mailboxDidUpdateWithoutChange() {
+        self.presenter?.presentItemsUpToDate()
     }
     
 }

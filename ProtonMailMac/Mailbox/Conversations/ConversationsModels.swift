@@ -57,16 +57,16 @@ enum Conversations {
                 return ["conversationIds": self.conversationIds]
             }
             
-            let conversationIds: [String]
+            let conversationIds: Set<String>
             
-            init(conversationIds: [String]) {
+            init(conversationIds: Set<String>) {
                 self.conversationIds = conversationIds
             }
             
             init?(notification: Notification?) {
                 guard let name = notification?.name,
                       name == ConversationsUpdate.name,
-                      let conversationIds = notification?.userInfo?["conversationIds"] as? [String] else { return nil }
+                      let conversationIds = notification?.userInfo?["conversationIds"] as? Set<String> else { return nil }
                 
                 self.conversationIds = conversationIds
             }
@@ -117,8 +117,15 @@ enum Conversations {
                 return lhs.hashValue == rhs.hashValue
             }
         }
+    }
+    
+    enum TableItem {
+        enum Kind {
+            case conversation, message
+        }
         
         class ViewModel {
+            let type: Conversations.TableItem.Kind
             let id: String
             let title: String
             let subtitle: String
@@ -128,8 +135,9 @@ enum Conversations {
             let folders: [Messages.Folder.ViewModel]?
             let labels: [Messages.Label.ViewModel]?
             let attachmentIcon: Messages.Attachment.ViewModel?
-            
-            init(id: String, title: String, subtitle: String, time: String, isRead: Bool, starIcon: Messages.Star.ViewModel, folders: [Messages.Folder.ViewModel]?, labels: [Messages.Label.ViewModel]?, attachmentIcon: Messages.Attachment.ViewModel?) {
+
+            init(type: Conversations.TableItem.Kind, id: String, title: String, subtitle: String, time: String, isRead: Bool, starIcon: Messages.Star.ViewModel, folders: [Messages.Folder.ViewModel]?, labels: [Messages.Label.ViewModel]?, attachmentIcon: Messages.Attachment.ViewModel?) {
+                self.type = type
                 self.id = id
                 self.title = title
                 self.subtitle = subtitle
@@ -148,10 +156,6 @@ enum Conversations {
     //
     
     enum LoadConversations {
-        struct Request {
-            let labelId: String
-        }
-        
         class Response {
             let conversations: [Conversations.Conversation.Response]
             let isServerResponse: Bool
@@ -161,13 +165,39 @@ enum Conversations {
                 self.isServerResponse = isServerResponse
             }
         }
+    }
+    
+    //
+    // MARK: - Load messages
+    //
+    
+    enum LoadMessages {
+        class Response {
+            let messages: [Messages.Message.Response]
+            let isServerResponse: Bool
+            
+            init(messages: [Messages.Message.Response], isServerResponse: Bool) {
+                self.messages = messages
+                self.isServerResponse = isServerResponse
+            }
+        }
+    }
+    
+    //
+    // MARK: - Load items
+    //
+    
+    enum LoadItems {
+        struct Request {
+            let labelId: String
+        }
         
         class ViewModel {
-            let conversations: [Conversations.Conversation.ViewModel]
+            let items: [Conversations.TableItem.ViewModel]
             let removeErrorView: Bool
             
-            init(conversations: [Conversations.Conversation.ViewModel], removeErrorView: Bool) {
-                self.conversations = conversations
+            init(items: [Conversations.TableItem.ViewModel], removeErrorView: Bool) {
+                self.items = items
                 self.removeErrorView = removeErrorView
             }
         }
@@ -191,15 +221,41 @@ enum Conversations {
                 self.updateSet = updateSet
             }
         }
-        
-        class ViewModel {
-            let conversations: [Conversations.Conversation.ViewModel]
+    }
+    
+    //
+    // MARK: - Update messages
+    //
+    
+    enum UpdateMessages {
+        class Response {
+            let messages: [Messages.Message.Response]
             let removeSet: IndexSet?
             let insertSet: IndexSet?
             let updateSet: IndexSet?
             
-            init(conversations: [Conversations.Conversation.ViewModel], removeSet: IndexSet?, insertSet: IndexSet?, updateSet: IndexSet?) {
-                self.conversations = conversations
+            init(messages: [Messages.Message.Response], removeSet: IndexSet?, insertSet: IndexSet?, updateSet: IndexSet?) {
+                self.messages = messages
+                self.removeSet = removeSet
+                self.insertSet = insertSet
+                self.updateSet = updateSet
+            }
+        }
+    }
+    
+    //
+    // MARK: - Update items
+    //
+    
+    enum UpdateItems {
+        class ViewModel {
+            let items: [Conversations.TableItem.ViewModel]
+            let removeSet: IndexSet?
+            let insertSet: IndexSet?
+            let updateSet: IndexSet?
+            
+            init(items: [Conversations.TableItem.ViewModel], removeSet: IndexSet?, insertSet: IndexSet?, updateSet: IndexSet?) {
+                self.items = items
                 self.removeSet = removeSet
                 self.insertSet = insertSet
                 self.updateSet = updateSet
@@ -221,36 +277,60 @@ enum Conversations {
                 self.index = index
             }
         }
-        
-        class ViewModel {
-            let conversation: Conversations.Conversation.ViewModel
+    }
+    
+    //
+    // MARK: - Update message
+    //
+    
+    enum UpdateMessage {
+        class Response {
+            let message: Messages.Message.Response
             let index: Int
             
-            init(conversation: Conversations.Conversation.ViewModel, index: Int) {
-                self.conversation = conversation
+            init(message: Messages.Message.Response, index: Int) {
+                self.message = message
                 self.index = index
             }
         }
     }
     
     //
-    // MARK: - Update conversation star
+    // MARK: - Update item
     //
     
-    enum UpdateConversationStar {
-        struct Request {
-            let id: String
-            let isOn: Bool
+    enum UpdateItem {
+        class ViewModel {
+            let item: Conversations.TableItem.ViewModel
+            let index: Int
+            
+            init(item: Conversations.TableItem.ViewModel, index: Int) {
+                self.item = item
+                self.index = index
+            }
         }
     }
     
     //
-    // MARK: - Conversations did select
+    // MARK: - Update item star
     //
     
-    enum ConversationsDidSelect {
+    enum UpdateItemStar {
+        struct Request {
+            let id: String
+            let isOn: Bool
+            let type: Conversations.TableItem.Kind
+        }
+    }
+    
+    //
+    // MARK: - Items did select
+    //
+    
+    enum ItemsDidSelect {
         struct Request {
             let ids: [String]
+            let type: Conversations.TableItem.Kind
         }
     }
     
