@@ -119,38 +119,6 @@ enum Conversations {
         }
     }
     
-    enum TableItem {
-        enum Kind {
-            case conversation, message
-        }
-        
-        class ViewModel {
-            let type: Conversations.TableItem.Kind
-            let id: String
-            let title: String
-            let subtitle: String
-            let time: String
-            let isRead: Bool
-            let starIcon: Messages.Star.ViewModel
-            let folders: [Messages.Folder.ViewModel]?
-            let labels: [Messages.Label.ViewModel]?
-            let attachmentIcon: Messages.Attachment.ViewModel?
-
-            init(type: Conversations.TableItem.Kind, id: String, title: String, subtitle: String, time: String, isRead: Bool, starIcon: Messages.Star.ViewModel, folders: [Messages.Folder.ViewModel]?, labels: [Messages.Label.ViewModel]?, attachmentIcon: Messages.Attachment.ViewModel?) {
-                self.type = type
-                self.id = id
-                self.title = title
-                self.subtitle = subtitle
-                self.time = time
-                self.isRead = isRead
-                self.starIcon = starIcon
-                self.folders = folders
-                self.labels = labels
-                self.attachmentIcon = attachmentIcon
-            }
-        }
-    }
-    
     //
     // MARK: - Load conversations
     //
@@ -163,42 +131,6 @@ enum Conversations {
             init(conversations: [Conversations.Conversation.Response], isServerResponse: Bool) {
                 self.conversations = conversations
                 self.isServerResponse = isServerResponse
-            }
-        }
-    }
-    
-    //
-    // MARK: - Load messages
-    //
-    
-    enum LoadMessages {
-        class Response {
-            let messages: [Messages.Message.Response]
-            let isServerResponse: Bool
-            
-            init(messages: [Messages.Message.Response], isServerResponse: Bool) {
-                self.messages = messages
-                self.isServerResponse = isServerResponse
-            }
-        }
-    }
-    
-    //
-    // MARK: - Load items
-    //
-    
-    enum LoadItems {
-        struct Request {
-            let labelId: String
-        }
-        
-        class ViewModel {
-            let items: [Conversations.TableItem.ViewModel]
-            let removeErrorView: Bool
-            
-            init(items: [Conversations.TableItem.ViewModel], removeErrorView: Bool) {
-                self.items = items
-                self.removeErrorView = removeErrorView
             }
         }
     }
@@ -224,46 +156,6 @@ enum Conversations {
     }
     
     //
-    // MARK: - Update messages
-    //
-    
-    enum UpdateMessages {
-        class Response {
-            let messages: [Messages.Message.Response]
-            let removeSet: IndexSet?
-            let insertSet: IndexSet?
-            let updateSet: IndexSet?
-            
-            init(messages: [Messages.Message.Response], removeSet: IndexSet?, insertSet: IndexSet?, updateSet: IndexSet?) {
-                self.messages = messages
-                self.removeSet = removeSet
-                self.insertSet = insertSet
-                self.updateSet = updateSet
-            }
-        }
-    }
-    
-    //
-    // MARK: - Update items
-    //
-    
-    enum UpdateItems {
-        class ViewModel {
-            let items: [Conversations.TableItem.ViewModel]
-            let removeSet: IndexSet?
-            let insertSet: IndexSet?
-            let updateSet: IndexSet?
-            
-            init(items: [Conversations.TableItem.ViewModel], removeSet: IndexSet?, insertSet: IndexSet?, updateSet: IndexSet?) {
-                self.items = items
-                self.removeSet = removeSet
-                self.insertSet = insertSet
-                self.updateSet = updateSet
-            }
-        }
-    }
-    
-    //
     // MARK: - Update conversation
     //
     
@@ -276,75 +168,6 @@ enum Conversations {
                 self.conversation = conversation
                 self.index = index
             }
-        }
-    }
-    
-    //
-    // MARK: - Update message
-    //
-    
-    enum UpdateMessage {
-        class Response {
-            let message: Messages.Message.Response
-            let index: Int
-            
-            init(message: Messages.Message.Response, index: Int) {
-                self.message = message
-                self.index = index
-            }
-        }
-    }
-    
-    //
-    // MARK: - Update item
-    //
-    
-    enum UpdateItem {
-        class ViewModel {
-            let item: Conversations.TableItem.ViewModel
-            let index: Int
-            
-            init(item: Conversations.TableItem.ViewModel, index: Int) {
-                self.item = item
-                self.index = index
-            }
-        }
-    }
-    
-    //
-    // MARK: - Update item star
-    //
-    
-    enum UpdateItemStar {
-        struct Request {
-            let id: String
-            let isOn: Bool
-            let type: Conversations.TableItem.Kind
-        }
-    }
-    
-    //
-    // MARK: - Items did select
-    //
-    
-    enum ItemsDidSelect {
-        struct Request {
-            let ids: [String]
-            let type: Conversations.TableItem.Kind
-        }
-    }
-    
-    //
-    // MARK: - Load conversation
-    //
-    
-    enum LoadConversation {
-        struct Response {
-            let id: String
-        }
-        
-        struct ViewModel {
-            let id: String
         }
     }
     

@@ -23,7 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             SignInAssembly(),
             MailboxSidebarAssembly(),
             ConversationDetailsAssembly(),
-            ConversationsAssembly(),
+            MailboxAssembly(),
             MainAssembly(),
             ServicesAssembly()
         ])

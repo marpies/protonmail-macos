@@ -33,7 +33,7 @@ extension CoreDataService {
             }
         }
         
-        let notification: Mailbox.Notifications.ConversationCountsUpdate = Mailbox.Notifications.ConversationCountsUpdate(unread: unread, total: total, userId: userId)
+        let notification: Main.Notifications.ConversationCountsUpdate = Main.Notifications.ConversationCountsUpdate(unread: unread, total: total, userId: userId)
         notification.post()
         
         // Update badge

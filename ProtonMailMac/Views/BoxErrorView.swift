@@ -36,10 +36,6 @@ class BoxErrorView: NSView {
         self.layer?.backgroundColor = NSColor.systemBlue.cgColor
     }
     
-    func update(viewModel: Conversations.LoadError.ViewModel) {
-        self.update(message: viewModel.message, button: viewModel.button)
-    }
-    
     func update(message: String, button: String) {
         self.label.stringValue = message
         self.button.title = button

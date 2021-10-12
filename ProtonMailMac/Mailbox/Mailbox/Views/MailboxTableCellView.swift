@@ -1,5 +1,5 @@
 //
-//  ConversationTableCellView.swift
+//  MailboxTableCellView.swift
 //  ProtonMailMac
 //
 //  Created by Marcel Piešťanský on 10.09.2021.
@@ -8,12 +8,12 @@
 
 import Cocoa
 
-protocol ConversationTableCellViewDelegate: AnyObject {
-    func conversationCellDidStarConversation(id: String, type: Conversations.TableItem.Kind)
-    func conversationCellDidUnstarConversation(id: String, type: Conversations.TableItem.Kind)
+protocol MailboxTableCellViewDelegate: AnyObject {
+    func mailboxCellDidStarItem(id: String, type: Mailbox.TableItem.Kind)
+    func mailboxCellDidUnstarItem(id: String, type: Mailbox.TableItem.Kind)
 }
 
-class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
+class MailboxTableCellView: NSTableCellView, ImageButtonDelegate {
     
     private var unreadIndicationView: CircleView?
     private var foldersView: MessageFoldersView?
@@ -31,9 +31,9 @@ class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
     private var attachmentIcon: NSImageView?
     
     private(set) var id: String?
-    private(set) var type: Conversations.TableItem.Kind?
+    private(set) var type: Mailbox.TableItem.Kind?
     
-    weak var delegate: ConversationTableCellViewDelegate?
+    weak var delegate: MailboxTableCellViewDelegate?
 
     init() {
         super.init(frame: .zero)
@@ -49,7 +49,7 @@ class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
     // MARK: - Public
     //
     
-    func update(viewModel: Conversations.TableItem.ViewModel) {
+    func update(viewModel: Mailbox.TableItem.ViewModel) {
         self.id = viewModel.id
         self.type = viewModel.type
         
@@ -266,13 +266,13 @@ class ConversationTableCellView: NSTableCellView, ImageButtonDelegate {
     func imageButtonDidSelect(_ button: ImageButton) {
         guard let id = self.id, let type = self.type else { return }
         
-        self.delegate?.conversationCellDidStarConversation(id: id, type: type)
+        self.delegate?.mailboxCellDidStarItem(id: id, type: type)
     }
     
     func imageButtonDidDeselect(_ button: ImageButton) {
         guard let id = self.id, let type = self.type else { return }
         
-        self.delegate?.conversationCellDidUnstarConversation(id: id, type: type)
+        self.delegate?.mailboxCellDidUnstarItem(id: id, type: type)
     }
     
 }

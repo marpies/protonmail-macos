@@ -1,5 +1,5 @@
 //
-//  ConversationsInteractor.swift
+//  MailboxInteractor.swift
 //  ProtonMailMac
 //
 //  Created by Marcel Piešťanský on 16.09.2021.
@@ -8,29 +8,29 @@
 
 import Foundation
 
-protocol ConversationsBusinessLogic {
-    func loadItems(request: Conversations.LoadItems.Request)
+protocol MailboxBusinessLogic {
+    func loadItems(request: Mailbox.LoadItems.Request)
     func processErrorViewButtonTap()
-    func updateItemStar(request: Conversations.UpdateItemStar.Request)
-    func processItemsSelection(request: Conversations.ItemsDidSelect.Request)
+    func updateItemStar(request: Mailbox.UpdateItemStar.Request)
+    func processItemsSelection(request: Mailbox.ItemsDidSelect.Request)
     func processRefreshButtonTap()
 }
 
-protocol ConversationsDataStore {
+protocol MailboxDataStore {
     
 }
 
-class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStore, ConversationsWorkerDelegate {
+class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDelegate {
     
-    var worker: ConversationsWorker?
+    var worker: MailboxWorker?
     
-    var presenter: ConversationsPresentationLogic?
+    var presenter: MailboxPresentationLogic?
     
     //
     // MARK: - Load items
     //
     
-    func loadItems(request: Conversations.LoadItems.Request) {
+    func loadItems(request: Mailbox.LoadItems.Request) {
         self.worker?.delegate = self
         self.worker?.loadItems(request: request)
     }
@@ -47,7 +47,7 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
     // MARK: - Star / unstar conversation
     //
     
-    func updateItemStar(request: Conversations.UpdateItemStar.Request) {
+    func updateItemStar(request: Mailbox.UpdateItemStar.Request) {
         self.worker?.updateItemStar(request: request)
     }
     
@@ -55,7 +55,7 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
     // MARK: - Process conversations selection
     //
     
-    func processItemsSelection(request: Conversations.ItemsDidSelect.Request) {
+    func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
         self.worker?.processItemsSelection(request: request)
     }
     
@@ -83,11 +83,11 @@ class ConversationsInteractor: ConversationsBusinessLogic, ConversationsDataStor
         self.presenter?.presentConversationUpdate(response: response)
     }
     
-    func loadDidFail(response: Conversations.LoadError.Response) {
+    func loadDidFail(response: Mailbox.LoadError.Response) {
         self.presenter?.presentLoadError(response: response)
     }
     
-    func conversationShouldLoad(response: Conversations.LoadConversation.Response) {
+    func conversationShouldLoad(response: Mailbox.LoadConversation.Response) {
         self.presenter?.presentLoadConversation(response: response)
     }
     

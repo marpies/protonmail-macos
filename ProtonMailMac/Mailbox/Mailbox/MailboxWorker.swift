@@ -1,5 +1,5 @@
 //
-//  ConversationsWorker.swift
+//  MailboxWorker.swift
 //  ProtonMailMac
 //
 //  Created by Marcel Piešťanský on 16.09.2021.
@@ -9,19 +9,19 @@
 import Foundation
 import Swinject
 
-protocol ConversationsWorkerDelegate: AnyObject {
+protocol MailboxWorkerDelegate: AnyObject {
     func conversationsDidLoad(response: Conversations.LoadConversations.Response)
     func conversationsDidUpdate(response: Conversations.UpdateConversations.Response)
     func conversationDidUpdate(response: Conversations.UpdateConversation.Response)
-    func conversationShouldLoad(response: Conversations.LoadConversation.Response)
+    func conversationShouldLoad(response: Mailbox.LoadConversation.Response)
     func messagesDidLoad(response: Messages.LoadMessages.Response)
     func messagesDidUpdate(response: Messages.UpdateMessages.Response)
     func messageDidUpdate(response: Messages.UpdateMessage.Response)
     func mailboxDidUpdateWithoutChange()
-    func loadDidFail(response: Conversations.LoadError.Response)
+    func loadDidFail(response: Mailbox.LoadError.Response)
 }
 
-class ConversationsWorker: MailboxManagingWorkerDelegate {
+class MailboxWorker: MailboxManagingWorkerDelegate {
     
 	private let resolver: Resolver
     private let usersManager: UsersManager
@@ -35,14 +35,14 @@ class ConversationsWorker: MailboxManagingWorkerDelegate {
     /// The last loaded label. Nil if messages have not been loaded yet.
     var labelId: String?
 
-	weak var delegate: ConversationsWorkerDelegate?
+	weak var delegate: MailboxWorkerDelegate?
 
 	init(resolver: Resolver) {
 		self.resolver = resolver
         self.usersManager = resolver.resolve(UsersManager.self)!
 	}
 
-    func loadItems(request: Conversations.LoadItems.Request) {
+    func loadItems(request: Mailbox.LoadItems.Request) {
         guard let user = self.usersManager.activeUser else {
             fatalError("Unexpected application state.")
         }
@@ -53,7 +53,7 @@ class ConversationsWorker: MailboxManagingWorkerDelegate {
         self.loadItems(forLabel: labelId, userId: user.userId)
     }
     
-    func updateItemStar(request: Conversations.UpdateItemStar.Request) {
+    func updateItemStar(request: Mailbox.UpdateItemStar.Request) {
         guard let userId = self.activeUserId else { return }
         
         switch request.type {
@@ -65,7 +65,7 @@ class ConversationsWorker: MailboxManagingWorkerDelegate {
         }
     }
     
-    func processItemsSelection(request: Conversations.ItemsDidSelect.Request) {
+    func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
         // Load conversation
         if request.ids.count == 1 {
             let conversationId: String
@@ -80,7 +80,7 @@ class ConversationsWorker: MailboxManagingWorkerDelegate {
                 conversationId = id
             }
             
-            let response: Conversations.LoadConversation.Response = Conversations.LoadConversation.Response(id: conversationId)
+            let response: Mailbox.LoadConversation.Response = Mailbox.LoadConversation.Response(id: conversationId)
             self.delegate?.conversationShouldLoad(response: response)
         }
     }
@@ -152,7 +152,7 @@ class ConversationsWorker: MailboxManagingWorkerDelegate {
     }
     
     func mailboxLoadDidFail(error: NSError) {
-        let response: Conversations.LoadError.Response = Conversations.LoadError.Response(error: error)
+        let response: Mailbox.LoadError.Response = Mailbox.LoadError.Response(error: error)
         self.delegate?.loadDidFail(response: response)
     }
     

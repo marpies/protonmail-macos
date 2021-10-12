@@ -13,12 +13,12 @@ protocol MainDisplayLogic: AnyObject {
     func displayTitle(viewModel: Main.LoadTitle.ViewModel)
 }
 
-class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, ConversationsViewControllerDelegate {
+class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, MailboxViewControllerDelegate {
 	
 	var interactor: MainBusinessLogic?
 	var router: (MainRoutingLogic & MainDataPassing)?
     var sidebarViewController: MailboxSidebarViewController?
-    var conversationsViewController: ConversationsViewController?
+    var mailboxViewController: MailboxViewController?
     var conversationDetailsViewController: ConversationDetailsViewController?
     
     weak var toolbarDelegate: ToolbarUtilizingDelegate?
@@ -32,15 +32,15 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     override func loadView() {
         self.sidebarViewController?.delegate = self
         self.sidebarViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
-        self.conversationsViewController?.delegate = self
-        self.conversationsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
+        self.mailboxViewController?.delegate = self
+        self.mailboxViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
         self.conversationDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
         
         let sidebarItem = NSSplitViewItem(sidebarWithViewController: self.sidebarViewController!)
         sidebarItem.canCollapse = false
         addSplitViewItem(sidebarItem)
         
-        let contentItem = NSSplitViewItem(contentListWithViewController: self.conversationsViewController!)
+        let contentItem = NSSplitViewItem(contentListWithViewController: self.mailboxViewController!)
         addSplitViewItem(contentItem)
         
         let detailsItem = NSSplitViewItem(viewController: self.conversationDetailsViewController!)
@@ -92,14 +92,14 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     //
     
     func mailboxSidebarDidSelectLabel(id: String) {
-        self.conversationsViewController?.loadConversations(labelId: id)
+        self.mailboxViewController?.loadMailbox(labelId: id)
         
         let request = Main.LoadTitle.Request(labelId: id)
         self.interactor?.loadTitle(request: request)
     }
     
     //
-    // MARK: - Conversations delegate
+    // MARK: - Mailbox delegate
     //
     
     func conversationDidRequestLoad(conversationId: String) {

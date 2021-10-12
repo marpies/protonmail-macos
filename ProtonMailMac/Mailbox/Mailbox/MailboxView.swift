@@ -1,5 +1,5 @@
 //
-//  ConversationsView.swift
+//  MailboxView.swift
 //  ProtonMailMac
 //
 //  Created by Marcel Piešťanský on 16.09.2021.
@@ -8,21 +8,21 @@
 
 import AppKit
 
-protocol ConversationsViewDelegate: ConversationsDataSourceDelegate, BoxErrorViewDelegate {
+protocol MailboxViewDelegate: MailboxDataSourceDelegate, BoxErrorViewDelegate {
     func refreshMessagesButtonDidTap()
 }
 
-class ConversationsView: NSView {
+class MailboxView: NSView {
     
     private let scrollView: NSScrollView = NSScrollView()
     private let tableView: NSTableView = NSTableView()
     private let column: NSTableColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("list"))
     
-    private lazy var dataSource: ConversationsDataSource = ConversationsDataSource(tableView: self.tableView)
+    private lazy var dataSource: MailboxDataSource = MailboxDataSource(tableView: self.tableView)
     
     private var errorView: BoxErrorView?
     
-    weak var delegate: ConversationsViewDelegate?
+    weak var delegate: MailboxViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -38,7 +38,7 @@ class ConversationsView: NSView {
     // MARK: - Public
     //
     
-    func displayItems(viewModel: Conversations.LoadItems.ViewModel) {
+    func displayItems(viewModel: Mailbox.LoadItems.ViewModel) {
         if viewModel.removeErrorView {
             self.removeErrorView()
         }
@@ -48,7 +48,7 @@ class ConversationsView: NSView {
         self.tableView.reloadData()
     }
     
-    func displayItemsUpdate(viewModel: Conversations.UpdateItems.ViewModel) {
+    func displayItemsUpdate(viewModel: Mailbox.UpdateItems.ViewModel) {
         self.removeErrorView()
         
         self.dataSource.setData(viewModel: viewModel.items)
@@ -73,12 +73,12 @@ class ConversationsView: NSView {
         self.tableView.endUpdates()
     }
     
-    func displayItemUpdate(viewModel: Conversations.UpdateItem.ViewModel) {
+    func displayItemUpdate(viewModel: Mailbox.UpdateItem.ViewModel) {
         self.dataSource.updateData(viewModel: viewModel.item, at: viewModel.index)
         self.tableView.reloadData(forRowIndexes: IndexSet(integer: viewModel.index), columnIndexes: IndexSet(integer: 0))
     }
     
-    func displayConversationsError(viewModel: Conversations.LoadError.ViewModel) {
+    func displayMailboxError(viewModel: Mailbox.LoadError.ViewModel) {
         if self.errorView == nil {
             self.errorView = BoxErrorView()
             self.errorView?.delegate = self.delegate
@@ -96,7 +96,7 @@ class ConversationsView: NSView {
             }
         }
         
-        self.errorView?.update(viewModel: viewModel)
+        self.errorView?.update(message: viewModel.message, button: viewModel.button)
     }
     
     func removeErrorView() {
