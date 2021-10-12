@@ -71,13 +71,15 @@ extension MessageDiffing {
         return ids
     }
     
-    private func getIndexSet(ids: Set<String>, messages: [Messages.Message.Response]) -> IndexSet {
+    private func getIndexSet(ids: Set<String>, messages: [Messages.Message.Response]) -> IndexSet? {
         var indices: [Int] = []
         
         for id in ids {
             guard let index = messages.firstIndex(where: { $0.id == id }) else { continue }
             indices.append(index)
         }
+        
+        if indices.isEmpty { return nil }
         
         indices.sort(by: <)
         
