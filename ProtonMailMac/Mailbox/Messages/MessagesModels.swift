@@ -384,16 +384,6 @@ enum Messages {
                 self.isServerResponse = isServerResponse
             }
 		}
-
-		class ViewModel {
-            let messages: [Messages.Message.ViewModel]
-            let removeErrorView: Bool
-
-            init(messages: [Messages.Message.ViewModel], removeErrorView: Bool) {
-                self.messages = messages
-                self.removeErrorView = removeErrorView
-            }
-		}
 	}
     
     //
@@ -444,16 +434,6 @@ enum Messages {
                 self.index = index
             }
         }
-        
-        class ViewModel {
-            let message: Messages.Message.ViewModel
-            let index: Int
-            
-            init(message: Messages.Message.ViewModel, index: Int) {
-                self.message = message
-                self.index = index
-            }
-        }
     }
     
     //
@@ -468,26 +448,6 @@ enum Messages {
         struct ViewModel {
             let message: String
             let button: String
-        }
-    }
-    
-    //
-    // MARK: - Star message
-    //
-    
-    enum StarMessage {
-        struct Request {
-            let id: String
-        }
-    }
-    
-    //
-    // MARK: - Unstar message
-    //
-    
-    enum UnstarMessage {
-        struct Request {
-            let id: String
         }
     }
     

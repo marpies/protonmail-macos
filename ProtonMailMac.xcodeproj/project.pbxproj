@@ -191,14 +191,7 @@
 		C3A6590926E7762500CFE2F9 /* Groot in Frameworks */ = {isa = PBXBuildFile; productRef = C3A6590826E7762500CFE2F9 /* Groot */; };
 		C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D326E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift */; };
 		C3AA69D626E5101F00124A0B /* NSColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */; };
-		C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */; };
-		C3AA69DF26E5441B00124A0B /* MessagesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D826E5441B00124A0B /* MessagesWorker.swift */; };
-		C3AA69E026E5441B00124A0B /* MessagesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69D926E5441B00124A0B /* MessagesRouter.swift */; };
 		C3AA69E126E5441B00124A0B /* MessagesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DA26E5441B00124A0B /* MessagesModels.swift */; };
-		C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DB26E5441B00124A0B /* MessagesViewController.swift */; };
-		C3AA69E326E5441B00124A0B /* MessagesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */; };
-		C3AA69E426E5441B00124A0B /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69DD26E5441B00124A0B /* MessagesView.swift */; };
-		C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */; };
 		C3AA69F826E651C700124A0B /* MessagesByLabelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */; };
 		C3C6FD1726EB1F450066C504 /* MessagesLoadingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */; };
 		C3C6FD1926EB21AA0066C504 /* MessageToModelConverting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */; };
@@ -531,14 +524,7 @@
 		C3A6590626E6967900CFE2F9 /* Array+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+JSON.swift"; sourceTree = "<group>"; };
 		C3AA69D326E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+PerformWith.swift"; sourceTree = "<group>"; };
 		C3AA69D526E5101F00124A0B /* NSColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Hex.swift"; sourceTree = "<group>"; };
-		C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesPresenter.swift; sourceTree = "<group>"; };
-		C3AA69D826E5441B00124A0B /* MessagesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesWorker.swift; sourceTree = "<group>"; };
-		C3AA69D926E5441B00124A0B /* MessagesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesRouter.swift; sourceTree = "<group>"; };
 		C3AA69DA26E5441B00124A0B /* MessagesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesModels.swift; sourceTree = "<group>"; };
-		C3AA69DB26E5441B00124A0B /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
-		C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesInteractor.swift; sourceTree = "<group>"; };
-		C3AA69DD26E5441B00124A0B /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
-		C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesAssembly.swift; sourceTree = "<group>"; };
 		C3AA69F726E651C700124A0B /* MessagesByLabelRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesByLabelRequest.swift; sourceTree = "<group>"; };
 		C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesLoadingWorker.swift; sourceTree = "<group>"; };
 		C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageToModelConverting.swift; sourceTree = "<group>"; };
@@ -697,7 +683,6 @@
 				C31D027226D76506002EBBE0 /* SignInAssembly.swift */,
 				C31D02F626D945D7002EBBE0 /* MailboxAssembly.swift */,
 				C31D02F826D96210002EBBE0 /* MailboxSidebarAssembly.swift */,
-				C3AA69E526E5457A00124A0B /* MessagesAssembly.swift */,
 				C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */,
 				C3DACB4826E9448800927933 /* ServicesAssembly.swift */,
 				C38ADA6926F388B20055A1AE /* ConversationsAssembly.swift */,
@@ -1013,13 +998,7 @@
 				C353422826F4DA3400EA0137 /* Presenters */,
 				C3DACB3B26E9418800927933 /* Services */,
 				C3DACB6326EA8C6100927933 /* Workers */,
-				C3AA69D726E5441B00124A0B /* MessagesPresenter.swift */,
-				C3AA69D826E5441B00124A0B /* MessagesWorker.swift */,
-				C3AA69D926E5441B00124A0B /* MessagesRouter.swift */,
 				C3AA69DA26E5441B00124A0B /* MessagesModels.swift */,
-				C3AA69DB26E5441B00124A0B /* MessagesViewController.swift */,
-				C3AA69DC26E5441B00124A0B /* MessagesInteractor.swift */,
-				C3AA69DD26E5441B00124A0B /* MessagesView.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -1645,7 +1624,6 @@
 				C3AA69F826E651C700124A0B /* MessagesByLabelRequest.swift in Sources */,
 				C3C8262E26FE4B3A00B4E95C /* Attachment+Helpers.swift in Sources */,
 				C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */,
-				C3AA69DF26E5441B00124A0B /* MessagesWorker.swift in Sources */,
 				C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */,
 				C31D02CF26D80EB3002EBBE0 /* TwoFactorInputViewController.swift in Sources */,
 				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
@@ -1678,15 +1656,12 @@
 				C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */,
 				C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */,
 				C35B57AF27148038005315B9 /* MessagesCountResponse.swift in Sources */,
-				C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */,
 				C3C8263826FF23AC00B4E95C /* DownloadAttachmentRequest.swift in Sources */,
 				C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */,
 				C3F20A2D26D534FD0051EFEB /* SetupView.swift in Sources */,
-				C3AA69E026E5441B00124A0B /* MessagesRouter.swift in Sources */,
 				C31D026F26D76112002EBBE0 /* SetupAssembly.swift in Sources */,
 				C3C825FD26FA612B00B4E95C /* ConversationActionRequest.swift in Sources */,
 				C31D032626DA9A85002EBBE0 /* Label.swift in Sources */,
-				C3AA69E326E5441B00124A0B /* MessagesInteractor.swift in Sources */,
 				C3C6FD3B26EFB8440066C504 /* MessageAction.swift in Sources */,
 				C3C6FD4F26F36CE00066C504 /* ConversationsApi.swift in Sources */,
 				C39A244026D2D8FB008A482C /* JKBCrypt.swift in Sources */,
@@ -1769,10 +1744,8 @@
 				C3C6FD5C26F36EF10066C504 /* ConversationsViewController.swift in Sources */,
 				C38ADA6E26F389C70055A1AE /* Conversation+Helpers.swift in Sources */,
 				C39A244426D2D8FB008A482C /* PasswordUtils.swift in Sources */,
-				C3AA69DE26E5441B00124A0B /* MessagesPresenter.swift in Sources */,
 				C35B579E27104B30005315B9 /* CoreDataService+UnreadCounter.swift in Sources */,
 				C35B57AB2712F5D1005315B9 /* MessagesManagingWorker.swift in Sources */,
-				C3AA69E626E5457A00124A0B /* MessagesAssembly.swift in Sources */,
 				C39A241826D2D8D9008A482C /* MessageDetailResponse.swift in Sources */,
 				C31D02F726D945D7002EBBE0 /* MailboxAssembly.swift in Sources */,
 				C3C6FD6926F382590066C504 /* ConversationsDatabaseManaging.swift in Sources */,
@@ -1858,7 +1831,6 @@
 				C3C6FD1926EB21AA0066C504 /* MessageToModelConverting.swift in Sources */,
 				C3C6FD4B26F36B320066C504 /* Conversation.swift in Sources */,
 				C39A241C26D2D8D9008A482C /* ErrorResponse.swift in Sources */,
-				C3AA69E426E5441B00124A0B /* MessagesView.swift in Sources */,
 				C36814D726D6601600A35A16 /* SignInView.swift in Sources */,
 				C39A24D926D3BA69008A482C /* KeychainWrapper.swift in Sources */,
 				C3DACB5C26EA26C500927933 /* CoreDataService+LabelUpdate.swift in Sources */,
