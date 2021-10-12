@@ -1318,7 +1318,6 @@
 				C3C6FD6426F37CF80066C504 /* ConversationDiffing.swift */,
 				C3C6FD6626F37E1B0066C504 /* ConversationToModelConverting.swift */,
 				C35B57A82712F2EE005315B9 /* ConversationsManagingWorker.swift */,
-				C35B57AA2712F5D1005315B9 /* MessagesManagingWorker.swift */,
 				C35B57AC27145667005315B9 /* MailboxManagingWorker.swift */,
 				C35B57B22714C1FB005315B9 /* MailboxCountLoadingWorker.swift */,
 				C35B57B62715A61E005315B9 /* ConversationLabelStatusChecking.swift */,
@@ -1403,6 +1402,7 @@
 				C3DACB6626EA8CA800927933 /* MessageDiffing.swift */,
 				C3C6FD1626EB1F450066C504 /* MessagesLoadingWorker.swift */,
 				C3C6FD1826EB21AA0066C504 /* MessageToModelConverting.swift */,
+				C35B57AA2712F5D1005315B9 /* MessagesManagingWorker.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
