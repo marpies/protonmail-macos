@@ -97,6 +97,7 @@
 		C35B57A72711C6B3005315B9 /* AppToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A62711C6B3005315B9 /* AppToolbarDelegate.swift */; };
 		C35B57AF27148038005315B9 /* MessagesCountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57AE27148038005315B9 /* MessagesCountResponse.swift */; };
 		C35B57B12714809E005315B9 /* MessagesCountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57B02714809E005315B9 /* MessagesCountRequest.swift */; };
+		C35B57B32714C1FB005315B9 /* MailboxCountLoadingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57B22714C1FB005315B9 /* MailboxCountLoadingWorker.swift */; };
 		C35B57B52714C305005315B9 /* LabelMessageCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57B42714C305005315B9 /* LabelMessageCount.swift */; };
 		C35B57B72715A61E005315B9 /* ConversationLabelStatusChecking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57B62715A61E005315B9 /* ConversationLabelStatusChecking.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
@@ -434,6 +435,7 @@
 		C35B57A62711C6B3005315B9 /* AppToolbarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbarDelegate.swift; sourceTree = "<group>"; };
 		C35B57AE27148038005315B9 /* MessagesCountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesCountResponse.swift; sourceTree = "<group>"; };
 		C35B57B02714809E005315B9 /* MessagesCountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesCountRequest.swift; sourceTree = "<group>"; };
+		C35B57B22714C1FB005315B9 /* MailboxCountLoadingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxCountLoadingWorker.swift; sourceTree = "<group>"; };
 		C35B57B42714C305005315B9 /* LabelMessageCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelMessageCount.swift; sourceTree = "<group>"; };
 		C35B57B62715A61E005315B9 /* ConversationLabelStatusChecking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationLabelStatusChecking.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
@@ -1330,6 +1332,7 @@
 				C3C6FD6226F37B450066C504 /* ConversationsLoadingWorker.swift */,
 				C3C6FD6426F37CF80066C504 /* ConversationDiffing.swift */,
 				C3C6FD6626F37E1B0066C504 /* ConversationToModelConverting.swift */,
+				C35B57B22714C1FB005315B9 /* MailboxCountLoadingWorker.swift */,
 				C35B57B62715A61E005315B9 /* ConversationLabelStatusChecking.swift */,
 			);
 			path = Workers;
@@ -1625,6 +1628,7 @@
 				C353423926F8997A00EA0137 /* IconView.swift in Sources */,
 				C353423426F4E7F400EA0137 /* FlippedStackView.swift in Sources */,
 				C353422726F4C43300EA0137 /* MessageDetailsHeaderView.swift in Sources */,
+				C35B57B32714C1FB005315B9 /* MailboxCountLoadingWorker.swift in Sources */,
 				C39A241926D2D8D9008A482C /* KeySaltsResponse.swift in Sources */,
 				C31D032F26DA9A85002EBBE0 /* Attachment.swift in Sources */,
 				C39A24D726D3B90B008A482C /* KeymakerWrapper.swift in Sources */,
