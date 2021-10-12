@@ -95,6 +95,9 @@
 		C35B57A32711911D005315B9 /* ConversationsCountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A22711911D005315B9 /* ConversationsCountRequest.swift */; };
 		C35B57A527119188005315B9 /* ConversationsCountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A427119188005315B9 /* ConversationsCountResponse.swift */; };
 		C35B57A72711C6B3005315B9 /* AppToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57A62711C6B3005315B9 /* AppToolbarDelegate.swift */; };
+		C35B57AF27148038005315B9 /* MessagesCountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57AE27148038005315B9 /* MessagesCountResponse.swift */; };
+		C35B57B12714809E005315B9 /* MessagesCountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57B02714809E005315B9 /* MessagesCountRequest.swift */; };
+		C35B57B52714C305005315B9 /* LabelMessageCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B57B42714C305005315B9 /* LabelMessageCount.swift */; };
 		C36814AC26D6295400A35A16 /* MailboxPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A526D6295400A35A16 /* MailboxPresenter.swift */; };
 		C36814AD26D6295400A35A16 /* MailboxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A626D6295400A35A16 /* MailboxWorker.swift */; };
 		C36814AE26D6295400A35A16 /* MailboxRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36814A726D6295400A35A16 /* MailboxRouter.swift */; };
@@ -428,6 +431,9 @@
 		C35B57A22711911D005315B9 /* ConversationsCountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCountRequest.swift; sourceTree = "<group>"; };
 		C35B57A427119188005315B9 /* ConversationsCountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCountResponse.swift; sourceTree = "<group>"; };
 		C35B57A62711C6B3005315B9 /* AppToolbarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbarDelegate.swift; sourceTree = "<group>"; };
+		C35B57AE27148038005315B9 /* MessagesCountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesCountResponse.swift; sourceTree = "<group>"; };
+		C35B57B02714809E005315B9 /* MessagesCountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesCountRequest.swift; sourceTree = "<group>"; };
+		C35B57B42714C305005315B9 /* LabelMessageCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelMessageCount.swift; sourceTree = "<group>"; };
 		C36814A526D6295400A35A16 /* MailboxPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxPresenter.swift; sourceTree = "<group>"; };
 		C36814A626D6295400A35A16 /* MailboxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxWorker.swift; sourceTree = "<group>"; };
 		C36814A726D6295400A35A16 /* MailboxRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxRouter.swift; sourceTree = "<group>"; };
@@ -1145,6 +1151,7 @@
 				C3DACB4626E943B000927933 /* EventLatestIDResponse.swift */,
 				C353421F26F4AF1700EA0137 /* ConversationByIdResponse.swift */,
 				C35B57A427119188005315B9 /* ConversationsCountResponse.swift */,
+				C35B57AE27148038005315B9 /* MessagesCountResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1163,6 +1170,7 @@
 				C3DACB3E26E9423900927933 /* EventApi.swift */,
 				C3DACB6126EA859400927933 /* CardData.swift */,
 				C3C6FD4E26F36CE00066C504 /* ConversationsApi.swift */,
+				C35B57B42714C305005315B9 /* LabelMessageCount.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1195,6 +1203,7 @@
 				C3C8260026FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift */,
 				C3C8263726FF23AC00B4E95C /* DownloadAttachmentRequest.swift */,
 				C35B57A22711911D005315B9 /* ConversationsCountRequest.swift */,
+				C35B57B02714809E005315B9 /* MessagesCountRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1652,6 +1661,7 @@
 				C3C6FD6726F37E1B0066C504 /* ConversationToModelConverting.swift in Sources */,
 				C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */,
 				C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */,
+				C35B57AF27148038005315B9 /* MessagesCountResponse.swift in Sources */,
 				C3AA69E226E5441B00124A0B /* MessagesViewController.swift in Sources */,
 				C3C8263826FF23AC00B4E95C /* DownloadAttachmentRequest.swift in Sources */,
 				C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */,
@@ -1665,6 +1675,7 @@
 				C3C6FD4F26F36CE00066C504 /* ConversationsApi.swift in Sources */,
 				C39A244026D2D8FB008A482C /* JKBCrypt.swift in Sources */,
 				C39A241626D2D8D9008A482C /* AuthCredential.swift in Sources */,
+				C35B57B12714809E005315B9 /* MessagesCountRequest.swift in Sources */,
 				C3AA69D426E4EE8800124A0B /* NSManagedObjectContext+PerformWith.swift in Sources */,
 				C3C6FD5A26F36EF10066C504 /* ConversationsRouter.swift in Sources */,
 				C3C8262A26FE3BC500B4E95C /* MimeTypesExtensions.swift in Sources */,
@@ -1672,6 +1683,7 @@
 				C353424126F9035100EA0137 /* ConversationAction.swift in Sources */,
 				C353421C26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift in Sources */,
 				C3C8260426FB1CAD00B4E95C /* NotificationType.swift in Sources */,
+				C35B57B52714C305005315B9 /* LabelMessageCount.swift in Sources */,
 				C3DACB3F26E9423900927933 /* EventApi.swift in Sources */,
 				C3C8262426FC7D7E00B4E95C /* String+Mime.swift in Sources */,
 				C38ADA6C26F389510055A1AE /* CoreDataService+Conversations.swift in Sources */,
