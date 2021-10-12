@@ -24,6 +24,10 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     weak var toolbarDelegate: ToolbarUtilizingDelegate?
     
     private var overlayView: MailboxOverlayView?
+    
+    /// Dispatch group tracking individual sections initialization.
+    /// We show the content only once the sections are initialized.
+    private var sceneInitGroup: DispatchGroup? = DispatchGroup()
 	
 	//	
 	// MARK: - View lifecycle
@@ -35,6 +39,14 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
         self.mailboxViewController?.delegate = self
         self.mailboxViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 360).isActive = true
         self.conversationDetailsViewController?.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600).isActive = true
+        
+        self.sceneInitGroup?.enter()
+        self.sceneInitGroup?.enter()
+        
+        self.sceneInitGroup?.notify(queue: .main) { [weak self] in
+            self?.sceneInitGroup = nil
+            self?.removeOverlay()
+        }
         
         let sidebarItem = NSSplitViewItem(sidebarWithViewController: self.sidebarViewController!)
         sidebarItem.canCollapse = false
@@ -72,11 +84,6 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
                 make.edges.equalToSuperview()
             }
         }
-        
-        // todo wait for sections to initialize
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.removeOverlay()
-        }
 	}
     
     //
@@ -98,12 +105,20 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
         self.interactor?.loadTitle(request: request)
     }
     
+    func mailboxSidebarDidInitialize() {
+        self.sceneInitGroup?.leave()
+    }
+    
     //
     // MARK: - Mailbox delegate
     //
     
     func conversationDidRequestLoad(conversationId: String) {
         self.conversationDetailsViewController?.loadConversation(id: conversationId)
+    }
+    
+    func mailboxSceneDidInitialize() {
+        self.sceneInitGroup?.leave()
     }
     
     //

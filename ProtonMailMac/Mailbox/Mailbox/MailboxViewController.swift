@@ -18,6 +18,7 @@ protocol MailboxDisplayLogic: AnyObject {
 }
 
 protocol MailboxViewControllerDelegate: AnyObject {
+    func mailboxSceneDidInitialize()
     func conversationDidRequestLoad(conversationId: String)
 }
 
@@ -25,6 +26,8 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
 	
 	var interactor: MailboxBusinessLogic?
 	var router: (MailboxRoutingLogic & MailboxDataPassing)?
+    
+    private var isInitialLoad: Bool = true
 
     private let mainView: MailboxView = MailboxView()
     
@@ -54,6 +57,12 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
     
     func displayItems(viewModel: Mailbox.LoadItems.ViewModel) {
         self.mainView.displayItems(viewModel: viewModel)
+        
+        if self.isInitialLoad {
+            self.isInitialLoad = false
+            
+            self.delegate?.mailboxSceneDidInitialize()
+        }
     }
     
     //

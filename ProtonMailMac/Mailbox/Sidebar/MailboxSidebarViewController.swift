@@ -15,6 +15,7 @@ protocol MailboxSidebarDisplayLogic: AnyObject {
 }
 
 protocol MailboxSidebarViewControllerDelegate: AnyObject {
+    func mailboxSidebarDidInitialize()
     func mailboxSidebarDidSelectLabel(id: String)
 }
 
@@ -22,6 +23,8 @@ class MailboxSidebarViewController: NSViewController, MailboxSidebarDisplayLogic
 	
 	var interactor: MailboxSidebarBusinessLogic?
 	var router: (MailboxSidebarRoutingLogic & MailboxSidebarDataPassing)?
+    
+    private var isInitialLoad: Bool = true
 
     private let mainView: MailboxSidebarView = MailboxSidebarView()
     
@@ -53,6 +56,12 @@ class MailboxSidebarViewController: NSViewController, MailboxSidebarDisplayLogic
 	
 	func displayData(viewModel: MailboxSidebar.Init.ViewModel) {
         self.mainView.displayData(viewModel: viewModel)
+        
+        if self.isInitialLoad {
+            self.isInitialLoad = false
+            
+            self.delegate?.mailboxSidebarDidInitialize()
+        }
 	}
     
     //
