@@ -16,7 +16,7 @@ protocol MessagesLoading {
     func updateCachedMessages(_ messages: [Messages.Message.Response])
     
     func loadMessage(id: String) -> Messages.Message.Response?
-    func loadMessages(completion: ((Bool) -> Void)?)
+    func loadMessages(completion: @escaping (Bool) -> Void)
     
     /// Updates the model for the message of the given id.
     /// - Returns: Tuple with the message model and the model's index in the list of all messages.
@@ -108,7 +108,7 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
         }
     }
     
-    func loadMessages(completion: ((Bool) -> Void)?) {
+    func loadMessages(completion: @escaping (Bool) -> Void) {
         self.loadMessages(olderThan: nil) { [weak self] (messages, error) in
             guard let weakSelf = self else { return }
             
@@ -118,7 +118,7 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
                 weakSelf.dispatchLoadError(error)
             }
             
-            completion?(messages != nil)
+            completion(messages != nil)
         }
     }
     
