@@ -33,7 +33,6 @@ class MainWindowController: NSWindowController {
         mainVC.toolbarDelegate = self.toolbarDelegate
         
         self.window = MainWindow(contentRect: rect, styleMask: [], backing: .buffered, defer: true, screen: NSScreen.main)
-        self.window?.titlebarAppearsTransparent = true
         self.window?.styleMask.insert(.fullSizeContentView)
         self.window?.contentViewController = mainVC
         
