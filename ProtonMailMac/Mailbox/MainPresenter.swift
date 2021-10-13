@@ -103,6 +103,7 @@ class MainPresenter: MainPresentationLogic {
         
         identifiers.append(contentsOf: [
             .refreshMailbox,
+            .flexibleSpace,
             .moveToGroup,
             .replyForwardGroup
         ])
@@ -138,6 +139,9 @@ class MainPresenter: MainPresentationLogic {
                 self.getToolbarItem(id: .moveToTrash, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection),
                 self.getToolbarItem(id: .moveToSpam, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection)
             ])
+            
+        case .flexibleSpace, .space:
+            return .spacer
             
         default:
             fatalError("Unknown toolbar item id: \(id.rawValue).")

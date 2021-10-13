@@ -220,6 +220,9 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
             group.view = segmented
             
             return group
+            
+        case .spacer:
+            return nil
         }
     }
     

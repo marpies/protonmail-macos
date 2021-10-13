@@ -68,6 +68,7 @@ enum Main {
     
     enum ToolbarItem {
         enum ViewModel {
+            case spacer
             case trackingItem(id: NSToolbarItem.Identifier, index: Int)
             case button(id: NSToolbarItem.Identifier, label: String, tooltip: String, icon: String, isEnabled: Bool)
             case group(id: NSToolbarItem.Identifier, items: [Main.ToolbarItem.ViewModel])
