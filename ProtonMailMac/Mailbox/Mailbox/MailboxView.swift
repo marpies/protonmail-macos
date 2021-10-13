@@ -111,10 +111,9 @@ class MailboxView: NSView {
     private func setupView() {
         self.scrollView.with { scrollView in
             self.addSubview(scrollView)
-            scrollView.drawsBackground = false
             scrollView.snp.makeConstraints { make in
                 make.left.right.equalToSuperview()
-                make.top.equalTo(self.safeArea.top).priority(.high)
+                make.top.equalToSuperview().priority(.high)
                 make.bottom.equalToSuperview()
             }
             

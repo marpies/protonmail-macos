@@ -134,7 +134,7 @@ class ConversationDetailsView: NSView {
             headerView.isHidden = true
             self.addSubview(headerView)
             headerView.snp.makeConstraints { make in
-                make.top.equalTo(self.safeArea.top)
+                make.top.equalTo(self.safeArea.top).offset(16)
                 make.left.right.equalToSuperview().inset(16)
             }
             
@@ -142,7 +142,6 @@ class ConversationDetailsView: NSView {
                 scrollView.automaticallyAdjustsContentInsets = false
                 scrollView.contentInsets = NSEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
                 self.addSubview(scrollView)
-                scrollView.drawsBackground = false
                 scrollView.snp.makeConstraints { make in
                     make.left.right.equalToSuperview()
                     make.top.equalTo(headerView.snp.bottom)
