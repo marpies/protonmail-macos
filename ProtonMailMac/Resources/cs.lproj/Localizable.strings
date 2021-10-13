@@ -85,3 +85,22 @@
 "messageBodyRetryLoadButton" = "Zkusit znovu";
 "messageHasRemoteContentBoxMessage" = "Tato zpráva obsahuje vzdálený obsah.";
 "messageLoadRemoteContentButton" = "Načíst";
+
+//
+// MARK: - Toolbar
+//
+
+"toolbarRefreshMailboxLabel" = "Obnovit";
+"toolbarRefreshMailboxTooltip" = "Načíst nové zprávy";
+"toolbarMoveToArchiveLabel" = "Archivovat";
+"toolbarMoveToArchiveTooltip" = "Archivovat vybrané zprávy";
+"toolbarMoveToTrashLabel" = "Koš";
+"toolbarMoveToTrashTooltip" = "Přesunout vybrané zprávy do koše";
+"toolbarMoveToSpamLabel" = "Spam";
+"toolbarMoveToSpamTooltip" = "Přesunout vybrané zprávy do spamu";
+"toolbarReplyToSenderLabel" = "Odpovědět";
+"toolbarReplyToSenderTooltip" = "Odpovědět odesílateli vybrané zprávy";
+"toolbarReplyToAllLabel" = "Odpovědět všem";
+"toolbarReplyToAllTooltip" = "Odpovědět všem příjemcům vybrané zprávy";
+"toolbarForwardMessagesLabel" = "Přeposlat";
+"toolbarForwardMessagesTooltip" = "Přeposlat vybrané zprávy";

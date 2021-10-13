@@ -11,6 +11,9 @@ import Foundation
 protocol MainBusinessLogic {
 	func loadData(request: Main.Init.Request)
     func loadTitle(request: Main.LoadTitle.Request)
+    func processMailboxSelectionUpdate(request: Main.MailboxSelectionDidUpdate.Request)
+    func processSceneDidInitialize()
+    func processToolbarAction(request: Main.ToolbarAction.Request)
 }
 
 protocol MainDataStore {
@@ -41,6 +44,30 @@ class MainInteractor: MainBusinessLogic, MainDataStore, MainWorkerDelegate {
     }
     
     //
+    // MARK: - Process mailbox selection update
+    //
+    
+    func processMailboxSelectionUpdate(request: Main.MailboxSelectionDidUpdate.Request) {
+        self.worker?.processMailboxSelectionUpdate(request: request)
+    }
+    
+    //
+    // MARK: - Process scene did initialize
+    //
+    
+    func processSceneDidInitialize() {
+        self.worker?.processSceneDidInitialize()
+    }
+    
+    //
+    // MARK: - Process toolbar action
+    //
+    
+    func processToolbarAction(request: Main.ToolbarAction.Request) {
+        self.worker?.processToolbarAction(request: request)
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
@@ -50,6 +77,10 @@ class MainInteractor: MainBusinessLogic, MainDataStore, MainWorkerDelegate {
     
     func mailboxTitleDidLoad(response: Main.LoadTitle.Response) {
         self.presenter?.presentTitle(response: response)
+    }
+    
+    func mailboxToolbarShouldUpdate(response: Main.UpdateToolbar.Response) {
+        self.presenter?.presentToolbar(response: response)
     }
     
 }

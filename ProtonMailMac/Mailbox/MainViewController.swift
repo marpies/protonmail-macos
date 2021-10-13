@@ -11,9 +11,10 @@ import AppKit
 protocol MainDisplayLogic: AnyObject {
 	func displayData(viewModel: Main.Init.ViewModel)
     func displayTitle(viewModel: Main.LoadTitle.ViewModel)
+    func displayToolbarUpdate(viewModel: Main.UpdateToolbar.ViewModel)
 }
 
-class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, MailboxViewControllerDelegate {
+class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtilizing, MailboxSidebarViewControllerDelegate, MailboxViewControllerDelegate, NSToolbarSegmentedControlDelegate {
 	
 	var interactor: MainBusinessLogic?
 	var router: (MainRoutingLogic & MainDataPassing)?
@@ -95,6 +96,15 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     }
     
     //
+    // MARK: - Display toolbar update
+    //
+    
+    func displayToolbarUpdate(viewModel: Main.UpdateToolbar.ViewModel) {
+        let items: [NSToolbarItem] = viewModel.items.compactMap { self.getToolbarItem(viewModel: $0) }
+        self.toolbarDelegate?.toolbarItemsDidUpdate(identifiers: viewModel.identifiers, items: items)
+    }
+    
+    //
     // MARK: - Sidebar delegate
     //
     
@@ -122,7 +132,8 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     }
     
     func mailboxSelectionDidUpdate(viewModel: Mailbox.ItemsDidSelect.ViewModel) {
-        
+        let request: Main.MailboxSelectionDidUpdate.Request = Main.MailboxSelectionDidUpdate.Request(isMultiSelection: viewModel.isMultiSelection, type: viewModel.type)
+        self.interactor?.processMailboxSelectionUpdate(request: request)
     }
     
     //
@@ -141,6 +152,89 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
         } completionHandler: {
             view.removeFromSuperview()
         }
+        
+        self.interactor?.processSceneDidInitialize()
+    }
+    
+    //
+    // MARK: - Toolbar items
+    //
+    
+    private func getToolbarItem(viewModel: Main.ToolbarItem.ViewModel) -> NSToolbarItem? {
+        switch viewModel {
+        case .trackingItem(let id, let index):
+            if #available(macOS 11.0, *) {
+                return NSTrackingSeparatorToolbarItem(identifier: id, splitView: self.splitView, dividerIndex: index)
+            }
+            return nil
+            
+        case .button(let id, let label, let tooltip, let icon, let isEnabled):
+            let toolbarItem: NSToolbarItem = NSToolbarItem(itemIdentifier: id)
+            
+            toolbarItem.label = label
+            toolbarItem.paletteLabel = label
+            toolbarItem.toolTip = tooltip
+            toolbarItem.isEnabled = isEnabled
+            
+            if isEnabled {
+                toolbarItem.action = #selector(self.toolbarItemDidTap)
+                toolbarItem.target = self
+            }
+            
+            if #available(macOS 10.15, *) {
+                toolbarItem.isBordered = true
+            }
+            
+            if #available(macOS 11.0, *) {
+                toolbarItem.image = NSImage(systemSymbolName: icon, accessibilityDescription: nil)
+            } else {
+                // todo fallback image
+            }
+            
+            let menuItem: NSMenuItem = NSMenuItem()
+            menuItem.submenu = nil
+            menuItem.title = label
+            toolbarItem.menuFormRepresentation = menuItem
+            
+            return toolbarItem
+            
+        case .group(let id, let items):
+            let group: NSToolbarItemGroup = NSToolbarItemGroup(itemIdentifier: id)
+            
+            group.subitems = items.compactMap { self.getToolbarItem(viewModel: $0) }
+            
+            let segmented: NSToolbarSegmentedControl = NSToolbarSegmentedControl()
+            segmented.segmentStyle = .texturedRounded
+            segmented.trackingMode = .momentary
+            segmented.segmentCount = items.count
+            segmented.items = group.subitems.map { $0.itemIdentifier }
+            segmented.delegate = self
+            
+            for (index, item) in group.subitems.enumerated() {
+                segmented.setImage(item.image, forSegment: index)
+                segmented.setWidth(40, forSegment: index)
+                segmented.setEnabled(item.isEnabled, forSegment: index)
+                segmented.setToolTip(item.toolTip, forSegment: index)
+            }
+            
+            group.view = segmented
+            
+            return group
+        }
+    }
+    
+    @objc private func toolbarItemDidTap(_ sender: NSToolbarItem) {
+        let request: Main.ToolbarAction.Request = Main.ToolbarAction.Request(id: sender.itemIdentifier)
+        self.interactor?.processToolbarAction(request: request)
+    }
+    
+    //
+    // MARK: - Toolbar segmented control delegate
+    //
+    
+    func toolbarGroupSegmentDidClick(id: NSToolbarItem.Identifier) {
+        let request: Main.ToolbarAction.Request = Main.ToolbarAction.Request(id: id)
+        self.interactor?.processToolbarAction(request: request)
     }
     
 }

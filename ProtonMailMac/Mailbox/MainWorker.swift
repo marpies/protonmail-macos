@@ -12,6 +12,7 @@ import Swinject
 protocol MainWorkerDelegate: AnyObject {
     func mailboxDidLoad(response: Main.Init.Response)
     func mailboxTitleDidLoad(response: Main.LoadTitle.Response)
+    func mailboxToolbarShouldUpdate(response: Main.UpdateToolbar.Response)
 }
 
 class MainWorker: LabelToSidebarItemParsing {
@@ -48,6 +49,20 @@ class MainWorker: LabelToSidebarItemParsing {
         
         let response: Main.LoadTitle.Response = Main.LoadTitle.Response(item: item, numItems: numItems)
         self.delegate?.mailboxTitleDidLoad(response: response)
+    }
+    
+    func processMailboxSelectionUpdate(request: Main.MailboxSelectionDidUpdate.Request) {
+        let response: Main.UpdateToolbar.Response = Main.UpdateToolbar.Response(isSelectionActive: true, isMultiSelection: request.isMultiSelection)
+        self.delegate?.mailboxToolbarShouldUpdate(response: response)
+    }
+    
+    func processSceneDidInitialize() {
+        let response: Main.UpdateToolbar.Response = Main.UpdateToolbar.Response(isSelectionActive: false, isMultiSelection: false)
+        self.delegate?.mailboxToolbarShouldUpdate(response: response)
+    }
+    
+    func processToolbarAction(request: Main.ToolbarAction.Request) {
+        // todo process action
     }
     
     //
