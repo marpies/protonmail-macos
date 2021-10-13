@@ -42,7 +42,7 @@ class UnreadBadgeView: NSView {
         self.wantsLayer = true
         self.label.with { label in
             label.setPreferredFont(style: .subheadline)
-            label.textColor = self.labelColor
+            label.textColor = .lightLabelColor
             label.setContentCompressionResistancePriority(.required, for: .horizontal)
             label.setContentCompressionResistancePriority(.required, for: .vertical)
             label.setContentHuggingPriority(.required, for: .horizontal)
@@ -53,20 +53,6 @@ class UnreadBadgeView: NSView {
                 make.top.bottom.equalToSuperview().inset(2)
             }
         }
-    }
-    
-    private var labelColor: NSColor {
-        if #available(macOS 10.15, *) {
-            return NSColor(name: nil) { appearance in
-                switch appearance.name {
-                case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
-                    return .labelColor
-                default:
-                    return .white
-                }
-            }
-        }
-        return .labelColor
     }
     
 }
