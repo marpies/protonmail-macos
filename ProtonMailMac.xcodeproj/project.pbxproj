@@ -191,6 +191,7 @@
 		C39F0CB52715E64C004A0A96 /* MailboxTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CAA2715E64C004A0A96 /* MailboxTableCellView.swift */; };
 		C39F0CB62715E64C004A0A96 /* MailboxDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CAB2715E64C004A0A96 /* MailboxDataSource.swift */; };
 		C39F0CB72715E64C004A0A96 /* MailboxInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CAC2715E64C004A0A96 /* MailboxInteractor.swift */; };
+		C39F0CB92716E700004A0A96 /* NSToolbarSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */; };
 		C3A658FA26E65C5700CFE2F9 /* MessagesDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658F926E65C5700CFE2F9 /* MessagesDatabaseManaging.swift */; };
 		C3A658FC26E65C8500CFE2F9 /* CoreDataService+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */; };
 		C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */; };
@@ -526,6 +527,7 @@
 		C39F0CAA2715E64C004A0A96 /* MailboxTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailboxTableCellView.swift; sourceTree = "<group>"; };
 		C39F0CAB2715E64C004A0A96 /* MailboxDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailboxDataSource.swift; sourceTree = "<group>"; };
 		C39F0CAC2715E64C004A0A96 /* MailboxInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailboxInteractor.swift; sourceTree = "<group>"; };
+		C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSToolbarSegmentedControl.swift; sourceTree = "<group>"; };
 		C3A658F926E65C5700CFE2F9 /* MessagesDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Messages.swift"; sourceTree = "<group>"; };
 		C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAssembly.swift; sourceTree = "<group>"; };
@@ -1051,6 +1053,7 @@
 				C353423326F4E7F400EA0137 /* FlippedStackView.swift */,
 				C353423826F8997A00EA0137 /* IconView.swift */,
 				C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */,
+				C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1895,6 +1898,7 @@
 				C36814C626D65CD600A35A16 /* AppViewController.swift in Sources */,
 				C353421726F4A28A00EA0137 /* ConversationDetailsModels.swift in Sources */,
 				C3DACB2D26E781D400927933 /* TimeInterval+Date.swift in Sources */,
+				C39F0CB92716E700004A0A96 /* NSToolbarSegmentedControl.swift in Sources */,
 				C39F0C992715DE5C004A0A96 /* MainInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
