@@ -55,6 +55,7 @@ class BoxErrorView: NSView {
             label.alignment = .center
             label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             label.setContentCompressionResistancePriority(.required, for: .vertical)
+            label.textColor = .lightLabelColor
             self.addSubview(label)
             label.snp.makeConstraints { make in
                 make.leading.trailing.equalToSuperview().inset(8)
