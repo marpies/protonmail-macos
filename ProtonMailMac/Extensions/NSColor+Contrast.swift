@@ -19,4 +19,18 @@ extension NSColor {
         return colorBrightness >= 0.5
     }
     
+    static var lightLabelColor: NSColor {
+        if #available(macOS 10.15, *) {
+            return NSColor(name: nil) { appearance in
+                switch appearance.name {
+                case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
+                    return .labelColor
+                default:
+                    return .white
+                }
+            }
+        }
+        return .white
+    }
+    
 }
