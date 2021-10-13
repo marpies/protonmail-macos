@@ -89,6 +89,10 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     // MARK: - Worker delegate
     //
     
+    func conversationLoadDidBegin() {
+        self.presenter?.presentConversationLoadDidBegin()
+    }
+    
     func conversationDidLoad(response: ConversationDetails.Load.Response) {
         self.presenter?.presentConversation(response: response)
     }

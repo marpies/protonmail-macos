@@ -10,6 +10,7 @@ import Foundation
 import Swinject
 
 protocol ConversationDetailsWorkerDelegate: AnyObject {
+    func conversationLoadDidBegin()
     func conversationDidLoad(response: ConversationDetails.Load.Response)
     func conversationLoadDidFail(response: ConversationDetails.LoadError.Response)
     func conversationMessageDidUpdate(response: ConversationDetails.UpdateMessage.Response)
@@ -61,6 +62,11 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
 	}
     
     func loadConversation(request: ConversationDetails.Load.Request) {
+        // Do not load the conversation that is already shown
+        if let id = self.conversationId, id == request.id {
+            return
+        }
+        
         self.conversationId = request.id
         
         self.loadConversation(id: request.id, expandDefaultMessage: true)
@@ -244,6 +250,8 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
             self.conversation = self.getConversationWithMessages(conversationObject)
             let response: ConversationDetails.Load.Response = ConversationDetails.Load.Response(conversation: self.conversation!)
             self.delegate?.conversationDidLoad(response: response)
+        } else {
+            self.delegate?.conversationLoadDidBegin()
         }
         
         // Also fetch messages for the conversation from the server

@@ -9,6 +9,7 @@
 import AppKit
 
 protocol ConversationDetailsDisplayLogic: AnyObject {
+    func displayConversationLoadDidBegin()
     func displayConversation(viewModel: ConversationDetails.Load.ViewModel)
     func displayLoadError(viewModel: ConversationDetails.LoadError.ViewModel)
     func displayMessageUpdate(viewModel: ConversationDetails.UpdateMessage.ViewModel)
@@ -46,11 +47,17 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
 	//
 	
     func loadConversation(id: String) {
-        self.mainView.showLoading()
-        
         let request: ConversationDetails.Load.Request = ConversationDetails.Load.Request(id: id)
         self.interactor?.loadConversation(request: request)
 	}
+    
+    //
+    // MARK: - Display conversation load did begin
+    //
+    
+    func displayConversationLoadDidBegin() {
+        self.mainView.showLoading()
+    }
     
     //
     // MARK: - Display conversation
@@ -137,8 +144,6 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     //
     
     func errorViewButtonDidTap() {
-        self.mainView.showLoading()
-        
         self.interactor?.reloadConversation()
     }
     

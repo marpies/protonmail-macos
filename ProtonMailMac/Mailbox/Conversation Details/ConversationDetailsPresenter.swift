@@ -9,6 +9,7 @@
 import AppKit
 
 protocol ConversationDetailsPresentationLogic {
+    func presentConversationLoadDidBegin()
     func presentConversation(response: ConversationDetails.Load.Response)
     func presentLoadError(response: ConversationDetails.LoadError.Response)
     func presentMessageUpdate(response: ConversationDetails.UpdateMessage.Response)
@@ -31,6 +32,14 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
     init() {
         self.dateFormatter = DateFormatter()
         self.dateFormatter.locale = Locale.current
+    }
+    
+    //
+    // MARK: - Present conversation load did begin
+    //
+    
+    func presentConversationLoadDidBegin() {
+        self.viewController?.displayConversationLoadDidBegin()
     }
 
     //
