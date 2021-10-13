@@ -62,7 +62,8 @@ class MainWorker: LabelToSidebarItemParsing {
     }
     
     func processToolbarAction(request: Main.ToolbarAction.Request) {
-        // todo process action
+        let notification: Main.Notifications.ToolbarAction = Main.Notifications.ToolbarAction(itemId: request.id)
+        notification.post()
     }
     
     //

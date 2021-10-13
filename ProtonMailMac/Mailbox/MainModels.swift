@@ -64,6 +64,34 @@ enum Main {
                 self.userId = userId
             }
         }
+        
+        struct ToolbarAction: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("Main.toolbarAction")
+            }
+            
+            var name: Notification.Name {
+                return ToolbarAction.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["itemId": self.itemId]
+            }
+            
+            let itemId: NSToolbarItem.Identifier
+
+            init(itemId: NSToolbarItem.Identifier) {
+                self.itemId = itemId
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == ToolbarAction.name,
+                      let itemId = notification?.userInfo?["itemId"] as? NSToolbarItem.Identifier else { return nil }
+                
+                self.itemId = itemId
+            }
+        }
     }
     
     enum ToolbarItem {
