@@ -119,6 +119,16 @@ enum Mailbox {
             let ids: [String]
             let type: Mailbox.TableItem.Kind
         }
+        
+        struct Response {
+            let isMultiSelection: Bool
+            let type: Mailbox.TableItem.Kind
+        }
+        
+        struct ViewModel {
+            let isMultiSelection: Bool
+            let type: Mailbox.TableItem.Kind
+        }
     }
     
     //

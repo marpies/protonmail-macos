@@ -121,6 +121,10 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
         self.sceneInitGroup?.leave()
     }
     
+    func mailboxSelectionDidUpdate(viewModel: Mailbox.ItemsDidSelect.ViewModel) {
+        
+    }
+    
     //
     // MARK: - Private
     //

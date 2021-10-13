@@ -19,6 +19,7 @@ protocol MailboxWorkerDelegate: AnyObject {
     func messageDidUpdate(response: Messages.UpdateMessage.Response)
     func mailboxDidUpdateWithoutChange()
     func loadDidFail(response: Mailbox.LoadError.Response)
+    func mailboxSelectionDidUpdate(response: Mailbox.ItemsDidSelect.Response)
 }
 
 class MailboxWorker: MailboxManagingWorkerDelegate {
@@ -66,7 +67,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     }
     
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
-        // Load conversation
+        // Single item selected, load conversation
         if request.ids.count == 1 {
             let conversationId: String
             
@@ -83,6 +84,9 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
             let response: Mailbox.LoadConversation.Response = Mailbox.LoadConversation.Response(id: conversationId)
             self.delegate?.conversationShouldLoad(response: response)
         }
+        
+        let response: Mailbox.ItemsDidSelect.Response = Mailbox.ItemsDidSelect.Response(isMultiSelection: request.ids.count > 1, type: request.type)
+        self.delegate?.mailboxSelectionDidUpdate(response: response)
     }
     
     func reloadConversations() {

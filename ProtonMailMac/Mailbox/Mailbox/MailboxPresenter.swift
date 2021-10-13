@@ -18,6 +18,7 @@ protocol MailboxPresentationLogic {
     func presentMessageUpdate(response: Messages.UpdateMessage.Response)
     func presentLoadError(response: Mailbox.LoadError.Response)
     func presentItemsUpToDate()
+    func presentItemsSelection(response: Mailbox.ItemsDidSelect.Response)
 }
 
 class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, MessageLabelPresenting, MessageFolderPresenting,
@@ -87,6 +88,15 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
     
     func presentItemsUpToDate() {
         self.viewController?.displayMailboxUpToDate()
+    }
+    
+    //
+    // MARK: - Present items selection
+    //
+    
+    func presentItemsSelection(response: Mailbox.ItemsDidSelect.Response) {
+        let viewModel = Mailbox.ItemsDidSelect.ViewModel(isMultiSelection: response.isMultiSelection, type: response.type)
+        self.viewController?.displayItemsSelection(viewModel: viewModel)
     }
     
     //

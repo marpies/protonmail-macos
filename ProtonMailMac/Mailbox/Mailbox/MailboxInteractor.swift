@@ -107,4 +107,8 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
         self.presenter?.presentItemsUpToDate()
     }
     
+    func mailboxSelectionDidUpdate(response: Mailbox.ItemsDidSelect.Response) {
+        self.presenter?.presentItemsSelection(response: response)
+    }
+    
 }

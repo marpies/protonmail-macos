@@ -15,10 +15,12 @@ protocol MailboxDisplayLogic: AnyObject {
     func displayMailboxError(viewModel: Mailbox.LoadError.ViewModel)
     func displayMailboxUpToDate()
     func displayLoadConversation(viewModel: Mailbox.LoadConversation.ViewModel)
+    func displayItemsSelection(viewModel: Mailbox.ItemsDidSelect.ViewModel)
 }
 
 protocol MailboxViewControllerDelegate: AnyObject {
     func mailboxSceneDidInitialize()
+    func mailboxSelectionDidUpdate(viewModel: Mailbox.ItemsDidSelect.ViewModel)
     func conversationDidRequestLoad(conversationId: String)
 }
 
@@ -99,6 +101,14 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
     
     func displayLoadConversation(viewModel: Mailbox.LoadConversation.ViewModel) {
         self.delegate?.conversationDidRequestLoad(conversationId: viewModel.id)
+    }
+    
+    //
+    // MARK: - Items selection
+    //
+    
+    func displayItemsSelection(viewModel: Mailbox.ItemsDidSelect.ViewModel) {
+        self.delegate?.mailboxSelectionDidUpdate(viewModel: viewModel)
     }
     
     //
