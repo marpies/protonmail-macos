@@ -136,8 +136,4 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
         self.interactor?.processItemsSelection(request: request)
     }
     
-    func refreshMessagesButtonDidTap() {
-        self.interactor?.processRefreshButtonTap()
-    }
-    
 }

@@ -9,7 +9,7 @@
 import AppKit
 
 protocol MailboxViewDelegate: MailboxDataSourceDelegate, BoxErrorViewDelegate {
-    func refreshMessagesButtonDidTap()
+    
 }
 
 class MailboxView: NSView {
@@ -131,23 +131,6 @@ class MailboxView: NSView {
                 scrollView.documentView = table
             }
         }
-        
-        NSButton().with { button in
-            button.bezelStyle = .rounded
-            button.title = "Reload"
-            button.controlSize = .small
-            button.target = self
-            button.action = #selector(self.buttonDidTap)
-            self.addSubview(button)
-            button.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(self.safeArea.top)
-            }
-        }
-    }
-    
-    @objc private func buttonDidTap() {
-        self.delegate?.refreshMessagesButtonDidTap()
     }
 
 }
