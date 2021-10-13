@@ -40,7 +40,7 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     //
     
     func processErrorViewButtonTap() {
-        self.worker?.reloadConversations()
+        self.worker?.refreshMailbox()
     }
     
     //
@@ -64,7 +64,7 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     //
     
     func processRefreshButtonTap() {
-        self.worker?.reloadConversations()
+        self.worker?.refreshMailbox()
     }
     
     //

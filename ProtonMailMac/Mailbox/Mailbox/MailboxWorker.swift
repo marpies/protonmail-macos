@@ -8,6 +8,7 @@
 
 import Foundation
 import Swinject
+import AppKit
 
 protocol MailboxWorkerDelegate: AnyObject {
     func conversationsDidLoad(response: Conversations.LoadConversations.Response)
@@ -29,6 +30,8 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     
     private var mailboxWorker: MailboxManaging?
     
+    private var toolbarActionObserver: NSObjectProtocol?
+    
     private var activeUserId: String? {
         return self.usersManager.activeUser?.userId
     }
@@ -41,6 +44,8 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
 	init(resolver: Resolver) {
 		self.resolver = resolver
         self.usersManager = resolver.resolve(UsersManager.self)!
+        
+        self.addObservers()
 	}
 
     func loadItems(request: Mailbox.LoadItems.Request) {
@@ -89,7 +94,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         self.delegate?.mailboxSelectionDidUpdate(response: response)
     }
     
-    func reloadConversations() {
+    func refreshMailbox() {
         self.mailboxWorker?.refreshMailbox()
     }
     
@@ -178,6 +183,24 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
             
         default:
             self.mailboxWorker?.loadMailbox(labelId: labelId, isMessages: false)
+        }
+    }
+    
+    private func addObservers() {
+        self.toolbarActionObserver = NotificationCenter.default.addObserver(forType: Main.Notifications.ToolbarAction.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let id = notification?.itemId else { return }
+            
+            self?.processToolbarAction(id: id)
+        })
+    }
+    
+    private func processToolbarAction(id: NSToolbarItem.Identifier) {
+        switch id {
+        case .refreshMailbox:
+            self.refreshMailbox()
+            
+        default:
+            return
         }
     }
     
