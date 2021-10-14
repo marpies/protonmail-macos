@@ -390,30 +390,6 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                     msg.message?["messageStatus"] = 1
                 }
                 
-                let isMessageDraft: Bool = self.isMessageDraft(msg)
-                if isMessageDraft,
-                   let id = msg.ID,
-                   let existingMsg = Message.messageForMessageID(id, inManagedObjectContext: context),
-                   existingMsg.messageStatus == 1 {
-                    if let subject = msg.message?["Subject"] as? String {
-                        existingMsg.title = subject
-                    }
-                    if let timeValue = msg.message?["Time"] {
-                        if let timeString = timeValue as? NSString {
-                            let time = timeString.doubleValue as TimeInterval
-                            if time != 0 {
-                                existingMsg.time = time.asDate()
-                            }
-                        } else if let dateNumber = timeValue as? NSNumber {
-                            let time = dateNumber.doubleValue as TimeInterval
-                            if time != 0 {
-                                existingMsg.time = time.asDate()
-                            }
-                        }
-                    }
-                    continue
-                }
-                
                 do {
                     if let messageObject = try GRTJSONSerialization.object(withEntityName: Message.Attributes.entityName, fromJSONDictionary: msg.message ?? [String : Any](), in: context) as? Message {
                         messageObject.userID = userId
@@ -451,7 +427,9 @@ extension CoreDataService: UserEventsDatabaseProcessing {
                         // Check if we have metadata
                         if messageObject.messageStatus == 0 {
                             if messageObject.title.isEmpty {
-                                messagesNoCache.append(messageObject.messageID)
+                                if !self.isMessageDraft(msg) {
+                                    messagesNoCache.append(messageObject.messageID)
+                                }
                             } else {
                                 messageObject.messageStatus = 1
                             }
