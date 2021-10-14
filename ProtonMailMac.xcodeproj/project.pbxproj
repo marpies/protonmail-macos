@@ -192,6 +192,7 @@
 		C39F0CB62715E64C004A0A96 /* MailboxDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CAB2715E64C004A0A96 /* MailboxDataSource.swift */; };
 		C39F0CB72715E64C004A0A96 /* MailboxInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CAC2715E64C004A0A96 /* MailboxInteractor.swift */; };
 		C39F0CB92716E700004A0A96 /* NSToolbarSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */; };
+		C39F0CBB27189EEA004A0A96 /* String+LabelId.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CBA27189EEA004A0A96 /* String+LabelId.swift */; };
 		C3A658FA26E65C5700CFE2F9 /* MessagesDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658F926E65C5700CFE2F9 /* MessagesDatabaseManaging.swift */; };
 		C3A658FC26E65C8500CFE2F9 /* CoreDataService+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */; };
 		C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */; };
@@ -528,6 +529,7 @@
 		C39F0CAB2715E64C004A0A96 /* MailboxDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailboxDataSource.swift; sourceTree = "<group>"; };
 		C39F0CAC2715E64C004A0A96 /* MailboxInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailboxInteractor.swift; sourceTree = "<group>"; };
 		C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSToolbarSegmentedControl.swift; sourceTree = "<group>"; };
+		C39F0CBA27189EEA004A0A96 /* String+LabelId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+LabelId.swift"; sourceTree = "<group>"; };
 		C3A658F926E65C5700CFE2F9 /* MessagesDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Messages.swift"; sourceTree = "<group>"; };
 		C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAssembly.swift; sourceTree = "<group>"; };
@@ -1470,6 +1472,7 @@
 				C3A6590626E6967900CFE2F9 /* Array+JSON.swift */,
 				C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */,
 				C3C8263D26FF2D3700B4E95C /* FileManager+Extensions.swift */,
+				C39F0CBA27189EEA004A0A96 /* String+LabelId.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1821,6 +1824,7 @@
 				C3C6FD4326F09AD10066C504 /* ImageButton.swift in Sources */,
 				C35B57A527119188005315B9 /* ConversationsCountResponse.swift in Sources */,
 				C31D032326DA9A85002EBBE0 /* Email.swift in Sources */,
+				C39F0CBB27189EEA004A0A96 /* String+LabelId.swift in Sources */,
 				C3A6590026E686D300CFE2F9 /* AuthCredentialRefreshing.swift in Sources */,
 				C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */,
 				C3DACB4D26E9C36D00927933 /* Message+Helpers.swift in Sources */,
