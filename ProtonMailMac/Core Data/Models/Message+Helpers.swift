@@ -111,16 +111,23 @@ extension Message {
     @discardableResult
     func add(labelID: String) -> String? {
         var outLabel: String?
-        //1, 2, labels can't be in inbox,
-        var addLabelID = labelID
-        if labelID == MailboxSidebar.Item.inbox.id && (self.contains(label: MailboxSidebar.Item.draft.hiddenId) || self.contains(label: MailboxSidebar.Item.draft.id)) {
-            // move message to 1 / 8
-            addLabelID = MailboxSidebar.Item.draft.id //"8"
-        }
         
-        if labelID == MailboxSidebar.Item.inbox.id && (self.contains(label: MailboxSidebar.Item.outbox.hiddenId) || self.contains(label: MailboxSidebar.Item.outbox.id)) {
-            // move message to 2 / 7
-            addLabelID = sentSelf ? MailboxSidebar.Item.inbox.id : MailboxSidebar.Item.outbox.id //"7"
+        var addLabelID = labelID
+        
+        // We are trying to move a message to Inbox, need to check a couple things
+        if labelID.isLabel(.inbox) {
+            // If we try to put a draft into Inbox, put it into Drafts instead
+            if self.contains(label: MailboxSidebar.Item.draft.hiddenId) || self.contains(label: .draft) {
+                // move message to 1 / 8
+                addLabelID = MailboxSidebar.Item.draft.id //"8"
+            }
+            
+            // If we try to put a sent message into Inbox, put it into Sent instead
+            if self.contains(label: MailboxSidebar.Item.outbox.hiddenId) || self.contains(label: .outbox) {
+                // move message to 2 / 7
+                // Unless the message has been sent to ourselves, then we can put it in Inbox
+                addLabelID = sentSelf ? MailboxSidebar.Item.inbox.id : MailboxSidebar.Item.outbox.id //"7"
+            }
         }
         
         if let context = self.managedObjectContext {
@@ -148,7 +155,7 @@ extension Message {
     
     @discardableResult
     func remove(labelID: String) -> String? {
-        if MailboxSidebar.Item.allMail.id == labelID  {
+        if labelID.isLabel(.allMail)  {
             return MailboxSidebar.Item.allMail.id
         }
         var outLabel: String?
