@@ -26,7 +26,7 @@ extension MessageToModelConverting {
         let labels: [Messages.Label.Response]? = self.getLabels(message)
         let isRepliedTo: Bool = message.flag.contains(.replied) || message.flag.contains(.repliedAll)
         let body: String? = message.body.isEmpty ? nil : message.body
-        let isDraft: Bool = message.contains(label: .draft)
+        let isDraft: Bool = !message.flag.contains(.sent) && !message.flag.contains(.received)
         let metadata: Messages.Message.Metadata.Response = self.getMetadata(message)
         let hasInlineAttachments: Bool = self.hasInlineAttachments(message)
         return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, hasInlineAttachments: hasInlineAttachments, isRead: !message.unRead, isDraft: isDraft, metadata: metadata, folders: folders, labels: labels, body: body, isExpanded: false)
