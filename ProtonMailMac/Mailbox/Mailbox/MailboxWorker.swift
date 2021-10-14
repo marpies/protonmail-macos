@@ -28,6 +28,10 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
 	private let resolver: Resolver
     private let usersManager: UsersManager
     
+    /// List of ids for currently selected items (conversations or messages).
+    private var selectedItemIds: [String]?
+    private var selectedItemType: Mailbox.TableItem.Kind?
+    
     private var mailboxWorker: MailboxManaging?
     
     private var toolbarActionObserver: NSObjectProtocol?
@@ -56,6 +60,8 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         let labelId: String = request.labelId
         self.labelId = labelId
         
+        self.cancelSelection()
+        
         self.loadItems(forLabel: labelId, userId: user.userId)
     }
     
@@ -72,6 +78,9 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     }
     
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
+        self.selectedItemIds = request.ids
+        self.selectedItemType = request.type
+        
         // Single item selected, load conversation
         if request.ids.count == 1 {
             let conversationId: String
@@ -90,7 +99,17 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
             self.delegate?.conversationShouldLoad(response: response)
         }
         
-        let response: Mailbox.ItemsDidSelect.Response = Mailbox.ItemsDidSelect.Response(isMultiSelection: request.ids.count > 1, type: request.type)
+        // Provide selection info
+        let selectionType: Mailbox.SelectionType
+        
+        switch request.type {
+        case .conversation:
+            selectionType = .conversations(request.ids)
+        case .message:
+            selectionType = .messages(request.ids)
+        }
+        
+        let response: Mailbox.ItemsDidSelect.Response = Mailbox.ItemsDidSelect.Response(type: selectionType)
         self.delegate?.mailboxSelectionDidUpdate(response: response)
     }
     
@@ -184,6 +203,14 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         default:
             self.mailboxWorker?.loadMailbox(labelId: labelId, isMessages: false)
         }
+    }
+    
+    private func cancelSelection() {
+        self.selectedItemType = nil
+        self.selectedItemIds = nil
+        
+        let response: Mailbox.ItemsDidSelect.Response = Mailbox.ItemsDidSelect.Response(type: .none)
+        self.delegate?.mailboxSelectionDidUpdate(response: response)
     }
     
     private func addObservers() {

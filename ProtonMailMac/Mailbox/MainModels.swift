@@ -145,8 +145,7 @@ enum Main {
     
     enum MailboxSelectionDidUpdate {
         struct Request {
-            let isMultiSelection: Bool
-            let type: Mailbox.TableItem.Kind
+            let type: Mailbox.SelectionType
         }
     }
     

@@ -95,7 +95,7 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
     //
     
     func presentItemsSelection(response: Mailbox.ItemsDidSelect.Response) {
-        let viewModel = Mailbox.ItemsDidSelect.ViewModel(isMultiSelection: response.isMultiSelection, type: response.type)
+        let viewModel = Mailbox.ItemsDidSelect.ViewModel(type: response.type)
         self.viewController?.displayItemsSelection(viewModel: viewModel)
     }
     

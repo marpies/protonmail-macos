@@ -132,7 +132,7 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     }
     
     func mailboxSelectionDidUpdate(viewModel: Mailbox.ItemsDidSelect.ViewModel) {
-        let request: Main.MailboxSelectionDidUpdate.Request = Main.MailboxSelectionDidUpdate.Request(isMultiSelection: viewModel.isMultiSelection, type: viewModel.type)
+        let request: Main.MailboxSelectionDidUpdate.Request = Main.MailboxSelectionDidUpdate.Request(type: viewModel.type)
         self.interactor?.processMailboxSelectionUpdate(request: request)
     }
     

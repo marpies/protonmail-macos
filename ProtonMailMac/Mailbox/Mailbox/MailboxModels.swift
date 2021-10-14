@@ -10,6 +10,17 @@ import Foundation
 
 enum Mailbox {
     
+    enum SelectionType {
+        /// No selection is made.
+        case none
+        
+        /// Selected messages (array of ids).
+        case messages([String])
+        
+        /// Selected conversations (array of ids).
+        case conversations([String])
+    }
+    
     enum TableItem {
         enum Kind {
             case conversation, message
@@ -121,13 +132,11 @@ enum Mailbox {
         }
         
         struct Response {
-            let isMultiSelection: Bool
-            let type: Mailbox.TableItem.Kind
+            let type: Mailbox.SelectionType
         }
         
         struct ViewModel {
-            let isMultiSelection: Bool
-            let type: Mailbox.TableItem.Kind
+            let type: Mailbox.SelectionType
         }
     }
     

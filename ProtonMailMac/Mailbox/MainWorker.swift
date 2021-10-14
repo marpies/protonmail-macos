@@ -52,7 +52,22 @@ class MainWorker: LabelToSidebarItemParsing {
     }
     
     func processMailboxSelectionUpdate(request: Main.MailboxSelectionDidUpdate.Request) {
-        let response: Main.UpdateToolbar.Response = Main.UpdateToolbar.Response(isSelectionActive: true, isMultiSelection: request.isMultiSelection)
+        let isSelectionActive: Bool
+        let isMultiSelection: Bool
+        
+        switch request.type {
+        case .none:
+            isSelectionActive = false
+            isMultiSelection = false
+        case .messages(let ids):
+            isSelectionActive = true
+            isMultiSelection = ids.count > 1
+        case .conversations(let ids):
+            isSelectionActive = true
+            isMultiSelection = ids.count > 1
+        }
+        
+        let response: Main.UpdateToolbar.Response = Main.UpdateToolbar.Response(isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection)
         self.delegate?.mailboxToolbarShouldUpdate(response: response)
     }
     
