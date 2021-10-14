@@ -77,6 +77,45 @@ extension Message {
         return false
     }
     
+    func getFirstValidFolder() -> String? {
+        guard let labels = self.labels as? Set<Label> else { return nil }
+        
+        for label in labels {
+            if label.exclusive == true {
+                return label.labelID
+            }
+            
+            if !label.labelID.preg_match ("(?!^\\d+$)^.+$") {
+                if label.labelID != "1", label.labelID != "2", label.labelID != "10", label.labelID != "5" {
+                    return label.labelID
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    func selfSent(labelID: String) -> String? {
+        guard let _ = self.managedObjectContext,
+              let labels = self.labels as? Set<Label> else { return nil }
+        
+        for label in labels {
+            if labelID.isLabel(.inbox) {
+                if label.labelID == "2" || label.labelID.isLabel(.outbox) {
+                    return MailboxSidebar.Item.outbox.id
+                }
+            }
+            
+            if labelID.isLabel(.outbox) {
+                if label.labelID.isLabel(.inbox) {
+                    return MailboxSidebar.Item.inbox.id
+                }
+            }
+        }
+        
+        return nil
+    }
+    
     func checkLabels() {
         guard let labels = self.labels.allObjects as? [Label] else {return}
         let labelIDs = labels.map {$0.labelID}
