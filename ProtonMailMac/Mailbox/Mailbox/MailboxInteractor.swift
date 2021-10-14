@@ -13,7 +13,6 @@ protocol MailboxBusinessLogic {
     func processErrorViewButtonTap()
     func updateItemStar(request: Mailbox.UpdateItemStar.Request)
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request)
-    func processRefreshButtonTap()
 }
 
 protocol MailboxDataStore {
@@ -57,14 +56,6 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
         self.worker?.processItemsSelection(request: request)
-    }
-    
-    //
-    // MARK: - Process refresh button tap
-    //
-    
-    func processRefreshButtonTap() {
-        self.worker?.refreshMailbox()
     }
     
     //
