@@ -39,7 +39,7 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     //
     
     func processErrorViewButtonTap() {
-        self.worker?.refreshMailbox()
+        self.worker?.refreshMailbox(eventsOnly: true)
     }
     
     //

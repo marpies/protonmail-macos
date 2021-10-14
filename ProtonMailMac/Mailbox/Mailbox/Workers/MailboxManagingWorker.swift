@@ -21,7 +21,13 @@ protocol MailboxManaging {
     var delegate: MailboxManagingWorkerDelegate? { get set }
     
     func loadMailbox(labelId: String, isMessages: Bool)
-    func refreshMailbox()
+    
+    /// Refreshes the mailbox to check for new messages.
+    /// - Parameter eventsOnly: If `true`, only the `/events` endpoint will be queried to check for new messages.
+    ///                         If `false`, messages for the current label will be fetched subsequently if no updates
+    ///                         are returned by the `/events` endpoint.
+    func refreshMailbox(eventsOnly: Bool)
+    
     func updateConversationStar(id: String, isOn: Bool, userId: String)
     func updateMessageStar(id: String, isOn: Bool, userId: String)
     func getConversationId(forMessageId id: String) -> String?
@@ -93,7 +99,7 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
                     self.messagesWorker?.updateCachedMessages(messages)
                 }
                 
-                self.refreshMailbox()
+                self.refreshMailbox(eventsOnly: false)
             }
         } else {
             self.messagesWorker?.cancelLoad()
@@ -104,12 +110,12 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
                     self.conversationsWorker?.updateCachedConversations(conversations)
                 }
                 
-                self.refreshMailbox()
+                self.refreshMailbox(eventsOnly: false)
             }
         }
     }
     
-    func refreshMailbox() {
+    func refreshMailbox(eventsOnly: Bool) {
         guard let labelId = self.labelId else { return }
         
         self.removeTimer()
@@ -146,7 +152,11 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
                         // todo check "More"
                         weakSelf.delegate?.mailboxDidUpdateWithoutChange()
                         
-                        weakSelf.setRefreshTimer()
+                        if eventsOnly {
+                            weakSelf.setRefreshTimer()
+                        } else {
+                            weakSelf.loadMailbox()
+                        }
                         return
                     }
                     
@@ -325,7 +335,7 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         guard self.timer == nil else { return }
         
         self.timer = Timer.scheduledTimer(withTimeInterval: self.refreshTimerInterval, repeats: true, block: { [weak self] (_) in
-            self?.refreshMailbox()
+            self?.refreshMailbox(eventsOnly: true)
         })
     }
     

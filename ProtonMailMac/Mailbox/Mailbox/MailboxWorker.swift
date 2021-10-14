@@ -94,8 +94,8 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         self.delegate?.mailboxSelectionDidUpdate(response: response)
     }
     
-    func refreshMailbox() {
-        self.mailboxWorker?.refreshMailbox()
+    func refreshMailbox(eventsOnly: Bool) {
+        self.mailboxWorker?.refreshMailbox(eventsOnly: eventsOnly)
     }
     
     //
@@ -197,7 +197,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     private func processToolbarAction(id: NSToolbarItem.Identifier) {
         switch id {
         case .refreshMailbox:
-            self.refreshMailbox()
+            self.refreshMailbox(eventsOnly: true)
             
         default:
             return
