@@ -84,10 +84,10 @@ extension Message {
             return
         }
         
-        // This is the basic labes for draft
-        let basic = [MailboxSidebar.Item.draft.id,
-                     MailboxSidebar.Item.allMail.id,
-                     MailboxSidebar.Item.draft.hiddenId]
+        // This is the basic labels for draft
+        let basic: Set<String> = [MailboxSidebar.Item.draft.id,
+                                  MailboxSidebar.Item.allMail.id,
+                                  MailboxSidebar.Item.draft.hiddenId]
         for label in labels {
             let id = label.labelID
             if basic.contains(id) {continue}
