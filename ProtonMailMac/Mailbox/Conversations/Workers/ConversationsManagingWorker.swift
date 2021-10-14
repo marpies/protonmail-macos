@@ -19,6 +19,7 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
     
     private let resolver: Resolver
     private let apiService: ApiService
+    private var opsService: ConversationOpsProcessing
     
     private var loadingWorker: ConversationsLoading?
     private var conversationUpdateObserver: NSObjectProtocol?
@@ -31,6 +32,8 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
         self.userId = userId
         self.resolver = resolver
         self.apiService = apiService
+        self.opsService = resolver.resolve(ConversationOpsProcessing.self, arguments: userId, apiService)!
+        self.opsService.delegate = self
         
         self.addObservers()
     }
@@ -54,9 +57,7 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
     }
     
     func updateConversationStar(id: String, isOn: Bool) {
-        var service: ConversationOpsProcessing = self.resolver.resolve(ConversationOpsProcessing.self, argument: self.userId)!
-        service.delegate = self
-        service.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn, includingMessages: true)
+        self.opsService.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn, includingMessages: true)
         
         // Dispatch notification for other sections (e.g. conversation details)
         // This worker will react to this notification as well

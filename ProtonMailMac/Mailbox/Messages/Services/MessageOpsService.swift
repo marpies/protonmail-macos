@@ -26,25 +26,22 @@ protocol MessageOpsProcessing {
     func mark(messageIds: [String], unread: Bool) -> Bool
 }
 
-class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
+class MessageOpsService: MessageOpsProcessing {
     
     private let resolver: Resolver
     private let messageQueue: MessageQueue
     private let userId: String
     private let usersManager: UsersManager
-    
-    private(set) var auth: AuthCredential?
-    private(set) var apiService: ApiService?
+    private let apiService: ApiService
     
     weak var delegate: MessageOpsProcessingDelegate?
 
-    init(userId: String, resolver: Resolver) {
+    init(userId: String, apiService: ApiService, resolver: Resolver) {
         self.userId = userId
+        self.apiService = apiService
         self.resolver = resolver
         self.messageQueue = resolver.resolve(MessageQueue.self, argument: "writeQueue")!
         self.usersManager = resolver.resolve(UsersManager.self)!
-        self.apiService = self.resolver.resolve(ApiService.self)!
-        self.apiService?.authDelegate = self
     }
     
     @discardableResult
@@ -67,22 +64,6 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
         self.queue(messages, action: unread ? .unread : .read)
         
         return true
-    }
-    
-    //
-    // MARK: - Auth refreshing
-    //
-    
-    func authCredentialDidRefresh() {
-        self.usersManager.save()
-    }
-    
-    func onForceUpgrade() {
-        //
-    }
-    
-    func sessionDidRevoke() {
-        //
     }
     
     //
@@ -261,15 +242,13 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
     //
     
     private func labelMessage(_ labelID: String, messageIds: [String], UID: String, completion: CompletionBlock?) {
-        guard let user = self.usersManager.getUser(forId: UID) else {
+        guard let _ = self.usersManager.getUser(forId: UID) else {
             completion!(nil, nil, NSError.userLoggedOut())
             return
         }
         
-        self.auth = user.auth
-        
         let request = ApplyLabelToMessagesRequest(labelID: labelID, messages: messageIds)
-        self.apiService?.request(request) { (task, _, error) in
+        self.apiService.request(request) { (task, _, error) in
             self.delegate?.labelsDidUpdateForMessages(ids: messageIds, labelId: labelID)
             
             completion?(task, nil, error)
@@ -277,15 +256,13 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
     }
     
     private func unLabelMessage(_ labelID: String, messageIds: [String], UID: String, completion: CompletionBlock?) {
-        guard let user = self.usersManager.getUser(forId: UID) else {
+        guard let _ = self.usersManager.getUser(forId: UID) else {
             completion!(nil, nil, NSError.userLoggedOut())
             return
         }
         
-        self.auth = user.auth
-        
         let request = RemoveLabelFromMessagesRequest(labelID: labelID, messages: messageIds)
-        self.apiService?.request(request) { (task, _, error) in
+        self.apiService.request(request) { (task, _, error) in
             self.delegate?.labelsDidUpdateForMessages(ids: messageIds, labelId: labelID)
             
             completion?(task, nil, error)
@@ -297,17 +274,15 @@ class MessageOpsService: MessageOpsProcessing, AuthCredentialRefreshing {
     //
     
     private func messageAction(_ managedObjectIds: [String], action: String, UID: String, completion: CompletionBlock?) {
-        guard let user = self.usersManager.getUser(forId: UID) else {
+        guard let _ = self.usersManager.getUser(forId: UID) else {
             completion!(nil, nil, NSError.userLoggedOut())
             return
         }
         
         let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
         if let ids = db.getMessageIds(forURIRepresentations: managedObjectIds) {
-            self.auth = user.auth
-            
             let request = MessageActionRequest(action: action, ids: ids)
-            self.apiService?.request(request, completion: { task, _, error in
+            self.apiService.request(request, completion: { task, _, error in
                 completion?(task, nil, error)
             })
         } else {

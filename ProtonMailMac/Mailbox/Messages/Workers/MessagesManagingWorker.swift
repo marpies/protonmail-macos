@@ -19,6 +19,7 @@ class MessagesManagingWorker: MessageOpsProcessingDelegate, ConversationLabelSta
     
     private let resolver: Resolver
     private let apiService: ApiService
+    private var opsService: MessageOpsProcessing
     
     private var loadingWorker: MessagesLoading?
     private var messageUpdateObserver: NSObjectProtocol?
@@ -30,6 +31,8 @@ class MessagesManagingWorker: MessageOpsProcessingDelegate, ConversationLabelSta
         self.userId = userId
         self.resolver = resolver
         self.apiService = apiService
+        self.opsService = resolver.resolve(MessageOpsProcessing.self, arguments: userId, apiService)!
+        self.opsService.delegate = self
         
         self.addObservers()
     }
@@ -58,9 +61,7 @@ class MessagesManagingWorker: MessageOpsProcessingDelegate, ConversationLabelSta
         let conversation: Conversation? = self.getConversation(forMessageId: id)
         let isConversationStarred: Bool = conversation?.contains(label: .starred) ?? false
         
-        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: self.userId)!
-        service.delegate = self
-        service.label(messageIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn)
+        self.opsService.label(messageIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn)
         
         // Check if the conversation star changed and dispatch notification if needed for other scenes to reflect this change
         if let c = conversation {

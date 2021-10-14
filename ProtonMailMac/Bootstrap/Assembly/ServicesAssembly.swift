@@ -24,8 +24,8 @@ struct ServicesAssembly: Assembly {
             return MessagesLoadingWorker(resolver: r, labelId: labelId, userId: userId, apiService: apiService)
         }.inObjectScope(.transient)
         
-        container.register(MessageOpsProcessing.self) { (r: Resolver, userId: String) in
-            return MessageOpsService(userId: userId, resolver: r)
+        container.register(MessageOpsProcessing.self) { (r: Resolver, userId: String, apiService: ApiService) in
+            return MessageOpsService(userId: userId, apiService: apiService, resolver: r)
         }.inObjectScope(.transient)
         
         container.register(MessageQueue.self) { (r: Resolver, queueName: String) in
@@ -36,8 +36,8 @@ struct ServicesAssembly: Assembly {
             return ConversationsLoadingWorker(resolver: r, labelId: labelId, userId: userId, apiService: apiService)
         }.inObjectScope(.transient)
         
-        container.register(ConversationOpsProcessing.self) { (r: Resolver, userId: String) in
-            return ConversationOpsService(userId: userId, resolver: r)
+        container.register(ConversationOpsProcessing.self) { (r: Resolver, userId: String, apiService: ApiService) in
+            return ConversationOpsService(userId: userId, apiService: apiService, resolver: r)
         }.inObjectScope(.transient)
         
         container.register(MessageBodyLoading.self) { (r: Resolver, apiService: ApiService) in

@@ -25,25 +25,22 @@ protocol ConversationOpsProcessing {
     func mark(conversationIds: [String], unread: Bool) -> Bool
 }
 
-class ConversationOpsService: ConversationOpsProcessing, AuthCredentialRefreshing {
+class ConversationOpsService: ConversationOpsProcessing {
     
     private let resolver: Resolver
     private let messageQueue: MessageQueue
     private let userId: String
     private let usersManager: UsersManager
-    
-    private(set) var auth: AuthCredential?
-    private(set) var apiService: ApiService?
+    private let apiService: ApiService
     
     weak var delegate: ConversationOpsProcessingDelegate?
     
-    init(userId: String, resolver: Resolver) {
+    init(userId: String, apiService: ApiService, resolver: Resolver) {
         self.userId = userId
+        self.apiService = apiService
         self.resolver = resolver
         self.messageQueue = resolver.resolve(MessageQueue.self, argument: "writeQueue")!
         self.usersManager = resolver.resolve(UsersManager.self)!
-        self.apiService = self.resolver.resolve(ApiService.self)!
-        self.apiService?.authDelegate = self
     }
     
     //
@@ -70,22 +67,6 @@ class ConversationOpsService: ConversationOpsProcessing, AuthCredentialRefreshin
         self.queue(conversations, action: unread ? .unread : .read)
         
         return true
-    }
-    
-    //
-    // MARK: - Auth refreshing
-    //
-    
-    func authCredentialDidRefresh() {
-        self.usersManager.save()
-    }
-    
-    func onForceUpgrade() {
-        //
-    }
-    
-    func sessionDidRevoke() {
-        //
     }
     
     //
@@ -247,15 +228,13 @@ class ConversationOpsService: ConversationOpsProcessing, AuthCredentialRefreshin
     //
     
     private func labelConversation(_ labelID: String, conversationIds: [String], UID: String, completion: CompletionBlock?) {
-        guard let user = self.usersManager.getUser(forId: UID) else {
+        guard let _ = self.usersManager.getUser(forId: UID) else {
             completion!(nil, nil, NSError.userLoggedOut())
             return
         }
         
-        self.auth = user.auth
-        
         let request = ApplyLabelToConversationsRequest(labelID: labelID, conversationIds: conversationIds)
-        self.apiService?.request(request) { (task, _, error) in
+        self.apiService.request(request) { (task, _, error) in
             self.delegate?.labelsDidUpdateForConversations(ids: conversationIds, labelId: labelID)
             
             completion?(task, nil, error)
@@ -263,15 +242,13 @@ class ConversationOpsService: ConversationOpsProcessing, AuthCredentialRefreshin
     }
     
     private func unLabelConversation(_ labelID: String, conversationIds: [String], UID: String, completion: CompletionBlock?) {
-        guard let user = self.usersManager.getUser(forId: UID) else {
+        guard let _ = self.usersManager.getUser(forId: UID) else {
             completion!(nil, nil, NSError.userLoggedOut())
             return
         }
         
-        self.auth = user.auth
-        
         let request = RemoveLabelFromConversationsRequest(labelID: labelID, conversationIds: conversationIds)
-        self.apiService?.request(request) { (task, _, error) in
+        self.apiService.request(request) { (task, _, error) in
             self.delegate?.labelsDidUpdateForConversations(ids: conversationIds, labelId: labelID)
             
             completion?(task, nil, error)
@@ -283,17 +260,15 @@ class ConversationOpsService: ConversationOpsProcessing, AuthCredentialRefreshin
     //
     
     private func conversationAction(_ managedObjectIds: [String], action: String, UID: String, completion: CompletionBlock?) {
-        guard let user = self.usersManager.getUser(forId: UID) else {
+        guard let _ = self.usersManager.getUser(forId: UID) else {
             completion!(nil, nil, NSError.userLoggedOut())
             return
         }
         
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         if let ids = db.getConversationIds(forURIRepresentations: managedObjectIds) {
-            self.auth = user.auth
-            
             let request = ConversationActionRequest(action: action, ids: ids)
-            self.apiService?.request(request, completion: { task, _, error in
+            self.apiService.request(request, completion: { task, _, error in
                 completion?(task, nil, error)
             })
         } else {
