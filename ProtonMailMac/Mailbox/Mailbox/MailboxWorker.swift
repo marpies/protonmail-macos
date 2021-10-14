@@ -70,14 +70,16 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         
         switch request.type {
         case .conversation:
-            self.mailboxWorker?.updateConversationStar(id: request.id, isOn: request.isOn, userId: userId)
+            self.getMailboxWorker(userId: userId).updateConversationStar(id: request.id, isOn: request.isOn)
             
         case .message:
-            self.mailboxWorker?.updateMessageStar(id: request.id, isOn: request.isOn, userId: userId)
+            self.getMailboxWorker(userId: userId).updateMessageStar(id: request.id, isOn: request.isOn)
         }
     }
     
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
+        guard let userId = self.usersManager.activeUser?.userId else { return }
+        
         self.selectedItemIds = request.ids
         self.selectedItemType = request.type
         
@@ -90,7 +92,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
                 conversationId = request.ids[0]
                 
             case .message:
-                guard let id = self.mailboxWorker?.getConversationId(forMessageId: request.ids[0]) else { return }
+                guard let id = self.getMailboxWorker(userId: userId).getConversationId(forMessageId: request.ids[0]) else { return }
                 
                 conversationId = id
             }
@@ -114,7 +116,9 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     }
     
     func refreshMailbox(eventsOnly: Bool) {
-        self.mailboxWorker?.refreshMailbox(eventsOnly: eventsOnly)
+        guard let userId = self.usersManager.activeUser?.userId else { return }
+        
+        self.getMailboxWorker(userId: userId).refreshMailbox(eventsOnly: eventsOnly)
     }
     
     //
@@ -191,17 +195,12 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     private func loadItems(forLabel labelId: String, userId: String) {
         let item: MailboxSidebar.Item = MailboxSidebar.Item(id: labelId, title: nil)
         
-        if self.mailboxWorker == nil || self.mailboxWorker!.userId != userId {
-            self.mailboxWorker = self.resolver.resolve(MailboxManaging.self, argument: userId)
-            self.mailboxWorker?.delegate = self
-        }
-        
         switch item {
         case .outbox, .draft:
-            self.mailboxWorker?.loadMailbox(labelId: labelId, isMessages: true)
+            self.getMailboxWorker(userId: userId).loadMailbox(labelId: labelId, isMessages: true)
             
         default:
-            self.mailboxWorker?.loadMailbox(labelId: labelId, isMessages: false)
+            self.getMailboxWorker(userId: userId).loadMailbox(labelId: labelId, isMessages: false)
         }
     }
     
@@ -229,6 +228,22 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         default:
             return
         }
+    }
+    
+    //
+    // MARK: - Helpers
+    //
+    
+    private func getMailboxWorker(userId: String) -> MailboxManaging {
+        if self.mailboxWorker == nil || self.mailboxWorker!.userId != userId {
+            self.mailboxWorker?.delegate = nil
+            self.mailboxWorker?.cancelLoad()
+            
+            self.mailboxWorker = self.resolver.resolve(MailboxManaging.self, argument: userId)
+            self.mailboxWorker?.delegate = self
+        }
+        
+        return self.mailboxWorker!
     }
     
 }

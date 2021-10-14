@@ -53,8 +53,8 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
         }
     }
     
-    func updateConversationStar(id: String, isOn: Bool, userId: String) {
-        var service: ConversationOpsProcessing = self.resolver.resolve(ConversationOpsProcessing.self, argument: userId)!
+    func updateConversationStar(id: String, isOn: Bool) {
+        var service: ConversationOpsProcessing = self.resolver.resolve(ConversationOpsProcessing.self, argument: self.userId)!
         service.delegate = self
         service.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn, includingMessages: true)
         

@@ -28,9 +28,11 @@ protocol MailboxManaging {
     ///                         are returned by the `/events` endpoint.
     func refreshMailbox(eventsOnly: Bool)
     
-    func updateConversationStar(id: String, isOn: Bool, userId: String)
-    func updateMessageStar(id: String, isOn: Bool, userId: String)
+    func updateConversationStar(id: String, isOn: Bool)
+    func updateMessageStar(id: String, isOn: Bool)
     func getConversationId(forMessageId id: String) -> String?
+    
+    func cancelLoad()
 }
 
 /// Handles mailbox loading / refreshing for both conversations and individual messages (sent/draft folders).
@@ -185,16 +187,21 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         }
     }
     
-    func updateConversationStar(id: String, isOn: Bool, userId: String) {
-        self.conversationsWorker?.updateConversationStar(id: id, isOn: isOn, userId: userId)
+    func updateConversationStar(id: String, isOn: Bool) {
+        self.conversationsWorker?.updateConversationStar(id: id, isOn: isOn)
     }
     
-    func updateMessageStar(id: String, isOn: Bool, userId: String) {
-        self.messagesWorker?.updateMessageStar(id: id, isOn: isOn, userId: userId)
+    func updateMessageStar(id: String, isOn: Bool) {
+        self.messagesWorker?.updateMessageStar(id: id, isOn: isOn)
     }
     
     func getConversationId(forMessageId id: String) -> String? {
         return self.messagesWorker?.getConversationId(forMessageId: id)
+    }
+    
+    func cancelLoad() {
+        self.conversationsWorker?.cancelLoad()
+        self.messagesWorker?.cancelLoad()
     }
     
     //

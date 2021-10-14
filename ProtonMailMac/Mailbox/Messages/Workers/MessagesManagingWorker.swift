@@ -53,12 +53,12 @@ class MessagesManagingWorker: MessageOpsProcessingDelegate, ConversationLabelSta
         }
     }
     
-    func updateMessageStar(id: String, isOn: Bool, userId: String) {
+    func updateMessageStar(id: String, isOn: Bool) {
         // Get conversation starred status before updating
         let conversation: Conversation? = self.getConversation(forMessageId: id)
         let isConversationStarred: Bool = conversation?.contains(label: .starred) ?? false
         
-        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: userId)!
+        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: self.userId)!
         service.delegate = self
         service.label(messageIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn)
         
