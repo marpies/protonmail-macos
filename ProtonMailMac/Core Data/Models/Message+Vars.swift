@@ -84,7 +84,7 @@ extension Message {
     /// check if message contains a draft label
     var draft : Bool {
         get {
-            return self.contains(label: .draft)
+            return self.contains(label: "1") || self.contains(label: "8")
         }
     }
     
