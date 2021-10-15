@@ -139,7 +139,7 @@ extension CoreDataService: ConversationsDatabaseManaging {
         }
     }
     
-    func updateLabel(conversationIds: [String], label: String, apply: Bool, includingMessages: Bool, userId: String) -> [Conversation]? {
+    func updateLabel(conversationIds: [String], label: String, apply: Bool, userId: String) -> [Conversation]? {
         var updatedConversations: [Conversation]?
         
         self.mainContext.performAndWaitWith { ctx in
@@ -147,28 +147,32 @@ extension CoreDataService: ConversationsDatabaseManaging {
             
             for conversation in conversations {
                 // Update label on all the messages in the conversation
-                if includingMessages,
-                   let messages = self.getMessagesForConversationId(conversation.conversationID, context: ctx),
-                   !messages.isEmpty {
-                    let labelObjs = conversation.mutableSetValue(forKey: Conversation.Attributes.labels)
-                    
-                    labelObjs.removeAllObjects()
-                    
+                if let messages = conversation.messages as? Set<Message>, !messages.isEmpty {
                     for message in messages {
-                        self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: apply)
-                        
-                        for label in message.labels {
-                            labelObjs.add(label)
-                        }
+                        self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: apply, context: ctx)
+                    }
+                }
+                // No messages, apply label on the conversation only
+                else {
+                    let didChange: Bool
+                    if apply {
+                        didChange = conversation.add(labelID: label)
+                    } else {
+                        didChange = conversation.remove(labelID: label)
                     }
                     
-                    conversation.setValue(labelObjs, forKey: Conversation.Attributes.labels)
-                }
-                
-                if apply {
-                    conversation.add(labelID: label)
-                } else {
-                    conversation.remove(labelID: label)
+                    // Update unread/total counter if the labels changed
+                    if didChange {
+                        let offset: Int = apply ? 1 : -1
+                        
+                        if conversation.numUnread.intValue > 0 {
+                            let unreadCount: Int = self.unreadCount(for: label, userId: userId, context: ctx)
+                            self.updateUnreadCount(for: label, userId: userId, count: unreadCount + offset, context: ctx)
+                        }
+                        
+                        let totalCount: Int = self.getTotalCount(for: label, userId: userId, context: ctx)
+                        self.updateTotalCount(for: label, userId: userId, count: totalCount + offset, context: ctx)
+                    }
                 }
             }
             

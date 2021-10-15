@@ -57,7 +57,7 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
     }
     
     func updateConversationStar(id: String, isOn: Bool) {
-        self.opsService.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn, includingMessages: true)
+        self.opsService.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn)
         
         // Dispatch notification for other sections (e.g. conversation details)
         // This worker will react to this notification as well

@@ -19,7 +19,7 @@ protocol ConversationOpsProcessing {
     var delegate: ConversationOpsProcessingDelegate? { get set }
     
     @discardableResult
-    func label(conversationIds: [String], label: String, apply: Bool, includingMessages: Bool) -> Bool
+    func label(conversationIds: [String], label: String, apply: Bool) -> Bool
     
     @discardableResult
     func mark(conversationIds: [String], unread: Bool) -> Bool
@@ -48,10 +48,10 @@ class ConversationOpsService: ConversationOpsProcessing {
     //
     
     @discardableResult
-    func label(conversationIds: [String], label: String, apply: Bool, includingMessages: Bool) -> Bool {
+    func label(conversationIds: [String], label: String, apply: Bool) -> Bool {
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         
-        guard let conversations = db.updateLabel(conversationIds: conversationIds, label: label, apply: apply, includingMessages: includingMessages, userId: self.userId) else { return false }
+        guard let conversations = db.updateLabel(conversationIds: conversationIds, label: label, apply: apply, userId: self.userId) else { return false }
         
         self.queue(conversations, action: apply ? .label : .unlabel, data1: label)
         

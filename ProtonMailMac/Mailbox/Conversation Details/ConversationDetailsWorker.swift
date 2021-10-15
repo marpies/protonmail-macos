@@ -107,7 +107,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         var service: ConversationOpsProcessing = self.resolver.resolve(ConversationOpsProcessing.self, argument: userId)!
         service.delegate = self
-        service.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: request.isOn, includingMessages: true)
+        service.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: request.isOn)
         
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         if let conversation = db.loadConversation(id: id), let messages = conversation.messages as? Set<Message> {

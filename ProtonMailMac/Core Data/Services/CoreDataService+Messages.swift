@@ -161,23 +161,7 @@ extension CoreDataService: MessagesDatabaseManaging {
             guard let messages = self.getMessages(ids: messageIds, context: ctx) else { return }
             
             for message in messages {
-                self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: apply)
-                
-                // Update label on the conversation as well
-                let conversation: Conversation = message.conversation
-                guard let messages = conversation.messages as? Set<Message> else { continue }
-                
-                if apply {
-                    // If at least one message truly has the label, make sure it is set on the conversation as well
-                    if messages.contains(where: { $0.contains(label: label) }), !conversation.contains(label: label) {
-                        let _ = conversation.add(labelID: label)
-                    }
-                } else {
-                    // If none of the messages in the conversation has the label, remove it from the conversation as well
-                    if messages.filter({ $0.contains(label: label) }).isEmpty, conversation.contains(label: label) {
-                        conversation.remove(labelID: label)
-                    }
-                }
+                self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: apply, context: ctx)
             }
             
             let error = ctx.saveUpstreamIfNeeded()
@@ -205,12 +189,7 @@ extension CoreDataService: MessagesDatabaseManaging {
                 message.unRead = unread
                 
                 // Update number of unread message on the message's conversation
-                let offset: Int = unread ? 1 : -1
-                var numUnread: Int = message.conversation.numUnread.intValue + offset
-                if numUnread < 0 {
-                    numUnread = 0
-                }
-                message.conversation.numUnread = NSNumber(integerLiteral: numUnread)
+                self.updateUnreadCountOnConversation(forMessage: message, unread: unread)
                 
                 self.updateCounter(markUnRead: unread, on: message, userId: userId, context: ctx)
                 
@@ -248,18 +227,6 @@ extension CoreDataService: MessagesDatabaseManaging {
         return messages
     }
     
-    func updateLabel(forMessage message: Message, labelId: String, userId: String, apply: Bool) {
-        if apply {
-            if message.add(labelID: labelId) != nil && message.unRead {
-                self.updateCounterSync(message: message, plus: true, with: labelId, userId: userId, shouldSave: false)
-            }
-        } else {
-            if message.remove(labelID: labelId) != nil && message.unRead {
-                self.updateCounterSync(message: message, plus: false, with: labelId, userId: userId, shouldSave: false)
-            }
-        }
-    }
-    
     func saveBody(messageId: String, body: String, completion: @escaping (Bool) -> Void) {
         self.backgroundContext.performWith { ctx in
             if let message = self.loadMessage(id: messageId, context: ctx) {
@@ -288,6 +255,47 @@ extension CoreDataService: MessagesDatabaseManaging {
     //
     // MARK: - Internal
     //
+    
+    @discardableResult
+    func updateLabel(forMessage message: Message, labelId: String, userId: String, apply: Bool, context: NSManagedObjectContext) -> String? {
+        let updatedLabel: String?
+        
+        if apply {
+            updatedLabel = message.add(labelID: labelId)
+            if let newLabel = updatedLabel {
+                if message.unRead {
+                    self.updateUnreadCounter(message: message, plus: true, with: newLabel, userId: userId, context: context)
+                }
+                self.updateTotalCounter(message: message, plus: true, with: newLabel, userId: userId, context: context)
+            }
+        } else {
+            updatedLabel = message.remove(labelID: labelId)
+            if let newLabel = updatedLabel {
+                if message.unRead {
+                    self.updateUnreadCounter(message: message, plus: false, with: newLabel, userId: userId, context: context)
+                }
+                self.updateTotalCounter(message: message, plus: false, with: newLabel, userId: userId, context: context)
+            }
+        }
+        
+        guard let newLabel = updatedLabel else { return nil }
+        
+        // Update label on the conversation as well
+        self.updateLabelOnConversationIfNeeded(message: message, labelId: newLabel, apply: apply)
+        
+        return newLabel
+    }
+    
+    /// Updates the `numUnread` counter on the conversation that the given message belongs to.
+    /// - Parameters:
+    ///   - message: The message that belongs to the conversation we want to update.
+    ///   - unread: `true` if the message is to be marked as unread and the counter should be incremented, `false` otherwise.
+    func updateUnreadCountOnConversation(forMessage message: Message, unread: Bool) {
+        let offset: Int = unread ? 1 : -1
+        let oldNumUnread: Int = message.conversation.numUnread.intValue
+        let newNumUnread: Int = max(oldNumUnread + offset, 0)
+        message.conversation.numUnread = NSNumber(integerLiteral: newNumUnread)
+    }
     
     func updateCounter(markUnRead: Bool, on message: Message, userId: String, context: NSManagedObjectContext) {
         let offset: Int = markUnRead ? 1 : -1
@@ -338,39 +346,116 @@ extension CoreDataService: MessagesDatabaseManaging {
         return (try? context.fetch(request) as? [Message])?.first
     }
     
-    //
-    // MARK: - Private
-    //
-    
-    private func updateCounterSync(message: Message, plus: Bool, with labelID: String, userId: String, shouldSave: Bool) {
+    func updateLabelOnConversationIfNeeded(message: Message, labelId: String, apply: Bool) {
+        // Fail early, no need to trigger the logic on allMail label
+        if labelId.isLabel(.allMail) { return }
+        
         let conversation: Conversation = message.conversation
         
         guard let messages = conversation.messages as? Set<Message> else { return }
+        
+        if apply {
+            // If at least one message truly has the label, make sure it is set on the conversation as well
+            if messages.contains(where: { $0.contains(label: labelId) }), !conversation.contains(label: labelId) {
+                conversation.add(labelID: labelId)
+            }
+        } else {
+            // If none of the messages in the conversation has the label, remove it from the conversation as well
+            if messages.filter({ $0.contains(label: labelId) }).isEmpty, conversation.contains(label: labelId) {
+                conversation.remove(labelID: labelId)
+            }
+        }
+    }
+    
+    func updateUnreadCounter(message: Message, plus: Bool, with labelID: String, userId: String, shouldSave: Bool) {
+        let context: NSManagedObjectContext = self.mainContext
+        let newCount: Int? = self.updateUnreadCounter(message: message, plus: plus, with: labelID, userId: userId, context: context)
+        
+        if shouldSave {
+            let error = context.saveUpstreamIfNeeded()
+            if error == nil {
+                // Set app badge
+                if let count = newCount, labelID.isLabel(.allMail) {
+                    self.setAppBadge(count)
+                }
+            }
+        }
+    }
+    
+    @discardableResult
+    func updateUnreadCounter(message: Message, plus: Bool, with labelID: String, userId: String, context: NSManagedObjectContext) -> Int? {
+        let conversation: Conversation = message.conversation
         
         // Ids of labels where messages are used (instead of conversations)
         // Unread count for these labels should update without checking other messages in the same conversation
         let messageLabels: Set<String> = ["1", "2", "7", "8"]
         
         // Check if this label shows conversations count (instead of messages)
-        if !messageLabels.contains(labelID) {
+        if !messageLabels.contains(labelID), let messages = conversation.messages as? Set<Message> {
             // Get number of other unread messages in this conversation with this label
             let hasOtherUnread: Bool = !messages.filter( { $0.messageID != message.messageID && $0.unRead && $0.contains(label: labelID) }).isEmpty
             
             // If there are still other unread messages in this conversation
             // then the unread counter for this label does not change
             if hasOtherUnread {
-                return
+                return nil
             }
         }
         
         let offset: Int = plus ? 1 : -1
-        let unreadCount: Int = self.unreadCount(for: labelID, userId: userId)
+        let unreadCount: Int = self.unreadCount(for: labelID, userId: userId, context: context)
         var count = unreadCount + offset
         if count < 0 {
             count = 0
         }
-        self.updateUnreadCount(for: labelID, userId: userId, count: count, shouldSave: shouldSave)
+        self.updateUnreadCount(for: labelID, userId: userId, count: count, context: context)
+        
+        return count
     }
+    
+    func updateTotalCounter(message: Message, plus: Bool, with labelID: String, userId: String, shouldSave: Bool) {
+        let context: NSManagedObjectContext = self.mainContext
+        self.updateTotalCounter(message: message, plus: plus, with: labelID, userId: userId, context: context)
+        
+        if shouldSave {
+            let _ = context.saveUpstreamIfNeeded()
+        }
+    }
+    
+    @discardableResult
+    func updateTotalCounter(message: Message, plus: Bool, with labelID: String, userId: String, context: NSManagedObjectContext) -> Int? {
+        let conversation: Conversation = message.conversation
+        
+        // Ids of labels where messages are used (instead of conversations)
+        // Unread count for these labels should update without checking other messages in the same conversation
+        let messageLabels: Set<String> = ["1", "2", "7", "8"]
+        
+        // Check if this label shows conversations count (instead of messages)
+        if !messageLabels.contains(labelID), let messages = conversation.messages as? Set<Message> {
+            // Get number of other messages in this conversation with this label
+            let hasOtherMessages: Bool = !messages.filter( { $0.messageID != message.messageID && $0.contains(label: labelID) }).isEmpty
+            
+            // If there are still other messages in this conversation
+            // then the total counter for this label does not change
+            if hasOtherMessages {
+                return nil
+            }
+        }
+        
+        let offset: Int = plus ? 1 : -1
+        let totalCount: Int = self.getTotalCount(for: labelID, userId: userId, context: context)
+        var count = totalCount + offset
+        if count < 0 {
+            count = 0
+        }
+        self.updateTotalCount(for: labelID, userId: userId, count: count, context: context)
+        
+        return count
+    }
+    
+    //
+    // MARK: - Private
+    //
     
     private func parseMessages(_ jsonArray: [[String: Any]], context: NSManagedObjectContext) -> [Message]? {
         do {

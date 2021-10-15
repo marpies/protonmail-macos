@@ -69,10 +69,7 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
     
     func getTotalCount(for labelId : String, userId: String) -> Int {
         let context: NSManagedObjectContext = self.mainContext
-        if let update = self.lastUpdate(for: labelId, userId: userId, context: context) {
-            return Int(update.total)
-        }
-        return 0
+        return self.getTotalCount(for: labelId, userId: userId, context: context)
     }
     
     // update unread count
@@ -158,6 +155,19 @@ extension CoreDataService: LabelUpdateDatabaseManaging {
                 }
             }
         }
+    }
+    
+    func updateTotalCount(for labelId: String, userId: String, count: Int, context: NSManagedObjectContext) {
+        let update: LabelUpdate = self.lastUpdateDefault(for: labelId, userId: userId, context: context)
+        
+        update.total = Int32(count)
+    }
+    
+    func getTotalCount(for labelId : String, userId: String, context: NSManagedObjectContext) -> Int {
+        if let update = self.lastUpdate(for: labelId, userId: userId, context: context) {
+            return Int(update.total)
+        }
+        return 0
     }
     
     func lastUpdate(for labelId : String, userId: String, context: NSManagedObjectContext) -> LabelUpdate? {

@@ -24,7 +24,6 @@ protocol ConversationsDatabaseManaging {
     ///   - conversationIds: Ids of the conversations to update.
     ///   - label: The label to add or remove.
     ///   - apply: `true` if the label should be added.
-    ///   - includingMessages: `true` if the label should be updated on all the messages in the conversation as well.
     ///   - userId: User's id.
-    func updateLabel(conversationIds: [String], label: String, apply: Bool, includingMessages: Bool, userId: String) -> [Conversation]?
+    func updateLabel(conversationIds: [String], label: String, apply: Bool, userId: String) -> [Conversation]?
 }
