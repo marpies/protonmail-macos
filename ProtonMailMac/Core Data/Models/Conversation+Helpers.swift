@@ -160,4 +160,39 @@ public extension Conversation {
         return didRemove
     }
     
+    func getValidFolders() -> [String]? {
+        guard let labels = self.labels as? Set<Label> else { return nil }
+        
+        var out: [String]?
+        
+        for label in labels {
+            if label.exclusive == true {
+                out = out ?? []
+                out?.append(label.labelID)
+            }
+            
+            if !label.labelID.preg_match("(?!^\\d+$)^.+$") {
+                if label.labelID != "1", label.labelID != "2", !label.labelID.isLabel(.starred), !label.labelID.isLabel(.allMail) {
+                    out = out ?? []
+                    out?.append(label.labelID)
+                }
+            }
+        }
+        
+        return out
+    }
+    
+    func getNormalLabelIDs() -> [String] {
+        var labelIDs: [String] = []
+        let labels = self.labels
+        for l in labels {
+            if let label = l as? Label, label.exclusive == false {
+                if label.labelID.preg_match ("(?!^\\d+$)^.+$") {
+                    labelIDs.append(label.labelID )
+                }
+            }
+        }
+        return labelIDs
+    }
+    
 }
