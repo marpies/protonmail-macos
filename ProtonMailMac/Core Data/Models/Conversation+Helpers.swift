@@ -79,27 +79,34 @@ public extension Conversation {
         }
     }
     
-    func add(labelID: String) {
-        if let context = self.managedObjectContext,
-           let toLabel = Label.labelForLabelID(labelID, inManagedObjectContext: context) {
-            let labelObjs = self.mutableSetValue(forKey: Attributes.labels)
-            
-            var existing = false
-            for l in labelObjs {
-                if let label = l as? Label {
-                    if label == toLabel {
-                        existing = true
-                        break
-                    }
+    
+    /// Adds a label to the conversation.
+    /// - Parameter labelID: The label ID to add.
+    /// - Returns: `true` if the label has been added, `false` otherwise.
+    @discardableResult
+    func add(labelID: String) -> Bool {
+        guard let context = self.managedObjectContext,
+              let toLabel = Label.labelForLabelID(labelID, inManagedObjectContext: context) else { return false }
+        
+        let labelObjs = self.mutableSetValue(forKey: Attributes.labels)
+        
+        var existing = false
+        for l in labelObjs {
+            if let label = l as? Label {
+                if label == toLabel {
+                    existing = true
+                    break
                 }
             }
-            
-            if !existing {
-                labelObjs.add(toLabel)
-            }
-            
-            self.setValue(labelObjs, forKey: Attributes.labels)
         }
+        
+        if !existing {
+            labelObjs.add(toLabel)
+        }
+        
+        self.setValue(labelObjs, forKey: Attributes.labels)
+        
+        return !existing
     }
     
     func add(labelID: String, toMessages messages: [Message]) {
@@ -118,24 +125,23 @@ public extension Conversation {
         }
     }
     
+    /// Removes a label from the conversation.
+    /// - Parameter labelID: The label ID to remove.
+    /// - Returns: `true` if the label has been removed, `false` otherwise.
     @discardableResult
-    func remove(labelID: String) -> String? {
-        if MailboxSidebar.Item.allMail.id == labelID  {
-            return MailboxSidebar.Item.allMail.id
+    func remove(labelID: String) -> Bool {
+        if labelID.isLabel(.allMail)  {
+            return false
         }
-        var outLabel: String?
+        
+        var didRemove: Bool = false
         if let _ = self.managedObjectContext {
             let labelObjs = self.mutableSetValue(forKey: Attributes.labels)
             for l in labelObjs {
                 if let label = l as? Label {
                     // can't remove label 1, 2, 5
-                    //case inbox   = "0"
                     //case draft   = "1"
                     //case sent    = "2"
-                    //case starred = "10"
-                    //case archive = "6"
-                    //case spam    = "4"
-                    //case trash   = "3"
                     //case allmail = "5"
                     if label.labelID == MailboxSidebar.Item.draft.hiddenId ||
                         label.labelID == MailboxSidebar.Item.outbox.hiddenId ||
@@ -144,14 +150,14 @@ public extension Conversation {
                     }
                     if label.labelID == labelID {
                         labelObjs.remove(label)
-                        outLabel = labelID
+                        didRemove = true
                         break
                     }
                 }
             }
             self.setValue(labelObjs, forKey: Attributes.labels)
         }
-        return outLabel
+        return didRemove
     }
     
 }
