@@ -87,7 +87,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         let isConversationStarred: Bool = conversation.contains(label: .starred)
         
         // Update message's and conversation's label
-        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: userId)!
+        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, arguments: userId, self.apiService!)!
         service.delegate = self
         service.label(messageIds: [request.id], label: MailboxSidebar.Item.starred.id, apply: request.isOn)
         
@@ -509,7 +509,7 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         let isConversationUnread: Bool = conversation.numUnread.intValue > 0
         
         // Update unread status of the message
-        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, argument: userId)!
+        var service: MessageOpsProcessing = self.resolver.resolve(MessageOpsProcessing.self, arguments: userId, self.apiService!)!
         service.delegate = self
         
         let success: Bool = service.mark(messageIds: [message.id], unread: false)
