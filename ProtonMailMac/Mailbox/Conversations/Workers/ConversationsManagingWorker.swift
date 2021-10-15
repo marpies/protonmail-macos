@@ -65,6 +65,14 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
         NotificationCenter.default.post(notification)
     }
     
+    func moveConversations(ids: [String], toFolder folderId: String) {
+        let success: Bool = self.opsService.moveTo(folder: folderId, conversationIds: ids)
+        
+        guard success else { return }
+        
+        self.loadingWorker?.loadCachedConversations(updatedConversationIds: Set(ids))
+    }
+    
     func updateCachedConversations(_ conversations: [Conversations.Conversation.Response]) {
         self.loadingWorker?.updateCachedConversations(conversations)
     }

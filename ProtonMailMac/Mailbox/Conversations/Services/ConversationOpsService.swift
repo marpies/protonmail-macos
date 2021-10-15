@@ -19,6 +19,9 @@ protocol ConversationOpsProcessing {
     var delegate: ConversationOpsProcessingDelegate? { get set }
     
     @discardableResult
+    func moveTo(folder: String, conversationIds: [String]) -> Bool
+    
+    @discardableResult
     func label(conversationIds: [String], label: String, apply: Bool) -> Bool
     
     @discardableResult
@@ -46,6 +49,17 @@ class ConversationOpsService: ConversationOpsProcessing {
     //
     // MARK: - Public
     //
+    
+    @discardableResult
+    func moveTo(folder: String, conversationIds: [String]) -> Bool {
+        let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
+        
+        guard let conversations = db.moveTo(folder: folder, conversationIds: conversationIds, userId: self.userId) else { return false }
+        
+        self.queue(conversations, action: .folder, data1: "", data2: folder)
+        
+        return true
+    }
     
     @discardableResult
     func label(conversationIds: [String], label: String, apply: Bool) -> Bool {

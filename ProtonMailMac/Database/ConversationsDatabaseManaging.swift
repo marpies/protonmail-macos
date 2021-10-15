@@ -26,4 +26,6 @@ protocol ConversationsDatabaseManaging {
     ///   - apply: `true` if the label should be added.
     ///   - userId: User's id.
     func updateLabel(conversationIds: [String], label: String, apply: Bool, userId: String) -> [Conversation]?
+    
+    func moveTo(folder: String, conversationIds: [String], userId: String) -> [Conversation]?
 }
