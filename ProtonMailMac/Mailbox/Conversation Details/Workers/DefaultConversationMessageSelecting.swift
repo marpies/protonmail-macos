@@ -18,7 +18,7 @@ extension DefaultConversationMessageSelecting {
     
     func getDefaultMessage(conversation: ConversationDetails.Conversation.Response) -> Messages.Message.Response? {
         // Find the first unread message
-        if let message = conversation.messages.first(where: { $0.isRead == false }) {
+        if let message = conversation.messages.first(where: { $0.isRead == false && $0.isDraft == false }) {
             return message
         }
         
