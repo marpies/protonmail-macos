@@ -74,6 +74,14 @@ class MessagesManagingWorker: MessageOpsProcessingDelegate, ConversationLabelSta
         notification.post()
     }
     
+    func moveMessages(ids: [String], toFolder folderId: String) {
+        let success: Bool = self.opsService.moveTo(folder: folderId, messageIds: ids)
+        
+        guard success else { return }
+        
+        self.loadingWorker?.loadCachedMessages(updatedMessageIds: Set(ids))
+    }
+    
     func getConversationId(forMessageId id: String) -> String? {
         return self.getConversation(forMessageId: id)?.conversationID
     }

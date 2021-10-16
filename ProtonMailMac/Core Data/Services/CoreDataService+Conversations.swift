@@ -199,41 +199,7 @@ extension CoreDataService: ConversationsDatabaseManaging {
                 // Update every message in the conversation, if we have them
                 if let messages = conversation.messages as? Set<Message>, !messages.isEmpty {
                     for message in messages {
-                        // Remove current folder from the message
-                        if let label = message.getFirstValidFolder() {
-                            self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: false, context: ctx)
-                        }
-                        
-                        // Add message to the new folder
-                        guard let addedFolder = message.add(labelID: folder) else { continue }
-                        
-                        // If moving to Trash or Spam, remove custom labels and star
-                        if addedFolder.isLabel(.trash) || addedFolder.isLabel(.spam) {
-                            var labelsToRemove: [String] = message.getNormalLabelIDs()
-                            labelsToRemove.append(MailboxSidebar.Item.starred.id)
-                            
-                            // allMail label will not be removed, but is required in the list to update counters
-                            labelsToRemove.append(MailboxSidebar.Item.allMail.id)
-                            
-                            // Mark messages read if moving to Trash
-                            let markRead: Bool = addedFolder.isLabel(.trash)
-                            
-                            self.removeLabels(labelsToRemove, message: message, markRead: markRead, userId: userId, context: ctx)
-                        }
-                        
-                        self.updateLabelOnConversationIfNeeded(message: message, labelId: addedFolder, apply: true)
-                        
-                        // Update unread counter
-                        if message.unRead {
-                            self.updateUnreadCounter(message: message, plus: true, with: addedFolder, userId: userId, context: ctx)
-                            
-                            if let id = message.selfSent(labelID: addedFolder) {
-                                self.updateUnreadCounter(message: message, plus: true, with: id, userId: userId, context: ctx)
-                            }
-                        }
-                        
-                        // Update total counter
-                        self.updateTotalCounter(message: message, plus: true, with: addedFolder, userId: userId, context: ctx)
+                        self.moveTo(folder: folder, message: message, userId: userId, context: ctx)
                     }
                 }
                 // Update the conversation only since we do not have the messages
@@ -388,38 +354,6 @@ extension CoreDataService: ConversationsDatabaseManaging {
     //
     // MARK: - Private
     //
-    
-    private func removeLabels(_ labels: [String], message: Message, markRead: Bool, userId: String, context: NSManagedObjectContext) {
-        // If `markRead` is set to `true` and the message is unread,
-        // the unread counter will be decremented as the message will
-        // be set as read after the labels are removed
-        let isUnread: Bool = message.unRead
-        for label in labels {
-            guard let lid = message.remove(labelID: label) else { continue }
-            
-            // Remove the label from the conversation as well if needed
-            self.updateLabelOnConversationIfNeeded(message: message, labelId: lid, apply: false)
-            
-            // Update unread counter
-            if isUnread {
-                self.updateUnreadCounter(message: message, plus: false, with: lid, userId: userId, context: context)
-                
-                if let id = message.selfSent(labelID: lid) {
-                    self.updateUnreadCounter(message: message, plus: false, with: id, userId: userId, context: context)
-                }
-            }
-            
-            // Update total counter
-            self.updateTotalCounter(message: message, plus: false, with: lid, userId: userId, context: context)
-        }
-        
-        if markRead && isUnread {
-            // Update number of unread message on the message's conversation
-            self.updateUnreadCountOnConversation(forMessage: message, unread: false)
-            
-            message.unRead = false
-        }
-    }
     
     private func removeLabels(_ labels: [String], conversation: Conversation, markRead: Bool, userId: String, context: NSManagedObjectContext) {
         // If `markRead` is set to `true` and the conversation is unread,

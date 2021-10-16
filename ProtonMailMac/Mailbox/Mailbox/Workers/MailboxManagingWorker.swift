@@ -33,6 +33,7 @@ protocol MailboxManaging {
     func getConversationId(forMessageId id: String) -> String?
     
     func moveConversations(ids: [String], toFolder folder: MailboxSidebar.Item)
+    func moveMessages(ids: [String], toFolder folder: MailboxSidebar.Item)
     
     func cancelLoad()
 }
@@ -195,6 +196,10 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     
     func updateConversationStar(id: String, isOn: Bool) {
         self.conversationsWorker?.updateConversationStar(id: id, isOn: isOn)
+    }
+    
+    func moveMessages(ids: [String], toFolder folder: MailboxSidebar.Item) {
+        self.messagesWorker?.moveMessages(ids: ids, toFolder: folder.id)
     }
     
     func updateMessageStar(id: String, isOn: Bool) {

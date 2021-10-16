@@ -20,6 +20,9 @@ protocol MessageOpsProcessing {
     var delegate: MessageOpsProcessingDelegate? { get set }
     
     @discardableResult
+    func moveTo(folder: String, messageIds: [String]) -> Bool
+    
+    @discardableResult
     func label(messageIds: [String], label: String, apply: Bool) -> Bool
     
     @discardableResult
@@ -42,6 +45,17 @@ class MessageOpsService: MessageOpsProcessing {
         self.resolver = resolver
         self.messageQueue = resolver.resolve(MessageQueue.self, argument: "writeQueue")!
         self.usersManager = resolver.resolve(UsersManager.self)!
+    }
+    
+    @discardableResult
+    func moveTo(folder: String, messageIds: [String]) -> Bool {
+        let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
+        
+        guard let messages = db.moveTo(folder: folder, messageIds: messageIds, userId: self.userId) else { return false }
+        
+        self.queue(messages, action: .folder, data1: "", data2: folder)
+        
+        return true
     }
     
     @discardableResult

@@ -20,4 +20,5 @@ protocol MessagesDatabaseManaging {
     func updateLabel(messageIds: [String], label: String, apply: Bool, userId: String) -> [Message]?
     func updateUnread(messageIds: [String], unread: Bool, userId: String) -> [Message]?
     func getMessageIds(forURIRepresentations ids: [String]) -> [String]?
+    func moveTo(folder: String, messageIds: [String], userId: String) -> [Message]?
 }

@@ -177,6 +177,32 @@ extension CoreDataService: MessagesDatabaseManaging {
         return updatedMessages
     }
     
+    func moveTo(folder: String, messageIds: [String], userId: String) -> [Message]? {
+        var updatedMessages: [Message]?
+        
+        self.mainContext.performAndWaitWith { ctx in
+            guard let messages = self.getMessages(ids: messageIds, context: ctx) else { return }
+            
+            for message in messages {
+                let didMove: Bool = self.moveTo(folder: folder, message: message, userId: userId, context: ctx)
+                
+                guard didMove else { continue }
+                
+                updatedMessages = updatedMessages ?? []
+                updatedMessages?.append(message)
+            }
+            
+            if let error = ctx.saveUpstreamIfNeeded() {
+                PMLog.D(error.localizedDescription)
+                updatedMessages = nil
+            } else {
+                self.notifyConversationCountsUpdate(userId: userId)
+            }
+        }
+        
+        return updatedMessages
+    }
+    
     func updateUnread(messageIds: [String], unread: Bool, userId: String) -> [Message]? {
         var updatedMessages: [Message]?
         
@@ -453,6 +479,54 @@ extension CoreDataService: MessagesDatabaseManaging {
         return count
     }
     
+    /// Moves the given message to a new folder.
+    /// - Parameters:
+    ///   - folder: The folder ID to move the message to.
+    ///   - message: The message to move.
+    ///   - userId: User's id.
+    ///   - context: CoreData context.
+    /// - Returns: `true` if the message folder has been updated, `false` otherwise.
+    @discardableResult
+    func moveTo(folder: String, message: Message, userId: String, context: NSManagedObjectContext) -> Bool {
+        // Remove current folder from the message
+        if let label = message.getFirstValidFolder() {
+            self.updateLabel(forMessage: message, labelId: label, userId: userId, apply: false, context: context)
+        }
+        
+        // Add message to the new folder
+        guard let addedFolder = message.add(labelID: folder) else { return false }
+        
+        // If moving to Trash or Spam, remove custom labels and star
+        if addedFolder.isLabel(.trash) || addedFolder.isLabel(.spam) {
+            var labelsToRemove: [String] = message.getNormalLabelIDs()
+            labelsToRemove.append(MailboxSidebar.Item.starred.id)
+            
+            // allMail label will not be removed, but is required in the list to update counters
+            labelsToRemove.append(MailboxSidebar.Item.allMail.id)
+            
+            // Mark messages read if moving to Trash
+            let markRead: Bool = addedFolder.isLabel(.trash)
+            
+            self.removeLabels(labelsToRemove, message: message, markRead: markRead, userId: userId, context: context)
+        }
+        
+        self.updateLabelOnConversationIfNeeded(message: message, labelId: addedFolder, apply: true)
+        
+        // Update unread counter
+        if message.unRead {
+            self.updateUnreadCounter(message: message, plus: true, with: addedFolder, userId: userId, context: context)
+            
+            if let id = message.selfSent(labelID: addedFolder) {
+                self.updateUnreadCounter(message: message, plus: true, with: id, userId: userId, context: context)
+            }
+        }
+        
+        // Update total counter
+        self.updateTotalCounter(message: message, plus: true, with: addedFolder, userId: userId, context: context)
+        
+        return true
+    }
+    
     //
     // MARK: - Private
     //
@@ -485,6 +559,38 @@ extension CoreDataService: MessagesDatabaseManaging {
             return NSCompoundPredicate(type: .and, subpredicates: [timePredicate, predicate])
         }
         return predicate
+    }
+    
+    private func removeLabels(_ labels: [String], message: Message, markRead: Bool, userId: String, context: NSManagedObjectContext) {
+        // If `markRead` is set to `true` and the message is unread,
+        // the unread counter will be decremented as the message will
+        // be set as read after the labels are removed
+        let isUnread: Bool = message.unRead
+        for label in labels {
+            guard let lid = message.remove(labelID: label) else { continue }
+            
+            // Remove the label from the conversation as well if needed
+            self.updateLabelOnConversationIfNeeded(message: message, labelId: lid, apply: false)
+            
+            // Update unread counter
+            if isUnread {
+                self.updateUnreadCounter(message: message, plus: false, with: lid, userId: userId, context: context)
+                
+                if let id = message.selfSent(labelID: lid) {
+                    self.updateUnreadCounter(message: message, plus: false, with: id, userId: userId, context: context)
+                }
+            }
+            
+            // Update total counter
+            self.updateTotalCounter(message: message, plus: false, with: lid, userId: userId, context: context)
+        }
+        
+        if markRead && isUnread {
+            // Update number of unread message on the message's conversation
+            self.updateUnreadCountOnConversation(forMessage: message, unread: false)
+            
+            message.unRead = false
+        }
     }
     
 }
