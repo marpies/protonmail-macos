@@ -104,6 +104,7 @@ class MainWorker: LabelToSidebarItemParsing {
                 guard pair.key == currentLabel else { continue }
                 
                 count = pair.value
+                break
             }
             
             guard count >= 0, let label = weakSelf.getLabel(forId: currentLabel) else { return }
