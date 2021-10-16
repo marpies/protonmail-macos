@@ -36,9 +36,9 @@ class AppViewController: NSViewController {
     }
     
     override func loadView() {
-        self.view = NSView()
-        self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
+        let view: AppearanceAdaptingView = AppearanceAdaptingView()
+        view.backgroundColor = NSColor.controlBackgroundColor
+        self.view = view
     }
     
     override func viewDidLoad() {
