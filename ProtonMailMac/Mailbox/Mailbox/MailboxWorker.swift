@@ -78,7 +78,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     }
     
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
-        guard let userId = self.usersManager.activeUser?.userId else { return }
+        guard let userId = self.activeUserId else { return }
         
         self.selectedItemIds = request.ids
         self.selectedItemType = request.type
@@ -116,7 +116,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     }
     
     func refreshMailbox(eventsOnly: Bool) {
-        guard let userId = self.usersManager.activeUser?.userId else { return }
+        guard let userId = self.activeUserId else { return }
         
         self.getMailboxWorker(userId: userId).refreshMailbox(eventsOnly: eventsOnly)
     }
@@ -225,6 +225,15 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         case .refreshMailbox:
             self.refreshMailbox(eventsOnly: true)
             
+        case .moveToTrash:
+            self.processMoveToFolder(.trash)
+            
+        case .moveToArchive:
+            self.processMoveToFolder(.archive)
+            
+        case .moveToSpam:
+            self.processMoveToFolder(.spam)
+            
         default:
             return
         }
@@ -233,6 +242,19 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     //
     // MARK: - Helpers
     //
+    
+    private func processMoveToFolder(_ folder: MailboxSidebar.Item) {
+        guard let selectedItemIds = self.selectedItemIds,
+              let selectedItemType = self.selectedItemType,
+              let userId = self.activeUserId else { return }
+        
+        switch selectedItemType {
+        case .conversation:
+            self.getMailboxWorker(userId: userId).moveConversations(ids: selectedItemIds, toFolder: folder)
+        case .message:
+            self.getMailboxWorker(userId: userId).moveMessages(ids: selectedItemIds, toFolder: folder)
+        }
+    }
     
     private func getMailboxWorker(userId: String) -> MailboxManaging {
         if self.mailboxWorker == nil || self.mailboxWorker!.userId != userId {
