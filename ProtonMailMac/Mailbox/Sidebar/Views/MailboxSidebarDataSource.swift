@@ -49,15 +49,7 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         var changed: [MailboxSidebar.Item.ViewModel] = []
         
         for group in self.viewModel {
-            for item in group.labels {
-                let newBadge: String? = viewModel.items[item.id]
-                let didChange: Bool = newBadge != item.badge
-                item.badge = newBadge
-                
-                if didChange {
-                    changed.append(item)
-                }
-            }
+            self.updateBadge(items: group.labels, updatedItems: viewModel.items, itemsToRefresh: &changed)
         }
         
         if !changed.isEmpty {
@@ -175,6 +167,26 @@ class MailboxSidebarDataSource: NSObject, NSOutlineViewDelegate, NSOutlineViewDa
         
         if let item = view.item(atRow: view.selectedRow) as? Item {
             self.delegate?.mailboxSidebarDidSelectItem(item)
+        }
+    }
+    
+    //
+    // MARK: - Private
+    //
+    
+    private func updateBadge(items: [MailboxSidebar.Item.ViewModel], updatedItems: [String: String], itemsToRefresh: inout [MailboxSidebar.Item.ViewModel]) {
+        for item in items {
+            let newBadge: String? = updatedItems[item.id]
+            let didChange: Bool = newBadge != item.badge
+            item.badge = newBadge
+            
+            if didChange {
+                itemsToRefresh.append(item)
+            }
+            
+            if let children = item.children {
+                self.updateBadge(items: children, updatedItems: updatedItems, itemsToRefresh: &itemsToRefresh)
+            }
         }
     }
     
