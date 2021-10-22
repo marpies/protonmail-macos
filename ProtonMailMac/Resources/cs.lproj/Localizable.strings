@@ -104,3 +104,10 @@
 "toolbarReplyToAllTooltip" = "Odpovědět všem příjemcům vybrané zprávy";
 "toolbarForwardMessagesLabel" = "Přeposlat";
 "toolbarForwardMessagesTooltip" = "Přeposlat vybrané zprávy";
+"toolbarSetLabelsLabel" = "Štítky";
+"toolbarSetLabelsTooltip" = "Označit vybrané zprávy štítkem";
+"toolbarNoLabelsMenuItem" = "Žádné štítky";
+"toolbarNoFoldersMenuItem" = "Žádné složky";
+"toolbarMoveToButtonTitle" = "Přesunout do…";
+"toolbarMoveToFolderLabel" = "Přesunout";
+"toolbarMoveToFolderTooltip" = "Přesunout vybrané zprávy do složky";

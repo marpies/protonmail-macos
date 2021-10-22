@@ -17,6 +17,8 @@ extension NSToolbarItem.Identifier {
     static let moveToTrash: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "MoveToTrash")
     static let moveToArchive: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "MoveToArchive")
     static let moveToSpam: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "MoveToSpam")
+    static let setLabels: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "SetLabels")
+    static let moveToFolder: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "MoveToFolder")
     static let replyForwardGroup: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "ReplyForwardGroup")
     static let replyToSender: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "ReplyToSender")
     static let replyToAll: NSToolbarItem.Identifier = NSToolbarItem.Identifier(rawValue: "ReplyToAll")
@@ -92,14 +94,85 @@ enum Main {
                 self.itemId = itemId
             }
         }
+        
+        struct ToolbarMenuItemAction: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("Main.toolbarMenuItemAction")
+            }
+            
+            var name: Notification.Name {
+                return ToolbarMenuItemAction.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["action": self.action]
+            }
+            
+            let action: Main.ToolbarItem.MenuItem.Action
+
+            init(action: Main.ToolbarItem.MenuItem.Action) {
+                self.action = action
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == ToolbarMenuItemAction.name,
+                      let action = notification?.userInfo?["action"] as? Main.ToolbarItem.MenuItem.Action else { return nil }
+                
+                self.action = action
+            }
+        }
     }
     
     enum ToolbarItem {
+        enum MenuItem {
+            enum StateValue {
+                case off, on, mixed
+            }
+            
+            enum Action {
+                case moveToFolder(folderId: String)
+                case updateLabel(labelId: String, apply: Bool)
+            }
+            
+            class Response {
+                let item: MailboxSidebar.Item.Response
+                let state: Main.ToolbarItem.MenuItem.StateValue?
+
+                init(item: MailboxSidebar.Item.Response, state: Main.ToolbarItem.MenuItem.StateValue?) {
+                    self.item = item
+                    self.state = state
+                }
+            }
+            
+            class ViewModel {
+                let id: String
+                let title: String
+                let color: NSColor?
+                let state: NSControl.StateValue?
+                let icon: String?
+                let children: [Main.ToolbarItem.MenuItem.ViewModel]?
+                let isEnabled: Bool
+
+                init(id: String, title: String, color: NSColor?, state: NSControl.StateValue?, icon: String?, children: [Main.ToolbarItem.MenuItem.ViewModel]?, isEnabled: Bool = true) {
+                    self.id = id
+                    self.title = title
+                    self.color = color
+                    self.state = state
+                    self.icon = icon
+                    self.children = children
+                    self.isEnabled = isEnabled
+                }
+            }
+        }
+        
         enum ViewModel {
             case spacer
             case trackingItem(id: NSToolbarItem.Identifier, index: Int)
             case button(id: NSToolbarItem.Identifier, label: String, tooltip: String, icon: String, isEnabled: Bool)
             case group(id: NSToolbarItem.Identifier, items: [Main.ToolbarItem.ViewModel])
+            case buttonMenu(id: NSToolbarItem.Identifier, title: String, label: String, tooltip: String, icon: String, isEnabled: Bool, items: [Main.ToolbarItem.MenuItem.ViewModel])
+            case imageMenu(id: NSToolbarItem.Identifier, label: String, tooltip: String, icon: String, isEnabled: Bool, items: [Main.ToolbarItem.MenuItem.ViewModel])
         }
     }
 
@@ -154,9 +227,18 @@ enum Main {
     //
     
     enum UpdateToolbar {
-        struct Response {
+        class Response {
             let isSelectionActive: Bool
             let isMultiSelection: Bool
+            let labelItems: [Main.ToolbarItem.MenuItem.Response]?
+            let folderItems: [Main.ToolbarItem.MenuItem.Response]?
+
+            init(isSelectionActive: Bool, isMultiSelection: Bool, labelItems: [Main.ToolbarItem.MenuItem.Response]?, folderItems: [Main.ToolbarItem.MenuItem.Response]?) {
+                self.isSelectionActive = isSelectionActive
+                self.isMultiSelection = isMultiSelection
+                self.labelItems = labelItems
+                self.folderItems = folderItems
+            }
         }
         
         class ViewModel {
@@ -177,6 +259,17 @@ enum Main {
     enum ToolbarAction {
         struct Request {
             let id: NSToolbarItem.Identifier
+        }
+    }
+    
+    //
+    // MARK: - Toolbar menu item tap
+    //
+    
+    enum ToolbarMenuItemTap {
+        struct Request {
+            let id: String
+            let state: NSControl.StateValue
         }
     }
     

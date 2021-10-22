@@ -104,3 +104,10 @@
 "toolbarReplyToAllTooltip" = "Reply to all recipients of selected message";
 "toolbarForwardMessagesLabel" = "Forward";
 "toolbarForwardMessagesTooltip" = "Forward selected messages";
+"toolbarSetLabelsLabel" = "Labels";
+"toolbarSetLabelsTooltip" = "Apply labels to selected messages";
+"toolbarNoLabelsMenuItem" = "No labels";
+"toolbarNoFoldersMenuItem" = "No folders";
+"toolbarMoveToButtonTitle" = "Move to…";
+"toolbarMoveToFolderLabel" = "Move";
+"toolbarMoveToFolderTooltip" = "Move selected messages to folder";

@@ -83,7 +83,7 @@ class MainPresenter: MainPresentationLogic {
         let identifiers: [NSToolbarItem.Identifier] = self.toolbarIdentifiers
         
         let items: [Main.ToolbarItem.ViewModel] = identifiers.map {
-            self.getToolbarItem(id: $0, isSelectionActive: response.isSelectionActive, isMultiSelection: response.isMultiSelection)
+            self.getToolbarItem(id: $0, response: response)
         }
         
         let viewModel = Main.UpdateToolbar.ViewModel(identifiers: identifiers, items: items)
@@ -105,13 +105,25 @@ class MainPresenter: MainPresentationLogic {
             .refreshMailbox,
             .flexibleSpace,
             .moveToGroup,
-            .replyForwardGroup
+            .replyForwardGroup,
+            .setLabels,
+            .moveToFolder
         ])
         
         return identifiers
     }
     
-    private func getToolbarItem(id: NSToolbarItem.Identifier, isSelectionActive: Bool, isMultiSelection: Bool) -> Main.ToolbarItem.ViewModel {
+    private var noLabelsMenuItem: Main.ToolbarItem.MenuItem.ViewModel {
+        let title: String = NSLocalizedString("toolbarNoLabelsMenuItem", comment: "")
+        return Main.ToolbarItem.MenuItem.ViewModel(id: "", title: title, color: nil, state: nil, icon: nil, children: nil, isEnabled: false)
+    }
+    
+    private var noFoldersMenuItem: Main.ToolbarItem.MenuItem.ViewModel {
+        let title: String = NSLocalizedString("toolbarNoFoldersMenuItem", comment: "")
+        return Main.ToolbarItem.MenuItem.ViewModel(id: "", title: title, color: nil, state: nil, icon: nil, children: nil, isEnabled: false)
+    }
+    
+    private func getToolbarItem(id: NSToolbarItem.Identifier, response: Main.UpdateToolbar.Response) -> Main.ToolbarItem.ViewModel {
         switch id {
         case .trackingItem1:
             return .trackingItem(id: id, index: 0)
@@ -123,25 +135,52 @@ class MainPresenter: MainPresentationLogic {
             let label: String = self.getToolbarItemLabel(id: id)
             let tooltip: String = self.getToolbarItemTooltip(id: id)
             let icon: String = self.getToolbarItemIcon(id: id)
-            let isEnabled: Bool = self.getToolbarItemEnabled(id: id, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection)
+            let isEnabled: Bool = self.getToolbarItemEnabled(id: id, isSelectionActive: response.isSelectionActive, isMultiSelection: response.isMultiSelection)
             return .button(id: id, label: label, tooltip: tooltip, icon: icon, isEnabled: isEnabled)
             
         case .replyForwardGroup:
             return .group(id: id, items: [
-                self.getToolbarItem(id: .replyToSender, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection),
-                self.getToolbarItem(id: .replyToAll, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection),
-                self.getToolbarItem(id: .forwardMessage, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection)
+                self.getToolbarItem(id: .replyToSender, response: response),
+                self.getToolbarItem(id: .replyToAll, response: response),
+                self.getToolbarItem(id: .forwardMessage, response: response)
             ])
             
         case .moveToGroup:
             return .group(id: id, items: [
-                self.getToolbarItem(id: .moveToArchive, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection),
-                self.getToolbarItem(id: .moveToTrash, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection),
-                self.getToolbarItem(id: .moveToSpam, isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection)
+                self.getToolbarItem(id: .moveToArchive, response: response),
+                self.getToolbarItem(id: .moveToTrash, response: response),
+                self.getToolbarItem(id: .moveToSpam, response: response)
             ])
             
         case .flexibleSpace, .space:
             return .spacer
+            
+        case .setLabels:
+            let label: String = self.getToolbarItemLabel(id: id)
+            let tooltip: String = self.getToolbarItemTooltip(id: id)
+            let icon: String = self.getToolbarItemIcon(id: id)
+            let isEnabled: Bool = self.getToolbarItemEnabled(id: id, isSelectionActive: response.isSelectionActive, isMultiSelection: response.isMultiSelection)
+            let items: [Main.ToolbarItem.MenuItem.ViewModel]
+            if let labels = response.labelItems {
+                items = labels.map { self.getMenuItem(response: $0) }
+            } else {
+                items = [self.noLabelsMenuItem]
+            }
+            return .imageMenu(id: id, label: label, tooltip: tooltip, icon: icon, isEnabled: isEnabled, items: items)
+            
+        case .moveToFolder:
+            let title: String = NSLocalizedString("toolbarMoveToButtonTitle", comment: "")
+            let label: String = self.getToolbarItemLabel(id: id)
+            let tooltip: String = self.getToolbarItemTooltip(id: id)
+            let icon: String = self.getToolbarItemIcon(id: id)
+            let isEnabled: Bool = self.getToolbarItemEnabled(id: id, isSelectionActive: response.isSelectionActive, isMultiSelection: response.isMultiSelection)
+            let items: [Main.ToolbarItem.MenuItem.ViewModel]
+            if let folders = response.folderItems {
+                items = folders.map { self.getMenuItem(response: $0) }
+            } else {
+                items = [self.noFoldersMenuItem]
+            }
+            return .buttonMenu(id: id, title: title, label: label, tooltip: tooltip, icon: icon, isEnabled: isEnabled, items: items)
             
         default:
             fatalError("Unknown toolbar item id: \(id.rawValue).")
@@ -164,6 +203,10 @@ class MainPresenter: MainPresentationLogic {
             return NSLocalizedString("toolbarReplyToAllLabel", comment: "")
         case .forwardMessage:
             return NSLocalizedString("toolbarForwardMessagesLabel", comment: "")
+        case .setLabels:
+            return NSLocalizedString("toolbarSetLabelsLabel", comment: "")
+        case .moveToFolder:
+            return NSLocalizedString("toolbarMoveToFolderLabel", comment: "")
         default:
             fatalError("Toolbar item \(id.rawValue) does not have a label.")
         }
@@ -185,6 +228,10 @@ class MainPresenter: MainPresentationLogic {
             return NSLocalizedString("toolbarReplyToAllTooltip", comment: "")
         case .forwardMessage:
             return NSLocalizedString("toolbarForwardMessagesTooltip", comment: "")
+        case .setLabels:
+            return NSLocalizedString("toolbarSetLabelsTooltip", comment: "")
+        case .moveToFolder:
+            return NSLocalizedString("toolbarMoveToFolderTooltip", comment: "")
         default:
             fatalError("Toolbar item \(id.rawValue) does not have a tooltip.")
         }
@@ -206,6 +253,10 @@ class MainPresenter: MainPresentationLogic {
             return "arrowshape.turn.up.left.2"
         case .forwardMessage:
             return "arrowshape.turn.up.right"
+        case .setLabels:
+            return "tag"
+        case .moveToFolder:
+            return "folder"
         default:
             fatalError("Toolbar item \(id.rawValue) does not have an icon.")
         }
@@ -213,13 +264,71 @@ class MainPresenter: MainPresentationLogic {
     
     private func getToolbarItemEnabled(id: NSToolbarItem.Identifier, isSelectionActive: Bool, isMultiSelection: Bool) -> Bool {
         switch id {
-        case .moveToArchive, .moveToTrash, .moveToSpam, .forwardMessage:
+        case .moveToArchive, .moveToTrash, .moveToSpam, .forwardMessage, .setLabels, .moveToFolder:
             return isSelectionActive
         case .replyToSender, .replyToAll:
             return isSelectionActive && !isMultiSelection
         default:
             return true
         }
+    }
+    
+    private func getMenuItem(response: Main.ToolbarItem.MenuItem.Response) -> Main.ToolbarItem.MenuItem.ViewModel {
+        let state: NSControl.StateValue?
+        switch response.state {
+        case .none:
+            state = nil
+        case .some(let val):
+            switch val {
+            case .off:
+                state = .off
+            case .on:
+                state = .on
+            case .mixed:
+                state = .mixed
+            }
+        }
+        
+        return self.getMenuItem(response: response.item, state: state)
+    }
+    
+    private func getMenuItem(response: MailboxSidebar.Item.Response, state: NSControl.StateValue?) -> Main.ToolbarItem.MenuItem.ViewModel {
+        let title: String
+        let icon: String
+        
+        switch response.kind {
+        case .draft:
+            title = NSLocalizedString("mailboxLabelDrafts", comment: "")
+            icon = "note.text"
+        case .inbox:
+            title = NSLocalizedString("mailboxLabelInbox", comment: "")
+            icon = "tray"
+        case .outbox:
+            title = NSLocalizedString("mailboxLabelSent", comment: "")
+            icon = "paperplane"
+        case .spam:
+            title = NSLocalizedString("mailboxLabelSpam", comment: "")
+            icon = "flame"
+        case .archive:
+            title = NSLocalizedString("mailboxLabelArchive", comment: "")
+            icon = "archivebox"
+        case .trash:
+            title = NSLocalizedString("mailboxLabelTrash", comment: "")
+            icon = "trash"
+        case .allMail:
+            title = NSLocalizedString("mailboxLabelAllMail", comment: "")
+            icon = "mail.stack"
+        case .starred:
+            title = NSLocalizedString("mailboxLabelStarred", comment: "")
+            icon = "star"
+        case .custom(_, let name, let isFolder):
+            title = name
+            icon = isFolder ? "folder" : "tag"
+        }
+        
+        let children: [Main.ToolbarItem.MenuItem.ViewModel]? = response.children?.map { self.getMenuItem(response: $0, state: nil) }
+        
+        return Main.ToolbarItem.MenuItem.ViewModel(id: response.kind.id, title: title, color: response.color, state: state, icon: icon, children: children)
     }
 
 }

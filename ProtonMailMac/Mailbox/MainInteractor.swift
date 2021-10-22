@@ -14,6 +14,7 @@ protocol MainBusinessLogic {
     func processMailboxSelectionUpdate(request: Main.MailboxSelectionDidUpdate.Request)
     func processSceneDidInitialize()
     func processToolbarAction(request: Main.ToolbarAction.Request)
+    func processToolbarMenuItemTap(request: Main.ToolbarMenuItemTap.Request)
 }
 
 protocol MainDataStore {
@@ -65,6 +66,14 @@ class MainInteractor: MainBusinessLogic, MainDataStore, MainWorkerDelegate {
     
     func processToolbarAction(request: Main.ToolbarAction.Request) {
         self.worker?.processToolbarAction(request: request)
+    }
+    
+    //
+    // MARK: - Process toolbar menu item tap
+    //
+    
+    func processToolbarMenuItemTap(request: Main.ToolbarMenuItemTap.Request) {
+        self.worker?.processToolbarMenuItemTap(request: request)
     }
     
     //

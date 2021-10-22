@@ -66,6 +66,8 @@
 		C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */; };
 		C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */; };
 		C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3374F1E26D0F86100ED8DA0 /* SnapKit */; };
+		C343DFF72721891F0083F59F /* IdentifiedNSMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */; };
+		C343DFFA27218B960083F59F /* MainToolbarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF827218A980083F59F /* MainToolbarDataSource.swift */; };
 		C343DFFC2722B7570083F59F /* NSImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFFB2722B7570083F59F /* NSImage+Tint.swift */; };
 		C353421426F4A28A00EA0137 /* ConversationDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420D26F4A28900EA0137 /* ConversationDetailsPresenter.swift */; };
 		C353421526F4A28A00EA0137 /* ConversationDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420E26F4A28900EA0137 /* ConversationDetailsWorker.swift */; };
@@ -405,6 +407,8 @@
 		C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacUITests.swift; sourceTree = "<group>"; };
 		C3374F1126D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiedNSMenuItem.swift; sourceTree = "<group>"; };
+		C343DFF827218A980083F59F /* MainToolbarDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolbarDataSource.swift; sourceTree = "<group>"; };
 		C343DFFB2722B7570083F59F /* NSImage+Tint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Tint.swift"; sourceTree = "<group>"; };
 		C353420D26F4A28900EA0137 /* ConversationDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsPresenter.swift; sourceTree = "<group>"; };
 		C353420E26F4A28900EA0137 /* ConversationDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsWorker.swift; sourceTree = "<group>"; };
@@ -884,6 +888,15 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
+		C343DFF52721890E0083F59F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */,
+				C343DFF827218A980083F59F /* MainToolbarDataSource.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		C353420C26F4A27A00EA0137 /* Conversation Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -969,6 +982,7 @@
 		C36814A226D627BE00A35A16 /* Mailbox */ = {
 			isa = PBXGroup;
 			children = (
+				C343DFF52721890E0083F59F /* Models */,
 				C31D02D626D8CC37002EBBE0 /* Views */,
 				C3C6FD5026F36EDC0066C504 /* Conversations */,
 				C36814B626D641E300A35A16 /* Messages */,
@@ -1786,6 +1800,7 @@
 				C39A24C726D3B56A008A482C /* DefaultKeyValueStore.swift in Sources */,
 				C39A242926D2D8D9008A482C /* MessageDetailRequest.swift in Sources */,
 				C39A242E26D2D8D9008A482C /* PMApiService.swift in Sources */,
+				C343DFFA27218B960083F59F /* MainToolbarDataSource.swift in Sources */,
 				C36814D326D6601600A35A16 /* SignInRouter.swift in Sources */,
 				C39F0CB42715E64C004A0A96 /* MailboxManagingWorker.swift in Sources */,
 				C31D02D026D80EB3002EBBE0 /* TwoFactorInputInteractor.swift in Sources */,
@@ -1872,6 +1887,7 @@
 				C35B57A127104D05005315B9 /* LabelToSidebarItemParsing.swift in Sources */,
 				C36814D126D6601600A35A16 /* SignInPresenter.swift in Sources */,
 				C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */,
+				C343DFF72721891F0083F59F /* IdentifiedNSMenuItem.swift in Sources */,
 				C31D02D826D8CC59002EBBE0 /* MailboxOverlayView.swift in Sources */,
 				C353423026F4DA7E00EA0137 /* MessageAttachmentIconPresenting.swift in Sources */,
 				C3DACB4726E943B000927933 /* EventLatestIDResponse.swift in Sources */,
