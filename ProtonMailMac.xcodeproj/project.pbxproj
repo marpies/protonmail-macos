@@ -66,6 +66,7 @@
 		C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */; };
 		C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */; };
 		C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3374F1E26D0F86100ED8DA0 /* SnapKit */; };
+		C343DFFC2722B7570083F59F /* NSImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFFB2722B7570083F59F /* NSImage+Tint.swift */; };
 		C353421426F4A28A00EA0137 /* ConversationDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420D26F4A28900EA0137 /* ConversationDetailsPresenter.swift */; };
 		C353421526F4A28A00EA0137 /* ConversationDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420E26F4A28900EA0137 /* ConversationDetailsWorker.swift */; };
 		C353421626F4A28A00EA0137 /* ConversationDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C353420F26F4A28A00EA0137 /* ConversationDetailsRouter.swift */; };
@@ -404,6 +405,7 @@
 		C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacUITests.swift; sourceTree = "<group>"; };
 		C3374F1126D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C343DFFB2722B7570083F59F /* NSImage+Tint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Tint.swift"; sourceTree = "<group>"; };
 		C353420D26F4A28900EA0137 /* ConversationDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsPresenter.swift; sourceTree = "<group>"; };
 		C353420E26F4A28900EA0137 /* ConversationDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsWorker.swift; sourceTree = "<group>"; };
 		C353420F26F4A28A00EA0137 /* ConversationDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailsRouter.swift; sourceTree = "<group>"; };
@@ -1476,6 +1478,7 @@
 				C3C6FD2626EBD57E0066C504 /* NSColor+Contrast.swift */,
 				C3C8263D26FF2D3700B4E95C /* FileManager+Extensions.swift */,
 				C39F0CBA27189EEA004A0A96 /* String+LabelId.swift */,
+				C343DFFB2722B7570083F59F /* NSImage+Tint.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1819,6 +1822,7 @@
 				C3C6FD2526EBCDD10066C504 /* MessageLabelView.swift in Sources */,
 				C31D02DF26D92961002EBBE0 /* MailboxSidebarRowView.swift in Sources */,
 				C36814D526D6601600A35A16 /* SignInViewController.swift in Sources */,
+				C343DFFC2722B7570083F59F /* NSImage+Tint.swift in Sources */,
 				C31D034226DB8AA0002EBBE0 /* PGPType.swift in Sources */,
 				C3F20A0D26D42A800051EFEB /* AuthRefreshResponse.swift in Sources */,
 				C35B57A32711911D005315B9 /* ConversationsCountRequest.swift in Sources */,
