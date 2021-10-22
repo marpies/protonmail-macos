@@ -19,17 +19,32 @@ protocol ConversationLabelStatusChecking {
     ///   - hasLabel: `true` if the conversation had the label *before* the message was updated. The actual labels on the
     ///               conversation object are updated together with the message, therefore this has to be provided.
     func checkConversationLabel(label: MailboxSidebar.Item, conversation: Conversation, hasLabel: Bool)
+    
+    /// Checks if a conversation was updated after a label change occurred to one of its messages.
+    /// When a message label is updated, the update may also affect the conversation.
+    /// This method posts a notification if a change on the conversation also occurred,
+    /// allowing scenes to update the conversation view as necessary.
+    /// - Parameters:
+    ///   - labelId: ID of the label to check.
+    ///   - conversation: The conversation id to check.
+    ///   - hasLabel: `true` if the conversation had the label *before* the message was updated. The actual labels on the
+    ///               conversation object are updated together with the message, therefore this has to be provided.
+    func checkConversationLabel(labelId: String, conversation: Conversation, hasLabel: Bool)
 }
 
 extension ConversationLabelStatusChecking {
     
     func checkConversationLabel(label: MailboxSidebar.Item, conversation: Conversation, hasLabel: Bool) {
+        self.checkConversationLabel(labelId: label.id, conversation: conversation, hasLabel: hasLabel)
+    }
+    
+    func checkConversationLabel(labelId: String, conversation: Conversation, hasLabel: Bool) {
         guard let messages = conversation.messages as? Set<Message> else { return }
         
         // Check if any of the message in the conversation has the label
         var shouldHaveLabel: Bool = false
         for message in messages {
-            if message.contains(label: label) {
+            if message.contains(label: labelId) {
                 shouldHaveLabel = true
                 break
             }
