@@ -48,37 +48,6 @@ public extension Conversation {
         return false
     }
     
-    func checkLabels() {
-        guard let labels = self.labels.allObjects as? [Label] else {return}
-        let labelIDs = labels.map {$0.labelID}
-        guard labelIDs.contains(MailboxSidebar.Item.draft.id) else {
-            return
-        }
-        
-        // This is the basic labes for draft
-        let basic = [MailboxSidebar.Item.draft.id,
-                     MailboxSidebar.Item.allMail.id,
-                     MailboxSidebar.Item.draft.hiddenId]
-        for label in labels {
-            let id = label.labelID
-            if basic.contains(id) {continue}
-            
-            if let _ = Int(id) {
-                // default folder
-                // The draft can't in the draft folder and another folder at the same time
-                // the draft folder label should be removed
-                self.remove(labelID: MailboxSidebar.Item.draft.id)
-                break
-            }
-            
-            // In v3 api, exclusive == true means folder
-            guard label.exclusive else {continue}
-            
-            self.remove(labelID: MailboxSidebar.Item.draft.id)
-            break
-        }
-    }
-    
     
     /// Adds a label to the conversation.
     /// - Parameter labelID: The label ID to add.
