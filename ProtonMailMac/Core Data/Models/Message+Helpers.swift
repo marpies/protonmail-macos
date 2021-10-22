@@ -117,11 +117,11 @@ extension Message {
     }
     
     func checkLabels() {
-        guard let labels = self.labels.allObjects as? [Label] else {return}
-        let labelIDs = labels.map {$0.labelID}
-        guard labelIDs.contains(MailboxSidebar.Item.draft.id) else {
-            return
-        }
+        guard let labels = self.labels as? Set<Label> else { return }
+        
+        let labelIDs: [String] = labels.map { $0.labelID }
+        
+        guard labelIDs.contains(MailboxSidebar.Item.draft.id) else { return }
         
         // This is the basic labels for draft
         let basic: Set<String> = [MailboxSidebar.Item.draft.id,
@@ -131,11 +131,12 @@ extension Message {
             let id = label.labelID
             if basic.contains(id) {continue}
             
+            // Check if it is in one of the default folders (e.g. inbox, archive etc)
             if let _ = Int(id) {
-                // default folder
-                // The draft can't in the draft folder and another folder at the same time
-                // the draft folder label should be removed
-                self.remove(labelID: MailboxSidebar.Item.draft.id)
+                // The draft cannot be in the draft folder and another folder at the same time (unless the folder is Starred)
+                if !id.isLabel(.starred) {
+                    self.remove(labelID: MailboxSidebar.Item.draft.id)
+                }
                 break
             }
             
