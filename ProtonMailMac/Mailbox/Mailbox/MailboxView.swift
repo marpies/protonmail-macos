@@ -66,11 +66,15 @@ class MailboxView: NSView {
         }
         
         if let set = viewModel.updateSet {
-            self.tableView.noteHeightOfRows(withIndexesChanged: set)
             self.tableView.reloadData(forRowIndexes: set, columnIndexes: IndexSet(integer: 0))
         }
         
         self.tableView.endUpdates()
+        
+        // Update rows height if there is an update set (must be done after calling `endUpdates`)
+        if let set = viewModel.updateSet {
+            self.tableView.noteHeightOfRows(withIndexesChanged: set)
+        }
     }
     
     func displayItemUpdate(viewModel: Mailbox.UpdateItem.ViewModel) {
