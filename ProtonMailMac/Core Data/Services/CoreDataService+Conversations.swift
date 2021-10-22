@@ -316,6 +316,36 @@ extension CoreDataService: ConversationsDatabaseManaging {
         return result
     }
     
+    func loadLabelStatus(conversationIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.MenuItem.StateValue]?) -> Void) {
+        self.backgroundContext.performWith { ctx in
+            guard let conversations = self.getConversations(ids: conversationIds, context: ctx) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            var state: [String: Main.ToolbarItem.MenuItem.StateValue] = [:]
+            
+            for conversation in conversations {
+                for labelId in labelIds {
+                    let contains: Bool = conversation.contains(label: labelId)
+                    if let currentState = state[labelId] {
+                        if (currentState == .off && contains) || (currentState == .on && !contains) {
+                            state[labelId] = .mixed
+                        }
+                    } else {
+                        state[labelId] = contains ? .on : .off
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion(state)
+            }
+        }
+    }
+    
     //
     // MARK: - Internal
     //

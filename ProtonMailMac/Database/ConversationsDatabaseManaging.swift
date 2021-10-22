@@ -19,7 +19,7 @@ protocol ConversationsDatabaseManaging {
     func updateUnread(conversationIds: [String], unread: Bool, userId: String) -> [Conversation]?
     func getConversationIds(forURIRepresentations ids: [String]) -> [String]?
     
-    /// Updates label on the given conversations.
+    /// Updates label on the given conversations and their messages.
     /// - Parameters:
     ///   - conversationIds: Ids of the conversations to update.
     ///   - label: The label to add or remove.
@@ -28,4 +28,15 @@ protocol ConversationsDatabaseManaging {
     func updateLabel(conversationIds: [String], label: String, apply: Bool, userId: String) -> [Conversation]?
     
     func moveTo(folder: String, conversationIds: [String], userId: String) -> [Conversation]?
+    
+    /// Loads the label "status" for the given conversations and labels.
+    /// If all conversations have a given label, the status is `on`.
+    /// If no conversations have a given label, the status is `off`.
+    /// If some conversations do and some conversations do NOT have a given label, the status is `mixed`.
+    /// This is used to determine the state value of menu items in `NSToolbar`.
+    /// - Parameters:
+    ///   - conversationIds: The ids of the conversations to check.
+    ///   - labelIds: The ids of the labels to check.
+    ///   - completion: Callback with a map of label ids to their status.
+    func loadLabelStatus(conversationIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.MenuItem.StateValue]?) -> Void)
 }
