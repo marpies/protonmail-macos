@@ -57,6 +57,8 @@ class MailboxSidebarWorker: LabelToSidebarItemParsing {
                 let selectedRow = self.getSelectedLabelRow(groups: groups, labelId: defaultLabelId)
                 let response = MailboxSidebar.Init.Response(groups: groups, selectedRow: selectedRow)
                 self.delegate?.mailboxSidebarDidLoad(response: response)
+                
+                self.dispatchSidebarItems(groups: groups)
             }
             
             // Fetch labels from the server
@@ -123,6 +125,8 @@ class MailboxSidebarWorker: LabelToSidebarItemParsing {
                     let response = MailboxSidebar.RefreshGroups.Response(groups: groups, selectedRow: selectedRow)
                     self.delegate?.mailboxSidebarDidRefresh(response: response)
                 }
+                
+                self.dispatchSidebarItems(groups: groups)
             }
         }
     }
@@ -260,6 +264,11 @@ class MailboxSidebarWorker: LabelToSidebarItemParsing {
         let numUnread: Int = db.unreadCount(for: response.labelID, userId: userId)
         
         return MailboxSidebar.Item.Response(kind: kind, color: color, numUnread: numUnread)
+    }
+    
+    private func dispatchSidebarItems(groups: [MailboxSidebar.Group.Response]) {
+        let notification: MailboxSidebar.Notifications.ItemsLoad = MailboxSidebar.Notifications.ItemsLoad(groups: groups)
+        notification.post()
     }
     
     private func addObservers() {

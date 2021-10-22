@@ -11,6 +11,36 @@ import AppKit
 
 enum MailboxSidebar {
     
+    enum Notifications {
+        struct ItemsLoad: NotificationType {
+            static var name: Notification.Name {
+                return Notification.Name("MailboxSidebar.itemsLoad")
+            }
+            
+            var name: Notification.Name {
+                return ItemsLoad.name
+            }
+            
+            var userInfo: [AnyHashable : Any]? {
+                return ["groups": self.groups]
+            }
+            
+            let groups: [MailboxSidebar.Group.Response]
+
+            init(groups: [MailboxSidebar.Group.Response]) {
+                self.groups = groups
+            }
+            
+            init?(notification: Notification?) {
+                guard let name = notification?.name,
+                      name == ItemsLoad.name,
+                      let groups = notification?.userInfo?["groups"] as? [MailboxSidebar.Group.Response] else { return nil }
+                
+                self.groups = groups
+            }
+        }
+    }
+    
     enum Group {
         case inboxes, folders, labels
         
