@@ -172,6 +172,23 @@ enum Conversations {
     }
     
     //
+    // MARK: - Refresh conversations
+    //
+    
+    enum RefreshConversations {
+        class Response {
+            /// List of conversation-index pairs.
+            let conversations: [(Conversations.Conversation.Response, Int)]
+            let indexSet: IndexSet
+
+            init(conversations: [(Conversations.Conversation.Response, Int)], indexSet: IndexSet) {
+                self.conversations = conversations
+                self.indexSet = indexSet
+            }
+        }
+    }
+    
+    //
     // MARK: - Load error
     //
     

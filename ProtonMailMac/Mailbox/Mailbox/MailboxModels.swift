@@ -110,6 +110,22 @@ enum Mailbox {
     }
     
     //
+    // MARK: - Refresh items
+    //
+    
+    enum RefreshItems {
+        class ViewModel {
+            let items: [(item: Mailbox.TableItem.ViewModel, index: Int)]
+            let indexSet: IndexSet
+
+            init(items: [(Mailbox.TableItem.ViewModel, Int)], indexSet: IndexSet) {
+                self.items = items
+                self.indexSet = indexSet
+            }
+        }
+    }
+    
+    //
     // MARK: - Update item star
     //
     

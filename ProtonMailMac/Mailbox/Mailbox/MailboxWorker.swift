@@ -14,10 +14,12 @@ protocol MailboxWorkerDelegate: AnyObject {
     func conversationsDidLoad(response: Conversations.LoadConversations.Response)
     func conversationsDidUpdate(response: Conversations.UpdateConversations.Response)
     func conversationDidUpdate(response: Conversations.UpdateConversation.Response)
+    func conversationsDidRefresh(response: Conversations.RefreshConversations.Response)
     func conversationShouldLoad(response: Mailbox.LoadConversation.Response)
     func messagesDidLoad(response: Messages.LoadMessages.Response)
     func messagesDidUpdate(response: Messages.UpdateMessages.Response)
     func messageDidUpdate(response: Messages.UpdateMessage.Response)
+    func messagesDidRefresh(response: Messages.RefreshMessages.Response)
     func mailboxDidUpdateWithoutChange()
     func loadDidFail(response: Mailbox.LoadError.Response)
     func mailboxSelectionDidUpdate(response: Mailbox.ItemsDidSelect.Response)
@@ -35,6 +37,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     private var mailboxWorker: MailboxManaging?
     
     private var toolbarActionObserver: NSObjectProtocol?
+    private var toolbarMenuItemActionObserver: NSObjectProtocol?
     
     private var activeUserId: String? {
         return self.usersManager.activeUser?.userId
@@ -139,13 +142,13 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         self.delegate?.conversationsDidUpdate(response: response)
     }
     
-    func conversationsLoadDidFail(response: Conversations.LoadError.Response) {
-        self.mailboxLoadDidFail(error: response.error)
-    }
-    
     func conversationDidUpdate(conversation: Conversations.Conversation.Response, index: Int) {
         let response: Conversations.UpdateConversation.Response = Conversations.UpdateConversation.Response(conversation: conversation, index: index)
         self.delegate?.conversationDidUpdate(response: response)
+    }
+    
+    func conversationsDidRefresh(response: Conversations.RefreshConversations.Response) {
+        self.delegate?.conversationsDidRefresh(response: response)
     }
     
     //
@@ -166,13 +169,13 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         self.delegate?.messagesDidUpdate(response: response)
     }
     
-    func messagesLoadDidFail(response: Messages.LoadError.Response) {
-        self.mailboxLoadDidFail(error: response.error)
-    }
-    
     func messageDidUpdate(message: Messages.Message.Response, index: Int) {
         let response: Messages.UpdateMessage.Response = Messages.UpdateMessage.Response(message: message, index: index)
         self.delegate?.messageDidUpdate(response: response)
+    }
+    
+    func messagesDidRefresh(response: Messages.RefreshMessages.Response) {
+        self.delegate?.messagesDidRefresh(response: response)
     }
     
     //
@@ -186,6 +189,10 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     func mailboxLoadDidFail(error: NSError) {
         let response: Mailbox.LoadError.Response = Mailbox.LoadError.Response(error: error)
         self.delegate?.loadDidFail(response: response)
+    }
+    
+    func mailboxOperationsProcessingDidComplete() {
+        self.refreshMailbox(eventsOnly: true)
     }
     
     //
@@ -218,6 +225,12 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
             
             self?.processToolbarAction(id: id)
         })
+        
+        self.toolbarMenuItemActionObserver = NotificationCenter.default.addObserver(forType: Main.Notifications.ToolbarMenuItemAction.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let action = notification?.action else { return }
+            
+            self?.processToolbarMenuItemAction(action)
+        })
     }
     
     private func processToolbarAction(id: NSToolbarItem.Identifier) {
@@ -239,22 +252,57 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         }
     }
     
+    private func processToolbarMenuItemAction(_ action: Main.ToolbarItem.MenuItem.Action) {
+        switch action {
+        case .moveToFolder(let folderId):
+            self.processMoveToFolder(id: folderId)
+            
+        case .updateLabel(let labelId, let apply):
+            self.processLabelUpdate(labelId: labelId, apply: apply)
+        }
+    }
+    
     //
-    // MARK: - Helpers
+    // MARK: - Move to folder
     //
     
     private func processMoveToFolder(_ folder: MailboxSidebar.Item) {
+        self.processMoveToFolder(id: folder.id)
+    }
+    
+    private func processMoveToFolder(id: String) {
         guard let selectedItemIds = self.selectedItemIds,
               let selectedItemType = self.selectedItemType,
               let userId = self.activeUserId else { return }
         
         switch selectedItemType {
         case .conversation:
-            self.getMailboxWorker(userId: userId).moveConversations(ids: selectedItemIds, toFolder: folder)
+            self.getMailboxWorker(userId: userId).moveConversations(ids: selectedItemIds, toFolder: id)
         case .message:
-            self.getMailboxWorker(userId: userId).moveMessages(ids: selectedItemIds, toFolder: folder)
+            self.getMailboxWorker(userId: userId).moveMessages(ids: selectedItemIds, toFolder: id)
         }
     }
+    
+    //
+    // MARK: - Labels update
+    //
+    
+    private func processLabelUpdate(labelId: String, apply: Bool) {
+        guard let selectedItemIds = self.selectedItemIds,
+              let selectedItemType = self.selectedItemType,
+              let userId = self.activeUserId else { return }
+        
+        switch selectedItemType {
+        case .conversation:
+            self.getMailboxWorker(userId: userId).updateConversationsLabel(ids: selectedItemIds, labelId: labelId, apply: apply)
+        case .message:
+            self.getMailboxWorker(userId: userId).updateMessagesLabel(ids: selectedItemIds, labelId: labelId, apply: apply)
+        }
+    }
+    
+    //
+    // MARK: - Helpers
+    //
     
     private func getMailboxWorker(userId: String) -> MailboxManaging {
         if self.mailboxWorker == nil || self.mailboxWorker!.userId != userId {

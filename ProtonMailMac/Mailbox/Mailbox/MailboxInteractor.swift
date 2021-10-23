@@ -74,6 +74,10 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
         self.presenter?.presentConversationUpdate(response: response)
     }
     
+    func conversationsDidRefresh(response: Conversations.RefreshConversations.Response) {
+        self.presenter?.presentConversationsRefresh(response: response)
+    }
+    
     func loadDidFail(response: Mailbox.LoadError.Response) {
         self.presenter?.presentLoadError(response: response)
     }
@@ -88,6 +92,10 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     
     func messageDidUpdate(response: Messages.UpdateMessage.Response) {
         self.presenter?.presentMessageUpdate(response: response)
+    }
+    
+    func messagesDidRefresh(response: Messages.RefreshMessages.Response) {
+        self.presenter?.presentMessagesRefresh(response: response)
     }
     
     func messagesDidUpdate(response: Messages.UpdateMessages.Response) {

@@ -9,11 +9,12 @@
 import Foundation
 import Swinject
 
-protocol ConversationsManagingWorkerDelegate: ConversationsLoadingDelegate {
+protocol ConversationsManagingWorkerDelegate: ConversationsLoadingDelegate, ConversationOpsProcessingDelegate {
     func conversationDidUpdate(conversation: Conversations.Conversation.Response, index: Int)
+    func conversationsDidRefresh(response: Conversations.RefreshConversations.Response)
 }
 
-class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
+class ConversationsManagingWorker {
     
     let userId: String
     
@@ -23,17 +24,21 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
     
     private var loadingWorker: ConversationsLoading?
     private var conversationUpdateObserver: NSObjectProtocol?
+    private var conversationsUpdateObserver: NSObjectProtocol?
     
     var conversations: [Conversations.Conversation.Response]?
     
-    weak var delegate: ConversationsManagingWorkerDelegate?
+    weak var delegate: ConversationsManagingWorkerDelegate? {
+        didSet {
+            self.opsService.delegate = self.delegate
+        }
+    }
     
     init(userId: String, apiService: ApiService, resolver: Resolver) {
         self.userId = userId
         self.resolver = resolver
         self.apiService = apiService
         self.opsService = resolver.resolve(ConversationOpsProcessing.self, arguments: userId, apiService)!
-        self.opsService.delegate = self
         
         self.addObservers()
     }
@@ -57,12 +62,30 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
     }
     
     func updateConversationStar(id: String, isOn: Bool) {
-        self.opsService.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn)
+        let success: Bool = self.opsService.label(conversationIds: [id], label: MailboxSidebar.Item.starred.id, apply: isOn)
+        
+        guard success else { return }
         
         // Dispatch notification for other sections (e.g. conversation details)
         // This worker will react to this notification as well
         let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: id)
-        NotificationCenter.default.post(notification)
+        notification.post()
+    }
+    
+    func updateConversationsLabel(ids: [String], labelId: String, apply: Bool) {
+        let success: Bool = self.opsService.label(conversationIds: ids, label: labelId, apply: apply)
+        
+        guard success else { return }
+        
+        // Dispatch notification for other sections (e.g. conversation details)
+        // This worker will react to this notification as well
+        if ids.count > 1 {
+            let notification: Conversations.Notifications.ConversationsUpdate = Conversations.Notifications.ConversationsUpdate(conversationIds: Set(ids))
+            notification.post()
+        } else if let id = ids.first {
+            let notification: Conversations.Notifications.ConversationUpdate = Conversations.Notifications.ConversationUpdate(conversationId: id)
+            notification.post()
+        }
     }
     
     func moveConversations(ids: [String], toFolder folderId: String) {
@@ -95,14 +118,6 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
     }
     
     //
-    // MARK: - Conversation ops delegate
-    //
-    
-    func labelsDidUpdateForConversations(ids: [String], labelId: String) {
-        // todo refresh
-    }
-    
-    //
     // MARK: - Private
     //
     
@@ -112,12 +127,36 @@ class ConversationsManagingWorker: ConversationOpsProcessingDelegate {
             
             weakSelf.refreshConversation(id: conversationId)
         })
+        
+        self.conversationsUpdateObserver = NotificationCenter.default.addObserver(forType: Conversations.Notifications.ConversationsUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let weakSelf = self, let conversationIds = notification?.conversationIds else { return }
+            
+            weakSelf.refreshConversations(ids: conversationIds)
+        })
     }
     
     private func refreshConversation(id: String) {
         guard let (conversation, index) = self.loadingWorker?.updateConversation(id: id) else { return }
         
         self.delegate?.conversationDidUpdate(conversation: conversation, index: index)
+    }
+    
+    private func refreshConversations(ids: Set<String>) {
+        var conversations: [(Conversations.Conversation.Response, Int)] = []
+        var indices: Set<Int> = []
+        
+        for conversationId in ids {
+            guard let (conversation, index) = self.loadingWorker?.updateConversation(id: conversationId) else { continue }
+            
+            conversations.append((conversation, index))
+            indices.insert(index)
+        }
+        
+        guard !conversations.isEmpty else { return }
+        
+        let indexSet: IndexSet = IndexSet(indices)
+        let response: Conversations.RefreshConversations.Response = Conversations.RefreshConversations.Response(conversations: conversations, indexSet: indexSet)
+        self.delegate?.conversationsDidRefresh(response: response)
     }
     
 }

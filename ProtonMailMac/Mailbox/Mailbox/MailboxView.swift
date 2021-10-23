@@ -78,8 +78,19 @@ class MailboxView: NSView {
     }
     
     func displayItemUpdate(viewModel: Mailbox.UpdateItem.ViewModel) {
+        let indexSet: IndexSet = IndexSet(integer: viewModel.index)
+        
         self.dataSource.updateData(viewModel: viewModel.item, at: viewModel.index)
-        self.tableView.reloadData(forRowIndexes: IndexSet(integer: viewModel.index), columnIndexes: IndexSet(integer: 0))
+        self.tableView.reloadData(forRowIndexes: indexSet, columnIndexes: IndexSet(integer: 0))
+        self.tableView.noteHeightOfRows(withIndexesChanged: indexSet)
+    }
+    
+    func displayItemsRefresh(viewModel: Mailbox.RefreshItems.ViewModel) {
+        for pair in viewModel.items {
+            self.dataSource.updateData(viewModel: pair.item, at: pair.index)
+        }
+        self.tableView.reloadData(forRowIndexes: viewModel.indexSet, columnIndexes: IndexSet(integer: 0))
+        self.tableView.noteHeightOfRows(withIndexesChanged: viewModel.indexSet)
     }
     
     func displayMailboxError(viewModel: Mailbox.LoadError.ViewModel) {

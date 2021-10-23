@@ -12,10 +12,12 @@ protocol MailboxPresentationLogic {
     func presentConversations(response: Conversations.LoadConversations.Response)
     func presentConversationsUpdate(response: Conversations.UpdateConversations.Response)
     func presentConversationUpdate(response: Conversations.UpdateConversation.Response)
+    func presentConversationsRefresh(response: Conversations.RefreshConversations.Response)
     func presentLoadConversation(response: Mailbox.LoadConversation.Response)
     func presentMessages(response: Messages.LoadMessages.Response)
     func presentMessagesUpdate(response: Messages.UpdateMessages.Response)
     func presentMessageUpdate(response: Messages.UpdateMessage.Response)
+    func presentMessagesRefresh(response: Messages.RefreshMessages.Response)
     func presentLoadError(response: Mailbox.LoadError.Response)
     func presentItemsUpToDate()
     func presentItemsSelection(response: Mailbox.ItemsDidSelect.Response)
@@ -61,6 +63,20 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
         let item: Mailbox.TableItem.ViewModel = self.getItem(response: response.conversation)
         let viewModel = Mailbox.UpdateItem.ViewModel(item: item, index: response.index)
         self.viewController?.displayItemUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present conversations refresh
+    //
+    
+    func presentConversationsRefresh(response: Conversations.RefreshConversations.Response) {
+        let items: [(Mailbox.TableItem.ViewModel, Int)] = response.conversations.map { pair in
+            let item: Mailbox.TableItem.ViewModel = self.getItem(response: pair.0)
+            let index: Int = pair.1
+            return (item, index)
+        }
+        let viewModel = Mailbox.RefreshItems.ViewModel(items: items, indexSet: response.indexSet)
+        self.viewController?.displayItemsRefresh(viewModel: viewModel)
     }
     
     //
@@ -136,6 +152,20 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
         let item: Mailbox.TableItem.ViewModel = self.getItem(response: response.message)
         let viewModel = Mailbox.UpdateItem.ViewModel(item: item, index: response.index)
         self.viewController?.displayItemUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Present messages refresh
+    //
+    
+    func presentMessagesRefresh(response: Messages.RefreshMessages.Response) {
+        let items: [(Mailbox.TableItem.ViewModel, Int)] = response.messages.map { pair in
+            let item: Mailbox.TableItem.ViewModel = self.getItem(response: pair.0)
+            let index: Int = pair.1
+            return (item, index)
+        }
+        let viewModel = Mailbox.RefreshItems.ViewModel(items: items, indexSet: response.indexSet)
+        self.viewController?.displayItemsRefresh(viewModel: viewModel)
     }
     
     //

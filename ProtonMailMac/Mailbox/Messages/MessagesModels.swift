@@ -437,6 +437,22 @@ enum Messages {
     }
     
     //
+    // MARK: - Refresh messages
+    //
+    
+    enum RefreshMessages {
+        class Response {
+            let messages: [(Messages.Message.Response, Int)]
+            let indexSet: IndexSet
+
+            init(messages: [(Messages.Message.Response, Int)], indexSet: IndexSet) {
+                self.messages = messages
+                self.indexSet = indexSet
+            }
+        }
+    }
+    
+    //
     // MARK: - Load error
     //
     

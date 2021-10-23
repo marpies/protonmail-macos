@@ -16,6 +16,7 @@ protocol MailboxDisplayLogic: AnyObject {
     func displayMailboxUpToDate()
     func displayLoadConversation(viewModel: Mailbox.LoadConversation.ViewModel)
     func displayItemsSelection(viewModel: Mailbox.ItemsDidSelect.ViewModel)
+    func displayItemsRefresh(viewModel: Mailbox.RefreshItems.ViewModel)
 }
 
 protocol MailboxViewControllerDelegate: AnyObject {
@@ -109,6 +110,14 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
     
     func displayItemsSelection(viewModel: Mailbox.ItemsDidSelect.ViewModel) {
         self.delegate?.mailboxSelectionDidUpdate(viewModel: viewModel)
+    }
+    
+    //
+    // MARK: - Items refresh
+    //
+    
+    func displayItemsRefresh(viewModel: Mailbox.RefreshItems.ViewModel) {
+        self.mainView.displayItemsRefresh(viewModel: viewModel)
     }
     
     //

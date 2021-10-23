@@ -9,11 +9,59 @@
 import Foundation
 import Swinject
 
-protocol MailboxManagingWorkerDelegate: ConversationsManagingWorkerDelegate, MessagesManagingWorkerDelegate {
+protocol MailboxManagingWorkerDelegate: AnyObject {
     func mailboxLoadDidFail(error: NSError)
+    
+    /// Called when the cache is loaded before querying the server.
+    /// - Parameter conversations: List of conversations loaded from the cache.
+    func cachedConversationsDidLoad(_ conversations: [Conversations.Conversation.Response])
+    
+    /// Called when the server response is received.
+    /// - Parameter conversations: List of conversations as returned by the server.
+    func conversationsDidLoad(_ conversations: [Conversations.Conversation.Response])
+    
+    /// Called when an update to the existing list of conversations is received.
+    /// - Parameter response: Model representing the changes made to the latest list of conversations.
+    func conversationsDidUpdate(response: Conversations.UpdateConversations.Response)
+    
+    /// Called when a single conversation in the existing list was updated.
+    /// - Parameters:
+    ///   - conversation: The updated conversation model.
+    ///   - index: The index of the conversation in the list.
+    func conversationDidUpdate(conversation: Conversations.Conversation.Response, index: Int)
+    
+    /// Called when multiple conversations in the existing list were updated.
+    /// - Parameter response: Model representing the updated conversation models.
+    func conversationsDidRefresh(response: Conversations.RefreshConversations.Response)
+    
+    /// Called when the cache is loaded before querying the server.
+    /// - Parameter messages: List of messages loaded from the cache.
+    func cachedMessagesDidLoad(_ messages: [Messages.Message.Response])
+    
+    /// Called when the server response is received.
+    /// - Parameter messages: List of messages as returned by the server.
+    func messagesDidLoad(_ messages: [Messages.Message.Response])
+    
+    /// Called when an update to the existing list of messages is received.
+    /// - Parameter response: Model representing the changes made to the latest list of messages.
+    func messagesDidUpdate(response: Messages.UpdateMessages.Response)
+    
+    /// Called when a single message in the existing list was updated.
+    /// - Parameters:
+    ///   - message: The updated message model.
+    ///   - index: The index of the message in the list.
+    func messageDidUpdate(message: Messages.Message.Response, index: Int)
+    
+    /// Called when multiple messages in the existing list were updated.
+    /// - Parameter response: Model representing the updated message models.
+    func messagesDidRefresh(response: Messages.RefreshMessages.Response)
     
     /// Called when the mailbox was updated but no actual changes were detected.
     func mailboxDidUpdateWithoutChange()
+    
+    /// Called when operations on conversations or messages (e.g. applying labels) were completed server side.
+    /// Now would be a good time to fetch the `/events` endpoint to ensure proper sync between local and server data.
+    func mailboxOperationsProcessingDidComplete()
 }
 
 protocol MailboxManaging {
@@ -30,10 +78,14 @@ protocol MailboxManaging {
     
     func updateConversationStar(id: String, isOn: Bool)
     func updateMessageStar(id: String, isOn: Bool)
+    
+    func updateConversationsLabel(ids: [String], labelId: String, apply: Bool)
+    func updateMessagesLabel(ids: [String], labelId: String, apply: Bool)
+    
     func getConversationId(forMessageId id: String) -> String?
     
-    func moveConversations(ids: [String], toFolder folder: MailboxSidebar.Item)
-    func moveMessages(ids: [String], toFolder folder: MailboxSidebar.Item)
+    func moveConversations(ids: [String], toFolder folder: String)
+    func moveMessages(ids: [String], toFolder folder: String)
     
     func cancelLoad()
 }
@@ -190,20 +242,28 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         }
     }
     
-    func moveConversations(ids: [String], toFolder folder: MailboxSidebar.Item) {
-        self.conversationsWorker?.moveConversations(ids: ids, toFolder: folder.id)
+    func moveConversations(ids: [String], toFolder folder: String) {
+        self.conversationsWorker?.moveConversations(ids: ids, toFolder: folder)
     }
     
     func updateConversationStar(id: String, isOn: Bool) {
         self.conversationsWorker?.updateConversationStar(id: id, isOn: isOn)
     }
     
-    func moveMessages(ids: [String], toFolder folder: MailboxSidebar.Item) {
-        self.messagesWorker?.moveMessages(ids: ids, toFolder: folder.id)
+    func updateConversationsLabel(ids: [String], labelId: String, apply: Bool) {
+        self.conversationsWorker?.updateConversationsLabel(ids: ids, labelId: labelId, apply: apply)
+    }
+    
+    func moveMessages(ids: [String], toFolder folder: String) {
+        self.messagesWorker?.moveMessages(ids: ids, toFolder: folder)
     }
     
     func updateMessageStar(id: String, isOn: Bool) {
         self.messagesWorker?.updateMessageStar(id: id, isOn: isOn)
+    }
+    
+    func updateMessagesLabel(ids: [String], labelId: String, apply: Bool) {
+        self.messagesWorker?.updateMessagesLabel(ids: ids, labelId: labelId, apply: apply)
     }
     
     func getConversationId(forMessageId id: String) -> String? {
@@ -261,6 +321,14 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         self.delegate?.conversationDidUpdate(conversation: conversation, index: index)
     }
     
+    func conversationsDidRefresh(response: Conversations.RefreshConversations.Response) {
+        self.delegate?.conversationsDidRefresh(response: response)
+    }
+    
+    func labelsDidUpdateForConversations(ids: [String], labelId: String) {
+        self.delegate?.mailboxOperationsProcessingDidComplete()
+    }
+    
     //
     // MARK: - Messages managing delegate
     //
@@ -289,6 +357,14 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     
     func messageDidUpdate(message: Messages.Message.Response, index: Int) {
         self.delegate?.messageDidUpdate(message: message, index: index)
+    }
+    
+    func messagesDidRefresh(response: Messages.RefreshMessages.Response) {
+        self.delegate?.messagesDidRefresh(response: response)
+    }
+    
+    func labelsDidUpdateForMessages(ids: [String], labelId: String) {
+        self.delegate?.mailboxOperationsProcessingDidComplete()
     }
     
     //
