@@ -60,6 +60,7 @@
 		C31D035126DBF760002EBBE0 /* LabelsDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035026DBF760002EBBE0 /* LabelsDatabaseManaging.swift */; };
 		C31D035326DBFBBE002EBBE0 /* CoreDataService+Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035226DBFBBE002EBBE0 /* CoreDataService+Labels.swift */; };
 		C31D035526DC11B5002EBBE0 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */; };
+		C32641E9272AAE3E005EFD26 /* NSMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32641E8272AAE3E005EFD26 /* NSMenuButton.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
 		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
@@ -396,6 +397,7 @@
 		C31D035026DBF760002EBBE0 /* LabelsDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsDatabaseManaging.swift; sourceTree = "<group>"; };
 		C31D035226DBFBBE002EBBE0 /* CoreDataService+Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Labels.swift"; sourceTree = "<group>"; };
 		C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
+		C32641E8272AAE3E005EFD26 /* NSMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuButton.swift; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1077,6 +1079,7 @@
 				C3C8260C26FB9C5800B4E95C /* BoxErrorView.swift */,
 				C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */,
 				C39F0CBC271AD625004A0A96 /* AppearanceAdaptingView.swift */,
+				C32641E8272AAE3E005EFD26 /* NSMenuButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1808,6 +1811,7 @@
 				C39F0CB42715E64C004A0A96 /* MailboxManagingWorker.swift in Sources */,
 				C31D02D026D80EB3002EBBE0 /* TwoFactorInputInteractor.swift in Sources */,
 				C3DACB3A26E9258300927933 /* CoreDataService+UserEvents.swift in Sources */,
+				C32641E9272AAE3E005EFD26 /* NSMenuButton.swift in Sources */,
 				C3DACB5126E9CDEB00927933 /* MessagesByIdRequest.swift in Sources */,
 				C3C6FD1726EB1F450066C504 /* MessagesLoadingWorker.swift in Sources */,
 				C3F20A2926D534FD0051EFEB /* SetupRouter.swift in Sources */,
