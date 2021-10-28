@@ -66,6 +66,7 @@
 		C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */; };
 		C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */; };
 		C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3374F1E26D0F86100ED8DA0 /* SnapKit */; };
+		C33D3F95272967AE00B4085B /* MenuModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33D3F94272967AE00B4085B /* MenuModels.swift */; };
 		C343DFF72721891F0083F59F /* IdentifiedNSMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */; };
 		C343DFFA27218B960083F59F /* MainToolbarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF827218A980083F59F /* MainToolbarDataSource.swift */; };
 		C343DFFC2722B7570083F59F /* NSImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFFB2722B7570083F59F /* NSImage+Tint.swift */; };
@@ -407,6 +408,7 @@
 		C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacUITests.swift; sourceTree = "<group>"; };
 		C3374F1126D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C33D3F94272967AE00B4085B /* MenuModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModels.swift; sourceTree = "<group>"; };
 		C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiedNSMenuItem.swift; sourceTree = "<group>"; };
 		C343DFF827218A980083F59F /* MainToolbarDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolbarDataSource.swift; sourceTree = "<group>"; };
 		C343DFFB2722B7570083F59F /* NSImage+Tint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Tint.swift"; sourceTree = "<group>"; };
@@ -1372,6 +1374,7 @@
 			isa = PBXGroup;
 			children = (
 				C3C8260326FB1CAD00B4E95C /* NotificationType.swift */,
+				C33D3F94272967AE00B4085B /* MenuModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1888,6 +1891,7 @@
 				C36814D126D6601600A35A16 /* SignInPresenter.swift in Sources */,
 				C39A242026D2D8D9008A482C /* HttpHeader.swift in Sources */,
 				C343DFF72721891F0083F59F /* IdentifiedNSMenuItem.swift in Sources */,
+				C33D3F95272967AE00B4085B /* MenuModels.swift in Sources */,
 				C31D02D826D8CC59002EBBE0 /* MailboxOverlayView.swift in Sources */,
 				C353423026F4DA7E00EA0137 /* MessageAttachmentIconPresenting.swift in Sources */,
 				C3DACB4726E943B000927933 /* EventLatestIDResponse.swift in Sources */,
