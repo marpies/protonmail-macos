@@ -95,7 +95,7 @@ class MainToolbarDataSource {
             toolbarItem.toolTip = tooltip
             toolbarItem.isEnabled = isEnabled
             
-            toolbarItem.view = NSButton().with { button in
+            toolbarItem.view = NSMenuButton().with { button in
                 if #available(macOS 11.0, *) {
                     button.image = NSImage(systemSymbolName: icon, accessibilityDescription: nil)
                 } else {
@@ -109,10 +109,6 @@ class MainToolbarDataSource {
                 button.imagePosition = .imageLeft
                 button.alignment = .left
                 
-                // Using NSMenuToolbarItem with custom view does not appear to be displaying the NSMenu properly
-                // Using an action on the item's button to pop up the menu
-                button.target = self
-                button.action = #selector(self.toolbarButtonMenuDidTap)
                 button.menu = NSMenu().with { menu in
                     let menuItems: [NSMenuItem] = items.map { self.getMenuItem(viewModel: $0) }
 
@@ -202,10 +198,6 @@ class MainToolbarDataSource {
         if let item = sender as? IdentifiedNSMenuItem, let id = item.itemIdRaw {
             self.delegate?.toolbarMenuItemDidTap(id: id, state: item.state)
         }
-    }
-    
-    @objc private func toolbarButtonMenuDidTap(_ sender: NSButton) {
-        sender.menu?.popUp(positioning: nil, at: NSPoint(x: 4, y: sender.bounds.height + 4), in: sender)
     }
     
 }
