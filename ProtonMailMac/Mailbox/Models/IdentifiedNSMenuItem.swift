@@ -11,6 +11,7 @@ import AppKit
 
 class IdentifiedNSMenuItem: NSMenuItem {
     
-    var itemId: String?
+    var itemId: MenuItemIdentifier?
+    var itemIdRaw: String?
     
 }

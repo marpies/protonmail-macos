@@ -161,7 +161,7 @@ class MainToolbarDataSource {
     private func getMenuItem(viewModel: Main.ToolbarItem.MenuItem.ViewModel) -> NSMenuItem {
         let menuItem: IdentifiedNSMenuItem = IdentifiedNSMenuItem()
         menuItem.title = viewModel.title
-        menuItem.itemId = viewModel.id
+        menuItem.itemIdRaw = viewModel.id
         
         if let icon = viewModel.icon {
             if #available(macOS 11.0, *) {
@@ -199,7 +199,7 @@ class MainToolbarDataSource {
     }
     
     @objc private func toolbarMenuItemDidTap(_ sender: Any) {
-        if let item = sender as? IdentifiedNSMenuItem, let id = item.itemId {
+        if let item = sender as? IdentifiedNSMenuItem, let id = item.itemIdRaw {
             self.delegate?.toolbarMenuItemDidTap(id: id, state: item.state)
         }
     }
