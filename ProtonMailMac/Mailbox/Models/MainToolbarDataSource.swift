@@ -14,11 +14,9 @@ protocol MainToolbarDataSourceDelegate: NSToolbarSegmentedControlDelegate {
     func toolbarMenuItemDidTap(id: String, state: NSControl.StateValue)
 }
 
-class MainToolbarDataSource: NSUserInterfaceValidations {
+class MainToolbarDataSource {
     
     private let splitView: NSSplitView
-    
-    private var menuItemState: [String: Bool] = [:]
     
     weak var delegate: MainToolbarDataSourceDelegate?
     
@@ -118,7 +116,7 @@ class MainToolbarDataSource: NSUserInterfaceValidations {
                 button.menu = NSMenu().with { menu in
                     let menuItems: [NSMenuItem] = items.map { self.getMenuItem(viewModel: $0) }
 
-                    menu.autoenablesItems = true
+                    menu.autoenablesItems = false
                     menu.items = menuItems
                 }
             }
@@ -145,7 +143,7 @@ class MainToolbarDataSource: NSUserInterfaceValidations {
             toolbarItem.menu = NSMenu().with { menu in
                 let menuItems: [NSMenuItem] = items.map { self.getMenuItem(viewModel: $0) }
                 
-                menu.autoenablesItems = true
+                menu.autoenablesItems = false
                 menu.items = menuItems
             }
             
@@ -189,8 +187,6 @@ class MainToolbarDataSource: NSUserInterfaceValidations {
             }
         }
         
-        self.menuItemState[viewModel.id] = viewModel.isEnabled
-        
         return menuItem
     }
     
@@ -210,17 +206,6 @@ class MainToolbarDataSource: NSUserInterfaceValidations {
     
     @objc private func toolbarButtonMenuDidTap(_ sender: NSButton) {
         sender.menu?.popUp(positioning: nil, at: NSPoint(x: 4, y: sender.bounds.height + 4), in: sender)
-    }
-    
-    //
-    // MARK: - User interface validations
-    //
-    
-    func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
-        if let menuItem = item as? IdentifiedNSMenuItem, let id = menuItem.itemId, let state = self.menuItemState[id] {
-            return state
-        }
-        return true
     }
     
 }
