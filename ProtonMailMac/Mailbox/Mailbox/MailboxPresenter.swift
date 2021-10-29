@@ -173,13 +173,14 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
     //
     
     private func getItem(response: Conversations.Conversation.Response) -> Mailbox.TableItem.ViewModel {
-        let title: String = self.getTitle(senders: response.senderNames, numMessages: response.numMessages)
+        let title: String = response.senderNames.joined(separator: ", ")
         let time: String = self.getMessageTime(response: response.time)
         let folders: [Messages.Folder.ViewModel]? = response.folders?.map { self.getFolder(response: $0) }
         let labels: [Messages.Label.ViewModel]? = response.labels?.map { self.getLabel(response: $0) }
         let starIcon: Messages.Star.ViewModel = self.getStarIcon(isSelected: response.isStarred)
         let attachmentIcon: Messages.Attachment.ViewModel? = self.getAttachmentIcon(numAttachments: response.numAttachments)
-        return Mailbox.TableItem.ViewModel(type: .conversation, id: response.id, title: title, subtitle: response.subject, time: time, isRead: response.isRead, starIcon: starIcon, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
+        let subject: String = self.getSubject(response.subject, numMessages: response.numMessages)
+        return Mailbox.TableItem.ViewModel(type: .conversation, id: response.id, title: title, subtitle: subject, time: time, isRead: response.isRead, starIcon: starIcon, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
     }
     
     private func getItem(response: Messages.Message.Response) -> Mailbox.TableItem.ViewModel {
@@ -199,12 +200,11 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
         return sender.email
     }
     
-    private func getTitle(senders: [String], numMessages: Int) -> String {
-        let senders: String = senders.joined(separator: ", ")
+    private func getSubject(_ subject: String, numMessages: Int) -> String {
         if numMessages > 1 {
-            return "[\(numMessages)] \(senders)"
+            return "[\(numMessages)] \(subject)"
         }
-        return senders
+        return subject
     }
     
 }
