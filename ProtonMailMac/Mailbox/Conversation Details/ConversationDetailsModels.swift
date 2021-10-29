@@ -309,4 +309,14 @@ enum ConversationDetails {
         }
     }
     
+    //
+    // MARK: - Process contact menu item tap
+    //
+    
+    enum ContactMenuItemTap {
+        struct Request {
+            let id: MenuItemIdentifier
+        }
+    }
+    
 }

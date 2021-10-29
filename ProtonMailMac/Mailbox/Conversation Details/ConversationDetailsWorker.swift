@@ -8,6 +8,7 @@
 
 import Foundation
 import Swinject
+import AppKit
 
 protocol ConversationDetailsWorkerDelegate: AnyObject {
     func conversationLoadDidBegin()
@@ -161,6 +162,16 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         // Reload the body with the new content mode
         self.dispatchMessageBody(body, messageId: message.id, remoteContentMode: .allowed)
+    }
+    
+    func processContactMenuItemTap(request: ConversationDetails.ContactMenuItemTap.Request) {
+        switch request.id {
+        case .any:
+            return
+        case .copyAddress(let email):
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(email, forType: .string)
+        }
     }
     
     //

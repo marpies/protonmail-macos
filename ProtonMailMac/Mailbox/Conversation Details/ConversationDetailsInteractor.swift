@@ -16,6 +16,7 @@ protocol ConversationDetailsBusinessLogic {
     func processMessageClick(request: ConversationDetails.MessageClick.Request)
     func retryMessageContentLoad(request: ConversationDetails.RetryMessageContentLoad.Request)
     func processRemoteContentButtonClick(request: ConversationDetails.RemoteContentButtonClick.Request)
+    func processContactMenuItemTap(request: ConversationDetails.ContactMenuItemTap.Request)
 }
 
 protocol ConversationDetailsDataStore {
@@ -83,6 +84,14 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     
     func processRemoteContentButtonClick(request: ConversationDetails.RemoteContentButtonClick.Request) {
         self.worker?.processRemoteContentButtonClick(request: request)
+    }
+    
+    //
+    // MARK: - Process menu item tap
+    //
+    
+    func processContactMenuItemTap(request: ConversationDetails.ContactMenuItemTap.Request) {
+        self.worker?.processContactMenuItemTap(request: request)
     }
     
     //

@@ -153,7 +153,8 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
     }
     
     func messageHeaderContactMenuItemDidTap(id: MenuItemIdentifier) {
-        
+        let request: ConversationDetails.ContactMenuItemTap.Request = ConversationDetails.ContactMenuItemTap.Request(id: id)
+        self.interactor?.processContactMenuItemTap(request: request)
     }
     
     func messageFavoriteStatusDidChange(messageId: String, isOn: Bool) {
