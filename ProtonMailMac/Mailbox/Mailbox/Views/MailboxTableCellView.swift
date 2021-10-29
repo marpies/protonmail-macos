@@ -204,7 +204,7 @@ class MailboxTableCellView: NSTableCellView, ImageButtonDelegate {
             // Second row stack
             self.subtitleStackView.with { stack in
                 stack.orientation = .horizontal
-                stack.spacing = 8
+                stack.spacing = 4
                 vstack.addArrangedSubview(stack)
             }
             
