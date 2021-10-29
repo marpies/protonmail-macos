@@ -11,10 +11,10 @@ import AppKit
 
 protocol MainToolbarDataSourceDelegate: NSToolbarSegmentedControlDelegate {
     func toolbarItemDidTap(id: NSToolbarItem.Identifier)
-    func toolbarMenuItemDidTap(id: String, state: NSControl.StateValue)
+    func toolbarMenuItemDidTap(id: MenuItemIdentifier, state: NSControl.StateValue)
 }
 
-class MainToolbarDataSource {
+class MainToolbarDataSource: MenuItemParsing {
     
     private let splitView: NSSplitView
     
@@ -110,7 +110,7 @@ class MainToolbarDataSource {
                 button.alignment = .left
                 
                 button.menu = NSMenu().with { menu in
-                    let menuItems: [NSMenuItem] = items.map { self.getMenuItem(viewModel: $0) }
+                    let menuItems: [NSMenuItem] = items.map { self.getMenuItem(model: $0, target: self, selector: #selector(self.toolbarMenuItemDidTap)) }
 
                     menu.autoenablesItems = false
                     menu.items = menuItems
@@ -137,7 +137,7 @@ class MainToolbarDataSource {
             }
             
             toolbarItem.menu = NSMenu().with { menu in
-                let menuItems: [NSMenuItem] = items.map { self.getMenuItem(viewModel: $0) }
+                let menuItems: [NSMenuItem] = items.map { self.getMenuItem(model: $0, target: self, selector: #selector(self.toolbarMenuItemDidTap)) }
                 
                 menu.autoenablesItems = false
                 menu.items = menuItems
@@ -151,42 +151,6 @@ class MainToolbarDataSource {
     }
     
     //
-    // MARK: - Private
-    //
-    
-    private func getMenuItem(viewModel: Main.ToolbarItem.MenuItem.ViewModel) -> NSMenuItem {
-        let menuItem: IdentifiedNSMenuItem = IdentifiedNSMenuItem()
-        menuItem.title = viewModel.title
-        menuItem.itemIdRaw = viewModel.id
-        
-        if let icon = viewModel.icon {
-            if #available(macOS 11.0, *) {
-                menuItem.image = NSImage(systemSymbolName: icon, accessibilityDescription: nil)?.tinted(color: viewModel.color)
-            } else {
-                // todo fallback icon
-            }
-        }
-        
-        menuItem.isEnabled = viewModel.isEnabled
-        menuItem.target = self
-        menuItem.action = #selector(self.toolbarMenuItemDidTap)
-        
-        if let state = viewModel.state {
-            menuItem.state = state
-        }
-        
-        if let children = viewModel.children {
-            menuItem.submenu = NSMenu().with { menu in
-                let menuItems: [NSMenuItem] = children.map { self.getMenuItem(viewModel: $0) }
-                
-                menu.items = menuItems
-            }
-        }
-        
-        return menuItem
-    }
-    
-    //
     // MARK: - Toolbar event handlers
     //
     
@@ -195,7 +159,7 @@ class MainToolbarDataSource {
     }
     
     @objc private func toolbarMenuItemDidTap(_ sender: Any) {
-        if let item = sender as? IdentifiedNSMenuItem, let id = item.itemIdRaw {
+        if let item = sender as? IdentifiedNSMenuItem, let id = item.itemId {
             self.delegate?.toolbarMenuItemDidTap(id: id, state: item.state)
         }
     }

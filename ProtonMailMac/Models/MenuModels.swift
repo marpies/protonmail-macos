@@ -12,6 +12,7 @@ import AppKit
 enum MenuItemIdentifier {
     case any
     case copyAddress(email: String)
+    case updateLabel(labelId: String)
 }
 
 enum MenuItem {

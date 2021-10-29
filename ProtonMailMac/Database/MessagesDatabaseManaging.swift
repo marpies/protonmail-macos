@@ -31,5 +31,5 @@ protocol MessagesDatabaseManaging {
     ///   - messageIds: The ids of the messages to check.
     ///   - labelIds: The ids of the labels to check.
     ///   - completion: Callback with a map of label ids to their status.
-    func loadLabelStatus(messageIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.MenuItem.StateValue]?) -> Void)
+    func loadLabelStatus(messageIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.Menu.Item.StateValue]?) -> Void)
 }

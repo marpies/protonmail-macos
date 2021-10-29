@@ -113,14 +113,14 @@ class MainPresenter: MainPresentationLogic {
         return identifiers
     }
     
-    private var noLabelsMenuItem: Main.ToolbarItem.MenuItem.ViewModel {
+    private var noLabelsMenuItem: MenuItem {
         let title: String = NSLocalizedString("toolbarNoLabelsMenuItem", comment: "")
-        return Main.ToolbarItem.MenuItem.ViewModel(id: "", title: title, color: nil, state: nil, icon: nil, children: nil, isEnabled: false)
+        return MenuItem.item(id: .any, title: title, color: nil, state: nil, icon: nil, children: nil, isEnabled: false)
     }
     
-    private var noFoldersMenuItem: Main.ToolbarItem.MenuItem.ViewModel {
+    private var noFoldersMenuItem: MenuItem {
         let title: String = NSLocalizedString("toolbarNoFoldersMenuItem", comment: "")
-        return Main.ToolbarItem.MenuItem.ViewModel(id: "", title: title, color: nil, state: nil, icon: nil, children: nil, isEnabled: false)
+        return MenuItem.item(id: .any, title: title, color: nil, state: nil, icon: nil, children: nil, isEnabled: false)
     }
     
     private func getToolbarItem(id: NSToolbarItem.Identifier, response: Main.UpdateToolbar.Response) -> Main.ToolbarItem.ViewModel {
@@ -160,7 +160,7 @@ class MainPresenter: MainPresentationLogic {
             let tooltip: String = self.getToolbarItemTooltip(id: id)
             let icon: String = self.getToolbarItemIcon(id: id)
             let isEnabled: Bool = self.getToolbarItemEnabled(id: id, isSelectionActive: response.isSelectionActive, isMultiSelection: response.isMultiSelection)
-            let items: [Main.ToolbarItem.MenuItem.ViewModel]
+            let items: [MenuItem]
             if let labels = response.labelItems {
                 items = labels.map { self.getMenuItem(response: $0) }
             } else {
@@ -174,7 +174,7 @@ class MainPresenter: MainPresentationLogic {
             let tooltip: String = self.getToolbarItemTooltip(id: id)
             let icon: String = self.getToolbarItemIcon(id: id)
             let isEnabled: Bool = self.getToolbarItemEnabled(id: id, isSelectionActive: response.isSelectionActive, isMultiSelection: response.isMultiSelection)
-            let items: [Main.ToolbarItem.MenuItem.ViewModel]
+            let items: [MenuItem]
             if let folders = response.folderItems {
                 items = folders.map { self.getMenuItem(response: $0) }
             } else {
@@ -273,26 +273,31 @@ class MainPresenter: MainPresentationLogic {
         }
     }
     
-    private func getMenuItem(response: Main.ToolbarItem.MenuItem.Response) -> Main.ToolbarItem.MenuItem.ViewModel {
-        let state: NSControl.StateValue?
-        switch response.state {
-        case .none:
-            state = nil
-        case .some(let val):
-            switch val {
-            case .off:
-                state = .off
-            case .on:
-                state = .on
-            case .mixed:
-                state = .mixed
+    private func getMenuItem(response: Main.ToolbarItem.Menu.Item) -> MenuItem {
+        switch response {
+        case .separator:
+            return .separator
+        case .item(let model, let itemState):
+            let state: NSControl.StateValue?
+            switch itemState {
+            case .none:
+                state = nil
+            case .some(let val):
+                switch val {
+                case .off:
+                    state = .off
+                case .on:
+                    state = .on
+                case .mixed:
+                    state = .mixed
+                }
             }
+            
+            return self.getMenuItem(response: model, state: state)
         }
-        
-        return self.getMenuItem(response: response.item, state: state)
     }
     
-    private func getMenuItem(response: MailboxSidebar.Item.Response, state: NSControl.StateValue?) -> Main.ToolbarItem.MenuItem.ViewModel {
+    private func getMenuItem(response: MailboxSidebar.Item.Response, state: NSControl.StateValue?) -> MenuItem {
         let title: String
         let icon: String
         
@@ -326,9 +331,9 @@ class MainPresenter: MainPresentationLogic {
             icon = isFolder ? "folder" : "tag"
         }
         
-        let children: [Main.ToolbarItem.MenuItem.ViewModel]? = response.children?.map { self.getMenuItem(response: $0, state: nil) }
+        let children: [MenuItem]? = response.children?.map { self.getMenuItem(response: $0, state: nil) }
         
-        return Main.ToolbarItem.MenuItem.ViewModel(id: response.kind.id, title: title, color: response.color, state: state, icon: icon, children: children)
+        return MenuItem.item(id: .updateLabel(labelId: response.kind.id), title: title, color: response.color, state: state, icon: icon, children: children, isEnabled: true)
     }
 
 }

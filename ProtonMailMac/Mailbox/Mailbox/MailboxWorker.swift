@@ -252,7 +252,7 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         }
     }
     
-    private func processToolbarMenuItemAction(_ action: Main.ToolbarItem.MenuItem.Action) {
+    private func processToolbarMenuItemAction(_ action: Main.ToolbarItem.Menu.Item.Action) {
         switch action {
         case .moveToFolder(let folderId):
             self.processMoveToFolder(id: folderId)

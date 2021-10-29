@@ -82,21 +82,31 @@ class MainWorker: LabelToSidebarItemParsing {
     }
     
     func processToolbarMenuItemTap(request: Main.ToolbarMenuItemTap.Request) {
-        guard let label = self.getLabel(forId: request.id) else { return }
+        let itemId: String
         
-        let isLabel: Bool = Int(request.id) == nil && !label.exclusive
-        let action: Main.ToolbarItem.MenuItem.Action
+        switch request.id {
+        case .updateLabel(let labelId):
+            itemId = labelId
+            
+        default:
+            return
+        }
+        
+        guard let label = self.getLabel(forId: itemId) else { return }
+        
+        let isLabel: Bool = Int(itemId) == nil && !label.exclusive
+        let action: Main.ToolbarItem.Menu.Item.Action
         
         // Check if a label is to be added or removed based on the menu item's state
         if isLabel {
             switch request.state {
             case .on, .mixed:
                 // Remove label
-                action = .updateLabel(labelId: request.id, apply: false)
+                action = .updateLabel(labelId: itemId, apply: false)
                 
             case .off:
                 // Add label
-                action = .updateLabel(labelId: request.id, apply: true)
+                action = .updateLabel(labelId: itemId, apply: true)
                 
             default:
                 return
@@ -104,7 +114,7 @@ class MainWorker: LabelToSidebarItemParsing {
         }
         // Move to a folder
         else {
-            action = .moveToFolder(folderId: request.id)
+            action = .moveToFolder(folderId: itemId)
         }
         
         // Post notification to handle the action
@@ -168,7 +178,7 @@ class MainWorker: LabelToSidebarItemParsing {
         }
     }
     
-    private func updateToolbarMenuItems(labels: [MailboxSidebar.Item.Response]?, folders: [MailboxSidebar.Item.Response]?, state: [String: Main.ToolbarItem.MenuItem.StateValue]?) {
+    private func updateToolbarMenuItems(labels: [MailboxSidebar.Item.Response]?, folders: [MailboxSidebar.Item.Response]?, state: [String: Main.ToolbarItem.Menu.Item.StateValue]?) {
         let isSelectionActive: Bool
         let isMultiSelection: Bool
         
@@ -184,11 +194,28 @@ class MainWorker: LabelToSidebarItemParsing {
             isMultiSelection = ids.count > 1
         }
         
-        let labelItems: [Main.ToolbarItem.MenuItem.Response]? = labels?.map { item in
-            Main.ToolbarItem.MenuItem.Response(item: item, state: state?[item.kind.id])
+        // Label items
+        let labelItems: [Main.ToolbarItem.Menu.Item]? = labels?.map { item in
+            .item(model: item, state: state?[item.kind.id])
         }
-        let folderItems: [Main.ToolbarItem.MenuItem.Response]? = folders?.map { item in
-            Main.ToolbarItem.MenuItem.Response(item: item, state: state?[item.kind.id])
+        
+        // Folder items (default + custom)
+        var folderItems: [Main.ToolbarItem.Menu.Item]?
+        if let folders = folders {
+            folderItems = []
+            
+            // Add separator between default and custom folders
+            var didAddSeparator: Bool = false
+            
+            for folder in folders {
+                // When the first custom folder is encountered, add separator
+                if !didAddSeparator, case MailboxSidebar.Item.custom(_, _, _) = folder.kind {
+                    didAddSeparator = true
+                    folderItems?.append(.separator)
+                }
+                
+                folderItems?.append(.item(model: folder, state: state?[folder.kind.id]))
+            }
         }
         
         let response: Main.UpdateToolbar.Response = Main.UpdateToolbar.Response(isSelectionActive: isSelectionActive, isMultiSelection: isMultiSelection, labelItems: labelItems, folderItems: folderItems)

@@ -278,7 +278,7 @@ extension CoreDataService: MessagesDatabaseManaging {
         }
     }
     
-    func loadLabelStatus(messageIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.MenuItem.StateValue]?) -> Void) {
+    func loadLabelStatus(messageIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.Menu.Item.StateValue]?) -> Void) {
         self.backgroundContext.performWith { ctx in
             guard let messages = self.getMessages(ids: messageIds, context: ctx) else {
                 DispatchQueue.main.async {
@@ -287,7 +287,7 @@ extension CoreDataService: MessagesDatabaseManaging {
                 return
             }
             
-            var state: [String: Main.ToolbarItem.MenuItem.StateValue] = [:]
+            var state: [String: Main.ToolbarItem.Menu.Item.StateValue] = [:]
             
             for message in messages {
                 for labelId in labelIds {

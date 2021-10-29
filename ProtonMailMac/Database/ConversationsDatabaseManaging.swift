@@ -38,5 +38,5 @@ protocol ConversationsDatabaseManaging {
     ///   - conversationIds: The ids of the conversations to check.
     ///   - labelIds: The ids of the labels to check.
     ///   - completion: Callback with a map of label ids to their status.
-    func loadLabelStatus(conversationIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.MenuItem.StateValue]?) -> Void)
+    func loadLabelStatus(conversationIds: [String], labelIds: [String], completion: @escaping ([String: Main.ToolbarItem.Menu.Item.StateValue]?) -> Void)
 }

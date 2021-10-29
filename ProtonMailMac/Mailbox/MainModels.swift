@@ -108,16 +108,16 @@ enum Main {
                 return ["action": self.action]
             }
             
-            let action: Main.ToolbarItem.MenuItem.Action
+            let action: Main.ToolbarItem.Menu.Item.Action
 
-            init(action: Main.ToolbarItem.MenuItem.Action) {
+            init(action: Main.ToolbarItem.Menu.Item.Action) {
                 self.action = action
             }
             
             init?(notification: Notification?) {
                 guard let name = notification?.name,
                       name == ToolbarMenuItemAction.name,
-                      let action = notification?.userInfo?["action"] as? Main.ToolbarItem.MenuItem.Action else { return nil }
+                      let action = notification?.userInfo?["action"] as? Main.ToolbarItem.Menu.Item.Action else { return nil }
                 
                 self.action = action
             }
@@ -125,44 +125,19 @@ enum Main {
     }
     
     enum ToolbarItem {
-        enum MenuItem {
-            enum StateValue {
-                case off, on, mixed
-            }
-            
-            enum Action {
-                case moveToFolder(folderId: String)
-                case updateLabel(labelId: String, apply: Bool)
-            }
-            
-            class Response {
-                let item: MailboxSidebar.Item.Response
-                let state: Main.ToolbarItem.MenuItem.StateValue?
-
-                init(item: MailboxSidebar.Item.Response, state: Main.ToolbarItem.MenuItem.StateValue?) {
-                    self.item = item
-                    self.state = state
+        enum Menu {
+            enum Item {
+                enum StateValue {
+                    case off, on, mixed
                 }
-            }
-            
-            class ViewModel {
-                let id: String
-                let title: String
-                let color: NSColor?
-                let state: NSControl.StateValue?
-                let icon: String?
-                let children: [Main.ToolbarItem.MenuItem.ViewModel]?
-                let isEnabled: Bool
-
-                init(id: String, title: String, color: NSColor?, state: NSControl.StateValue?, icon: String?, children: [Main.ToolbarItem.MenuItem.ViewModel]?, isEnabled: Bool = true) {
-                    self.id = id
-                    self.title = title
-                    self.color = color
-                    self.state = state
-                    self.icon = icon
-                    self.children = children
-                    self.isEnabled = isEnabled
+                
+                enum Action {
+                    case moveToFolder(folderId: String)
+                    case updateLabel(labelId: String, apply: Bool)
                 }
+                
+                case separator
+                case item(model: MailboxSidebar.Item.Response, state: Main.ToolbarItem.Menu.Item.StateValue?)
             }
         }
         
@@ -171,8 +146,8 @@ enum Main {
             case trackingItem(id: NSToolbarItem.Identifier, index: Int)
             case button(id: NSToolbarItem.Identifier, label: String, tooltip: String, icon: String, isEnabled: Bool)
             case group(id: NSToolbarItem.Identifier, items: [Main.ToolbarItem.ViewModel])
-            case buttonMenu(id: NSToolbarItem.Identifier, title: String, label: String, tooltip: String, icon: String, isEnabled: Bool, items: [Main.ToolbarItem.MenuItem.ViewModel])
-            case imageMenu(id: NSToolbarItem.Identifier, label: String, tooltip: String, icon: String, isEnabled: Bool, items: [Main.ToolbarItem.MenuItem.ViewModel])
+            case buttonMenu(id: NSToolbarItem.Identifier, title: String, label: String, tooltip: String, icon: String, isEnabled: Bool, items: [MenuItem])
+            case imageMenu(id: NSToolbarItem.Identifier, label: String, tooltip: String, icon: String, isEnabled: Bool, items: [MenuItem])
         }
     }
 
@@ -230,10 +205,10 @@ enum Main {
         class Response {
             let isSelectionActive: Bool
             let isMultiSelection: Bool
-            let labelItems: [Main.ToolbarItem.MenuItem.Response]?
-            let folderItems: [Main.ToolbarItem.MenuItem.Response]?
+            let labelItems: [Main.ToolbarItem.Menu.Item]?
+            let folderItems: [Main.ToolbarItem.Menu.Item]?
 
-            init(isSelectionActive: Bool, isMultiSelection: Bool, labelItems: [Main.ToolbarItem.MenuItem.Response]?, folderItems: [Main.ToolbarItem.MenuItem.Response]?) {
+            init(isSelectionActive: Bool, isMultiSelection: Bool, labelItems: [Main.ToolbarItem.Menu.Item]?, folderItems: [Main.ToolbarItem.Menu.Item]?) {
                 self.isSelectionActive = isSelectionActive
                 self.isMultiSelection = isMultiSelection
                 self.labelItems = labelItems
@@ -268,7 +243,7 @@ enum Main {
     
     enum ToolbarMenuItemTap {
         struct Request {
-            let id: String
+            let id: MenuItemIdentifier
             let state: NSControl.StateValue
         }
     }

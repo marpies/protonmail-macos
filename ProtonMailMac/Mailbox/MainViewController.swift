@@ -179,7 +179,7 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
         self.interactor?.processToolbarAction(request: request)
     }
     
-    func toolbarMenuItemDidTap(id: String, state: NSControl.StateValue) {
+    func toolbarMenuItemDidTap(id: MenuItemIdentifier, state: NSControl.StateValue) {
         let request: Main.ToolbarMenuItemTap.Request = Main.ToolbarMenuItemTap.Request(id: id, state: state)
         self.interactor?.processToolbarMenuItemTap(request: request)
     }
