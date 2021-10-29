@@ -153,8 +153,7 @@ class MainWorker: LabelToSidebarItemParsing {
     private func updateToolbarMenuItems() {
         switch self.mailboxSelectionType {
         case .none:
-            // Nothing to do
-            return
+            self.updateToolbarMenuItems(labels: self.labelItems, folders: self.folderItems, state: nil)
         case .messages(let ids):
             if let labels = self.labelItems {
                 let labelIds: [String] = labels.map { $0.kind.id }
