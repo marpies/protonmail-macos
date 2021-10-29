@@ -183,13 +183,20 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
     }
     
     private func getItem(response: Messages.Message.Response) -> Mailbox.TableItem.ViewModel {
-        let title: String = response.senderName
+        let title: String = self.getTitle(response.sender)
         let time: String = self.getMessageTime(response: response.time)
         let folders: [Messages.Folder.ViewModel]? = response.folders?.map { self.getFolder(response: $0) }
         let labels: [Messages.Label.ViewModel]? = response.labels?.map { self.getLabel(response: $0) }
         let starIcon: Messages.Star.ViewModel = self.getStarIcon(isSelected: response.isStarred)
         let attachmentIcon: Messages.Attachment.ViewModel? = self.getAttachmentIcon(numAttachments: response.numAttachments)
         return Mailbox.TableItem.ViewModel(type: .message, id: response.id, title: title, subtitle: response.subject, time: time, isRead: response.isRead, starIcon: starIcon, folders: folders, labels: labels, attachmentIcon: attachmentIcon)
+    }
+    
+    private func getTitle(_ sender: Messages.Message.ContactInfo.Response) -> String {
+        if !sender.name.isEmpty {
+            return sender.name
+        }
+        return sender.email
     }
     
     private func getTitle(senders: [String], numMessages: Int) -> String {

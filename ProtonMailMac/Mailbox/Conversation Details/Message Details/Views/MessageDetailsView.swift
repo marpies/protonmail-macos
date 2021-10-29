@@ -12,6 +12,7 @@ import SnapKit
 
 protocol MessageDetailsViewDelegate: AnyObject {
     func messageDetailDidClick(messageId: String)
+    func messageHeaderContactMenuItemDidTap(id: MenuItemIdentifier)
     func messageFavoriteStatusDidChange(messageId: String, isOn: Bool)
     func messageRetryContentLoadButtonDidTap(messageId: String)
     func messageRemoteContentButtonDidClick(messageId: String)
@@ -57,6 +58,8 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
     func showContentLoading() {
         self.initBodyView()
         self.bodyView?.showLoading()
+        
+        self.headerView.showDetails()
     }
     
     func showContent(viewModel: Messages.Message.Contents.ViewModel) {
@@ -98,6 +101,7 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
     
     func removeContentView() {
         self.removeRemoteContentBox()
+        self.headerView.hideDetails()
         
         self.bodyView?.dispose()
         self.bodyView?.removeFromSuperview()
@@ -112,6 +116,10 @@ class MessageDetailsView: NSView, MessageDetailsHeaderViewDelegate, MessageBodyV
         guard let messageId = self.messageId else { return }
         
         self.delegate?.messageDetailDidClick(messageId: messageId)
+    }
+    
+    func messageHeaderContactMenuItemDidTap(id: MenuItemIdentifier) {
+        self.delegate?.messageHeaderContactMenuItemDidTap(id: id)
     }
     
     func imageButtonDidSelect(_ button: ImageButton) {

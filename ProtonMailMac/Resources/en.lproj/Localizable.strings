@@ -85,6 +85,10 @@
 "messageBodyRetryLoadButton" = "Retry";
 "messageHasRemoteContentBoxMessage" = "This message contains remote content.";
 "messageLoadRemoteContentButton" = "Load";
+"messageSentToTitle" = "To:";
+"messageCopyToTitle" = "CC:";
+"messageBlindCopyToTitle" = "BCC:";
+"contactCopyAddressMenuItemTitle" = "Copy Address";
 
 //
 // MARK: - Toolbar

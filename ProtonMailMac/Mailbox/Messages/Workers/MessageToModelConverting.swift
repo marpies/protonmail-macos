@@ -18,7 +18,7 @@ protocol MessageToModelConverting {
 extension MessageToModelConverting {
     
     func getMessage(_ message: Message) -> Messages.Message.Response {
-        let sender: String = self.getSender(message)
+        let sender: Messages.Message.ContactInfo.Response = self.getSender(message)
         let timeRaw: Date = message.time ?? Date()
         let time: Messages.MessageTime = self.getMessageTime(timeRaw)
         let isStarred: Bool = self.isMessageStarred(message)
@@ -29,7 +29,10 @@ extension MessageToModelConverting {
         let isDraft: Bool = !message.flag.contains(.sent) && !message.flag.contains(.received)
         let metadata: Messages.Message.Metadata.Response = self.getMetadata(message)
         let hasInlineAttachments: Bool = self.hasInlineAttachments(message)
-        return Messages.Message.Response(id: message.messageID, subject: message.title, senderName: sender, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, hasInlineAttachments: hasInlineAttachments, isRead: !message.unRead, isDraft: isDraft, metadata: metadata, folders: folders, labels: labels, body: body, isExpanded: false)
+        let sentTo: [Messages.Message.ContactInfo.Response]? = self.getContacts(message.toList)
+        let copyTo: [Messages.Message.ContactInfo.Response]? = self.getContacts(message.ccList)
+        let blindCopyTo: [Messages.Message.ContactInfo.Response]? = self.getContacts(message.bccList)
+        return Messages.Message.Response(id: message.messageID, subject: message.title, sender: sender, sentTo: sentTo, copyTo: copyTo, blindCopyTo: blindCopyTo, time: time, isStarred: isStarred, isRepliedTo: isRepliedTo, numAttachments: message.numAttachments.intValue, hasInlineAttachments: hasInlineAttachments, isRead: !message.unRead, isDraft: isDraft, metadata: metadata, folders: folders, labels: labels, body: body, isExpanded: false)
     }
     
     //
@@ -60,14 +63,24 @@ extension MessageToModelConverting {
         return .other(messageDate)
     }
     
-    private func getSender(_ message: Message) -> String {
+    private func getSender(_ message: Message) -> Messages.Message.ContactInfo.Response {
         if let jsonRaw = message.sender, let json = jsonRaw.parseObjectAny() {
-            if let senderName = json.getString("Name"), !senderName.isEmpty {
-                return senderName
-            }
-            return json.getString("Address") ?? ""
+            return self.getContact(json)
         }
-        return ""
+        return Messages.Message.ContactInfo.Response(name: "", email: "")
+    }
+    
+    private func getContacts(_ jsonRaw: String) -> [Messages.Message.ContactInfo.Response]? {
+        if let json = jsonRaw.parseJsonArray(), !json.isEmpty {
+            return json.map { self.getContact($0) }
+        }
+        return nil
+    }
+    
+    private func getContact(_ json: [String: Any]) -> Messages.Message.ContactInfo.Response {
+        let name: String = json.getString("Name") ?? ""
+        let address: String = json.getString("Address") ?? ""
+        return Messages.Message.ContactInfo.Response(name: name, email: address)
     }
     
     private func isMessageStarred(_ message: Message) -> Bool {

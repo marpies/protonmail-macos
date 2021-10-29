@@ -11,11 +11,14 @@ import SnapKit
 
 protocol MessageDetailsHeaderViewDelegate: ImageButtonDelegate {
     func messageHeaderViewDidClick()
+    func messageHeaderContactMenuItemDidTap(id: MenuItemIdentifier)
 }
 
-class MessageDetailsHeaderView: NSButton {
+class MessageDetailsHeaderView: NSButton, MenuItemParsing {
     
+    private let mainStackView: NSStackView = NSStackView()
     private let titleStackView: NSStackView = NSStackView()
+    private let detailsStackView: NSStackView = NSStackView()
     private let titleLabel: NSTextField = NSTextField.asLabel
     private let dateLabel: NSTextField = NSTextField.asLabel
     private let foldersView: MessageFoldersView = MessageFoldersView()
@@ -25,6 +28,8 @@ class MessageDetailsHeaderView: NSButton {
     private var draftLabelView: MessageLabelView?
     private var repliedIcon: IconView?
     private var unreadIndicationView: CircleView?
+    
+    private var viewModel: Messages.Message.Header.ViewModel?
     
     weak var delegate: MessageDetailsHeaderViewDelegate?
 
@@ -44,6 +49,8 @@ class MessageDetailsHeaderView: NSButton {
     //
     
     func update(viewModel: Messages.Message.Header.ViewModel) {
+        self.viewModel = viewModel
+        
         self.titleLabel.stringValue = viewModel.title
         self.foldersView.update(viewModel: viewModel.folders)
         self.dateLabel.stringValue = viewModel.date
@@ -77,6 +84,32 @@ class MessageDetailsHeaderView: NSButton {
         self.favoriteButton.delegate = self.delegate
     }
     
+    func showDetails() {
+        guard self.detailsStackView.superview == nil else { return }
+        
+        self.mainStackView.addArrangedSubview(self.detailsStackView)
+        
+        if let sentTo = self.viewModel?.sentTo {
+            self.addContactGroup(viewModel: sentTo)
+        }
+        if let copyTo = self.viewModel?.copyTo {
+            self.addContactGroup(viewModel: copyTo)
+        }
+        if let blindCopyTo = self.viewModel?.blindCopyTo {
+            self.addContactGroup(viewModel: blindCopyTo)
+        }
+    }
+    
+    func hideDetails() {
+        guard self.detailsStackView.superview != nil else { return }
+        
+        self.detailsStackView.removeFromSuperview()
+        
+        for view in self.detailsStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+    }
+    
     //
     // MARK: - Event handlers
     //
@@ -98,14 +131,21 @@ class MessageDetailsHeaderView: NSButton {
     //
     
     private func setupView() {
-        self.titleStackView.with { stack in
-            stack.distribution = .fill
-            stack.orientation = .horizontal
+        self.mainStackView.with { stack in
+            stack.alignment = .leading
+            stack.orientation = .vertical
             stack.spacing = 8
             self.addSubview(stack)
             stack.snp.makeConstraints { make in
                 make.edges.equalToSuperview().inset(16)
             }
+        }
+        
+        self.titleStackView.with { stack in
+            stack.distribution = .fill
+            stack.orientation = .horizontal
+            stack.spacing = 8
+            self.mainStackView.addArrangedSubview(stack)
         }
         
         self.titleLabel.with { label in
@@ -142,6 +182,14 @@ class MessageDetailsHeaderView: NSButton {
         self.isBordered = false
         self.target = self
         self.action = #selector(self.didClick)
+        
+        self.detailsStackView.with { stack in
+            stack.alignment = .leading
+            stack.orientation = .vertical
+            stack.spacing = 4
+            
+            // Only visible when expanded
+        }
     }
     
     private func addRepliedIcon(viewModel: Messages.Icon.ViewModel) {
@@ -234,6 +282,62 @@ class MessageDetailsHeaderView: NSButton {
         if let view = self.unreadIndicationView {
             self.unreadIndicationView = nil
             view.removeFromSuperview()
+        }
+    }
+    
+    private func addContactGroup(viewModel: Messages.Message.Header.ContactsGroup.ViewModel) {
+        NSStackView().with { stack in
+            stack.distribution = .fill
+            stack.orientation = .horizontal
+            stack.spacing = 4
+            
+            // Title label
+            NSTextField.asLabel.with { label in
+                label.setPreferredFont(style: .caption1)
+                label.stringValue = viewModel.title
+                label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+                label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+                stack.addArrangedSubview(label)
+            }
+            
+            // Stacked buttons for contacts
+            WrapStackView().with { view in
+                view.spacing.x = 4
+                view.spacing.y = 2
+                view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+                // Items
+                for item in viewModel.items {
+                    NSMenuButton().with { button in
+                        button.controlSize = .small
+                        button.bezelStyle = .inline
+                        button.title = item.title
+                        button.menuOffset.x = 0
+                        button.menuOffset.y = 6
+                        button.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+                        
+                        view.addSubview(button)
+                        button.menu = NSMenu().with { menu in
+                            menu.autoenablesItems = false
+                            menu.items = item.menuItems.map { self.getMenuItem(model: $0, target: self, selector: #selector(self.contactsGroupItemMenuItemDidTap)) }
+                        }
+                    }
+                }
+
+                stack.addArrangedSubview(view)
+            }
+            
+            self.detailsStackView.addArrangedSubview(stack)
+        }
+    }
+    
+    //
+    // MARK: - Event handlers
+    //
+    
+    @objc private func contactsGroupItemMenuItemDidTap(_ sender: Any) {
+        if let item = sender as? IdentifiedNSMenuItem, let id = item.itemId {
+            self.delegate?.messageHeaderContactMenuItemDidTap(id: id)
         }
     }
     

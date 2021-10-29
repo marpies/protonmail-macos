@@ -252,7 +252,43 @@ enum Messages {
             }
         }
         
+        enum ContactInfo {
+            class Response {
+                let name: String
+                let email: String
+
+                init(name: String, email: String) {
+                    self.name = name
+                    self.email = email
+                }
+            }
+        }
+        
         enum Header {
+            enum ContactsGroup {
+                enum Item {
+                    class ViewModel {
+                        let title: String
+                        let menuItems: [MenuItem]
+
+                        init(title: String, menuItems: [MenuItem]) {
+                            self.title = title
+                            self.menuItems = menuItems
+                        }
+                    }
+                }
+                
+                class ViewModel {
+                    let title: String
+                    let items: [Messages.Message.Header.ContactsGroup.Item.ViewModel]
+
+                    init(title: String, items: [Messages.Message.Header.ContactsGroup.Item.ViewModel]) {
+                        self.title = title
+                        self.items = items
+                    }
+                }
+            }
+            
             class ViewModel {
                 let title: String
                 let labels: [Messages.Label.ViewModel]?
@@ -263,8 +299,11 @@ enum Messages {
                 let draftLabel: Messages.Label.ViewModel?
                 let repliedIcon: Messages.Icon.ViewModel?
                 let attachmentIcon: Messages.Attachment.ViewModel?
+                let sentTo: Messages.Message.Header.ContactsGroup.ViewModel?
+                let copyTo: Messages.Message.Header.ContactsGroup.ViewModel?
+                let blindCopyTo: Messages.Message.Header.ContactsGroup.ViewModel?
 
-                init(title: String, labels: [Messages.Label.ViewModel]?, folders: [Messages.Folder.ViewModel], date: String, starIcon: Messages.Star.ViewModel, isRead: Bool, draftLabel: Messages.Label.ViewModel?, repliedIcon: Messages.Icon.ViewModel?, attachmentIcon: Messages.Attachment.ViewModel?) {
+                init(title: String, labels: [Messages.Label.ViewModel]?, folders: [Messages.Folder.ViewModel], date: String, starIcon: Messages.Star.ViewModel, isRead: Bool, draftLabel: Messages.Label.ViewModel?, repliedIcon: Messages.Icon.ViewModel?, attachmentIcon: Messages.Attachment.ViewModel?, sentTo: Messages.Message.Header.ContactsGroup.ViewModel?, copyTo: Messages.Message.Header.ContactsGroup.ViewModel?, blindCopyTo: Messages.Message.Header.ContactsGroup.ViewModel?) {
                     self.title = title
                     self.labels = labels
                     self.folders = folders
@@ -274,6 +313,9 @@ enum Messages {
                     self.draftLabel = draftLabel
                     self.repliedIcon = repliedIcon
                     self.attachmentIcon = attachmentIcon
+                    self.sentTo = sentTo
+                    self.copyTo = copyTo
+                    self.blindCopyTo = blindCopyTo
                 }
             }
         }
@@ -303,7 +345,10 @@ enum Messages {
         class Response: Hashable {
             let id: String
             let subject: String
-            let senderName: String
+            let sender: Messages.Message.ContactInfo.Response
+            let sentTo: [Messages.Message.ContactInfo.Response]?
+            let copyTo: [Messages.Message.ContactInfo.Response]?
+            let blindCopyTo: [Messages.Message.ContactInfo.Response]?
             let time: Messages.MessageTime
             let isStarred: Bool
             let isRepliedTo: Bool
@@ -318,11 +363,14 @@ enum Messages {
             var body: String?
             var isExpanded: Bool
             var contents: Messages.Message.Contents.Response?
-            
-            init(id: String, subject: String, senderName: String, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, hasInlineAttachments: Bool, isRead: Bool, isDraft: Bool, metadata: Messages.Message.Metadata.Response, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, body: String?, isExpanded: Bool) {
+
+            init(id: String, subject: String, sender: Messages.Message.ContactInfo.Response, sentTo: [Messages.Message.ContactInfo.Response]?, copyTo: [Messages.Message.ContactInfo.Response]?, blindCopyTo: [Messages.Message.ContactInfo.Response]?, time: Messages.MessageTime, isStarred: Bool, isRepliedTo: Bool, numAttachments: Int, hasInlineAttachments: Bool, isRead: Bool, isDraft: Bool, metadata: Messages.Message.Metadata.Response, folders: [Messages.Folder.Response]?, labels: [Messages.Label.Response]?, body: String?, isExpanded: Bool) {
                 self.id = id
                 self.subject = subject
-                self.senderName = senderName
+                self.sender = sender
+                self.sentTo = sentTo
+                self.copyTo = copyTo
+                self.blindCopyTo = blindCopyTo
                 self.time = time
                 self.isStarred = isStarred
                 self.isRepliedTo = isRepliedTo
@@ -340,7 +388,7 @@ enum Messages {
             func hash(into hasher: inout Hasher) {
                 hasher.combine(self.id)
                 hasher.combine(self.subject)
-                hasher.combine(self.senderName)
+                hasher.combine(self.sender.email)
                 hasher.combine(self.time.date.timeIntervalSince1970)
                 hasher.combine(self.numAttachments)
                 hasher.combine(self.isRead)

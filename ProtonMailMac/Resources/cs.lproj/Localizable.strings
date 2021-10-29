@@ -85,6 +85,10 @@
 "messageBodyRetryLoadButton" = "Zkusit znovu";
 "messageHasRemoteContentBoxMessage" = "Tato zpráva obsahuje vzdálený obsah.";
 "messageLoadRemoteContentButton" = "Načíst";
+"messageSentToTitle" = "To:";
+"messageCopyToTitle" = "Kopie:";
+"messageBlindCopyToTitle" = "Skrytá kopie:";
+"contactCopyAddressMenuItemTitle" = "Zkopírovat adresu";
 
 //
 // MARK: - Toolbar

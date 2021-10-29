@@ -172,6 +172,7 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
     }
     
     private func getMessage(response: Messages.Message.Response) -> Messages.Message.ViewModel {
+        let title: String = self.getTitle(response.sender)
         let labels: [Messages.Label.ViewModel]? = response.labels?.map { self.getLabel(response: $0) }
         let folders: [Messages.Folder.ViewModel] = response.folders?.map { self.getFolder(response: $0) } ?? []
         let date: String = self.getMessageTime(response: response.time)
@@ -187,8 +188,42 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
             let title: String = NSLocalizedString("messageLabelDraft", comment: "")
             draftLabel = Messages.Label.ViewModel(id: "", title: title, color: .systemGreen)
         }
-        let header: Messages.Message.Header.ViewModel = Messages.Message.Header.ViewModel(title: response.senderName, labels: labels, folders: folders, date: date, starIcon: starIcon, isRead: response.isRead, draftLabel: draftLabel, repliedIcon: repliedIcon, attachmentIcon: attachmentIcon)
+        
+        let sentTo: Messages.Message.Header.ContactsGroup.ViewModel? = self.getContactsGroup(title: NSLocalizedString("messageSentToTitle", comment: ""), response: response.sentTo)
+        let copyTo: Messages.Message.Header.ContactsGroup.ViewModel? = self.getContactsGroup(title: NSLocalizedString("messageCopyToTitle", comment: ""), response: response.copyTo)
+        let blindCopyTo: Messages.Message.Header.ContactsGroup.ViewModel? = self.getContactsGroup(title: NSLocalizedString("messageBlindCopyToTitle", comment: ""), response: response.blindCopyTo)
+        
+        let header: Messages.Message.Header.ViewModel = Messages.Message.Header.ViewModel(title: title, labels: labels, folders: folders, date: date, starIcon: starIcon, isRead: response.isRead, draftLabel: draftLabel, repliedIcon: repliedIcon, attachmentIcon: attachmentIcon, sentTo: sentTo, copyTo: copyTo, blindCopyTo: blindCopyTo)
         return Messages.Message.ViewModel(id: response.id, header: header)
+    }
+    
+    private func getTitle(_ sender: Messages.Message.ContactInfo.Response) -> String {
+        if sender.name.isEmpty {
+            return sender.email
+        }
+        return sender.name
+    }
+    
+    private func getContactsGroup(title: String, response: [Messages.Message.ContactInfo.Response]?) -> Messages.Message.Header.ContactsGroup.ViewModel? {
+        guard let response = response else { return nil }
+        
+        let items: [Messages.Message.Header.ContactsGroup.Item.ViewModel] = response.map { self.getContactGroupItem($0) }
+        return Messages.Message.Header.ContactsGroup.ViewModel(title: title, items: items)
+    }
+    
+    private func getContactGroupItem(_ contact: Messages.Message.ContactInfo.Response) -> Messages.Message.Header.ContactsGroup.Item.ViewModel {
+        let title: String = self.getTitle(contact)
+        let menuItems: [MenuItem] = self.getContactMenuItems(contact)
+        return Messages.Message.Header.ContactsGroup.Item.ViewModel(title: title, menuItems: menuItems)
+    }
+    
+    private func getContactMenuItems(_ contact: Messages.Message.ContactInfo.Response) -> [MenuItem] {
+        let copyAddressTitle: String = NSLocalizedString("contactCopyAddressMenuItemTitle", comment: "")
+        return [
+            .item(id: .any, title: contact.email, color: nil, state: nil, icon: nil, children: nil, isEnabled: false),
+            .separator,
+            .item(id: .copyAddress(email: contact.email), title: copyAddressTitle, color: nil, state: nil, icon: nil, children: nil, isEnabled: true)
+        ]
     }
 
 }

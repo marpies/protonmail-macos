@@ -152,6 +152,10 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
         self.interactor?.processMessageClick(request: request)
     }
     
+    func messageHeaderContactMenuItemDidTap(id: MenuItemIdentifier) {
+        
+    }
+    
     func messageFavoriteStatusDidChange(messageId: String, isOn: Bool) {
         let request: ConversationDetails.UpdateMessageStar.Request = ConversationDetails.UpdateMessageStar.Request(id: messageId, isOn: isOn)
         self.interactor?.updateMessageStar(request: request)
