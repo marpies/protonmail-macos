@@ -62,6 +62,7 @@
 		C31D035526DC11B5002EBBE0 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */; };
 		C32641E9272AAE3E005EFD26 /* NSMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32641E8272AAE3E005EFD26 /* NSMenuButton.swift */; };
 		C32641EB272AE887005EFD26 /* WrapStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32641EA272AE886005EFD26 /* WrapStackView.swift */; };
+		C32641ED272C4B35005EFD26 /* ConversationsOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32641EC272C4B35005EFD26 /* ConversationsOverviewView.swift */; };
 		C3374EF226D0F81F00ED8DA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */; };
 		C3374EF626D0F82200ED8DA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF526D0F82200ED8DA0 /* Assets.xcassets */; };
 		C3374EF926D0F82200ED8DA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3374EF726D0F82200ED8DA0 /* Main.storyboard */; };
@@ -400,6 +401,7 @@
 		C31D035426DC11B5002EBBE0 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		C32641E8272AAE3E005EFD26 /* NSMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMenuButton.swift; sourceTree = "<group>"; };
 		C32641EA272AE886005EFD26 /* WrapStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapStackView.swift; sourceTree = "<group>"; };
+		C32641EC272C4B35005EFD26 /* ConversationsOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsOverviewView.swift; sourceTree = "<group>"; };
 		C3374EEE26D0F81F00ED8DA0 /* ProtonMailMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtonMailMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374EF126D0F81F00ED8DA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3374EF526D0F82200ED8DA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -957,6 +959,7 @@
 			isa = PBXGroup;
 			children = (
 				C353423626F4ED1500EA0137 /* ConversationDetailsHeaderView.swift */,
+				C32641EC272C4B35005EFD26 /* ConversationsOverviewView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1707,6 +1710,7 @@
 				C39A241D26D2D8D9008A482C /* AuthInfoResponse.swift in Sources */,
 				C39A242726D2D8D9008A482C /* AuthRequest.swift in Sources */,
 				C3C6FD6726F37E1B0066C504 /* ConversationToModelConverting.swift in Sources */,
+				C32641ED272C4B35005EFD26 /* ConversationsOverviewView.swift in Sources */,
 				C3C6FD3F26F087E90066C504 /* ApplyLabelToMessagesRequest.swift in Sources */,
 				C3C8260B26FB874200B4E95C /* MessageBodyView.swift in Sources */,
 				C35B57AF27148038005315B9 /* MessagesCountResponse.swift in Sources */,

@@ -62,5 +62,45 @@
             <string>%u messages</string>
         </dict>
     </dict>
+    <key>has_num_conversations</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@num_conversations@</string>
+        <key>num_conversations</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>u</string>
+            <key>zero</key>
+            <string>%u conversations</string>
+            <key>one</key>
+            <string>%u conversation</string>
+            <key>other</key>
+            <string>%u conversations</string>
+            <key>few</key>
+            <string>%u conversations</string>
+        </dict>
+    </dict>
+    <key>has_num_messages</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@num_messages@</string>
+        <key>num_messages</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>u</string>
+            <key>zero</key>
+            <string>%u messages</string>
+            <key>one</key>
+            <string>%u message</string>
+            <key>other</key>
+            <string>%u messages</string>
+            <key>few</key>
+            <string>%u messages</string>
+        </dict>
+    </dict>
 </dict>
 </plist>

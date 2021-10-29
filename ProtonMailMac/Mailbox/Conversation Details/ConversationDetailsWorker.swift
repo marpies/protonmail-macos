@@ -11,6 +11,7 @@ import Swinject
 import AppKit
 
 protocol ConversationDetailsWorkerDelegate: AnyObject {
+    func overviewDidLoad(response: ConversationDetails.Overview.Response)
     func conversationLoadDidBegin()
     func conversationDidLoad(response: ConversationDetails.Load.Response)
     func conversationLoadDidFail(response: ConversationDetails.LoadError.Response)
@@ -25,7 +26,8 @@ protocol ConversationDetailsWorkerDelegate: AnyObject {
 }
 
 class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConverting, ConversationToModelConverting, MessageBodyRemoteContentChecking,
-                                 MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate, DefaultConversationMessageSelecting, ConversationLabelStatusChecking {
+                                 MessageOpsProcessingDelegate, ConversationOpsProcessingDelegate, DefaultConversationMessageSelecting, ConversationLabelStatusChecking,
+                                 LabelToSidebarItemParsing {
 
 	private let resolver: Resolver
     private let usersManager: UsersManager
@@ -61,6 +63,26 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
         
         self.addObservers()
 	}
+    
+    func loadLabelOverview(request: ConversationDetails.Overview.Request) {
+        let keyValueStore: KeyValueStore = self.resolver.resolve(KeyValueStore.self)!
+        
+        guard let labelId = keyValueStore.string(forKey: .lastLabelId),
+              let numItems = self.getItemsTotalCount(labelId: labelId),
+              let label = self.getLabel(forId: labelId) else { return }
+        
+        let item: MailboxSidebar.Item = self.getSidebarItemKind(response: label)
+        var color: NSColor?
+        if !label.color.isEmpty {
+            color = NSColor(hexColorCode: label.color)
+        }
+        
+        // Cancel active conversation id
+        self.conversationId = nil
+        
+        let response: ConversationDetails.Overview.Response = ConversationDetails.Overview.Response(label: item, numItems: numItems, color: color)
+        self.delegate?.overviewDidLoad(response: response)
+    }
     
     func loadConversation(request: ConversationDetails.Load.Request) {
         // Do not load the conversation that is already shown
@@ -575,6 +597,19 @@ class ConversationDetailsWorker: AuthCredentialRefreshing, MessageToModelConvert
     
     private func getMessageModel(id: String) -> Messages.Message.Response? {
         return self.conversation?.messages.first(where: { $0.id == id })
+    }
+    
+    private func getLabel(forId id: String) -> Label? {
+        let db: LabelsDatabaseManaging = self.resolver.resolve(LabelsDatabaseManaging.self)!
+        
+        return db.getLabel(byId: id)
+    }
+    
+    private func getItemsTotalCount(labelId: String) -> Int? {
+        guard let userId = self.activeUserId else { return nil }
+        
+        let db: LabelUpdateDatabaseManaging = self.resolver.resolve(LabelUpdateDatabaseManaging.self)!
+        return db.getTotalCount(for: labelId, userId: userId)
     }
 
 }

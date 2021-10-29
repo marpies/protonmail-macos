@@ -21,6 +21,7 @@ class ConversationDetailsView: NSView {
     
     private let spinnerView: NSProgressIndicator = NSProgressIndicator()
     
+    private var overviewView: ConversationsOverviewView?
     private var errorView: BoxErrorView?
     
     weak var delegate: ConversationDetailsViewDelegate? {
@@ -42,6 +43,24 @@ class ConversationDetailsView: NSView {
     //
     // MARK: - Public
     //
+    
+    func displayOverview(viewModel: ConversationDetails.Overview.ViewModel) {
+        if self.overviewView == nil {
+            self.overviewView = ConversationsOverviewView().with { view in
+                self.addSubview(view)
+                view.snp.makeConstraints { make in
+                    make.left.greaterThanOrEqualToSuperview().offset(16)
+                    make.right.lessThanOrEqualToSuperview().inset(16)
+                    make.center.equalToSuperview()
+                }
+            }
+        }
+        
+        self.overviewView?.isHidden = false
+        self.overviewView?.update(viewModel: viewModel)
+        
+        self.hideContentViews()
+    }
     
     func displayConversation(viewModel: ConversationDetails.Load.ViewModel) {
         self.headerView.update(title: viewModel.conversation.title, starIcon: viewModel.conversation.starIcon, labels: viewModel.conversation.labels)
@@ -76,9 +95,9 @@ class ConversationDetailsView: NSView {
         guard self.spinnerView.superview == nil else { return }
         
         // Hide content
-        self.scrollView.isHidden = true
-        self.headerView.isHidden = true
-        self.errorView?.isHidden = true
+        self.hideContentViews()
+        
+        self.overviewView?.isHidden = true
         
         // Show spinner
         self.spinnerView.startAnimation(nil)
@@ -205,10 +224,17 @@ class ConversationDetailsView: NSView {
         // Show content
         self.scrollView.isHidden = false
         self.headerView.isHidden = false
+        self.overviewView?.isHidden = true
         
         // Hide spinner
         self.spinnerView.stopAnimation(nil)
         self.spinnerView.removeFromSuperview()
+    }
+    
+    private func hideContentViews() {
+        self.scrollView.isHidden = true
+        self.headerView.isHidden = true
+        self.errorView?.isHidden = true
     }
     
 }

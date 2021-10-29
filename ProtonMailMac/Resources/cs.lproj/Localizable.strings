@@ -89,6 +89,8 @@
 "messageCopyToTitle" = "Kopie:";
 "messageBlindCopyToTitle" = "Skrytá kopie:";
 "contactCopyAddressMenuItemTitle" = "Zkopírovat adresu";
+"totalCountInFolderMessage" = "V této složce máte %@";
+"totalCountWithLabelMessage" = "S tímto štítkem máte %@";
 
 //
 // MARK: - Toolbar

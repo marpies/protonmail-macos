@@ -9,6 +9,7 @@
 import AppKit
 
 protocol ConversationDetailsPresentationLogic {
+    func presentOverview(response: ConversationDetails.Overview.Response)
     func presentConversationLoadDidBegin()
     func presentConversation(response: ConversationDetails.Load.Response)
     func presentLoadError(response: ConversationDetails.LoadError.Response)
@@ -32,6 +33,72 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
     init() {
         self.dateFormatter = DateFormatter()
         self.dateFormatter.locale = Locale.current
+    }
+    
+    //
+    // MARK: - Present overview
+    //
+    
+    func presentOverview(response: ConversationDetails.Overview.Response) {
+        let title: String
+        let icon: String
+        var isFolder: Bool = true
+        var isConversation: Bool = true
+        let color: NSColor = response.color ?? .labelColor
+        
+        switch response.label {
+        case .draft:
+            title = NSLocalizedString("mailboxLabelDrafts", comment: "")
+            icon = "note.text"
+            isConversation = false
+        case .inbox:
+            title = NSLocalizedString("mailboxLabelInbox", comment: "")
+            icon = "tray"
+        case .outbox:
+            title = NSLocalizedString("mailboxLabelSent", comment: "")
+            icon = "paperplane"
+            isConversation = false
+        case .spam:
+            title = NSLocalizedString("mailboxLabelSpam", comment: "")
+            icon = "flame"
+        case .archive:
+            title = NSLocalizedString("mailboxLabelArchive", comment: "")
+            icon = "archivebox"
+        case .trash:
+            title = NSLocalizedString("mailboxLabelTrash", comment: "")
+            icon = "trash"
+        case .allMail:
+            title = NSLocalizedString("mailboxLabelAllMail", comment: "")
+            icon = "mail.stack"
+        case .starred:
+            title = NSLocalizedString("mailboxLabelStarred", comment: "")
+            icon = "star"
+        case .custom(_, let name, let folder):
+            title = name
+            isFolder = folder
+            icon = folder ? "folder" : "tag"
+        }
+        
+        let countFormat: String
+        let messageFormat: String
+        
+        if isFolder {
+            if isConversation {
+                countFormat = NSLocalizedString("has_num_conversations", comment: "")
+            } else {
+                countFormat = NSLocalizedString("has_num_messages", comment: "")
+            }
+            messageFormat = NSLocalizedString("totalCountInFolderMessage", comment: "")
+        } else {
+            countFormat = NSLocalizedString("has_num_conversations", comment: "")
+            messageFormat = NSLocalizedString("totalCountWithLabelMessage", comment: "")
+        }
+        
+        let countMessage: String = String.localizedStringWithFormat(countFormat, response.numItems)
+        let message: String = String.localizedStringWithFormat(messageFormat, countMessage)
+        
+        let viewModel = ConversationDetails.Overview.ViewModel(title: title, message: message, icon: icon, color: color)
+        self.viewController?.displayOverview(viewModel: viewModel)
     }
     
     //

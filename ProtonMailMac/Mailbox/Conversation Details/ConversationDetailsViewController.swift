@@ -9,6 +9,7 @@
 import AppKit
 
 protocol ConversationDetailsDisplayLogic: AnyObject {
+    func displayOverview(viewModel: ConversationDetails.Overview.ViewModel)
     func displayConversationLoadDidBegin()
     func displayConversation(viewModel: ConversationDetails.Load.ViewModel)
     func displayLoadError(viewModel: ConversationDetails.LoadError.ViewModel)
@@ -50,6 +51,19 @@ class ConversationDetailsViewController: NSViewController, ConversationDetailsDi
         let request: ConversationDetails.Load.Request = ConversationDetails.Load.Request(id: id)
         self.interactor?.loadConversation(request: request)
 	}
+    
+    //
+    // MARK: - Display overview
+    //
+    
+    func displayOverview() {
+        let request: ConversationDetails.Overview.Request = ConversationDetails.Overview.Request()
+        self.interactor?.loadLabelOverview(request: request)
+    }
+    
+    func displayOverview(viewModel: ConversationDetails.Overview.ViewModel) {
+        self.mainView.displayOverview(viewModel: viewModel)
+    }
     
     //
     // MARK: - Display conversation load did begin

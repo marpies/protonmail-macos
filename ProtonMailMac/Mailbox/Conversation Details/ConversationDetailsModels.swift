@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 enum ConversationDetails {
     
@@ -316,6 +317,35 @@ enum ConversationDetails {
     enum ContactMenuItemTap {
         struct Request {
             let id: MenuItemIdentifier
+        }
+    }
+    
+    //
+    // MARK: - Label/folder overview (no conversation detail shown)
+    //
+    
+    enum Overview {
+        struct Request {
+        }
+        
+        struct Response {
+            let label: MailboxSidebar.Item
+            let numItems: Int
+            let color: NSColor?
+        }
+        
+        class ViewModel {
+            let title: String
+            let message: String
+            let icon: String
+            let color: NSColor
+
+            init(title: String, message: String, icon: String, color: NSColor) {
+                self.title = title
+                self.message = message
+                self.icon = icon
+                self.color = color
+            }
         }
     }
     

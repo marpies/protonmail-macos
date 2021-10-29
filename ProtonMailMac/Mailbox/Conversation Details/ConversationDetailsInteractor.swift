@@ -9,6 +9,7 @@
 import Foundation
 
 protocol ConversationDetailsBusinessLogic {
+    func loadLabelOverview(request: ConversationDetails.Overview.Request)
 	func loadConversation(request: ConversationDetails.Load.Request)
     func reloadConversation()
     func updateMessageStar(request: ConversationDetails.UpdateMessageStar.Request)
@@ -25,16 +26,27 @@ protocol ConversationDetailsDataStore {
 
 class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, ConversationDetailsDataStore, ConversationDetailsWorkerDelegate {
 
-	var worker: ConversationDetailsWorker?
+    var worker: ConversationDetailsWorker? {
+        didSet {
+            self.worker?.delegate = self
+        }
+    }
 
 	var presenter: ConversationDetailsPresentationLogic?
+    
+    //
+    // MARK: - Load label overview
+    //
+    
+    func loadLabelOverview(request: ConversationDetails.Overview.Request) {
+        self.worker?.loadLabelOverview(request: request)
+    }
 	
 	//
 	// MARK: - Load conversation
 	//
 	
     func loadConversation(request: ConversationDetails.Load.Request) {
-		self.worker?.delegate = self
 		self.worker?.loadConversation(request: request)
 	}
     
@@ -97,6 +109,10 @@ class ConversationDetailsInteractor: ConversationDetailsBusinessLogic, Conversat
     //
     // MARK: - Worker delegate
     //
+    
+    func overviewDidLoad(response: ConversationDetails.Overview.Response) {
+        self.presenter?.presentOverview(response: response)
+    }
     
     func conversationLoadDidBegin() {
         self.presenter?.presentConversationLoadDidBegin()

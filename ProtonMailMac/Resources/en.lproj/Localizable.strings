@@ -89,6 +89,8 @@
 "messageCopyToTitle" = "CC:";
 "messageBlindCopyToTitle" = "BCC:";
 "contactCopyAddressMenuItemTitle" = "Copy Address";
+"totalCountInFolderMessage" = "You have %@ in this folder";
+"totalCountWithLabelMessage" = "You have %@ tagged with this label";
 
 //
 // MARK: - Toolbar
