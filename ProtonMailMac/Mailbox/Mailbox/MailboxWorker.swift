@@ -118,6 +118,10 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         self.delegate?.mailboxSelectionDidUpdate(response: response)
     }
     
+    func processItemsDeselection() {
+        self.cancelSelection()
+    }
+    
     func refreshMailbox(eventsOnly: Bool) {
         guard let userId = self.activeUserId else { return }
         
@@ -212,6 +216,8 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     }
     
     private func cancelSelection() {
+        guard self.selectedItemType != nil else { return }
+        
         self.selectedItemType = nil
         self.selectedItemIds = nil
         

@@ -115,6 +115,7 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     
     func mailboxSidebarDidSelectLabel(id: String) {
         self.mailboxViewController?.loadMailbox(labelId: id)
+        self.conversationDetailsViewController?.displayOverview()
         
         let request = Main.LoadTitle.Request(labelId: id)
         self.interactor?.loadTitle(request: request)
@@ -139,26 +140,11 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     func mailboxSelectionDidUpdate(viewModel: Mailbox.ItemsDidSelect.ViewModel) {
         let request: Main.MailboxSelectionDidUpdate.Request = Main.MailboxSelectionDidUpdate.Request(type: viewModel.type)
         self.interactor?.processMailboxSelectionUpdate(request: request)
-    }
-    
-    //
-    // MARK: - Private
-    //
-    
-    private func removeOverlay() {
-        guard let view = self.overlayView else { return }
         
-        self.overlayView = nil
-        
-        NSAnimationContext.runAnimationGroup { ctx in
-            ctx.duration = 0.3
-            ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
-            view.animator().alphaValue = 0
-        } completionHandler: {
-            view.removeFromSuperview()
+        // Cancelled selection, hide conversation detail and show overview
+        if case Mailbox.SelectionType.none = viewModel.type {
+            self.conversationDetailsViewController?.displayOverview()
         }
-        
-        self.interactor?.processSceneDidInitialize()
     }
     
     //
@@ -182,6 +168,26 @@ class MainViewController: NSSplitViewController, MainDisplayLogic, ToolbarUtiliz
     func toolbarMenuItemDidTap(id: MenuItemIdentifier, state: NSControl.StateValue) {
         let request: Main.ToolbarMenuItemTap.Request = Main.ToolbarMenuItemTap.Request(id: id, state: state)
         self.interactor?.processToolbarMenuItemTap(request: request)
+    }
+    
+    //
+    // MARK: - Private
+    //
+    
+    private func removeOverlay() {
+        guard let view = self.overlayView else { return }
+        
+        self.overlayView = nil
+        
+        NSAnimationContext.runAnimationGroup { ctx in
+            ctx.duration = 0.3
+            ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            view.animator().alphaValue = 0
+        } completionHandler: {
+            view.removeFromSuperview()
+        }
+        
+        self.interactor?.processSceneDidInitialize()
     }
     
 }

@@ -11,6 +11,7 @@ import AppKit
 
 protocol MailboxDataSourceDelegate: MailboxTableCellViewDelegate {
     func itemsDidSelect(ids: [String], type: Mailbox.TableItem.Kind)
+    func itemsDidDeselect()
 }
 
 class MailboxDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
@@ -74,7 +75,10 @@ class MailboxDataSource: NSObject, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        guard !self.tableView.selectedRowIndexes.isEmpty else { return }
+        if self.tableView.selectedRowIndexes.isEmpty {
+            self.delegate?.itemsDidDeselect()
+            return
+        }
         
         let type: Mailbox.TableItem.Kind = self.viewModel.first?.type ?? .conversation
         let ids: [String] = self.tableView.selectedRowIndexes.map { self.viewModel[$0].id }

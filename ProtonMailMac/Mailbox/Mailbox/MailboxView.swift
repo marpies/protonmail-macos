@@ -43,9 +43,16 @@ class MailboxView: NSView {
             self.removeErrorView()
         }
         
+        let isSelected: Bool = self.tableView.numberOfSelectedRows > 0
+        
         self.dataSource.delegate = self.delegate
         self.dataSource.setData(viewModel: viewModel.items)
         self.tableView.reloadData()
+        
+        // Notify about deselected messages if there is selection before reloading
+        if isSelected {
+            self.delegate?.itemsDidDeselect()
+        }
     }
     
     func displayItemsUpdate(viewModel: Mailbox.UpdateItems.ViewModel) {

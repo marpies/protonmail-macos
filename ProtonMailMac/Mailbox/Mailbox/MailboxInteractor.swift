@@ -13,6 +13,7 @@ protocol MailboxBusinessLogic {
     func processErrorViewButtonTap()
     func updateItemStar(request: Mailbox.UpdateItemStar.Request)
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request)
+    func processItemsDeselection()
 }
 
 protocol MailboxDataStore {
@@ -43,7 +44,7 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     }
     
     //
-    // MARK: - Star / unstar conversation
+    // MARK: - Star / unstar item
     //
     
     func updateItemStar(request: Mailbox.UpdateItemStar.Request) {
@@ -51,11 +52,19 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     }
     
     //
-    // MARK: - Process conversations selection
+    // MARK: - Process items selection
     //
     
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request) {
         self.worker?.processItemsSelection(request: request)
+    }
+    
+    //
+    // MARK: - Process items deselection
+    //
+    
+    func processItemsDeselection() {
+        self.worker?.processItemsDeselection()
     }
     
     //

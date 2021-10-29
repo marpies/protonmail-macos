@@ -145,4 +145,8 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
         self.interactor?.processItemsSelection(request: request)
     }
     
+    func itemsDidDeselect() {
+        self.interactor?.processItemsDeselection()
+    }
+    
 }
