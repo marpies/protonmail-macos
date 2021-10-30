@@ -141,7 +141,8 @@ public extension ApiService {
         }
         
         // App version
-        let appversion: String = "WebMail_4.7.5"
+        let isAuthEndpoint: Bool = request.path.starts(with: "auth")
+        let appversion: String = isAuthEndpoint ? "WebAccount_4.12.5" : "WebMail_4.7.5"
         urlRequest.setValue(appversion, forHTTPHeaderField: "x-pm-appversion")
 
         urlRequest.setValue("application/vnd.protonmail.v1+json", forHTTPHeaderField: "Accept")
