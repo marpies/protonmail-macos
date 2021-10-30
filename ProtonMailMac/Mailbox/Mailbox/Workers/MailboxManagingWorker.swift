@@ -109,6 +109,9 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     /// `true` if the current label is meant to display messages instead of conversations (e.g. sent, drafts).
     private var isBrowsingMessages: Bool = false
     
+    /// Flag to track whether we should load the conversation counts (only on initial load).
+    private var isInitialLoad: Bool = true
+    
     private(set) var labelId: String?
     
     private(set) var auth: AuthCredential?
@@ -379,7 +382,10 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     private func loadMailbox(completion: (() -> Void)?) {
         let completionBlock: ((Bool) -> Void) = { [weak self] (success) in
             if success {
-                self?.loadMailboxCounts()
+                if let weakSelf = self, weakSelf.isInitialLoad {
+                    weakSelf.isInitialLoad = false
+                    weakSelf.loadMailboxCounts()
+                }
             }
             
             completion?()
