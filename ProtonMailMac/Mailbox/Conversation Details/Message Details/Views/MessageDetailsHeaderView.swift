@@ -19,7 +19,7 @@ class MessageDetailsHeaderView: NSButton, MenuItemParsing {
     private let mainStackView: NSStackView = NSStackView()
     private let titleStackView: NSStackView = NSStackView()
     private let detailsStackView: NSStackView = NSStackView()
-    private let titleLabel: NSTextField = NSTextField.asLabel
+    private let senderButton: NSMenuButton = NSMenuButton()
     private let dateLabel: NSTextField = NSTextField.asLabel
     private let foldersView: MessageFoldersView = MessageFoldersView()
     private let favoriteButton: ImageButton = ImageButton()
@@ -51,7 +51,14 @@ class MessageDetailsHeaderView: NSButton, MenuItemParsing {
     func update(viewModel: Messages.Message.Header.ViewModel) {
         self.viewModel = viewModel
         
-        self.titleLabel.stringValue = viewModel.title
+        self.senderButton.with { button in
+            button.title = viewModel.sender.title
+            button.menu = NSMenu().with { menu in
+                menu.autoenablesItems = false
+                menu.items = viewModel.sender.menuItems.map { self.getMenuItem(model: $0, target: self, selector: #selector(self.contactsGroupItemMenuItemDidTap)) }
+            }
+        }
+        
         self.foldersView.update(viewModel: viewModel.folders)
         self.dateLabel.stringValue = viewModel.date
         
@@ -148,12 +155,21 @@ class MessageDetailsHeaderView: NSButton, MenuItemParsing {
             self.mainStackView.addArrangedSubview(stack)
         }
         
-        self.titleLabel.with { label in
-            label.isEnabled = false
-            label.textColor = .labelColor
-            label.setPreferredFont(style: .headline)
-            label.setContentHuggingPriority(NSLayoutConstraint.Priority(100), for: .horizontal)
-            self.titleStackView.addArrangedSubview(label)
+        self.senderButton.with { button in
+            button.bezelStyle = .recessed
+            button.isBordered = false
+            button.menuOffset.x = -2
+            button.menuOffset.y = 8
+            
+            let style: NSFont.LegacyTextStyle = .headline
+            if #available(macOS 11.0, *) {
+                button.font = NSFont.preferredFont(forTextStyle: style.textStyle)
+            } else {
+                button.font = NSFont.systemFont(ofSize: style.fontSize, weight: style.fontWeight)
+            }
+            
+            button.setContentHuggingPriority(NSLayoutConstraint.Priority(100), for: .horizontal)
+            self.titleStackView.addArrangedSubview(button)
         }
         
         NSView.spacer.with { spacer in
@@ -248,7 +264,7 @@ class MessageDetailsHeaderView: NSButton, MenuItemParsing {
     }
     
     private func updateAlpha(_ value: CGFloat) {
-        self.titleLabel.alphaValue = value
+        self.senderButton.alphaValue = value
         self.foldersView.alphaValue = value
         self.dateLabel.alphaValue = value
         self.repliedIcon?.alphaValue = value

@@ -290,7 +290,7 @@ enum Messages {
             }
             
             class ViewModel {
-                let title: String
+                let sender: Messages.Message.Header.ContactsGroup.Item.ViewModel
                 let labels: [Messages.Label.ViewModel]?
                 let folders: [Messages.Folder.ViewModel]
                 let date: String
@@ -303,8 +303,8 @@ enum Messages {
                 let copyTo: Messages.Message.Header.ContactsGroup.ViewModel?
                 let blindCopyTo: Messages.Message.Header.ContactsGroup.ViewModel?
 
-                init(title: String, labels: [Messages.Label.ViewModel]?, folders: [Messages.Folder.ViewModel], date: String, starIcon: Messages.Star.ViewModel, isRead: Bool, draftLabel: Messages.Label.ViewModel?, repliedIcon: Messages.Icon.ViewModel?, attachmentIcon: Messages.Attachment.ViewModel?, sentTo: Messages.Message.Header.ContactsGroup.ViewModel?, copyTo: Messages.Message.Header.ContactsGroup.ViewModel?, blindCopyTo: Messages.Message.Header.ContactsGroup.ViewModel?) {
-                    self.title = title
+                init(sender: Messages.Message.Header.ContactsGroup.Item.ViewModel, labels: [Messages.Label.ViewModel]?, folders: [Messages.Folder.ViewModel], date: String, starIcon: Messages.Star.ViewModel, isRead: Bool, draftLabel: Messages.Label.ViewModel?, repliedIcon: Messages.Icon.ViewModel?, attachmentIcon: Messages.Attachment.ViewModel?, sentTo: Messages.Message.Header.ContactsGroup.ViewModel?, copyTo: Messages.Message.Header.ContactsGroup.ViewModel?, blindCopyTo: Messages.Message.Header.ContactsGroup.ViewModel?) {
+                    self.sender = sender
                     self.labels = labels
                     self.folders = folders
                     self.date = date

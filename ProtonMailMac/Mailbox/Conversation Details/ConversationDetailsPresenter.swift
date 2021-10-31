@@ -239,7 +239,7 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
     }
     
     private func getMessage(response: Messages.Message.Response) -> Messages.Message.ViewModel {
-        let title: String = self.getTitle(response.sender)
+        let sender: Messages.Message.Header.ContactsGroup.Item.ViewModel = self.getContactGroupItem(response.sender)
         let labels: [Messages.Label.ViewModel]? = response.labels?.map { self.getLabel(response: $0) }
         let folders: [Messages.Folder.ViewModel] = response.folders?.map { self.getFolder(response: $0) } ?? []
         let date: String = self.getMessageTime(response: response.time)
@@ -260,7 +260,7 @@ class ConversationDetailsPresenter: ConversationDetailsPresentationLogic, Messag
         let copyTo: Messages.Message.Header.ContactsGroup.ViewModel? = self.getContactsGroup(title: NSLocalizedString("messageCopyToTitle", comment: ""), response: response.copyTo)
         let blindCopyTo: Messages.Message.Header.ContactsGroup.ViewModel? = self.getContactsGroup(title: NSLocalizedString("messageBlindCopyToTitle", comment: ""), response: response.blindCopyTo)
         
-        let header: Messages.Message.Header.ViewModel = Messages.Message.Header.ViewModel(title: title, labels: labels, folders: folders, date: date, starIcon: starIcon, isRead: response.isRead, draftLabel: draftLabel, repliedIcon: repliedIcon, attachmentIcon: attachmentIcon, sentTo: sentTo, copyTo: copyTo, blindCopyTo: blindCopyTo)
+        let header: Messages.Message.Header.ViewModel = Messages.Message.Header.ViewModel(sender: sender, labels: labels, folders: folders, date: date, starIcon: starIcon, isRead: response.isRead, draftLabel: draftLabel, repliedIcon: repliedIcon, attachmentIcon: attachmentIcon, sentTo: sentTo, copyTo: copyTo, blindCopyTo: blindCopyTo)
         return Messages.Message.ViewModel(id: response.id, header: header)
     }
     
