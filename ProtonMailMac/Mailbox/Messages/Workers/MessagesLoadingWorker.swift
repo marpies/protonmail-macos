@@ -97,7 +97,7 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
     func loadCachedMessages(completion: @escaping ([Messages.Message.Response]) -> Void) {
         let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
         
-        db.fetchMessages(forUser: self.userId, labelId: self.labelId, olderThan: nil, converter: self) { messages in
+        db.fetchMessages(forUser: self.userId, labelId: self.labelId, converter: self) { messages in
             completion(messages)
         }
     }

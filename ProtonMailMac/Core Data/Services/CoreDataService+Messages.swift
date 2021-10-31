@@ -63,10 +63,10 @@ extension CoreDataService: MessagesDatabaseManaging {
         return message
     }
     
-    func fetchMessages(forUser userId: String, labelId: String, olderThan time: Date?, converter: MessageToModelConverting, completion: @escaping ([Messages.Message.Response]) -> Void) {
+    func fetchMessages(forUser userId: String, labelId: String, converter: MessageToModelConverting, completion: @escaping ([Messages.Message.Response]) -> Void) {
         self.backgroundContext.performWith { ctx in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Message")
-            request.predicate = self.getPredicate(forUser: userId, labelId: labelId, time: time)
+            request.predicate = self.getPredicate(forUser: userId, labelId: labelId)
             request.sortDescriptors = [NSSortDescriptor(key: "time", ascending: false)]
             request.fetchLimit = 50
             
@@ -582,13 +582,8 @@ extension CoreDataService: MessagesDatabaseManaging {
         }
     }
     
-    private func getPredicate(forUser userId: String, labelId: String, time: Date?) -> NSPredicate {
-        let predicate: NSPredicate = NSPredicate(format: "userID == %@ AND (ANY labels.labelID == %@)", userId, labelId)
-        if let time = time {
-            let timePredicate: NSPredicate = NSPredicate(format: "time < %@", time as NSDate)
-            return NSCompoundPredicate(type: .and, subpredicates: [timePredicate, predicate])
-        }
-        return predicate
+    private func getPredicate(forUser userId: String, labelId: String) -> NSPredicate {
+        return NSPredicate(format: "userID == %@ AND (ANY labels.labelID == %@)", userId, labelId)
     }
     
     private func removeLabels(_ labels: [String], message: Message, markRead: Bool, userId: String, context: NSManagedObjectContext) {
