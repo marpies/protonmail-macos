@@ -69,6 +69,7 @@
 		C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */; };
 		C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */; };
 		C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3374F1E26D0F86100ED8DA0 /* SnapKit */; };
+		C33992BF27314F6B00222089 /* NSImage+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992BE27314F6B00222089 /* NSImage+Name.swift */; };
 		C33D3F95272967AE00B4085B /* MenuModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33D3F94272967AE00B4085B /* MenuModels.swift */; };
 		C343DFF72721891F0083F59F /* IdentifiedNSMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */; };
 		C343DFFA27218B960083F59F /* MainToolbarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF827218A980083F59F /* MainToolbarDataSource.swift */; };
@@ -414,6 +415,7 @@
 		C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacUITests.swift; sourceTree = "<group>"; };
 		C3374F1126D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C33992BE27314F6B00222089 /* NSImage+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Name.swift"; sourceTree = "<group>"; };
 		C33D3F94272967AE00B4085B /* MenuModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModels.swift; sourceTree = "<group>"; };
 		C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiedNSMenuItem.swift; sourceTree = "<group>"; };
 		C343DFF827218A980083F59F /* MainToolbarDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolbarDataSource.swift; sourceTree = "<group>"; };
@@ -1505,6 +1507,7 @@
 				C3C8263D26FF2D3700B4E95C /* FileManager+Extensions.swift */,
 				C39F0CBA27189EEA004A0A96 /* String+LabelId.swift */,
 				C343DFFB2722B7570083F59F /* NSImage+Tint.swift */,
+				C33992BE27314F6B00222089 /* NSImage+Name.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1876,6 +1879,7 @@
 				C31D02E126D9361A002EBBE0 /* NSFont+Extensions.swift in Sources */,
 				C31D02EE26D942A4002EBBE0 /* MailboxSidebarWorker.swift in Sources */,
 				C31D026526D6A1DE002EBBE0 /* SignInProcessingWorker.swift in Sources */,
+				C33992BF27314F6B00222089 /* NSImage+Name.swift in Sources */,
 				C3DACB5626E9FF2600927933 /* Contact+Helpers.swift in Sources */,
 				C353423226F4DF1100EA0137 /* MessageTimePresenting.swift in Sources */,
 				C353421E26F4AE9F00EA0137 /* ConversationByIdRequest.swift in Sources */,
