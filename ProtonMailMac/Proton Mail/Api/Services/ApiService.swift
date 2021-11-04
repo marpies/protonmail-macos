@@ -14,10 +14,15 @@ public protocol ApiServiceAuthDelegate: AnyObject {
     func sessionDidRevoke()
 }
 
+public protocol ApiServiceHumanVerificationDelegate: AnyObject {
+    func verifyHuman(methods: [HumanVerificationMethod], startToken: String?, completion: @escaping ([String: Any], Bool) -> Void)
+}
+
 public protocol ApiService: ApiUrlInjected {
     var sessionManager: AFHTTPSessionManager { get }
     
     var authDelegate: ApiServiceAuthDelegate? { get set }
+    var humanVerifyDelegate: ApiServiceHumanVerificationDelegate? { get set }
     
     func request<T>(_ request: Request, completion: @escaping (_ response: T) -> Void) where T: Response
     func request<T>(_ request: Request, completion: @escaping (_ task: URLSessionDataTask?, _ result: Result<T, Error>) -> Void) where T: Codable
@@ -93,6 +98,10 @@ public extension ApiService {
     //
     
     private func makeRequest(_ request: Request, refreshTokenIfNeeded: Bool = true, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void) throws {
+        try self.makeRequest(request, extraHeaders: nil, refreshTokenIfNeeded: refreshTokenIfNeeded, completion: completion)
+    }
+    
+    private func makeRequest(_ request: Request, extraHeaders: [String: Any]?, refreshTokenIfNeeded: Bool, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void) throws {
         let accessToken: String = request.authCredential?.accessToken ?? ""
         
         if request.isAuth && accessToken.isEmpty {
@@ -123,8 +132,14 @@ public extension ApiService {
                                                                                                 urlString: url,
                                                                                                 parameters: request.parameters)
         
-        var headers = request.headers
+        var headers: [String: Any] = request.headers
         headers[HTTPHeader.apiVersion] = request.version
+        
+        if let extra = extraHeaders {
+            for pair in extra {
+                headers[pair.key] = pair.value
+            }
+        }
         
         // Set headers
         for (k, v) in headers {
@@ -309,19 +324,22 @@ public extension ApiService {
     //
     
     private func processResponse(forRequest request: Request, task: URLSessionDataTask?, rawResponse: Any?, error: Error?, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void) {
-        if let error = error {
-            completion(task, nil, error as NSError)
-        } else if let json = rawResponse as? [String: Any] {
+        if let json = rawResponse as? [String: Any] {
             // Check if the response contains an error code
             if let error = self.parseResponse(json: json, authenticated: request.isAuth) {
-                completion(task, nil, error)
+                if error.code == APIErrorCode.humanVerificationRequired {
+                    self.initiateHumanVerification(request: request, response: json, task: task, completion: completion)
+                } else {
+                    completion(task, nil, error)
+                }
             }
             // All good
             else {
                 completion(task, json, nil)
             }
         } else {
-            completion(task, nil, NSError(domain: "unable to parse response", code: 0, userInfo: nil))
+            let e: NSError = (error as NSError?) ?? NSError(domain: "unable to parse response", code: 0, userInfo: nil)
+            completion(task, nil, e)
         }
     }
     
@@ -341,15 +359,33 @@ public extension ApiService {
         
         if authenticated && responseCode == 401 {
             self.authDelegate?.sessionDidRevoke()
-        } else if responseCode == APIErrorCode.humanVerificationRequired {
-            // todo implement human verification
-            fatalError("Human verification unsupported")
         } else if responseCode == APIErrorCode.badAppVersion || responseCode == APIErrorCode.badApiVersion {
             // todo implement upgrade handler
             fatalError("Upgrade handler not implemented")
         }
         
         return error
+    }
+    
+    private func initiateHumanVerification(request: Request, response: [String: Any], task: URLSessionDataTask?, completion: @escaping (_ task: URLSessionDataTask?, _ response: [String: Any]?, _ error: NSError?) -> Void) {
+        guard let delegate = self.humanVerifyDelegate else {
+            fatalError("Unexpected application state.")
+        }
+        
+        let hvResponse: HumanVerificationResponse = HumanVerificationResponse()
+        let _ = hvResponse.parseResponse(response)
+        delegate.verifyHuman(methods: hvResponse.supported, startToken: hvResponse.startToken) { headers, isCancelled in
+            if isCancelled {
+                completion(task, nil, NSError.cancelledError())
+            } else {
+                // Make the request again along with the verification tokens
+                do {
+                    try self.makeRequest(request, extraHeaders: headers, refreshTokenIfNeeded: false, completion: completion)
+                } catch let ex as NSError {
+                    completion(task, nil, ex)
+                }
+            }
+        }
     }
     
 }

@@ -12,6 +12,7 @@ public struct PMApiService: ApiService {
     
     public let sessionManager: AFHTTPSessionManager
     public weak var authDelegate: ApiServiceAuthDelegate?
+    public weak var humanVerifyDelegate: ApiServiceHumanVerificationDelegate?
 
     public init() {
         self.sessionManager = SessionManager.shared.sessionManager
