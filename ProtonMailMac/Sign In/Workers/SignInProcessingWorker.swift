@@ -210,14 +210,11 @@ struct SignInProcessingWorker: SignInProcessing {
         })
     }
     
-    private func processUserInfo(userInfo: UserInfo?, keySalt: String?, privateKey: String?, credential: AuthCredential, passwordMode: PasswordMode) -> Result<String, SignIn.SignInError.RequestError> {
+    private func processUserInfo(userInfo: UserInfo, keySalt: String, privateKey: String, credential: AuthCredential, passwordMode: PasswordMode) -> Result<String, SignIn.SignInError.RequestError> {
         credential.update(salt: keySalt, privateKey: privateKey)
         
         if passwordMode == .one {
-            guard let keysalt: Data = keySalt?.decodeBase64() else {
-                return .failure(.keysFailure)
-            }
-            
+            let keysalt: Data = keySalt.decodeBase64()
             let mpwd: String = PasswordUtils.getMailboxPassword(self.password, salt: keysalt)
             
             return .success(mpwd)
