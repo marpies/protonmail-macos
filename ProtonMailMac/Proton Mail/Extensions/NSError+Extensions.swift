@@ -2,6 +2,10 @@ import Foundation
 
 public extension NSError {
     
+    static var cancelledErrorCode: Int {
+        return -3
+    }
+    
     var isBadVersionError: Bool {
         return self.code == APIErrorCode.badAppVersion || self.code == APIErrorCode.badApiVersion
     }
@@ -62,6 +66,13 @@ public extension NSError {
             code: -1,
             localizedDescription: NSLocalizedString("Unknown Error", comment: "Error"),
             localizedFailureReason: NSLocalizedString("Unknown Error", comment: "Error"))
+    }
+    
+    class func cancelledError() -> NSError {
+        return apiServiceError(
+            code: NSError.cancelledErrorCode,
+            localizedDescription: "",
+            localizedFailureReason: "")
     }
     
     func isInternetError() -> Bool {
