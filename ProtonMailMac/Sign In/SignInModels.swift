@@ -125,4 +125,24 @@ enum SignIn {
         }
     }
     
+    //
+    // MARK: - Display captcha
+    //
+    
+    enum DisplayCaptcha {
+        struct Response {
+            let startToken: String?
+        }
+    }
+    
+    //
+    // MARK: - Captcha challenge pass
+    //
+    
+    enum CaptchaChallengePass {
+        struct Request {
+            let token: String
+        }
+    }
+    
 }

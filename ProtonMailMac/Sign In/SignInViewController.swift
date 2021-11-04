@@ -17,13 +17,14 @@ protocol SignInDisplayLogic: AnyObject {
     func displaySignInComplete()
     func displaySignInDidCancel()
     func displayTwoFactorInput()
+    func displayCaptcha()
 }
 
 protocol SignInViewControllerDelegate: AnyObject {
     func signInDidComplete(_ scene: SignInViewController)
 }
 
-class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDelegate, TwoFactorInputViewControllerDelegate {
+class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDelegate, TwoFactorInputViewControllerDelegate, RecaptchaViewControllerDelegate {
 	
 	var interactor: SignInBusinessLogic?
 	var router: (SignInRoutingLogic & SignInDataPassing)?
@@ -54,7 +55,7 @@ class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDele
 		let viewController = self
         let interactor: SignInInteractor = resolver.resolve(SignInInteractor.self)!
 		let presenter = SignInPresenter()
-		let router = SignInRouter()
+		let router = SignInRouter(resolver: resolver)
 		viewController.interactor = interactor
 		viewController.router = router
 		interactor.presenter = presenter
@@ -141,6 +142,14 @@ class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDele
     }
     
     //
+    // MARK: - Display captcha
+    //
+    
+    func displayCaptcha() {
+        self.router?.routeToCaptcha()
+    }
+    
+    //
     // MARK: - View delegate
     //
     
@@ -169,6 +178,23 @@ class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDele
         
         let request = SignIn.TwoFactorInput.Request(code: nil)
         self.interactor?.processTwoFactorInput(request: request)
+    }
+    
+    //
+    // MARK: - Recaptcha delegate
+    //
+    
+    func recaptchaDidCancel(_ scene: RecaptchaViewController) {
+        self.dismiss(scene)
+        
+        self.interactor?.processCaptchaChallengeDidCancel()
+    }
+    
+    func recaptchaChallengeDidPass(_ scene: RecaptchaViewController, token: String) {
+        self.dismiss(scene)
+        
+        let request = SignIn.CaptchaChallengePass.Request(token: token)
+        self.interactor?.processCaptchaChallenge(request: request)
     }
     
 }

@@ -12,11 +12,15 @@ protocol SignInBusinessLogic {
 	func initScene(request: SignIn.Init.Request)
     func signIn(request: SignIn.ProcessSignIn.Request)
     func processTwoFactorInput(request: SignIn.TwoFactorInput.Request)
+    func processCaptchaChallenge(request: SignIn.CaptchaChallengePass.Request)
+    func processCaptchaChallengeDidCancel()
 }
 
 protocol SignInDataStore {
     /// True if the sign in sheet can be dismissed manually with UI.
     var isDismissable: Bool { get set }
+    
+    var captchaStartToken: String? { get }
 }
 
 class SignInInteractor: SignInBusinessLogic, SignInDataStore, SignInWorkerDelegate {
@@ -26,6 +30,8 @@ class SignInInteractor: SignInBusinessLogic, SignInDataStore, SignInWorkerDelega
 	var presenter: SignInPresentationLogic?
     
     var isDismissable: Bool = false
+    
+    private(set) var captchaStartToken: String?
 	
 	//
 	// MARK: - Init scene
@@ -55,6 +61,22 @@ class SignInInteractor: SignInBusinessLogic, SignInDataStore, SignInWorkerDelega
     }
     
     //
+    // MARK: - Captcha challenge passed
+    //
+    
+    func processCaptchaChallenge(request: SignIn.CaptchaChallengePass.Request) {
+        self.worker?.processCaptchaChallenge(request: request)
+    }
+
+    //
+    // MARK: - Captcha challenge did cancel
+    //
+    
+    func processCaptchaChallengeDidCancel() {
+        self.worker?.processCaptchaChallengeDidCancel()
+    }
+    
+    //
     // MARK: - Worker delegate
     //
     
@@ -76,6 +98,12 @@ class SignInInteractor: SignInBusinessLogic, SignInDataStore, SignInWorkerDelega
     
     func signInDidCancel() {
         self.presenter?.presentSignInDidCancel()
+    }
+    
+    func signInDidRequestHumanVerification(response: SignIn.DisplayCaptcha.Response) {
+        self.captchaStartToken = response.startToken
+        
+        self.presenter?.presentCaptcha()
     }
     
 }

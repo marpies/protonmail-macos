@@ -15,6 +15,7 @@ protocol SignInPresentationLogic {
     func presentSignInDidComplete()
     func presentSignInDidCancel()
     func presentTwoFactorInput()
+    func presentCaptcha()
 }
 
 class SignInPresenter: SignInPresentationLogic {
@@ -114,6 +115,14 @@ class SignInPresenter: SignInPresentationLogic {
     
     func presentTwoFactorInput() {
         self.viewController?.displayTwoFactorInput()
+    }
+    
+    //
+    // MARK: - Present captcha
+    //
+    
+    func presentCaptcha() {
+        self.viewController?.displayCaptcha()
     }
 
 }

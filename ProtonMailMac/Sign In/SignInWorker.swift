@@ -15,18 +15,21 @@ protocol SignInWorkerDelegate: AnyObject {
     func signInDidComplete()
     func signInDidCancel()
     func signInDidRequestTwoFactorAuth()
+    func signInDidRequestHumanVerification(response: SignIn.DisplayCaptcha.Response)
 }
 
-class SignInWorker: SignInProcessingWorkerDelegate {
+class SignInWorker: SignInProcessingWorkerDelegate, ApiServiceHumanVerificationDelegate {
     
     private typealias TwoFactorContext = (credential: AuthCredential, passwordMode: PasswordMode)
     
     private let resolver: Resolver
     private let usersManager: UsersManager
     
+    private var apiService: ApiService?
     private var tempAuthCredential: AuthCredential?
     
     private var twoFactorContext: TwoFactorContext?
+    private var captchaPassCallback: (([String : Any], Bool) -> Void)?
     
     var signInWorker: SignInProcessing?
 
@@ -73,6 +76,27 @@ class SignInWorker: SignInProcessingWorkerDelegate {
         }
     }
     
+    func processCaptchaChallenge(request: SignIn.CaptchaChallengePass.Request) {
+        guard let callback = self.captchaPassCallback else { return }
+        
+        self.captchaPassCallback = nil
+        
+        let headers: [String: String] = [
+            "x-pm-human-verification-token": request.token,
+            "x-pm-human-verification-token-type": "captcha"
+        ]
+        
+        callback(headers, false)
+    }
+    
+    func processCaptchaChallengeDidCancel() {
+        guard let callback = self.captchaPassCallback else { return }
+        
+        self.captchaPassCallback = nil
+        
+        callback([:], true)
+    }
+    
     //
     // MARK: - Private
     //
@@ -82,7 +106,10 @@ class SignInWorker: SignInProcessingWorkerDelegate {
             fatalError("Unexpected application state.")
         }
         
-        self.signInWorker = resolver.resolve(SignInProcessing.self, arguments: username, password)!
+        self.apiService = self.resolver.resolve(ApiService.self)!
+        self.apiService?.humanVerifyDelegate = self
+        
+        self.signInWorker = self.resolver.resolve(SignInProcessing.self, arguments: username, password, self.apiService!)!
         self.signInWorker?.delegate = self
         self.signInWorker?.signIn()
     }
@@ -101,6 +128,11 @@ class SignInWorker: SignInProcessingWorkerDelegate {
         self.revokeUnfinalizedSession()
         
         self.signInWorker = nil
+        self.apiService = nil
+        
+        #if DEBUG
+        print("  sign in did cancel")
+        #endif
         
         self.delegate?.signInDidCancel()
     }
@@ -111,6 +143,7 @@ class SignInWorker: SignInProcessingWorkerDelegate {
     
     func signInDidSucceed(userInfo: UserInfo, authCredential: AuthCredential) {
         self.signInWorker = nil
+        self.apiService = nil
         
         self.usersManager.add(userInfo: userInfo, auth: authCredential)
         self.usersManager.save()
@@ -128,6 +161,7 @@ class SignInWorker: SignInProcessingWorkerDelegate {
         #endif
         
         self.signInWorker = nil
+        self.apiService = nil
         
         let response: SignIn.SignInError.Response = SignIn.SignInError.Response(requestError: error)
         self.delegate?.signInDidFail(response: response)
@@ -142,6 +176,23 @@ class SignInWorker: SignInProcessingWorkerDelegate {
         self.twoFactorContext = TwoFactorContext(credential: credential, passwordMode: passwordMode)
         
         self.delegate?.signInDidRequestTwoFactorAuth()
+    }
+    
+    func signInDidCancel() {
+        self.processCancelledSignIn()
+    }
+    
+    //
+    // MARK: - Human verification
+    //
+    
+    func verifyHuman(methods: [HumanVerificationMethod], startToken: String?, completion: @escaping ([String : Any], Bool) -> Void) {
+        // todo support other methods if captcha not available
+        
+        self.captchaPassCallback = completion
+        
+        let response: SignIn.DisplayCaptcha.Response = SignIn.DisplayCaptcha.Response(startToken: startToken)
+        self.delegate?.signInDidRequestHumanVerification(response: response)
     }
 
 }

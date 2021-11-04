@@ -14,6 +14,7 @@ protocol SignInProcessingWorkerDelegate: AnyObject {
     func signInDidFail(error: SignIn.SignInError.RequestError)
     func signInDidSucceed(userInfo: UserInfo, authCredential: AuthCredential)
     func signInDidRequestTwoFactorAuth(credential: AuthCredential, passwordMode: PasswordMode)
+    func signInDidCancel()
 }
 
 protocol SignInProcessing {
@@ -89,7 +90,9 @@ struct SignInProcessingWorker: SignInProcessing {
                     }
                     
                 case .failure(let err as NSError):
-                    if self.isUnprocessableEntityError(err) {
+                    if err.code == NSError.cancelledErrorCode {
+                        self.cancelSignIn()
+                    } else if err.code == APIErrorCode.AuthErrorCode.loginCredentialsInvalid {
                         self.failWithError(.incorrectCredentials)
                     } else {
                         self.failWithError(.serverError)
@@ -253,6 +256,12 @@ struct SignInProcessingWorker: SignInProcessing {
     private func failWithError(_ error: SignIn.SignInError.RequestError) {
         DispatchQueue.main.async {
             self.delegate?.signInDidFail(error: error)
+        }
+    }
+    
+    private func cancelSignIn() {
+        DispatchQueue.main.async {
+            self.delegate?.signInDidCancel()
         }
     }
     
