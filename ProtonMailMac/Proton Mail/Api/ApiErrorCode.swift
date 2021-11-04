@@ -31,6 +31,7 @@ public class APIErrorCode {
         static public let authUnableToGenerateSRP = 90
         static public let authUnableToGeneratePwd = 100
         static public let authInValidKeySalt = 110
+        static public let loginCredentialsInvalid = 8002
         
         static public let authCacheLocked = 665
         
