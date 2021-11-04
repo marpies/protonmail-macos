@@ -69,6 +69,8 @@
 		C3374F0526D0F82200ED8DA0 /* ProtonMailMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0426D0F82200ED8DA0 /* ProtonMailMacTests.swift */; };
 		C3374F1026D0F82200ED8DA0 /* ProtonMailMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */; };
 		C3374F1F26D0F86100ED8DA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C3374F1E26D0F86100ED8DA0 /* SnapKit */; };
+		C33992AA27306FEF00222089 /* HumanVerificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992A927306FEF00222089 /* HumanVerificationResponse.swift */; };
+		C33992AC2730701300222089 /* HumanVerificationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992AB2730701300222089 /* HumanVerificationMethod.swift */; };
 		C33992B52730741200222089 /* RecaptchaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992AE2730741200222089 /* RecaptchaPresenter.swift */; };
 		C33992B62730741200222089 /* RecaptchaWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992AF2730741200222089 /* RecaptchaWorker.swift */; };
 		C33992B72730741200222089 /* RecaptchaRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992B02730741200222089 /* RecaptchaRouter.swift */; };
@@ -423,6 +425,8 @@
 		C3374F0B26D0F82200ED8DA0 /* ProtonMailMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtonMailMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3374F0F26D0F82200ED8DA0 /* ProtonMailMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtonMailMacUITests.swift; sourceTree = "<group>"; };
 		C3374F1126D0F82200ED8DA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C33992A927306FEF00222089 /* HumanVerificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanVerificationResponse.swift; sourceTree = "<group>"; };
+		C33992AB2730701300222089 /* HumanVerificationMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanVerificationMethod.swift; sourceTree = "<group>"; };
 		C33992AE2730741200222089 /* RecaptchaPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaPresenter.swift; sourceTree = "<group>"; };
 		C33992AF2730741200222089 /* RecaptchaWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaWorker.swift; sourceTree = "<group>"; };
 		C33992B02730741200222089 /* RecaptchaRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaRouter.swift; sourceTree = "<group>"; };
@@ -1213,6 +1217,7 @@
 				C353421F26F4AF1700EA0137 /* ConversationByIdResponse.swift */,
 				C35B57A427119188005315B9 /* ConversationsCountResponse.swift */,
 				C35B57AE27148038005315B9 /* MessagesCountResponse.swift */,
+				C33992A927306FEF00222089 /* HumanVerificationResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1232,6 +1237,7 @@
 				C3DACB6126EA859400927933 /* CardData.swift */,
 				C3C6FD4E26F36CE00066C504 /* ConversationsApi.swift */,
 				C35B57B42714C305005315B9 /* LabelMessageCount.swift */,
+				C33992AB2730701300222089 /* HumanVerificationMethod.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1820,6 +1826,7 @@
 				C31D034A26DB9534002EBBE0 /* CoreDataService.swift in Sources */,
 				C3C6FD2126EB44CE0066C504 /* MessageFoldersView.swift in Sources */,
 				C3C8262226FC7D6500B4E95C /* MIMEMessageHeader.swift in Sources */,
+				C33992AA27306FEF00222089 /* HumanVerificationResponse.swift in Sources */,
 				C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */,
 				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
 				C31D02F126D942A4002EBBE0 /* MailboxSidebarViewController.swift in Sources */,
@@ -1841,6 +1848,7 @@
 				C31D030926DA9652002EBBE0 /* ProtonMail.xcdatamodeld in Sources */,
 				C3DACB4526E9436C00927933 /* EventLatestIDRequest.swift in Sources */,
 				C3F20A2A26D534FD0051EFEB /* SetupModels.swift in Sources */,
+				C33992AC2730701300222089 /* HumanVerificationMethod.swift in Sources */,
 				C39F0C9B2715DE5C004A0A96 /* MainViewController.swift in Sources */,
 				C38ADA6E26F389C70055A1AE /* Conversation+Helpers.swift in Sources */,
 				C33992BB2730741200222089 /* RecaptchaView.swift in Sources */,
