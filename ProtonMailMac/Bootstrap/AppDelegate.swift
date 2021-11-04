@@ -21,6 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ManagersAssembly(),
             SetupAssembly(),
             SignInAssembly(),
+            RecaptchaAssembly(),
             MailboxSidebarAssembly(),
             ConversationDetailsAssembly(),
             MailboxAssembly(),
