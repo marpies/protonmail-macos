@@ -24,6 +24,8 @@ protocol SignInProcessing {
     
     func signIn()
     
+    func processCredential(_ authCredential: AuthCredential, passwordMode: PasswordMode)
+    
     /// Continues the sign in process with the obtained two-factor code.
     /// - Parameters:
     ///   - credential: Credential received before the two-factor auth was requested.
@@ -102,6 +104,47 @@ struct SignInProcessingWorker: SignInProcessing {
         })
     }
     
+    func processCredential(_ authCredential: AuthCredential, passwordMode: PasswordMode) {
+        // Provide the auth credential to the delegate in case we want to revoke the session
+        // due an error later on before we actually manage to fully authenticate the user
+        self.delegate?.authCredentialDidReceive(authCredential)
+        
+        let request = KeySaltsRequest(authCredential: authCredential)
+        self.apiService.request(request, completion: { (salts: KeySaltResponse) in
+            if salts.error != nil {
+                self.failWithError(.serverError)
+                return
+            }
+            
+            let request = UserInfoRequest(authCredential: authCredential)
+            self.apiService.request(request, completion: { (response: UserInfoResponse) in
+                if response.error != nil {
+                    self.failWithError(.serverError)
+                    return
+                }
+                
+                guard let user = response.userInfo,
+                      let salt = salts.keySalt,
+                      let privateKey = user.getPrivateKey(by: salts.keyID) else {
+                    self.failWithError(.keysFailure)
+                    return
+                }
+                
+                let result: Result<String, SignIn.SignInError.RequestError> = self.processUserInfo(userInfo: user, keySalt: salt, privateKey: privateKey, credential: authCredential, passwordMode: passwordMode)
+                
+                switch result {
+                case .success(let mpwd):
+                    authCredential.update(password: mpwd)
+                    
+                    // Fetch user info and addresses
+                    self.fetchUserInfo(authCredential: authCredential, userInfo: user)
+                case .failure(let error):
+                    self.failWithError(error)
+                }
+            })
+        })
+    }
+    
     func continueWithTwoFactorAuth(credential: AuthCredential, passwordMode: PasswordMode, code: String) {
         let request = TwoFARequest(code: code, authCredential: credential)
         self.apiService.request(request) { (result: Result<TwoFAResponse, Error>) in
@@ -167,47 +210,6 @@ struct SignInProcessingWorker: SignInProcessing {
         } catch {
             return nil
         }
-    }
-    
-    private func processCredential(_ authCredential: AuthCredential, passwordMode: PasswordMode) {
-        // Provide the auth credential to the delegate in case we want to revoke the session
-        // due an error later on before we actually manage to fully authenticate the user
-        self.delegate?.authCredentialDidReceive(authCredential)
-        
-        let request = KeySaltsRequest(authCredential: authCredential)
-        self.apiService.request(request, completion: { (salts: KeySaltResponse) in
-            if salts.error != nil {
-                self.failWithError(.serverError)
-                return
-            }
-            
-            let request = UserInfoRequest(authCredential: authCredential)
-            self.apiService.request(request, completion: { (response: UserInfoResponse) in
-                if response.error != nil {
-                    self.failWithError(.serverError)
-                    return
-                }
-                
-                guard let user = response.userInfo,
-                      let salt = salts.keySalt,
-                      let privateKey = user.getPrivateKey(by: salts.keyID) else {
-                    self.failWithError(.keysFailure)
-                    return
-                }
-                
-                let result: Result<String, SignIn.SignInError.RequestError> = self.processUserInfo(userInfo: user, keySalt: salt, privateKey: privateKey, credential: authCredential, passwordMode: passwordMode)
-                
-                switch result {
-                case .success(let mpwd):
-                    authCredential.update(password: mpwd)
-                    
-                    // Fetch user info and addresses
-                    self.fetchUserInfo(authCredential: authCredential, userInfo: user)
-                case .failure(let error):
-                    self.failWithError(error)
-                }
-            })
-        })
     }
     
     private func processUserInfo(userInfo: UserInfo, keySalt: String, privateKey: String, credential: AuthCredential, passwordMode: PasswordMode) -> Result<String, SignIn.SignInError.RequestError> {
