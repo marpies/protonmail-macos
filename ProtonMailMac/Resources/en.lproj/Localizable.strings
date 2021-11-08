@@ -27,6 +27,7 @@
 "signInUserDelinquentErrorMessage" = "Access to this account is disabled due to non-payment. Please sign in through protonmail.com to pay your unpaid invoice.";
 "signInIncorrectCredentialsErrorMessage" = "Incorrect login credentials. Please try again.";
 "signInTwoFactorInvalidErrorMessage" = "Incorrect two-factor code.";
+"webSignInFinalizingMessage" = "Signing in…";
 
 //
 // MARK: - Two-factor input

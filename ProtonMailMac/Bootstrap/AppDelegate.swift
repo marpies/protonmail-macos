@@ -20,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             DatabaseAssembly(),
             ManagersAssembly(),
             SetupAssembly(),
+            WebSignInAssembly(),
             SignInAssembly(),
             RecaptchaAssembly(),
             MailboxSidebarAssembly(),

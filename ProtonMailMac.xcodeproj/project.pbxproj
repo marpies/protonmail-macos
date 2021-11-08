@@ -80,6 +80,14 @@
 		C33992BB2730741200222089 /* RecaptchaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992B42730741200222089 /* RecaptchaView.swift */; };
 		C33992BD2730787200222089 /* RecaptchaAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992BC2730787200222089 /* RecaptchaAssembly.swift */; };
 		C33992BF27314F6B00222089 /* NSImage+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992BE27314F6B00222089 /* NSImage+Name.swift */; };
+		C33992C82733EC0700222089 /* WebSignInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992C12733EC0700222089 /* WebSignInPresenter.swift */; };
+		C33992C92733EC0700222089 /* WebSignInWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992C22733EC0700222089 /* WebSignInWorker.swift */; };
+		C33992CA2733EC0700222089 /* WebSignInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992C32733EC0700222089 /* WebSignInRouter.swift */; };
+		C33992CB2733EC0700222089 /* WebSignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992C42733EC0700222089 /* WebSignInModels.swift */; };
+		C33992CC2733EC0700222089 /* WebSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992C52733EC0700222089 /* WebSignInViewController.swift */; };
+		C33992CD2733EC0700222089 /* WebSignInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992C62733EC0700222089 /* WebSignInInteractor.swift */; };
+		C33992CE2733EC0700222089 /* WebSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992C72733EC0700222089 /* WebSignInView.swift */; };
+		C33992D02733EDDB00222089 /* WebSignInAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33992CF2733EDDB00222089 /* WebSignInAssembly.swift */; };
 		C33D3F95272967AE00B4085B /* MenuModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33D3F94272967AE00B4085B /* MenuModels.swift */; };
 		C343DFF72721891F0083F59F /* IdentifiedNSMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */; };
 		C343DFFA27218B960083F59F /* MainToolbarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343DFF827218A980083F59F /* MainToolbarDataSource.swift */; };
@@ -436,6 +444,14 @@
 		C33992B42730741200222089 /* RecaptchaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaView.swift; sourceTree = "<group>"; };
 		C33992BC2730787200222089 /* RecaptchaAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecaptchaAssembly.swift; sourceTree = "<group>"; };
 		C33992BE27314F6B00222089 /* NSImage+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Name.swift"; sourceTree = "<group>"; };
+		C33992C12733EC0700222089 /* WebSignInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInPresenter.swift; sourceTree = "<group>"; };
+		C33992C22733EC0700222089 /* WebSignInWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInWorker.swift; sourceTree = "<group>"; };
+		C33992C32733EC0700222089 /* WebSignInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInRouter.swift; sourceTree = "<group>"; };
+		C33992C42733EC0700222089 /* WebSignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInModels.swift; sourceTree = "<group>"; };
+		C33992C52733EC0700222089 /* WebSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInViewController.swift; sourceTree = "<group>"; };
+		C33992C62733EC0700222089 /* WebSignInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInInteractor.swift; sourceTree = "<group>"; };
+		C33992C72733EC0700222089 /* WebSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInView.swift; sourceTree = "<group>"; };
+		C33992CF2733EDDB00222089 /* WebSignInAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSignInAssembly.swift; sourceTree = "<group>"; };
 		C33D3F94272967AE00B4085B /* MenuModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModels.swift; sourceTree = "<group>"; };
 		C343DFF62721891F0083F59F /* IdentifiedNSMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiedNSMenuItem.swift; sourceTree = "<group>"; };
 		C343DFF827218A980083F59F /* MainToolbarDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolbarDataSource.swift; sourceTree = "<group>"; };
@@ -732,6 +748,7 @@
 				C38ADA6926F388B20055A1AE /* MailboxAssembly.swift */,
 				C353421B26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift */,
 				C33992BC2730787200222089 /* RecaptchaAssembly.swift */,
+				C33992CF2733EDDB00222089 /* WebSignInAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -933,6 +950,20 @@
 			path = Recaptcha;
 			sourceTree = "<group>";
 		};
+		C33992C02733EBF800222089 /* Web Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				C33992C12733EC0700222089 /* WebSignInPresenter.swift */,
+				C33992C22733EC0700222089 /* WebSignInWorker.swift */,
+				C33992C32733EC0700222089 /* WebSignInRouter.swift */,
+				C33992C42733EC0700222089 /* WebSignInModels.swift */,
+				C33992C52733EC0700222089 /* WebSignInViewController.swift */,
+				C33992C62733EC0700222089 /* WebSignInInteractor.swift */,
+				C33992C72733EC0700222089 /* WebSignInView.swift */,
+			);
+			path = "Web Sign In";
+			sourceTree = "<group>";
+		};
 		C343DFF52721890E0083F59F /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1097,6 +1128,7 @@
 		C36814C926D6600700A35A16 /* Sign In */ = {
 			isa = PBXGroup;
 			children = (
+				C33992C02733EBF800222089 /* Web Sign In */,
 				C31D026326D6A1CB002EBBE0 /* Workers */,
 				C31D02C326D80E81002EBBE0 /* Two-factor Input */,
 				C33992AD2730740300222089 /* Recaptcha */,
@@ -1784,6 +1816,7 @@
 				C3DACB4126E9428B00927933 /* EventCheckRequest.swift in Sources */,
 				C39F0CB32715E64C004A0A96 /* MailboxCountLoadingWorker.swift in Sources */,
 				C39A241B26D2D8D9008A482C /* UserInfoResponse.swift in Sources */,
+				C33992CB2733EC0700222089 /* WebSignInModels.swift in Sources */,
 				C39F0CBD271AD625004A0A96 /* AppearanceAdaptingView.swift in Sources */,
 				C39A23EE26D2D81D008A482C /* Address.swift in Sources */,
 				C39A241726D2D8D9008A482C /* Credential.swift in Sources */,
@@ -1805,6 +1838,7 @@
 				C35B579A270F3C0F005315B9 /* MailboxSidebarItemCellView.swift in Sources */,
 				C3DACB5E26EA277A00927933 /* LabelUpdate+Helpers.swift in Sources */,
 				C3C8263426FF229E00B4E95C /* AttachmentsAPI.swift in Sources */,
+				C33992CC2733EC0700222089 /* WebSignInViewController.swift in Sources */,
 				C3DACB4F26E9C5C500927933 /* Label+Helpers.swift in Sources */,
 				C36814D626D6601600A35A16 /* SignInInteractor.swift in Sources */,
 				C39A243626D2D8E7008A482C /* NSError+Extensions.swift in Sources */,
@@ -1818,6 +1852,7 @@
 				C35B57A92712F2EE005315B9 /* ConversationsManagingWorker.swift in Sources */,
 				C3DACB4926E9448900927933 /* ServicesAssembly.swift in Sources */,
 				C353422C26F4DA5100EA0137 /* MessageLabelPresenting.swift in Sources */,
+				C33992CE2733EC0700222089 /* WebSignInView.swift in Sources */,
 				C36814D926D6641500A35A16 /* Withable.swift in Sources */,
 				C39A247226D2DC8E008A482C /* NSCoder+Extensions.swift in Sources */,
 				C353422E26F4DA6D00EA0137 /* MessageStarPresenting.swift in Sources */,
@@ -1830,6 +1865,7 @@
 				C31D02CE26D80EB3002EBBE0 /* TwoFactorInputModels.swift in Sources */,
 				C39A24C526D3B510008A482C /* KeyValueStore.swift in Sources */,
 				C31D02F126D942A4002EBBE0 /* MailboxSidebarViewController.swift in Sources */,
+				C33992C82733EC0700222089 /* WebSignInPresenter.swift in Sources */,
 				C3F20A0726D421510051EFEB /* AuthApi.swift in Sources */,
 				C39A241F26D2D8D9008A482C /* AddressesResponse.swift in Sources */,
 				C3C6FD3626EFB6C60066C504 /* MessageQueue.swift in Sources */,
@@ -1846,6 +1882,7 @@
 				C36814D426D6601600A35A16 /* SignInModels.swift in Sources */,
 				C31D02D326D81B46002EBBE0 /* TwoFARequest.swift in Sources */,
 				C31D030926DA9652002EBBE0 /* ProtonMail.xcdatamodeld in Sources */,
+				C33992D02733EDDB00222089 /* WebSignInAssembly.swift in Sources */,
 				C3DACB4526E9436C00927933 /* EventLatestIDRequest.swift in Sources */,
 				C3F20A2A26D534FD0051EFEB /* SetupModels.swift in Sources */,
 				C33992AC2730701300222089 /* HumanVerificationMethod.swift in Sources */,
@@ -1881,12 +1918,14 @@
 				C31D033E26DB8924002EBBE0 /* Logger.swift in Sources */,
 				C39A242226D2D8D9008A482C /* KeysApi.swift in Sources */,
 				C3F20A2726D534FD0051EFEB /* SetupPresenter.swift in Sources */,
+				C33992CA2733EC0700222089 /* WebSignInRouter.swift in Sources */,
 				C3C8264227007A8300B4E95C /* MessageRemoteContentBoxView.swift in Sources */,
 				C3A658FA26E65C5700CFE2F9 /* MessagesDatabaseManaging.swift in Sources */,
 				C39F0C9E2715DE5C004A0A96 /* MainWorker.swift in Sources */,
 				C3DACB6726EA8CA800927933 /* MessageDiffing.swift in Sources */,
 				C3986D72270CD56F00D42DBE /* DefaultConversationMessageSelecting.swift in Sources */,
 				C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */,
+				C33992CD2733EC0700222089 /* WebSignInInteractor.swift in Sources */,
 				C3DACB5826E9FF4D00927933 /* Email+Helpers.swift in Sources */,
 				C31D02F926D96210002EBBE0 /* MailboxSidebarAssembly.swift in Sources */,
 				C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */,
@@ -1914,6 +1953,7 @@
 				C31D032326DA9A85002EBBE0 /* Email.swift in Sources */,
 				C39F0CBB27189EEA004A0A96 /* String+LabelId.swift in Sources */,
 				C3A6590026E686D300CFE2F9 /* AuthCredentialRefreshing.swift in Sources */,
+				C33992C92733EC0700222089 /* WebSignInWorker.swift in Sources */,
 				C31D02E526D939D5002EBBE0 /* NSControl+Extensions.swift in Sources */,
 				C3DACB4D26E9C36D00927933 /* Message+Helpers.swift in Sources */,
 				C353421926F4A28A00EA0137 /* ConversationDetailsInteractor.swift in Sources */,
