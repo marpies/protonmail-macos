@@ -33,7 +33,7 @@ class SetupRouter: SetupRoutingLogic, SetupDataPassing {
 	//
     
     func routeToSignIn() {
-        let destinationVC: SignInViewController = self.resolver.resolve(SignInViewController.self)!
+        let destinationVC: WebSignInViewController = self.resolver.resolve(WebSignInViewController.self)!
         destinationVC.delegate = self.viewController
         self.viewController?.presentAsSheet(destinationVC)
     }

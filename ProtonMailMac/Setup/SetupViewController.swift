@@ -16,7 +16,7 @@ protocol SetupDisplayLogic: AnyObject {
     func displayMailbox()
 }
 
-class SetupViewController: NSViewController, SetupDisplayLogic, SetupViewDelegate, SignInViewControllerDelegate {
+class SetupViewController: NSViewController, SetupDisplayLogic, SetupViewDelegate, SignInViewControllerDelegate, WebSignInViewControllerDelegate {
 	
 	var interactor: SetupBusinessLogic?
 	var router: (SetupRoutingLogic & SetupDataPassing)?
@@ -106,6 +106,20 @@ class SetupViewController: NSViewController, SetupDisplayLogic, SetupViewDelegat
         self.dismiss(scene)
         
         self.router?.routeToMailbox()
+    }
+    
+    //
+    // MARK: - Web sign in view controller delegate
+    //
+    
+    func webSignInDidComplete(_ scene: WebSignInViewController) {
+        self.dismiss(scene)
+        
+        self.router?.routeToMailbox()
+    }
+    
+    func webSignInDidCancel(_ scene: WebSignInViewController) {
+        fatalError("Should not happen in this context.")
     }
     
 }
