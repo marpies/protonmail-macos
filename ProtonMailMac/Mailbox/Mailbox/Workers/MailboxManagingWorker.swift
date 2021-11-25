@@ -62,6 +62,8 @@ protocol MailboxManagingWorkerDelegate: AnyObject {
     /// Called when operations on conversations or messages (e.g. applying labels) were completed server side.
     /// Now would be a good time to fetch the `/events` endpoint to ensure proper sync between local and server data.
     func mailboxOperationsProcessingDidComplete()
+    
+    func mailboxPageCountDidUpdate(response: Mailbox.PageCountUpdate.Response)
 }
 
 protocol MailboxManaging {
@@ -69,6 +71,8 @@ protocol MailboxManaging {
     var delegate: MailboxManagingWorkerDelegate? { get set }
     
     func loadMailbox(labelId: String, isMessages: Bool)
+    
+    func loadPage(_ type: Mailbox.Page)
     
     /// Refreshes the mailbox to check for new messages.
     /// - Parameter eventsOnly: If `true`, only the `/events` endpoint will be queried to check for new messages.
@@ -103,6 +107,8 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     private var conversationsWorker: ConversationsManagingWorker?
     private var messagesWorker: MessagesManagingWorker?
     
+    private var conversationCountsObserver: NSObjectProtocol?
+    
     /// Timer triggering an auto-refresh.
     private var timer: Timer?
     
@@ -135,6 +141,12 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         
         self.messagesWorker = MessagesManagingWorker(userId: userId, apiService: self.apiService!, resolver: resolver)
         self.messagesWorker?.delegate = self
+        
+        self.addObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(optional: self.conversationCountsObserver)
     }
     
     //
@@ -153,6 +165,8 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         self.labelId = labelId
         self.isBrowsingMessages = isMessages
         self.currentPage = 0
+        
+        self.loadPageCounts()
         
         if self.isBrowsingMessages {
             self.conversationsWorker?.cancelLoad()
@@ -175,6 +189,45 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
                 }
                 
                 self.refreshMailbox(eventsOnly: false)
+            }
+        }
+    }
+    
+    func loadPage(_ type: Mailbox.Page) {
+        switch type {
+        case .first:
+            self.currentPage = 0
+        case .previous:
+            assert(self.currentPage > 0)
+            self.currentPage -= 1
+        case .next:
+            self.currentPage += 1
+        case .last:
+            self.currentPage = self.numPages
+        case .specific(let page):
+            guard let pageInt = Int(page) else { return }
+            
+            self.currentPage = pageInt
+        }
+        
+        self.loadPageCounts()
+        
+        if self.isBrowsingMessages {
+            self.messagesWorker?.loadCachedMessages(page: self.currentPage) { messages in
+                if !messages.isEmpty {
+                    self.messagesWorker?.updateCachedMessages(messages)
+                }
+            }
+        } else {
+            self.conversationsWorker?.loadCachedConversations(page: self.currentPage) { conversations in
+                // Show cached items
+                if !conversations.isEmpty {
+                    self.conversationsWorker?.updateCachedConversations(conversations)
+                }
+                // No cached items, fetch server data
+                else {
+                    self.loadMailbox()
+                }
             }
         }
     }
@@ -252,11 +305,15 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     func moveConversations(ids: [String], toFolder folder: String) {
         self.conversationsWorker?.moveConversations(ids: ids, page: self.currentPage, toFolder: folder)
         
+        self.loadPageCounts()
+        
         self.conversationsWorker?.loadCachedConversations(page: self.currentPage, updatedConversationIds: Set(ids))
     }
     
     func updateConversationStar(id: String, isOn: Bool) {
         self.conversationsWorker?.updateConversationStar(id: id, isOn: isOn)
+        
+        self.loadPageCounts()
         
         self.conversationsWorker?.loadCachedConversations(page: self.currentPage, updatedConversationIds: [id])
     }
@@ -264,11 +321,15 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     func updateConversationsLabel(ids: [String], labelId: String, apply: Bool) {
         self.conversationsWorker?.updateConversationsLabel(ids: ids, labelId: labelId, apply: apply)
         
+        self.loadPageCounts()
+        
         self.conversationsWorker?.loadCachedConversations(page: self.currentPage, updatedConversationIds: Set(ids))
     }
     
     func moveMessages(ids: [String], toFolder folder: String) {
         self.messagesWorker?.moveMessages(ids: ids, page: self.currentPage, toFolder: folder)
+        
+        self.loadPageCounts()
         
         self.messagesWorker?.loadCachedMessages(page: self.currentPage, updatedMessageIds: Set(ids))
     }
@@ -468,6 +529,39 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
             let db: LabelUpdateDatabaseManaging = weakSelf.resolver.resolve(LabelUpdateDatabaseManaging.self)!
             db.updateCounts(userId: weakSelf.userId, counts: counts)
         }
+    }
+    
+    private func loadPageCounts() {
+        let numPages: Int = self.numPages
+        if self.currentPage > 0 && self.currentPage >= numPages {
+            self.currentPage = numPages - 1
+        }
+        
+        // Page is zero based (i.e. first page = 0), add +1 for the presentation layer
+        let response: Mailbox.PageCountUpdate.Response = Mailbox.PageCountUpdate.Response(currentPage: self.currentPage + 1, numPages: self.numPages)
+        self.delegate?.mailboxPageCountDidUpdate(response: response)
+    }
+    
+    private var numPages: Int {
+        guard let labelId = self.labelId else {
+            fatalError("Unexpected application state.")
+        }
+        
+        let db: LabelUpdateDatabaseManaging = self.resolver.resolve(LabelUpdateDatabaseManaging.self)!
+        let total: Int = db.getTotalCount(for: labelId, userId: self.userId)
+        let numPages: Int = Int(ceil(Float(total) / Float(Mailbox.numItemsPerPage)))
+        
+        return numPages
+    }
+    
+    private func addObservers() {
+        self.conversationCountsObserver = NotificationCenter.default.addObserver(forType: Main.Notifications.ConversationCountsUpdate.self, object: nil, queue: .main, using: { [weak self] notification in
+            guard let weakSelf = self, let notification = notification,
+                  let userId = weakSelf.usersManager.activeUser?.userId,
+                  userId == notification.userId else { return }
+            
+            weakSelf.loadPageCounts()
+        })
     }
     
 }

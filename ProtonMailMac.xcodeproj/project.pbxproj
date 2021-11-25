@@ -220,6 +220,7 @@
 		C39F0CB92716E700004A0A96 /* NSToolbarSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */; };
 		C39F0CBB27189EEA004A0A96 /* String+LabelId.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CBA27189EEA004A0A96 /* String+LabelId.swift */; };
 		C39F0CBD271AD625004A0A96 /* AppearanceAdaptingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F0CBC271AD625004A0A96 /* AppearanceAdaptingView.swift */; };
+		C3A2AC88272F07B30049C1F6 /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A2AC87272F07B30049C1F6 /* PagingView.swift */; };
 		C3A658FA26E65C5700CFE2F9 /* MessagesDatabaseManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658F926E65C5700CFE2F9 /* MessagesDatabaseManaging.swift */; };
 		C3A658FC26E65C8500CFE2F9 /* CoreDataService+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */; };
 		C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */; };
@@ -584,6 +585,7 @@
 		C39F0CB82716E700004A0A96 /* NSToolbarSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSToolbarSegmentedControl.swift; sourceTree = "<group>"; };
 		C39F0CBA27189EEA004A0A96 /* String+LabelId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+LabelId.swift"; sourceTree = "<group>"; };
 		C39F0CBC271AD625004A0A96 /* AppearanceAdaptingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceAdaptingView.swift; sourceTree = "<group>"; };
+		C3A2AC87272F07B30049C1F6 /* PagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
 		C3A658F926E65C5700CFE2F9 /* MessagesDatabaseManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesDatabaseManaging.swift; sourceTree = "<group>"; };
 		C3A658FB26E65C8500CFE2F9 /* CoreDataService+Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Messages.swift"; sourceTree = "<group>"; };
 		C3A658FD26E65D0300CFE2F9 /* DatabaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseAssembly.swift; sourceTree = "<group>"; };
@@ -1406,6 +1408,7 @@
 			children = (
 				C39F0CAA2715E64C004A0A96 /* MailboxTableCellView.swift */,
 				C39F0CAB2715E64C004A0A96 /* MailboxDataSource.swift */,
+				C3A2AC87272F07B30049C1F6 /* PagingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1755,6 +1758,7 @@
 				C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */,
 				C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */,
 				C31D02CF26D80EB3002EBBE0 /* TwoFactorInputViewController.swift in Sources */,
+				C3A2AC88272F07B30049C1F6 /* PagingView.swift in Sources */,
 				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
 				C39A247426D2DCAA008A482C /* Array+Extensions.swift in Sources */,
 				C3C8261626FC6A8E00B4E95C /* HTTPRequestSecureLoader.swift in Sources */,

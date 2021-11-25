@@ -73,6 +73,12 @@
 "messageDateYesterdayText" = "Yesterday";
 "messageStarConversation" = "Star conversation";
 "messageUnstarConversation" = "Unstar conversation";
+"pagingGoToFirstPageTooltip" = "Go to first page";
+"pagingGoToPreviousPageTooltip" = "Go to previous page";
+"pagingGoToNextPageTooltip" = "Go to next page";
+"pagingGoToLastPageTooltip" = "Go to last page";
+"pagingGoToPageTooltip" = "Go to page %@";
+"pagingCurrentPageTooltip" = "You are on page %@";
 
 //
 // MARK: - Conversation details

@@ -7,11 +7,28 @@
 //
 
 import Foundation
+import AppKit
 
 enum Mailbox {
     
     /// Number of messages or conversations displayed in the list on a single page.
     static let numItemsPerPage: Int = 50
+    
+    enum Page {
+        case first, previous, next, last, specific(page: String)
+        
+        class ViewModel {
+            let title: String?
+            let image: NSImage?
+            let tooltip: String
+
+            init(title: String?, image: NSImage?, tooltip: String) {
+                self.title = title
+                self.image = image
+                self.tooltip = tooltip
+            }
+        }
+    }
     
     enum SelectionType {
         /// No selection is made.
@@ -129,6 +146,16 @@ enum Mailbox {
     }
     
     //
+    // MARK: - Load page
+    //
+    
+    enum LoadPage {
+        struct Request {
+            let type: Mailbox.Page
+        }
+    }
+    
+    //
     // MARK: - Update item star
     //
     
@@ -185,6 +212,39 @@ enum Mailbox {
         struct ViewModel {
             let message: String
             let button: String
+        }
+    }
+    
+    //
+    // MARK: - Page count update
+    //
+    
+    enum PageCountUpdate {
+        struct Response {
+            let currentPage: Int
+            let numPages: Int
+        }
+        
+        class ViewModel {
+            let pages: [Mailbox.Page.ViewModel]
+            let selectedIndex: Int
+            let firstPageIcon: Mailbox.Page.ViewModel
+            let previousPageIcon: Mailbox.Page.ViewModel
+            let lastPageIcon: Mailbox.Page.ViewModel
+            let nextPageIcon: Mailbox.Page.ViewModel
+            let previousButtonsEnabled: Bool
+            let nextButtonsEnabled: Bool
+
+            init(pages: [Mailbox.Page.ViewModel], selectedIndex: Int, firstPageIcon: Mailbox.Page.ViewModel, previousPageIcon: Mailbox.Page.ViewModel, lastPageIcon: Mailbox.Page.ViewModel, nextPageIcon: Mailbox.Page.ViewModel, previousButtonsEnabled: Bool, nextButtonsEnabled: Bool) {
+                self.pages = pages
+                self.selectedIndex = selectedIndex
+                self.firstPageIcon = firstPageIcon
+                self.previousPageIcon = previousPageIcon
+                self.lastPageIcon = lastPageIcon
+                self.nextPageIcon = nextPageIcon
+                self.previousButtonsEnabled = previousButtonsEnabled
+                self.nextButtonsEnabled = nextButtonsEnabled
+            }
         }
     }
     

@@ -23,6 +23,7 @@ protocol MailboxWorkerDelegate: AnyObject {
     func mailboxDidUpdateWithoutChange()
     func loadDidFail(response: Mailbox.LoadError.Response)
     func mailboxSelectionDidUpdate(response: Mailbox.ItemsDidSelect.Response)
+    func mailboxPageCountDidUpdate(response: Mailbox.PageCountUpdate.Response)
 }
 
 class MailboxWorker: MailboxManagingWorkerDelegate {
@@ -66,6 +67,12 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
         self.cancelSelection()
         
         self.loadItems(forLabel: labelId, userId: user.userId)
+    }
+    
+    func loadPage(request: Mailbox.LoadPage.Request) {
+        guard let userId = self.activeUserId else { return }
+        
+        self.getMailboxWorker(userId: userId).loadPage(request.type)
     }
     
     func updateItemStar(request: Mailbox.UpdateItemStar.Request) {
@@ -197,6 +204,10 @@ class MailboxWorker: MailboxManagingWorkerDelegate {
     
     func mailboxOperationsProcessingDidComplete() {
         self.refreshMailbox(eventsOnly: true)
+    }
+    
+    func mailboxPageCountDidUpdate(response: Mailbox.PageCountUpdate.Response) {
+        self.delegate?.mailboxPageCountDidUpdate(response: response)
     }
     
     //

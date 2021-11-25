@@ -10,6 +10,7 @@ import Foundation
 
 protocol MailboxBusinessLogic {
     func loadItems(request: Mailbox.LoadItems.Request)
+    func loadPage(request: Mailbox.LoadPage.Request)
     func processErrorViewButtonTap()
     func updateItemStar(request: Mailbox.UpdateItemStar.Request)
     func processItemsSelection(request: Mailbox.ItemsDidSelect.Request)
@@ -33,6 +34,14 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     func loadItems(request: Mailbox.LoadItems.Request) {
         self.worker?.delegate = self
         self.worker?.loadItems(request: request)
+    }
+    
+    //
+    // MARK: - Load page
+    //
+    
+    func loadPage(request: Mailbox.LoadPage.Request) {
+        self.worker?.loadPage(request: request)
     }
     
     //
@@ -117,6 +126,10 @@ class MailboxInteractor: MailboxBusinessLogic, MailboxDataStore, MailboxWorkerDe
     
     func mailboxSelectionDidUpdate(response: Mailbox.ItemsDidSelect.Response) {
         self.presenter?.presentItemsSelection(response: response)
+    }
+    
+    func mailboxPageCountDidUpdate(response: Mailbox.PageCountUpdate.Response) {
+        self.presenter?.presentPageCountUpdate(response: response)
     }
     
 }

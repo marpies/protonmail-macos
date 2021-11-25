@@ -7,8 +7,9 @@
 //
 
 import AppKit
+import SnapKit
 
-protocol MailboxViewDelegate: MailboxDataSourceDelegate, BoxErrorViewDelegate {
+protocol MailboxViewDelegate: PagingViewDelegate, MailboxDataSourceDelegate, BoxErrorViewDelegate {
     
 }
 
@@ -17,6 +18,8 @@ class MailboxView: NSView {
     private let scrollView: NSScrollView = NSScrollView()
     private let tableView: NSTableView = NSTableView()
     private let column: NSTableColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("list"))
+    
+    private var pagingView: PagingView?
     
     private lazy var dataSource: MailboxDataSource = MailboxDataSource(tableView: self.tableView)
     
@@ -126,6 +129,29 @@ class MailboxView: NSView {
         self.errorView = nil
     }
     
+    func displayPageCountUpdate(viewModel: Mailbox.PageCountUpdate.ViewModel) {
+        if viewModel.pages.count > 1 {
+            if self.pagingView == nil {
+                self.pagingView = PagingView().with { view in
+                    view.delegate = self.delegate
+                    self.addSubview(view)
+                    view.snp.makeConstraints { make in
+                        make.left.right.bottom.equalToSuperview()
+                    }
+                    
+                    self.scrollView.snp.makeConstraints { make in
+                        make.bottom.equalTo(view.snp.top).priority(.required)
+                    }
+                }
+            }
+            
+            self.pagingView?.update(viewModel: viewModel)
+        } else {
+            self.pagingView?.removeFromSuperview()
+            self.pagingView = nil
+        }
+    }
+    
     //
     // MARK: - Private
     //
@@ -136,7 +162,7 @@ class MailboxView: NSView {
             scrollView.snp.makeConstraints { make in
                 make.left.right.equalToSuperview()
                 make.top.equalToSuperview().priority(.high)
-                make.bottom.equalToSuperview()
+                make.bottom.equalToSuperview().priority(.high)
             }
             
             self.tableView.with { table in

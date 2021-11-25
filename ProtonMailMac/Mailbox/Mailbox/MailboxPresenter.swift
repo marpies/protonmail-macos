@@ -21,6 +21,7 @@ protocol MailboxPresentationLogic {
     func presentLoadError(response: Mailbox.LoadError.Response)
     func presentItemsUpToDate()
     func presentItemsSelection(response: Mailbox.ItemsDidSelect.Response)
+    func presentPageCountUpdate(response: Mailbox.PageCountUpdate.Response)
 }
 
 class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, MessageLabelPresenting, MessageFolderPresenting,
@@ -169,6 +170,41 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
     }
     
     //
+    // MARK: - Present page count update
+    //
+    
+    func presentPageCountUpdate(response: Mailbox.PageCountUpdate.Response) {
+        var pages: [Mailbox.Page.ViewModel] = []
+        
+        // Show previous page number if we are on page 2 or further
+        let isOnFirstPage: Bool = response.currentPage <= 1
+        if !isOnFirstPage {
+            let prevPage: Int = response.currentPage - 1
+            pages.append(self.getPageButton(type: .specific(page: String(prevPage))))
+        }
+        
+        // Current page
+        pages.append(self.getPageButton(type: .specific(page: String(response.currentPage)), isCurrentPage: true))
+        
+        // Show next page number if we are not on the last page
+        let isOnLastPage: Bool = response.currentPage >= response.numPages
+        if !isOnLastPage {
+            let nextPage: Int = response.currentPage + 1
+            pages.append(self.getPageButton(type: .specific(page: String(nextPage))))
+        }
+        
+        let selectedIndex: Int = pages.firstIndex(where: { $0.title == String(response.currentPage) } )!
+        
+        let firstPageIcon: Mailbox.Page.ViewModel = self.getPageButton(type: .first)
+        let previousPageIcon: Mailbox.Page.ViewModel = self.getPageButton(type: .previous)
+        let nextPageIcon: Mailbox.Page.ViewModel = self.getPageButton(type: .next)
+        let lastPageIcon: Mailbox.Page.ViewModel = self.getPageButton(type: .last)
+        
+        let viewModel = Mailbox.PageCountUpdate.ViewModel(pages: pages, selectedIndex: selectedIndex, firstPageIcon: firstPageIcon, previousPageIcon: previousPageIcon, lastPageIcon: lastPageIcon, nextPageIcon: nextPageIcon, previousButtonsEnabled: !isOnFirstPage, nextButtonsEnabled: !isOnLastPage)
+        self.viewController?.displayPageCountUpdate(viewModel: viewModel)
+    }
+    
+    //
     // MARK: - Private
     //
     
@@ -205,6 +241,44 @@ class MailboxPresenter: MailboxPresentationLogic, MessageTimePresenting, Message
             return "[\(numMessages)] \(subject)"
         }
         return subject
+    }
+    
+    private func getPageButton(type: Mailbox.Page, isCurrentPage: Bool = false) -> Mailbox.Page.ViewModel {
+        let tooltip: String = self.getPageTooltip(type: type, isCurrentPage: isCurrentPage)
+        
+        switch type {
+        case .first:
+            return Mailbox.Page.ViewModel(title: nil, image: NSImage.universal(name: "chevron.left.2"), tooltip: tooltip)
+        case .previous:
+            return Mailbox.Page.ViewModel(title: nil, image: NSImage.universal(name: "chevron.left"), tooltip: tooltip)
+        case .next:
+            return Mailbox.Page.ViewModel(title: nil, image: NSImage.universal(name: "chevron.right"), tooltip: tooltip)
+        case .last:
+            return Mailbox.Page.ViewModel(title: nil, image: NSImage.universal(name: "chevron.right.2"), tooltip: tooltip)
+        case .specific(let page):
+            return Mailbox.Page.ViewModel(title: page, image: nil, tooltip: tooltip)
+        }
+    }
+    
+    private func getPageTooltip(type: Mailbox.Page, isCurrentPage: Bool) -> String {
+        if isCurrentPage, case .specific(let page) = type {
+            let format: String = NSLocalizedString("pagingCurrentPageTooltip", comment: "")
+            return String(format: format, page)
+        }
+        
+        switch type {
+        case .first:
+            return NSLocalizedString("pagingGoToFirstPageTooltip", comment: "")
+        case .previous:
+            return NSLocalizedString("pagingGoToPreviousPageTooltip", comment: "")
+        case .next:
+            return NSLocalizedString("pagingGoToNextPageTooltip", comment: "")
+        case .last:
+            return NSLocalizedString("pagingGoToLastPageTooltip", comment: "")
+        case .specific(let page):
+            let format: String = NSLocalizedString("pagingGoToPageTooltip", comment: "")
+            return String(format: format, page)
+        }
     }
     
 }

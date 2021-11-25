@@ -73,6 +73,12 @@
 "messageDateYesterdayText" = "Včera";
 "messageStarConversation" = "Přidat hvězdičku";
 "messageUnstarConversation" = "Odebrat hvězdičku";
+"pagingGoToFirstPageTooltip" = "Přejít na první stranu";
+"pagingGoToPreviousPageTooltip" = "Přejít na předchozí stranu";
+"pagingGoToNextPageTooltip" = "Přejít na další stranu";
+"pagingGoToLastPageTooltip" = "Přejít na poslední stranu";
+"pagingGoToPageTooltip" = "Přejít na stranu %@";
+"pagingCurrentPageTooltip" = "Jste na straně %@";
 
 //
 // MARK: - Conversation details

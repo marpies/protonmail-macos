@@ -17,6 +17,7 @@ protocol MailboxDisplayLogic: AnyObject {
     func displayLoadConversation(viewModel: Mailbox.LoadConversation.ViewModel)
     func displayItemsSelection(viewModel: Mailbox.ItemsDidSelect.ViewModel)
     func displayItemsRefresh(viewModel: Mailbox.RefreshItems.ViewModel)
+    func displayPageCountUpdate(viewModel: Mailbox.PageCountUpdate.ViewModel)
 }
 
 protocol MailboxViewControllerDelegate: AnyObject {
@@ -121,6 +122,14 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
     }
     
     //
+    // MARK: - Display page count update
+    //
+    
+    func displayPageCountUpdate(viewModel: Mailbox.PageCountUpdate.ViewModel) {
+        self.mainView.displayPageCountUpdate(viewModel: viewModel)
+    }
+    
+    //
     // MARK: - View delegate
     //
     
@@ -147,6 +156,31 @@ class MailboxViewController: NSViewController, MailboxDisplayLogic, MailboxViewD
     
     func itemsDidDeselect() {
         self.interactor?.processItemsDeselection()
+    }
+    
+    func firstPageButtonDidTap() {
+        let request: Mailbox.LoadPage.Request = Mailbox.LoadPage.Request(type: .first)
+        self.interactor?.loadPage(request: request)
+    }
+    
+    func previousPageButtonDidTap() {
+        let request: Mailbox.LoadPage.Request = Mailbox.LoadPage.Request(type: .previous)
+        self.interactor?.loadPage(request: request)
+    }
+    
+    func nextPageButtonDidTap() {
+        let request: Mailbox.LoadPage.Request = Mailbox.LoadPage.Request(type: .next)
+        self.interactor?.loadPage(request: request)
+    }
+    
+    func lastPageButtonDidTap() {
+        let request: Mailbox.LoadPage.Request = Mailbox.LoadPage.Request(type: .last)
+        self.interactor?.loadPage(request: request)
+    }
+    
+    func pageButtonDidTap(_ page: String) {
+        let request: Mailbox.LoadPage.Request = Mailbox.LoadPage.Request(type: .specific(page: page))
+        self.interactor?.loadPage(request: request)
     }
     
 }
