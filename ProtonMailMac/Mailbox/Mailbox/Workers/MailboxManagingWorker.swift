@@ -112,6 +112,9 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     /// Flag to track whether we should load the conversation counts (only on initial load).
     private var isInitialLoad: Bool = true
     
+    /// Current page of messages (or conversations) loaded (zero based).
+    private var currentPage: Int = 0
+    
     private(set) var labelId: String?
     
     private(set) var auth: AuthCredential?
@@ -149,12 +152,13 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         
         self.labelId = labelId
         self.isBrowsingMessages = isMessages
+        self.currentPage = 0
         
         if self.isBrowsingMessages {
             self.conversationsWorker?.cancelLoad()
             
             self.messagesWorker?.setup(labelId: labelId)
-            self.messagesWorker?.loadCachedMessages { messages in
+            self.messagesWorker?.loadCachedMessages(page: self.currentPage) { messages in
                 if !messages.isEmpty {
                     self.messagesWorker?.updateCachedMessages(messages)
                 }
@@ -165,7 +169,7 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
             self.messagesWorker?.cancelLoad()
             
             self.conversationsWorker?.setup(labelId: labelId)
-            self.conversationsWorker?.loadCachedConversations { conversations in
+            self.conversationsWorker?.loadCachedConversations(page: self.currentPage) { conversations in
                 if !conversations.isEmpty {
                     self.conversationsWorker?.updateCachedConversations(conversations)
                 }
@@ -246,19 +250,27 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
     }
     
     func moveConversations(ids: [String], toFolder folder: String) {
-        self.conversationsWorker?.moveConversations(ids: ids, toFolder: folder)
+        self.conversationsWorker?.moveConversations(ids: ids, page: self.currentPage, toFolder: folder)
+        
+        self.conversationsWorker?.loadCachedConversations(page: self.currentPage, updatedConversationIds: Set(ids))
     }
     
     func updateConversationStar(id: String, isOn: Bool) {
         self.conversationsWorker?.updateConversationStar(id: id, isOn: isOn)
+        
+        self.conversationsWorker?.loadCachedConversations(page: self.currentPage, updatedConversationIds: [id])
     }
     
     func updateConversationsLabel(ids: [String], labelId: String, apply: Bool) {
         self.conversationsWorker?.updateConversationsLabel(ids: ids, labelId: labelId, apply: apply)
+        
+        self.conversationsWorker?.loadCachedConversations(page: self.currentPage, updatedConversationIds: Set(ids))
     }
     
     func moveMessages(ids: [String], toFolder folder: String) {
-        self.messagesWorker?.moveMessages(ids: ids, toFolder: folder)
+        self.messagesWorker?.moveMessages(ids: ids, page: self.currentPage, toFolder: folder)
+        
+        self.messagesWorker?.loadCachedMessages(page: self.currentPage, updatedMessageIds: Set(ids))
     }
     
     func updateMessageStar(id: String, isOn: Bool) {
@@ -392,17 +404,17 @@ class MailboxManagingWorker: MailboxManaging, ConversationsManagingWorkerDelegat
         }
         
         if self.isBrowsingMessages {
-            self.messagesWorker?.loadMessages(completion: completionBlock)
+            self.messagesWorker?.loadMessages(page: self.currentPage, completion: completionBlock)
         } else {
-            self.conversationsWorker?.loadConversations(completion: completionBlock)
+            self.conversationsWorker?.loadConversations(page: self.currentPage, completion: completionBlock)
         }
     }
     
     private func loadCachedMailbox(updatedConversationIds: Set<String>?, updatedMessageIds: Set<String>?) {
         if self.isBrowsingMessages {
-            self.messagesWorker?.loadCachedMessages(updatedMessageIds: updatedMessageIds)
+            self.messagesWorker?.loadCachedMessages(page: self.currentPage, updatedMessageIds: updatedMessageIds)
         } else {
-            self.conversationsWorker?.loadCachedConversations(updatedConversationIds: updatedConversationIds)
+            self.conversationsWorker?.loadCachedConversations(page: self.currentPage, updatedConversationIds: updatedConversationIds)
         }
     }
     

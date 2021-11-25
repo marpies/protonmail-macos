@@ -16,14 +16,14 @@ protocol MessagesLoading {
     func updateCachedMessages(_ messages: [Messages.Message.Response])
     
     func loadMessage(id: String) -> Messages.Message.Response?
-    func loadMessages(completion: @escaping (Bool) -> Void)
     
     /// Updates the model for the message of the given id.
     /// - Returns: Tuple with the message model and the model's index in the list of all messages.
     func updateMessage(id: String) -> (Messages.Message.Response, Int)?
     
-    func loadCachedMessages(completion: @escaping ([Messages.Message.Response]) -> Void)
-    func loadCachedMessages(updatedMessageIds: Set<String>?)
+    func loadMessages(page: Int, completion: @escaping (Bool) -> Void)
+    func loadCachedMessages(page: Int, completion: @escaping ([Messages.Message.Response]) -> Void)
+    func loadCachedMessages(page: Int, updatedMessageIds: Set<String>?)
 }
 
 protocol MessagesLoadingDelegate: AnyObject {
@@ -94,22 +94,22 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
         return (model, index)
     }
     
-    func loadCachedMessages(completion: @escaping ([Messages.Message.Response]) -> Void) {
+    func loadCachedMessages(page: Int, completion: @escaping ([Messages.Message.Response]) -> Void) {
         let db: MessagesDatabaseManaging = self.resolver.resolve(MessagesDatabaseManaging.self)!
         
-        db.fetchMessages(forUser: self.userId, labelId: self.labelId, converter: self) { messages in
+        db.fetchMessages(forUser: self.userId, labelId: self.labelId, page: page, converter: self) { messages in
             completion(messages)
         }
     }
     
-    func loadCachedMessages(updatedMessageIds: Set<String>?) {
-        self.loadCachedMessages { messages in
+    func loadCachedMessages(page: Int, updatedMessageIds: Set<String>?) {
+        self.loadCachedMessages(page: page) { messages in
             self.dispatchMessages(messages, updatedMessageIds: updatedMessageIds)
         }
     }
     
-    func loadMessages(completion: @escaping (Bool) -> Void) {
-        self.loadMessages(olderThan: nil) { [weak self] (messages, error) in
+    func loadMessages(page: Int, completion: @escaping (Bool) -> Void) {
+        self.loadMessages(page: page) { [weak self] (messages, error) in
             guard let weakSelf = self else { return }
             
             if let messages = messages {
@@ -126,10 +126,9 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
     // MARK: - Private
     //
     
-    private func loadMessages(olderThan lastMessageTime: Date?, completion: @escaping ([Messages.Message.Response]?, NSError?) -> Void) {
+    private func loadMessages(page: Int, completion: @escaping ([Messages.Message.Response]?, NSError?) -> Void) {
         // Fetch messages from the server
-        let endTime: TimeInterval = lastMessageTime?.timeIntervalSince1970 ?? 0
-        let request = MessagesByLabelRequest(labelID: self.labelId, endTime: endTime)
+        let request: MessagesByLabelRequest = MessagesByLabelRequest(labelID: self.labelId, page: page)
         
         self.apiService.request(request) { [weak self] (_, responseDict, error) in
             guard let weakSelf = self else { return }
@@ -142,7 +141,7 @@ class MessagesLoadingWorker: MessagesLoading, MessageDiffing, MessageToModelConv
                 
                 let db: MessagesDatabaseManaging = weakSelf.resolver.resolve(MessagesDatabaseManaging.self)!
                 db.saveMessages(messagesArray, forUser: weakSelf.userId) {
-                    weakSelf.loadCachedMessages { messages in
+                    weakSelf.loadCachedMessages(page: page) { messages in
                         completion(messages, nil)
                     }
                 }

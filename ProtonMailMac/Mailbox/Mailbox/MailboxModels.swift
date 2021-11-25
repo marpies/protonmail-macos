@@ -10,6 +10,9 @@ import Foundation
 
 enum Mailbox {
     
+    /// Number of messages or conversations displayed in the list on a single page.
+    static let numItemsPerPage: Int = 50
+    
     enum SelectionType {
         /// No selection is made.
         case none

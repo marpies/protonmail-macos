@@ -113,12 +113,12 @@ class MessagesManagingWorker: ConversationLabelStatusChecking {
         }
     }
     
-    func moveMessages(ids: [String], toFolder folderId: String) {
+    func moveMessages(ids: [String], page: Int, toFolder folderId: String) {
         let success: Bool = self.opsService.moveTo(folder: folderId, messageIds: ids)
         
         guard success else { return }
         
-        self.loadingWorker?.loadCachedMessages(updatedMessageIds: Set(ids))
+        self.loadingWorker?.loadCachedMessages(page: page, updatedMessageIds: Set(ids))
     }
     
     func getConversationId(forMessageId id: String) -> String? {
@@ -129,16 +129,16 @@ class MessagesManagingWorker: ConversationLabelStatusChecking {
         self.loadingWorker?.updateCachedMessages(messages)
     }
     
-    func loadMessages(completion: @escaping (Bool) -> Void) {
-        self.loadingWorker?.loadMessages(completion: completion)
+    func loadMessages(page: Int, completion: @escaping (Bool) -> Void) {
+        self.loadingWorker?.loadMessages(page: page, completion: completion)
     }
     
-    func loadCachedMessages(completion: @escaping ([Messages.Message.Response]) -> Void) {
-        self.loadingWorker?.loadCachedMessages(completion: completion)
+    func loadCachedMessages(page: Int, completion: @escaping ([Messages.Message.Response]) -> Void) {
+        self.loadingWorker?.loadCachedMessages(page: page, completion: completion)
     }
     
-    func loadCachedMessages(updatedMessageIds: Set<String>?) {
-        self.loadingWorker?.loadCachedMessages(updatedMessageIds: updatedMessageIds)
+    func loadCachedMessages(page: Int, updatedMessageIds: Set<String>?) {
+        self.loadingWorker?.loadCachedMessages(page: page, updatedMessageIds: updatedMessageIds)
     }
     
     func cancelLoad() {

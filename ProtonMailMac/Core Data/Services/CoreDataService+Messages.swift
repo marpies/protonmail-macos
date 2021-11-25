@@ -63,12 +63,13 @@ extension CoreDataService: MessagesDatabaseManaging {
         return message
     }
     
-    func fetchMessages(forUser userId: String, labelId: String, converter: MessageToModelConverting, completion: @escaping ([Messages.Message.Response]) -> Void) {
+    func fetchMessages(forUser userId: String, labelId: String, page: Int, converter: MessageToModelConverting, completion: @escaping ([Messages.Message.Response]) -> Void) {
         self.backgroundContext.performWith { ctx in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Message")
             request.predicate = self.getPredicate(forUser: userId, labelId: labelId)
             request.sortDescriptors = [NSSortDescriptor(key: "time", ascending: false)]
-            request.fetchLimit = 50
+            request.fetchLimit = Mailbox.numItemsPerPage
+            request.fetchOffset = page * Mailbox.numItemsPerPage
             
             do {
                 if let messages = try ctx.fetch(request) as? [Message] {

@@ -13,30 +13,27 @@ struct MessagesByLabelRequest: Request {
     let isAuth: Bool = true
     
     let labelID: String
-    let endTime: TimeInterval
+    let page: Int
+    let sort: ConversationsSort
+    let descendingSort: Bool
     
     var authCredential: AuthCredential?
     
     var parameters: [String : Any]? {
-        var out: [String : Any] = ["Sort" : "Time"]
-        out["LabelID"] = self.labelID
-        if self.endTime > 0 {
-            let newTime = self.endTime - 1
-            out["End"] = newTime
-        }
-        return out
+        return [
+            "Sort": self.sort.rawValue,
+            "LabelID": self.labelID,
+            "Desc": self.descendingSort ? 1 : 0,
+            "Page": self.page,
+            "PageSize": Mailbox.numItemsPerPage,
+            "Limit": Mailbox.numItemsPerPage * 2
+        ]
     }
     
-    init(labelID: String, endTime: TimeInterval = 0) {
+    init(labelID: String, page: Int = 0, sort: ConversationsSort = .time, descendingSort: Bool = true) {
         self.labelID = labelID
-        self.endTime = endTime
-    }
-    
-    func copyWithCredential(_ credential: AuthCredential) -> MessagesByLabelRequest {
-        var copy: MessagesByLabelRequest = self
-        let newCredential: AuthCredential = copy.authCredential ?? credential
-        newCredential.update(sessionID: credential.sessionID, accessToken: credential.accessToken, refreshToken: credential.refreshToken, expiration: credential.expiration)
-        copy.authCredential = newCredential
-        return copy
+        self.page = page
+        self.sort = sort
+        self.descendingSort = descendingSort
     }
 }

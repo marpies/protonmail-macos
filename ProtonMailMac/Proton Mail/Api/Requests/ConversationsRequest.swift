@@ -31,8 +31,8 @@ struct ConversationsRequest: Request {
             "LabelID": self.labelID,
             "Desc": self.descendingSort ? 1 : 0,
             "Page": self.page,
-            "PageSize": 50,
-            "Limit": 100
+            "PageSize": Mailbox.numItemsPerPage,
+            "Limit": Mailbox.numItemsPerPage * 2
         ]
     }
     

@@ -47,12 +47,13 @@ extension CoreDataService: ConversationsDatabaseManaging {
         return conversation
     }
     
-    func fetchConversations(forUser userId: String, labelId: String, converter: ConversationToModelConverting, completion: @escaping ([Conversations.Conversation.Response]) -> Void) {
+    func fetchConversations(forUser userId: String, labelId: String, page: Int, converter: ConversationToModelConverting, completion: @escaping ([Conversations.Conversation.Response]) -> Void) {
         self.backgroundContext.performWith { ctx in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: Conversation.Attributes.entityName)
             request.predicate = self.getPredicate(forUser: userId, labelId: labelId)
             request.sortDescriptors = [NSSortDescriptor(key: "time", ascending: false)]
-            request.fetchLimit = 50
+            request.fetchLimit = Mailbox.numItemsPerPage
+            request.fetchOffset = page * Mailbox.numItemsPerPage
             
             do {
                 if let conversations = try ctx.fetch(request) as? [Conversation] {

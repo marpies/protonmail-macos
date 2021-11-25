@@ -20,9 +20,9 @@ protocol ConversationsLoading {
     /// - Returns: Tuple with the conversation model and the model's index in the list of all conversations.
     func updateConversation(id: String) -> (Conversations.Conversation.Response, Int)?
     
-    func loadConversations(completion: @escaping (Bool) -> Void)
-    func loadCachedConversations(completion: @escaping ([Conversations.Conversation.Response]) -> Void)
-    func loadCachedConversations(updatedConversationIds: Set<String>?)
+    func loadConversations(page: Int, completion: @escaping (Bool) -> Void)
+    func loadCachedConversations(page: Int, completion: @escaping ([Conversations.Conversation.Response]) -> Void)
+    func loadCachedConversations(page: Int, updatedConversationIds: Set<String>?)
 }
 
 protocol ConversationsLoadingDelegate: AnyObject {
@@ -54,6 +54,9 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
     
     /// List of currently loaded conversations.
     private var conversations: [Conversations.Conversation.Response]?
+    
+    /// The page this worker is currently loading.
+    private var currentPage: Int = 0
     
     weak var delegate: ConversationsLoadingDelegate?
     
@@ -95,9 +98,11 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         return (model, index)
     }
     
-    func loadConversations(completion: @escaping (Bool) -> Void) {
-        self.loadConversations { [weak self] (conversations, error) in
-            guard let weakSelf = self else { return }
+    func loadConversations(page: Int, completion: @escaping (Bool) -> Void) {
+        self.currentPage = page
+        
+        self.loadConversations(page: page) { [weak self] (conversations, error) in
+            guard let weakSelf = self, weakSelf.currentPage == page else { return }
             
             if let conversations = conversations {
                 weakSelf.dispatchConversations(conversations, updatedConversationIds: nil)
@@ -109,17 +114,21 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
         }
     }
     
-    func loadCachedConversations(completion: @escaping ([Conversations.Conversation.Response]) -> Void) {
+    func loadCachedConversations(page: Int, completion: @escaping ([Conversations.Conversation.Response]) -> Void) {
+        self.currentPage = page
+        
         let db: ConversationsDatabaseManaging = self.resolver.resolve(ConversationsDatabaseManaging.self)!
         
-        db.fetchConversations(forUser: self.userId, labelId: self.labelId, converter: self) { conversations in
+        db.fetchConversations(forUser: self.userId, labelId: self.labelId, page: page, converter: self) { [weak self] (conversations) in
+            guard let weakSelf = self, weakSelf.currentPage == page else { return }
+            
             completion(conversations)
         }
     }
     
-    func loadCachedConversations(updatedConversationIds: Set<String>?) {
-        self.loadCachedConversations { conversations in
-            self.dispatchConversations(conversations, updatedConversationIds: updatedConversationIds)
+    func loadCachedConversations(page: Int, updatedConversationIds: Set<String>?) {
+        self.loadCachedConversations(page: page) { [weak self] (conversations) in
+            self?.dispatchConversations(conversations, updatedConversationIds: updatedConversationIds)
         }
     }
     
@@ -143,9 +152,9 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
     // MARK: - Private
     //
     
-    private func loadConversations(completion: @escaping ([Conversations.Conversation.Response]?, NSError?) -> Void) {
+    private func loadConversations(page: Int, completion: @escaping ([Conversations.Conversation.Response]?, NSError?) -> Void) {
         // Fetch conversations from the server
-        let request = ConversationsRequest(labelID: self.labelId)
+        let request: ConversationsRequest = ConversationsRequest(labelID: self.labelId, page: page)
         
         self.apiService.request(request) { [weak self] (_, responseDict, error) in
             guard let weakSelf = self else { return }
@@ -158,7 +167,7 @@ class ConversationsLoadingWorker: ConversationsLoading, ConversationDiffing, Con
                 
                 let db: ConversationsDatabaseManaging = weakSelf.resolver.resolve(ConversationsDatabaseManaging.self)!
                 db.saveConversations(conversationsArray, forUser: weakSelf.userId) {
-                    weakSelf.loadCachedConversations { conversations in
+                    weakSelf.loadCachedConversations(page: page) { conversations in
                         completion(conversations, nil)
                     }
                 }
