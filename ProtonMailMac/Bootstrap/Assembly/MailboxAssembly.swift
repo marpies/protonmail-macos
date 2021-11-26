@@ -27,10 +27,10 @@ struct MailboxAssembly: Assembly {
             return obj
         }
         container.register(MailboxViewController.self) { r in
-            let vc = MailboxViewController()
+            return MailboxViewController()
+        }.initCompleted { r, vc in
             vc.interactor = r.resolve(MailboxBusinessLogic.self)
             vc.router = r.resolve(MailboxRouter.self)
-            return vc
         }
         container.register(MailboxDataStore.self) { r in
             return r.resolve(MailboxInteractor.self)!

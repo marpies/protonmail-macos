@@ -27,10 +27,10 @@ struct ConversationDetailsAssembly: Assembly {
             return obj
         }
         container.register(ConversationDetailsViewController.self) { r in
-            let vc = ConversationDetailsViewController()
+            return ConversationDetailsViewController()
+        }.initCompleted { r, vc in
             vc.interactor = r.resolve(ConversationDetailsBusinessLogic.self)
             vc.router = r.resolve(ConversationDetailsRouter.self)
-            return vc
         }
         container.register(ConversationDetailsDataStore.self) { r in
             return r.resolve(ConversationDetailsInteractor.self)!

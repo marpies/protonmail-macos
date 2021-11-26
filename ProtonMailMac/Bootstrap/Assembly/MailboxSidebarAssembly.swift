@@ -27,10 +27,10 @@ struct MailboxSidebarAssembly: Assembly {
             return obj
         }
         container.register(MailboxSidebarViewController.self) { r in
-            let vc = MailboxSidebarViewController()
+            return MailboxSidebarViewController()
+        }.initCompleted { r, vc in
             vc.interactor = r.resolve(MailboxSidebarBusinessLogic.self)
             vc.router = r.resolve(MailboxSidebarRouter.self)
-            return vc
         }
         container.register(MailboxSidebarDataStore.self) { r in
             return r.resolve(MailboxSidebarInteractor.self)!

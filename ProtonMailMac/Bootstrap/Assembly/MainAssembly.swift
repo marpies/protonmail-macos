@@ -27,13 +27,13 @@ struct MainAssembly: Assembly {
             return obj
         }
         container.register(MainViewController.self) { r in
-            let vc = MainViewController()
+            return MainViewController()
+        }.initCompleted { r, vc in
             vc.interactor = r.resolve(MainBusinessLogic.self)
             vc.router = r.resolve(MainRouter.self)
             vc.sidebarViewController = r.resolve(MailboxSidebarViewController.self)
             vc.mailboxViewController = r.resolve(MailboxViewController.self)
             vc.conversationDetailsViewController = r.resolve(ConversationDetailsViewController.self)
-            return vc
         }
         container.register(MainDataStore.self) { r in
             return r.resolve(MainInteractor.self)!
