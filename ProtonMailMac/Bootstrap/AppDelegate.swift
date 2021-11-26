@@ -27,6 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ConversationDetailsAssembly(),
             MailboxAssembly(),
             MainAssembly(),
+            ComposerAssembly(),
             ServicesAssembly()
         ])
         

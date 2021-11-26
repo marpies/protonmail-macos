@@ -145,6 +145,15 @@
 		C38ADA6A26F388B20055A1AE /* MailboxAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38ADA6926F388B20055A1AE /* MailboxAssembly.swift */; };
 		C38ADA6C26F389510055A1AE /* CoreDataService+Conversations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38ADA6B26F389510055A1AE /* CoreDataService+Conversations.swift */; };
 		C38ADA6E26F389C70055A1AE /* Conversation+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38ADA6D26F389C70055A1AE /* Conversation+Helpers.swift */; };
+		C39185A227510714002CA887 /* ComposerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391859B27510714002CA887 /* ComposerPresenter.swift */; };
+		C39185A327510714002CA887 /* ComposerWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391859C27510714002CA887 /* ComposerWorker.swift */; };
+		C39185A427510714002CA887 /* ComposerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391859D27510714002CA887 /* ComposerRouter.swift */; };
+		C39185A527510714002CA887 /* ComposerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391859E27510714002CA887 /* ComposerModels.swift */; };
+		C39185A627510714002CA887 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C391859F27510714002CA887 /* ComposerViewController.swift */; };
+		C39185A727510714002CA887 /* ComposerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39185A027510714002CA887 /* ComposerInteractor.swift */; };
+		C39185A827510714002CA887 /* ComposerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39185A127510714002CA887 /* ComposerView.swift */; };
+		C39185AA27510720002CA887 /* ComposerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39185A927510720002CA887 /* ComposerAssembly.swift */; };
+		C39185AD27510B4D002CA887 /* ComposerWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39185AC27510B4D002CA887 /* ComposerWindowController.swift */; };
 		C3986D72270CD56F00D42DBE /* DefaultConversationMessageSelecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3986D71270CD56F00D42DBE /* DefaultConversationMessageSelecting.swift */; };
 		C39A23E926D2D81D008A482C /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E226D2D81D008A482C /* Key.swift */; };
 		C39A23EA26D2D81D008A482C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A23E326D2D81D008A482C /* UserInfo.swift */; };
@@ -512,6 +521,15 @@
 		C38ADA6926F388B20055A1AE /* MailboxAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxAssembly.swift; sourceTree = "<group>"; };
 		C38ADA6B26F389510055A1AE /* CoreDataService+Conversations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Conversations.swift"; sourceTree = "<group>"; };
 		C38ADA6D26F389C70055A1AE /* Conversation+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversation+Helpers.swift"; sourceTree = "<group>"; };
+		C391859B27510714002CA887 /* ComposerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerPresenter.swift; sourceTree = "<group>"; };
+		C391859C27510714002CA887 /* ComposerWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerWorker.swift; sourceTree = "<group>"; };
+		C391859D27510714002CA887 /* ComposerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerRouter.swift; sourceTree = "<group>"; };
+		C391859E27510714002CA887 /* ComposerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerModels.swift; sourceTree = "<group>"; };
+		C391859F27510714002CA887 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
+		C39185A027510714002CA887 /* ComposerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerInteractor.swift; sourceTree = "<group>"; };
+		C39185A127510714002CA887 /* ComposerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerView.swift; sourceTree = "<group>"; };
+		C39185A927510720002CA887 /* ComposerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerAssembly.swift; sourceTree = "<group>"; };
+		C39185AC27510B4D002CA887 /* ComposerWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerWindowController.swift; sourceTree = "<group>"; };
 		C3986D71270CD56F00D42DBE /* DefaultConversationMessageSelecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultConversationMessageSelecting.swift; sourceTree = "<group>"; };
 		C39A23E226D2D81D008A482C /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		C39A23E326D2D81D008A482C /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -751,6 +769,7 @@
 				C353421B26F4A2BD00EA0137 /* ConversationDetailsAssembly.swift */,
 				C33992BC2730787200222089 /* RecaptchaAssembly.swift */,
 				C33992CF2733EDDB00222089 /* WebSignInAssembly.swift */,
+				C39185A927510720002CA887 /* ComposerAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -1068,6 +1087,7 @@
 				C353420C26F4A27A00EA0137 /* Conversation Details */,
 				C39F0C9F2715E64C004A0A96 /* Mailbox */,
 				C36814B526D641DD00A35A16 /* Sidebar */,
+				C391859A275106F6002CA887 /* Composer */,
 				C39F0C962715DE5C004A0A96 /* MainPresenter.swift */,
 				C39F0C982715DE5C004A0A96 /* MainWorker.swift */,
 				C39F0C942715DE5C004A0A96 /* MainRouter.swift */,
@@ -1160,6 +1180,29 @@
 				C32641EA272AE886005EFD26 /* WrapStackView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C391859A275106F6002CA887 /* Composer */ = {
+			isa = PBXGroup;
+			children = (
+				C39185AB27510B1D002CA887 /* Window */,
+				C391859B27510714002CA887 /* ComposerPresenter.swift */,
+				C391859C27510714002CA887 /* ComposerWorker.swift */,
+				C391859D27510714002CA887 /* ComposerRouter.swift */,
+				C391859E27510714002CA887 /* ComposerModels.swift */,
+				C391859F27510714002CA887 /* ComposerViewController.swift */,
+				C39185A027510714002CA887 /* ComposerInteractor.swift */,
+				C39185A127510714002CA887 /* ComposerView.swift */,
+			);
+			path = Composer;
+			sourceTree = "<group>";
+		};
+		C39185AB27510B1D002CA887 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				C39185AC27510B4D002CA887 /* ComposerWindowController.swift */,
+			);
+			path = Window;
 			sourceTree = "<group>";
 		};
 		C3986D70270CD55400D42DBE /* Workers */ = {
@@ -1739,8 +1782,10 @@
 				C353423726F4ED1500EA0137 /* ConversationDetailsHeaderView.swift in Sources */,
 				C3A6590726E6967900CFE2F9 /* Array+JSON.swift in Sources */,
 				C39F0C9C2715DE5C004A0A96 /* MainPresenter.swift in Sources */,
+				C39185A627510714002CA887 /* ComposerViewController.swift in Sources */,
 				C3C6FD6326F37B450066C504 /* ConversationsLoadingWorker.swift in Sources */,
 				C3C8263C26FF285500B4E95C /* AttachmentsDatabaseManaging.swift in Sources */,
+				C39185A527510714002CA887 /* ComposerModels.swift in Sources */,
 				C36814B426D6312700A35A16 /* ToolbarUtilizing.swift in Sources */,
 				C3C8260126FA61D700B4E95C /* ApplyLabelToConversationsRequest.swift in Sources */,
 				C36814BB26D659D100A35A16 /* NSTextField+Extensions.swift in Sources */,
@@ -1758,6 +1803,7 @@
 				C39A246E26D2DBFA008A482C /* String+Extensions.swift in Sources */,
 				C31D02D126D80EB3002EBBE0 /* TwoFactorInputView.swift in Sources */,
 				C31D02CF26D80EB3002EBBE0 /* TwoFactorInputViewController.swift in Sources */,
+				C39185A427510714002CA887 /* ComposerRouter.swift in Sources */,
 				C3A2AC88272F07B30049C1F6 /* PagingView.swift in Sources */,
 				C36814DC26D6689D00A35A16 /* PaddedTextField.swift in Sources */,
 				C39A247426D2DCAA008A482C /* Array+Extensions.swift in Sources */,
@@ -1779,8 +1825,10 @@
 				C39A24D226D3B818008A482C /* UsersManager.swift in Sources */,
 				C353421526F4A28A00EA0137 /* ConversationDetailsWorker.swift in Sources */,
 				C3DACB3826E924AD00927933 /* UserEventsDatabaseManaging.swift in Sources */,
+				C39185A827510714002CA887 /* ComposerView.swift in Sources */,
 				C39A23E926D2D81D008A482C /* Key.swift in Sources */,
 				C33992B82730741200222089 /* RecaptchaModels.swift in Sources */,
+				C39185AA27510720002CA887 /* ComposerAssembly.swift in Sources */,
 				C3DACB4B26E9C05C00927933 /* UserEventsDatabaseProcessing.swift in Sources */,
 				C31D02F326D942A4002EBBE0 /* MailboxSidebarView.swift in Sources */,
 				C36814E026D690DD00A35A16 /* PaddedSecureTextField.swift in Sources */,
@@ -1930,6 +1978,7 @@
 				C3986D72270CD56F00D42DBE /* DefaultConversationMessageSelecting.swift in Sources */,
 				C31D02D526D81BB5002EBBE0 /* TwoFAResponse.swift in Sources */,
 				C33992CD2733EC0700222089 /* WebSignInInteractor.swift in Sources */,
+				C39185AD27510B4D002CA887 /* ComposerWindowController.swift in Sources */,
 				C3DACB5826E9FF4D00927933 /* Email+Helpers.swift in Sources */,
 				C31D02F926D96210002EBBE0 /* MailboxSidebarAssembly.swift in Sources */,
 				C31D027126D761EC002EBBE0 /* ManagersAssembly.swift in Sources */,
@@ -2011,11 +2060,13 @@
 				C31D02CB26D80EB3002EBBE0 /* TwoFactorInputPresenter.swift in Sources */,
 				C3F20A2C26D534FD0051EFEB /* SetupInteractor.swift in Sources */,
 				C3DACB6226EA859400927933 /* CardData.swift in Sources */,
+				C39185A327510714002CA887 /* ComposerWorker.swift in Sources */,
 				C3C6FD4526F1D70B0066C504 /* MessageActionRequest.swift in Sources */,
 				C39A242326D2D8D9008A482C /* UsersApi.swift in Sources */,
 				C39A242A26D2D8D9008A482C /* UserInfoRequest.swift in Sources */,
 				C31D034E26DB9825002EBBE0 /* URL+Extensions.swift in Sources */,
 				C3C8262026FC7D4C00B4E95C /* MIMEMessagePart.swift in Sources */,
+				C39185A727510714002CA887 /* ComposerInteractor.swift in Sources */,
 				C36814C826D65D0100A35A16 /* AppModels.swift in Sources */,
 				C35B579C270F3C9C005315B9 /* UnreadBadgeView.swift in Sources */,
 				C3C8263E26FF2D3700B4E95C /* FileManager+Extensions.swift in Sources */,
@@ -2026,6 +2077,7 @@
 				C39A243026D2D8D9008A482C /* SessionManager.swift in Sources */,
 				C3DACB2F26E79A7100927933 /* Message+Defaults.swift in Sources */,
 				C3A658FE26E65D0300CFE2F9 /* DatabaseAssembly.swift in Sources */,
+				C39185A227510714002CA887 /* ComposerPresenter.swift in Sources */,
 				C353421A26F4A28A00EA0137 /* ConversationDetailsView.swift in Sources */,
 				C3C8264027006B1000B4E95C /* MessageBodyRemoteContentChecking.swift in Sources */,
 				C39F0C9A2715DE5C004A0A96 /* MainRouter.swift in Sources */,

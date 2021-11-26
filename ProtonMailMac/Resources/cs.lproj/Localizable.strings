@@ -124,3 +124,7 @@
 "toolbarMoveToButtonTitle" = "Přesunout do…";
 "toolbarMoveToFolderLabel" = "Přesunout";
 "toolbarMoveToFolderTooltip" = "Přesunout vybrané zprávy do složky";
+"toolbarSendMailLabel" = "Odeslat";
+"toolbarSendMailTooltip" = "Odeslat zprávu";
+"toolbarAddAttachmentLabel" = "Příloha";
+"toolbarAddAttachmentTooltip" = "Přiložit ke zprávě dokument";

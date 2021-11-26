@@ -124,3 +124,7 @@
 "toolbarMoveToButtonTitle" = "Move to…";
 "toolbarMoveToFolderLabel" = "Move";
 "toolbarMoveToFolderTooltip" = "Move selected messages to folder";
+"toolbarSendMailLabel" = "Send";
+"toolbarSendMailTooltip" = "Send message";
+"toolbarAddAttachmentLabel" = "Attach";
+"toolbarAddAttachmentTooltip" = "Attach a document to this message";
