@@ -16,12 +16,16 @@ protocol MainToolbarDataSourceDelegate: NSToolbarSegmentedControlDelegate {
 
 class MainToolbarDataSource: MenuItemParsing {
     
-    private let splitView: NSSplitView
+    private let splitView: NSSplitView?
     
     weak var delegate: MainToolbarDataSourceDelegate?
     
     init(splitView: NSSplitView) {
         self.splitView = splitView
+    }
+    
+    init() {
+        self.splitView = nil
     }
     
     //
@@ -31,8 +35,12 @@ class MainToolbarDataSource: MenuItemParsing {
     func getToolbarItem(viewModel: Main.ToolbarItem.ViewModel) -> NSToolbarItem? {
         switch viewModel {
         case .trackingItem(let id, let index):
+            guard let splitView = self.splitView else {
+                fatalError("Split view must be set in order to use the tracking item.")
+            }
+            
             if #available(macOS 11.0, *) {
-                return NSTrackingSeparatorToolbarItem(identifier: id, splitView: self.splitView, dividerIndex: index)
+                return NSTrackingSeparatorToolbarItem(identifier: id, splitView: splitView, dividerIndex: index)
             }
             return nil
             
