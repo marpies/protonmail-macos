@@ -159,7 +159,7 @@ class SignInViewController: NSViewController, SignInDisplayLogic, SignInViewDele
     }
     
     func signInCancelButtonDidTap() {
-        // self.presentingViewController?.dismiss(self)
+        self.presentingViewController?.dismiss(self)
     }
     
     //
