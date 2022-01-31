@@ -2293,7 +2293,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.protonmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -2318,7 +2318,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.ProtonMailMac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marpies.protonmac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

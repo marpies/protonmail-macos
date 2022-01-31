@@ -14,7 +14,7 @@ final class KeychainWrapper: Keychain {
     
     init() {
         let prefix = "Q6T2359V7Q."
-        let group = prefix + "com.marpies.ProtonMailMac"
+        let group = prefix + "com.marpies.protonmac"
         let service = "com.marpies"
         
         super.init(service: service, accessGroup: group)
